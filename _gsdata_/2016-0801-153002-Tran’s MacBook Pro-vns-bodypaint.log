@@ -1,0 +1,16 @@
+2016-08-01 15:30:02: -- Analysis Started by User
+2016-08-01 15:30:04: Changes: 8, Conflicts: 0, CopyTime: 0, CopyState: 0/0, Errors: 0, All: 4113
+2016-08-01 15:30:04: Left to Right: Copy File: 8 
+2016-08-01 15:30:04: -- Analysis Complete. Time 00:00:02, Speed: 2040 files/s
+2016-08-01 15:30:04: 
+2016-08-01 15:30:05: == Sync Started by User
+2016-08-01 15:30:05: Copy Over '/Volumes/RyanWork/htdocs/vns-bodypaint/application/controllers/frontend/Booking.php' -> '/Volumes/Ryan SSD/htdocs/vns-bodypaint/application/controllers/frontend/Booking.php'
+2016-08-01 15:30:05: Copy Over '/Volumes/RyanWork/htdocs/vns-bodypaint/application/views/frontend/booking.php' -> '/Volumes/Ryan SSD/htdocs/vns-bodypaint/application/views/frontend/booking.php'
+2016-08-01 15:30:05: Copy Over '/Volumes/RyanWork/htdocs/vns-bodypaint/application/views/frontend/template.php' -> '/Volumes/Ryan SSD/htdocs/vns-bodypaint/application/views/frontend/template.php'
+2016-08-01 15:30:05: Copy Over '/Volumes/RyanWork/htdocs/vns-bodypaint/assets/config.codekit' -> '/Volumes/Ryan SSD/htdocs/vns-bodypaint/assets/config.codekit'
+2016-08-01 15:30:05: Copy Over '/Volumes/RyanWork/htdocs/vns-bodypaint/assets/frontend/css/.sass-cache/b5b34955c50fa58f22076aadfa317619607136b2/style.scssc' -> '/Volumes/Ryan SSD/htdocs/vns-bodypaint/assets/frontend/css/.sass-cache/b5b34955c50fa58f22076aadfa317619607136b2/style.scssc'
+2016-08-01 15:30:05: Copy Over '/Volumes/RyanWork/htdocs/vns-bodypaint/assets/frontend/css/style-min.css' -> '/Volumes/Ryan SSD/htdocs/vns-bodypaint/assets/frontend/css/style-min.css'
+2016-08-01 15:30:05: Copy Over '/Volumes/RyanWork/htdocs/vns-bodypaint/assets/frontend/css/style.scss' -> '/Volumes/Ryan SSD/htdocs/vns-bodypaint/assets/frontend/css/style.scss'
+2016-08-01 15:30:05: Copy New '/Volumes/RyanWork/htdocs/vns-bodypaint/assets/frontend/images/car.jpg' -> '/Volumes/Ryan SSD/htdocs/vns-bodypaint/assets/frontend/images/car.jpg'
+2016-08-01 15:30:06: == Sync Complete. Time: 00:00:01, Speed: 0.0/s, OK: 8, Errors: 0
+2016-08-01 15:30:06: 

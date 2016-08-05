@@ -1,0 +1,13 @@
+2016-08-04 12:45:04: -- Analysis Started by User
+2016-08-04 12:45:05: Changes: 5, Conflicts: 0, CopyTime: 0, CopyState: 0/0, Errors: 0, All: 4157
+2016-08-04 12:45:05: Left to Right: Copy File: 5 
+2016-08-04 12:45:05: -- Analysis Complete. Time 00:00:01, Speed: 4118 files/s
+2016-08-04 12:45:05: 
+2016-08-04 12:45:06: == Sync Started by User
+2016-08-04 12:45:07: Copy Over '/Volumes/RyanWork/htdocs/vns-bodypaint/application/controllers/backend/Service.php' -> '/Volumes/Ryan SSD/htdocs/vns-bodypaint/application/controllers/backend/Service.php'
+2016-08-04 12:45:07: Copy Over '/Volumes/RyanWork/htdocs/vns-bodypaint/application/views/backend/service/add.php' -> '/Volumes/Ryan SSD/htdocs/vns-bodypaint/application/views/backend/service/add.php'
+2016-08-04 12:45:07: Copy Over '/Volumes/RyanWork/htdocs/vns-bodypaint/assets/backend/js/script-min.js' -> '/Volumes/Ryan SSD/htdocs/vns-bodypaint/assets/backend/js/script-min.js'
+2016-08-04 12:45:07: Copy Over '/Volumes/RyanWork/htdocs/vns-bodypaint/assets/backend/js/script.js' -> '/Volumes/Ryan SSD/htdocs/vns-bodypaint/assets/backend/js/script.js'
+2016-08-04 12:45:07: Copy Over '/Volumes/RyanWork/htdocs/vns-bodypaint/assets/config.codekit' -> '/Volumes/Ryan SSD/htdocs/vns-bodypaint/assets/config.codekit'
+2016-08-04 12:45:07: == Sync Complete. Time: 00:00:01, Speed: 155.4 KB/s, OK: 5, Errors: 0
+2016-08-04 12:45:07: 
