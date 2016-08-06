@@ -724,4 +724,17 @@ $(document).ready( function() {
                 }
             });
         }
+
+    // newsPage
+        if ($('#newsPage').length>0) {
+            $("div.holder").jPages({
+                containerID : "itemContainer",
+                perPage : 3,
+                first       : "",
+                previous    : "span.arrowPrev",
+                next        : "span.arrowNext",
+                last        : ""
+            });
+        }
+
 })

@@ -2,6 +2,11 @@
 defined('BASEPATH') OR exit('No direct script access allowed');
 
 /* FRONTEND */
+	$route['news/(:any)'] = 'frontend/News/detail';
+	$route['tin-tuc/(:any)'] = 'frontend/News/detail';
+	$route['news'] = 'frontend/News';
+	$route['tin-tuc'] = 'frontend/News';
+
 	$route['ajax_get_user'] = 'frontend/Home/ajax_get_user';
 
 	$route['booking/ajax_submitBooking'] = 'frontend/Booking/ajax_submitBooking';

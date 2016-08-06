@@ -1,7 +1,7 @@
 <div id="contactPage" class="fullContainer">
 <!-- banner -->
 	<div class="banner fullContainer">
-		<img src="<?=uploadUrl('images','banner/lienhe.jpg');?>" />
+		<img src="<?=uploadUrl('images','banner/contact.jpg');?>" />
 	</div>
 
 <!-- breadcrumb -->

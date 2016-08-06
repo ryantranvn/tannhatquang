@@ -20,13 +20,19 @@
 	$lang['links']['service']['certification'] = F_URL . "service/certification";
 
 	$lang['links']['booking'] = F_URL . "booking";
+	
 	$lang['links']['gallery']['root'] = F_URL . "gallery";
 		$lang['links']['gallery']['beforeafter'] = F_URL . "gallery/before-after";
 		$lang['links']['gallery']['event'] = F_URL . "gallery/event";
+
 	$lang['links']['news'] = F_URL . "news";
+	$lang['links']['newsDetail'] = F_URL . "news/detail";
+
 	$lang['links']['contact'] = F_URL . "contact";
 
 /* breadcrumb */
+	$lang['breadcrumb']['news']['root'] = "News";
+
 	$lang['breadcrumb']['contact']['root'] = "Contact";
 
 	$lang['breadcrumb']['service']['root'] = "Service";
@@ -49,8 +55,7 @@
 	$lang['errorText']['invalid'][99] = "Error";
 
 	$lang['errorText']['validContactBox_title'] = "Thông tin đã gửi thành công";
-	$lang['errorText']['validContactBox_content'] = "<p>Chúng tôi đã nhận được thông tin và sẽ liên hệ quý khách sớm nhất.</p><p>Cảm ơn đã lựa chọn Trung tâm đồng sơn Vietnam Star - Địa chỉ đáng tin cậy cho chiếc xe yêu quý 
-của quý khách!</p><a class='btnBlue btnBackHome' href='".F_URL."'>Quay lại trang chủ</a>";
+	$lang['errorText']['validContactBox_content'] = "<p>Chúng tôi đã nhận được thông tin và sẽ liên hệ quý khách sớm nhất.</p><p>Cảm ơn đã lựa chọn Trung tâm đồng sơn Vietnam Star - Địa chỉ đáng tin cậy cho chiếc xe yêu quý của quý khách!</p><a class='btnBlue btnBackHome' href='".F_URL."'>Quay lại trang chủ</a>";
 
 /* car list */
 	$lang['car'][1] = "Mercedes-Benz";
@@ -89,3 +94,6 @@ của quý khách!</p><a class='btnBlue btnBackHome' href='".F_URL."'>Quay lại
 	$lang['mercedes'][22] = "SLS AMG";
 	$lang['mercedes'][23] = "V-Class";
 	$lang['mercedes'][24] = "Other";
+
+
+

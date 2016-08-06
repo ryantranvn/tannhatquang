@@ -20,13 +20,19 @@
 	$lang['links']['service']['certification'] = F_URL . "dich-vu/chung-nhan-chat-luong";
 
 	$lang['links']['booking'] = F_URL . "dat-hen-tu-van";
+
 	$lang['links']['gallery']['root'] = F_URL . "thu-vien";
 		$lang['links']['gallery']['beforeafter'] = F_URL . "thu-vien/xe-truoc-va-sau-dich-vu";
 		$lang['links']['gallery']['event'] = F_URL . "thu-vien/su-kien-khac";
+	
 	$lang['links']['news'] = F_URL . "tin-tuc";
+	$lang['links']['newsDetail'] = F_URL . "tin-tuc/chi-tiet";
+	
 	$lang['links']['contact'] = F_URL . "lien-he";
 
 /* breadcrumb */
+	$lang['breadcrumb']['news']['root'] = "Tin tức";
+
 	$lang['breadcrumb']['contact']['root'] = "Liên hệ";
 
 	$lang['breadcrumb']['service']['root'] = "Dịch vụ";
@@ -49,8 +55,7 @@
 	$lang['errorText']['invalid'][99] = "Lỗi phát sinh";
 
 	$lang['errorText']['validContactBox_title'] = "Thông tin đã gửi thành công";
-	$lang['errorText']['validContactBox_content'] = "<p>Chúng tôi đã nhận được thông tin và sẽ liên hệ quý khách sớm nhất.</p><p>Cảm ơn đã lựa chọn Trung tâm đồng sơn Vietnam Star - Địa chỉ đáng tin cậy cho chiếc xe yêu quý 
-của quý khách!</p><a class='btnBlue btnBackHome' href='".F_URL."'>Quay lại trang chủ</a>";
+	$lang['errorText']['validContactBox_content'] = "<p>Chúng tôi đã nhận được thông tin và sẽ liên hệ quý khách sớm nhất.</p><p>Cảm ơn đã lựa chọn Trung tâm đồng sơn Vietnam Star - Địa chỉ đáng tin cậy cho chiếc xe yêu quý của quý khách!</p><a class='btnBlue btnBackHome' href='".F_URL."'>Quay lại trang chủ</a>";
 
 /* car list */
 	$lang['car'][1] = "Mercedes-Benz";
@@ -89,3 +94,5 @@ của quý khách!</p><a class='btnBlue btnBackHome' href='".F_URL."'>Quay lại
 	$lang['mercedes'][22] = "SLS AMG";
 	$lang['mercedes'][23] = "V-Class";
 	$lang['mercedes'][24] = "Khác";
+
+
