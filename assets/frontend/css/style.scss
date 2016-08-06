@@ -23,6 +23,9 @@
     $colorBlue: #199cdc;
     $colorBorder: #e6e9ea;
 
+/* VAR */
+    $widthCenter: 1170px;
+
 /* MIXIN */
     @mixin opacity($num) {
         opacity: $num;
@@ -95,8 +98,6 @@
       position: relative;
       float: left; clear: both;
     }
-    
-    $widthCenter: 1170px;
 
     .centerContainer {
       width: $widthCenter;
@@ -1141,6 +1142,10 @@
             }
             a:hover {
                 color: $colorBlue;
+            }
+            a.jp-current {
+                background-color: $colorBlue;
+                color: white;
             }
         }
         .customBtns {
