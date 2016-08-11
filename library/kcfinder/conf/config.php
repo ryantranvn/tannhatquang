@@ -30,7 +30,7 @@ $_CONFIG = array(
         // The folowing directory types are just for an example
        'files'     => "",
        'flash'     => "swf",
-       'media'     => "swf flv avi mpg mpeg qt mov wmv asf rm",
+       'media'     => "swf flv avi mpg mpeg qt mov wmv asf rm mp4 ogg",
        'docs'      => "pdf doc docx xls xlsx",
        'misc'      => "! pdf doc docx xls xlsx",
        'images'    => "*img",
@@ -47,7 +47,7 @@ $_CONFIG = array(
         // 'image'   =>  "*img",
     ),
 
-    'maxFileSize' => 10*1024*1024, // =byte
+    'maxFileSize' => 100*1024*1024, // =byte
 // IMAGE SETTINGS
 
     'imageDriversPriority' => "imagick gmagick gd",

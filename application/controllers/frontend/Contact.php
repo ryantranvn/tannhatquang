@@ -17,7 +17,9 @@ class Contact extends Root {
 // CONTACT
     public function index()
     {
-    	// echo $this->data['device'];
+        $this->data['url']['vn'] = F_URL . 'vn/lien-lac';
+        $this->data['url']['en'] = F_URL . 'en/contact';
+
         $this->template->load($this->gate.'/template', $this->gate.'/contact', $this->data);
     }
 

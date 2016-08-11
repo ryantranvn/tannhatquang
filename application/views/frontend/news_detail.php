@@ -10,8 +10,8 @@
 				<i class="fa fa-home" aria-hidden="true"></i>
 				<i class="fa fa-angle-right" aria-hidden="true"></i>
 				<span><?=$breadcrumb[$page]['root']?></span>
-				<i class="fa fa-angle-right" aria-hidden="true"></i>
-				<span><?=$breadcrumb[$page][$subCat]?></span>
+				<!-- <i class="fa fa-angle-right" aria-hidden="true"></i> -->
+				<!-- <span><?=$breadcrumb[$page][$subCat]?></span> -->
 			</div>
 			<div class="right small-0 medium-8 large-8 columns">&nbsp;</div>
 		</div>

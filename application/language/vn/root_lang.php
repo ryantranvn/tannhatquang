@@ -13,27 +13,31 @@
 	$lang['navigator']['contact'] = "LIÊN HỆ";
 
 /* links */ 
-	$lang['links']['home'] = F_URL;
+	$lang['links']['home'] = F_URL.'vn';
 
-	$lang['links']['service']['introduction'] = F_URL . "dich-vu/gioi-thieu";
-	$lang['links']['service']['service'] = F_URL . "dich-vu/dich-vu";
-	$lang['links']['service']['certification'] = F_URL . "dich-vu/chung-nhan-chat-luong";
+	$lang['links']['service']['introduction'] = F_URL . "vn/dich-vu/gioi-thieu";
+	$lang['links']['service']['service'] = F_URL . "vn/dich-vu/dich-vu";
+	$lang['links']['service']['certification'] = F_URL . "vn/dich-vu/chung-nhan-chat-luong";
 
-	$lang['links']['booking'] = F_URL . "dat-hen-tu-van";
+	$lang['links']['booking'] = F_URL . "vn/dat-hen-tu-van";
 
-	$lang['links']['gallery']['root'] = F_URL . "thu-vien";
-		$lang['links']['gallery']['beforeafter'] = F_URL . "thu-vien/xe-truoc-va-sau-dich-vu";
-		$lang['links']['gallery']['event'] = F_URL . "thu-vien/su-kien-khac";
+	$lang['links']['gallery']['root'] = F_URL . "vn/thu-vien";
+		$lang['links']['gallery']['beforeafter'] = F_URL . "vn/thu-vien/xe-truoc-va-sau-dich-vu";
+		$lang['links']['gallery']['event'] = F_URL . "vn/thu-vien/su-kien-khac";
 	
-	$lang['links']['news'] = F_URL . "tin-tuc";
-	$lang['links']['newsDetail'] = F_URL . "tin-tuc/chi-tiet";
+	$lang['links']['news'] = F_URL . "vn/tin-tuc";
+	$lang['links']['newsDetail'] = F_URL . "vn/tin-tuc/chi-tiet";
 	
-	$lang['links']['contact'] = F_URL . "lien-he";
+	$lang['links']['contact'] = F_URL . "vn/lien-he";
 
 /* breadcrumb */
 	$lang['breadcrumb']['news']['root'] = "Tin tức";
 
 	$lang['breadcrumb']['contact']['root'] = "Liên hệ";
+
+	$lang['breadcrumb']['gallery']['root'] = "Thư viện";
+	$lang['breadcrumb']['gallery']['beforeafter'] = "Xe trước & sau dịch vụ";
+	$lang['breadcrumb']['gallery']['event'] = "Sự kiện khác";
 
 	$lang['breadcrumb']['service']['root'] = "Dịch vụ";
 	$lang['breadcrumb']['service']['introduction'] = "Giới thiệu";

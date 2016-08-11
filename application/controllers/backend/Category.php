@@ -144,7 +144,7 @@ class Category extends Root {
         
         $this->data['breadcrumb'][1] = array('name'=>'Add', 'url' => B_URL . $this->router->fetch_method());
 
-        $arrCategory = $this->Base_model->getDB('db', 'category', NULL, NULL, NULL, array('id','path','order','name', 'name_en'), array('asc','asc','asc','asc','asc'));
+        $arrCategory = $this->Base_model->getDB('db', 'category', NULL, NULL, NULL, array('path','order','name', 'name_en'), array('asc','asc','asc','asc'));
         foreach ($arrCategory as $key => $category) {
             $indent = count(explode('-', $category['path']));
             $arrCategory[$key]['indent'] = $indent-1;
@@ -270,7 +270,7 @@ class Category extends Root {
         $this->data['breadcrumb'][1] = array('name'=>'Edit', 'url' => B_URL . $this->router->fetch_method());
 
         // get list of category for tree
-        $arrCategory = $this->Base_model->getDB('db', 'category', NULL, NULL, NULL, array('path','order','name','name_en'), array('asc','asc','asc','asc'));
+        $arrCategory = $this->Base_model->getDB('db', 'category', NULL, NULL, NULL, array('path','order','name', 'name_en'), array('asc','asc','asc','asc'));
         foreach ($arrCategory as $key => $category) {
             $indent = count(explode('-', $category['path']));
             $arrCategory[$key]['indent'] = $indent-1;

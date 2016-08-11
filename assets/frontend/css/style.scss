@@ -1423,6 +1423,153 @@
     }
 }
 
+#galleryPage {
+
+    .tab {
+        position: relative;
+        margin: auto;
+        text-align: center;
+        margin-bottom: 50px;
+
+        .tabItem {
+            display: inline-block;
+            padding: 5px 50px;
+            border-bottom: solid 2px $colorBorder;
+            margin: 0px 20px;
+            font-size: 24px;
+
+            a {
+                color: $colorText;
+            }
+        }
+        .tabItem:hover {
+            cursor: pointer;
+        }
+        .tabItem.active {
+            border-bottom: solid 2px $colorBlue;
+        }
+    }
+    .tabContent {
+        margin-bottom: 30px;
+
+        .tabContentItem {
+            display: none;
+        }
+        .tabContentItem.active {
+            display: block;
+        }
+        .subtab {
+            position: relative;
+            text-align: left;
+            margin-bottom: 30px;
+
+            .subtabItem {
+                position: relative;
+                height: 56px;
+                line-height: 56px;
+                border-bottom: solid 1px $colorBorder;
+
+                i {
+                    float: right;
+                    font-size: 20px;
+                    line-height: 50px;
+                }
+                &:hover {
+                    cursor: pointer;
+                }
+            }
+            .subtabItem:first-child {
+                border-top: solid 1px $colorBorder;
+            }
+            .subtabItem.active {
+                color: $colorBlue;
+            }
+        }
+        .subtabContent {
+            .subtabContentItem {
+                display: none;
+            }
+            .subtabContentItem.active {
+                display: block;
+            }
+        }
+        
+    }
+    
+    .item {
+        margin-bottom: 30px;
+
+        p.title {
+            margin-bottom: 5px;
+            font-size: 18px;
+            font-family: $f2;
+        }
+        a {
+            color: $colorBlue;
+            font-size: 14px;
+            font-family: $f2;
+        }
+    }
+    .imgWrapper.columns {
+        margin-bottom: 10px;
+
+        .caption {
+            position: absolute;
+            left: 0; bottom: 0;
+            z-index: 2;
+            width: 100%; height: 40px;
+            line-height: 40px;
+            text-align: right;
+            padding-right: 20px;
+            color: white;
+            background-color: rgba(0,0,0,0.8);
+        }
+    }
+    .infoCar {
+        text-align: left;
+        line-height: 18px;
+        margin-top: 5px;
+        margin-bottom: 0px;
+
+        strong {
+            font-family: $f2;
+        }
+    }
+    .imageGallery {
+        display: none;
+        width: 100%; height: 100%;
+        position: fixed;
+        z-index: 1000;
+        background-color: rgba(0,0,0,1);
+        left: 0; top: 0;
+
+        .imageGalleryClose {
+            position: absolute;
+            z-index: 100;
+            right: 0px;
+            top: 0px;
+            font-size: 30px;
+            color: white;
+
+            &:hover {
+                cursor: pointer;
+            }
+        }
+    }
+    .nanoGalleryContainer {
+        width: 100% !important;
+        padding: 30px !important;
+    }
+    .nanoGalleryThumbnailContainer {
+        position: relative !important;
+        float: left; clear: none;
+        top: 0 !important; 
+        left: 0 !important;
+        margin: 5px !important;
+    }
+
+}
+
 /* jquery UI */
     .ui-datepicker {
         border: solid 1px $colorBlue;

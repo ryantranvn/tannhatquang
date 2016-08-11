@@ -218,7 +218,7 @@
 													<div class="form-group">
 														<div class="col-sm-12 col-md-12 col-lg-12">
 															<label class="control-label">CONTENT VN</label>
-															<textarea name="contentService" class="form-control resizeVer"></textarea>
+															<textarea name="contentService" class="form-control resizeVer"><?=$editPost['content']?></textarea>
 														</div>
 													</div>
 												</fieldset>
@@ -228,7 +228,7 @@
 													<div class="form-group">
 														<div class="col-sm-12 col-md-12 col-lg-12">
 															<label class="control-label">CONTENT EN</label>
-															<textarea name="contentServiceEN" class="form-control resizeVer"></textarea>
+															<textarea name="contentServiceEN" class="form-control resizeVer"><?=$editPost['content_en']?></textarea>
 														</div>
 													</div>
 												</fieldset>

@@ -2,10 +2,16 @@
 defined('BASEPATH') OR exit('No direct script access allowed');
 
 /* FRONTEND */
-	$route['news/(:any)'] = 'frontend/News/detail';
-	$route['tin-tuc/(:any)'] = 'frontend/News/detail';
-	$route['news'] = 'frontend/News';
-	$route['tin-tuc'] = 'frontend/News';
+	$route['gallery/ajax_gallery/'] = 'frontend/Gallery/ajax_gallery';
+	$route['en/gallery/(:any)'] = 'frontend/Gallery';
+	$route['vn/thu-vien/(:any)'] = 'frontend/Gallery';
+	$route['en/gallery'] = 'frontend/Gallery';
+	$route['vn/thu-vien'] = 'frontend/Gallery';
+
+	$route['en/news/(:any)'] = 'frontend/News/detail';
+	$route['vn/tin-tuc/(:any)'] = 'frontend/News/detail';
+	$route['en/news'] = 'frontend/News';
+	$route['vn/tin-tuc'] = 'frontend/News';
 
 	$route['ajax_get_user'] = 'frontend/Home/ajax_get_user';
 
@@ -15,18 +21,21 @@ defined('BASEPATH') OR exit('No direct script access allowed');
 
 	$route['booking/submit'] = 'frontend/Booking/submit';
 	$route['booking/ajax_upload'] = 'frontend/Booking/ajax_upload';
-	$route['dat-hen-tu-van'] = 'frontend/Booking';
-	$route['booking'] = 'frontend/Booking';
+	$route['vn/dat-hen-tu-van'] = 'frontend/Booking';
+	$route['en/booking'] = 'frontend/Booking';
 
-	$route['dich-vu/(:any)'] = 'frontend/Service';
-	$route['service/(:any)'] = 'frontend/Service';
-	$route['dich-vu'] = 'frontend/Service';
-	$route['service'] = 'frontend/Service';
+	$route['vn/dich-vu/(:any)'] = 'frontend/Service';
+	$route['en/service/(:any)'] = 'frontend/Service';
+	$route['vn/dich-vu'] = 'frontend/Service';
+	$route['en/service'] = 'frontend/Service';
 
-	$route['lien-he'] = 'frontend/Contact';
-	$route['contact'] = 'frontend/Contact';
+	$route['vn/lien-he'] = 'frontend/Contact';
+	$route['en/contact'] = 'frontend/Contact';
 
 	$route['switch_lang/(:any)'] = 'Languageswitcher/switch_lang/$1';
+
+	$route['en'] = 'frontend/Home';
+	$route['vn'] = 'frontend/Home';
 // 404
     $route['404'] = 'frontend/maintain/page404';
     $route['backend/404'] = 'backend/maintain/page404';

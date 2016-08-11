@@ -1,8 +1,8 @@
 // config
-
 	var idTableList = '#jqgrid'
 	var idPager = "#pjqgrid"
 	var defaultNumRows = 50
+	var defaultIMG = '<img class="thumbnail" src="'+fUrl+'assets/common/images/default.jpg" />'
 
 	var classTextColor_Status = classTextColor_Position = 'txt-color-white'
 	var arrClassValue_Status = new Array();
@@ -404,56 +404,39 @@
 		        'resizable=1, scrollbars=0, width=800, height=600'
 		    );
 		}
+		else if (type == "media") {
+			window.open(libsUrl + 'kcfinder/browse.php?type=media&dir=media/public', 'kcfinder_textbox',
+		        'status=0, toolbar=0, location=0, menubar=0, directories=0, ' +
+		        'resizable=1, scrollbars=0, width=800, height=600'
+		    );
+		}
 	}
-	function openKCFinderMulti(textarea, type) {
+	function openKCFinderMulti(field, type, fnCallback) {
 	    window.KCFinder = {
 	        callBackMultiple: function(files) {
 	            window.KCFinder = null;
-	            textarea.value = "";
-	            elementWrapper = textarea.parentElement.nextElementSibling // galleryWrapper thumbnail
-	            inputMulti = textarea.nextElementSibling.nextElementSibling	// galleryFiles
-	            deletedImages = elementWrapper.nextElementSibling	// deletedImages
-
-	            arr = new Array();
-
-	            if(deletedImages != null) { // edit
-	            	action = 'edit'
+	            wrapper = field.parent().next()	// gallery wrapper
+	            currentArr = new Array()
+	            if (field.val()!="") {
+	            	currentArr = JSON.parse(field.val())
+	            }
+	            if (currentArr.length>0) {
+	            	arr = currentArr
 	            }
 	            else {
-	            	action = 'add'
-	            	elementWrapper.innerHTML = "";
+	            	arr = new Array()
 	            }
-
+	            img = ""
 	            for (var i = 0; i < files.length; i++) {
-	            	arr.push(files[i])
-
-	            // create wrapper
-	            	elemItem = document.createElement("div");
-	            	elemItem.setAttribute("class", "imageItem");
-	            // create image
-	            	elemImg = document.createElement("img");
-	            	elemImg.setAttribute("src", files[i]);
-	            // create delete button
-	            	elemDel = document.createElement("i");
-	            	if (action == 'edit') {
-	            		elemDel.setAttribute("class", "fa fa-trash-o iEdit");
-	            	}
-	            	else {
-	            		elemDel.setAttribute("class", "fa fa-trash-o");
-	            	}
-
-	            // add html
-	            	elementWrapper.appendChild(elemItem)
-	            	elemItem.appendChild(elemImg)
-	            	elemItem.appendChild(elemDel)
+	                arr.push(files[i])
+	                img += '<div class="imgWrapper"><img src="' + files[i] + '" /><i class="fa fa-trash-o" data="' + files[i] + '"></i></div>'
 	            }
-	            if (inputMulti.value != "") {
-	            	arrOld = $.parseJSON(inputMulti.value);
-	            	for (var i = 0; i < arrOld.length; i++) {
-	            		arr.push(arrOld[i])
-	            	}
-	            }
-	            inputMulti.value = JSON.stringify(arr);
+	            wrapper.append(img)
+
+	            field.val(JSON.stringify(arr))
+	            if(typeof fnCallback == "function"){
+		            fnCallback();
+		        }
 	        }
 	    };
 	    if (type == "images") {
@@ -471,24 +454,41 @@
 	}
 	
 // select File
-	function selectFile(buttonClass, typeFile)
+	function selectFile(buttonClass, typeFile, multiFile)
 	{
 		$('body').on('click', buttonClass, function() {
-
-			inputField = $(this).parent().prev('.inputThumbnail')
+			
 			if (typeFile == 'images') {
 				thumbnailWrapper = $(this).parent().parent().next('.thumbnailWrapper')
 			}
-			
-			openKCFinder(inputField, typeFile, function() {
-				filename = inputField.val();
-				if (typeFile == 'images') {
-					typeDir = 'images/'
-					htmlImg = '<img src="' + filename + '" />';
-	                htmlDel = '<a class="thumbnailDel"><i class="fa fa-trash-o"></i></a>'
-	                thumbnailWrapper.html('').html(htmlImg+htmlDel)
-	            }
-			});
+			if (multiFile==undefined || multiFile=="") {
+				inputField = $(this).parent().prev('.inputThumbnail')
+				openKCFinder(inputField, typeFile, function() {
+					filename = inputField.val();
+					if (typeFile == 'images') {
+						typeDir = 'images/'
+						htmlImg = '<img src="' + filename + '" />';
+		                htmlDel = '<a class="thumbnailDel"><i class="fa fa-trash-o"></i></a>'
+		                thumbnailWrapper.html('').html(htmlImg+htmlDel)
+		            }
+		            else if (typeFile == 'media') {
+		            }
+				})
+			}
+			else {
+				inputField = $(this).parent().next()
+				openKCFinderMulti(inputField, typeFile, function() {
+					$('body').on('click', '.imgWrapper .fa-trash-o', function() {
+		            	wrapper = $(this).parent()
+						wrapper.remove()
+						var obj = JSON.parse(inputField.val());
+						filtered = obj.filter(function(item) { 
+						   return item !== wrapper.children('img').attr('src');  
+						})
+						inputField.val('').val(JSON.stringify(filtered))
+		            })
+				})
+			}
 		});
 	}
 
@@ -524,6 +524,24 @@
 	    }
 	}
 
+// select category
+	function selectCategory(itemClass, fnCallback)
+	{
+		$('body').on('click', itemClass, function() {
+			
+			inputField = $(itemClass).parent().next('input')
+			index = $(this).index();
+			value = $(this).attr('data-save')
+
+			$(itemClass).removeClass('btn-success')
+			$(this).addClass('btn-success')
+			inputField.val(value)
+
+			if(typeof fnCallback == "function"){
+	            fnCallback(index, value);
+	        }
+		});
+	}
 
 //================================================== PAGEs
 // AUTH
@@ -602,7 +620,7 @@
 
 		// list
 			if ($(idTableList).length>0) {
-				var statusStr = ":All;active:Active;inactive:Inactive;block:Block";
+				var statusStr = ":All;active:Active;inactive:Inactive";
 				caption = captionButton(module, true, true)
 
 			// jqGrid
@@ -1785,7 +1803,7 @@
 
 		// list
 			if ($(idTableList).length>0) {
-				var statusStr = ":All;active:Active;inactive:Inactive;block:Block";
+				var statusStr = ":All;active:Active;inactive:Inactive";
 				caption = captionButton(module, true, true)
 
 			// jqGrid
@@ -1902,18 +1920,16 @@
 		// common add & edit
 			if ($('#addContainer').length>0 || $('#editContainer').length>0) {
 			// select category
-				$('body').on('click', '.category', function() {
-					$('.category').removeClass('btn-success')
-					$(this).addClass('btn-success')
-					$('input[name="category"]').val($(this).attr('data-save'))
+				selectCategory('.category')
+				// $('body').on('click', '.category', function() {
+				// 	$('.category').removeClass('btn-success')
+				// 	$(this).addClass('btn-success')
+				// 	$('input[name="category"]').val($(this).attr('data-save'))
 
-					index = $(this).index();
-					$('.chooseDate').removeClass('showChooseDate');
-					$('#inputDateWrapper').find('.chooseDate:eq('+index+')').addClass('showChooseDate')
-				});
-				$('input[name="title"]').mouseenter( function() {
-
-				})
+				// 	index = $(this).index();
+				// 	$('.chooseDate').removeClass('showChooseDate');
+				// 	$('#inputDateWrapper').find('.chooseDate:eq('+index+')').addClass('showChooseDate')
+				// });
 
 			// generate URL
 				gen_url($('input[name="title"]'), $('input[name="url"]'));
@@ -2212,6 +2228,787 @@
 		}
 	}
 
+// NEWS
+	function newsPage()
+	{
+		if ($('#newsPage').length>0) {
+			module = 'news'
+
+		// list
+			if ($(idTableList).length>0) {
+				var statusStr = ":All;active:Active;inactive:Inactive";
+				caption = captionButton(module, true, true)
+
+			// jqGrid
+				jQuery(idTableList).jqGrid({
+					url: bUrl + module + '/ajax_list?q=2',
+					datatype: "json",
+					height : 'auto',
+					autowidth : true,
+					shrinkToFit: false,
+					gridResize: true,
+					autoResizeAllColumns: true,
+					iconSet: "fontAwesome",
+					colNames : ['Status', 'ID', 'Title', 'Category','Order', 'Thumbnail', 'Action'],
+					colModel : [{ name : 'status', index : 'status', align : 'center', width : '80',
+									stype: 'select', searchoptions:{ sopt:['eq'], value: statusStr }
+								},
+								{ name : 'id', index : 'id', search : true, align : 'center', width : '60' }, 
+								{ name : 'title', index : 'title', align : 'left', search : true, width : '150' }, 
+								{ name : 'categoryName', index : 'categoryName', search : true, width : '150' },
+								{ name : 'order', index : 'order', align : 'center', search : true, width : '60',
+									editable : true, 
+									editoptions: { dataInit: function (elem) { 
+											setTimeout( function() { 
+												$(elem).numeric();
+                   							}, 100);
+               							}
+               						}
+								},
+								{ name : 'thumbnail', index : 'thumbnail', align : 'center', search : false, width : '100' },
+								{ name: "act", index: 'act', editable : false, search : false, width : '80', align : 'center' }
+					],
+					rownumbers : true,
+					rowNum : defaultNumRows,
+					rowList : [10, 20, defaultNumRows],
+					pager : idPager,
+					sortname : 'id',
+					sortorder : "desc",
+					toolbarfilter : true,
+					viewrecords : true,
+					gridComplete : function() {
+						var ids = jQuery(idTableList).jqGrid('getDataIDs');
+						for (var i = 0; i < ids.length; i++) {
+							var cl = ids[i];
+							var rowData = jQuery(idTableList).jqGrid ('getRowData', cl);
+							var fa = ""
+							var fa = formatButton(cl, rowData.status, 'btnStatus_', 'btnStatus', 'modalStatus', arrClassValue_Status, classTextColor_Status)
+							var th = ""
+							if (rowData.thumbnail != "") {
+								th = '<img src="' + rowData.thumbnail + '" class="thumbInTable" />'
+							}
+							var	btnInline = btnEditInline(module, cl, true) + bntDeleteInline(module, false, cl, true)
+							jQuery(idTableList).jqGrid('setRowData', ids[i], {
+								status : fa,
+								thumbnail : th,
+								act : btnInline
+							});
+
+						}
+					// btnStatus
+						click_btnInGrid('btnStatus', 'modalStatus', bUrl+module+'/ajax_status', arrClassValue_Status, function() {
+							location.reload();
+						});
+					},
+					ajaxRowOptions: { async: true },
+					caption : caption,
+					multiselect : true,
+					// editurl : bUrl + module + '/edit_inline',
+					loadBeforeSend: function () {
+						$(this).closest("div.ui-jqgrid-view").find("table.ui-jqgrid-htable>thead>tr>th").css({"text-align":"center"});
+					},
+					onSelectRow: function(id) { 
+					}
+				});
+
+			// common
+				tableCommon();
+
+			// delete inline
+				$('body').on('click','.btnDelete', function(e) {
+					e.preventDefault();
+
+					href = $(this).attr('href');
+					showSmartAlert("Warning", "<p>Are you sure delete data ?</p>", '[NO][YES]', function() {
+						// click YES
+						$('#ids').val(selectedRows)
+						$('#frmTopButtons').submit();
+					}, function() {
+						// click NO
+					});
+				});
+
+			// multi-delete
+				$('body').on('click', '#btnMultiDelete', function(e) {
+					e.preventDefault();
+					href = $(this).attr('href');
+
+					selectedRows = jQuery(idTableList).jqGrid('getGridParam','selarrrow');
+					if (selectedRows.length==0) {
+						showSmartAlert("Error", "Please select data.", '[YES]');
+					}
+					else {
+						showSmartAlert("Warning", "<p>Are you sure delete data ?</p>", '[NO][YES]', function() {
+							// click YES
+							$('#ids').val(selectedRows)
+							$('#frmTopButtons').submit();
+						}, function() {
+							// click NO
+						});
+					}
+				});
+
+			}
+		
+		// common add & edit
+			if ($('#addContainer').length>0 || $('#editContainer').length>0) {
+			// select category
+				selectCategory('.category')
+				/*$('body').on('click', '.category', function() {
+					$('.category').removeClass('btn-success')
+					$(this).addClass('btn-success')
+					$('input[name="category"]').val($(this).attr('data-save'))
+
+					index = $(this).index();
+					$('.chooseDate').removeClass('showChooseDate');
+					$('#inputDateWrapper').find('.chooseDate:eq('+index+')').addClass('showChooseDate')
+				});
+				*/
+
+			// generate URL
+				gen_url($('input[name="title"]'), $('input[name="url"]'));
+				gen_url($('input[name="titleEN"]'), $('input[name="urlEN"]'));
+
+			// limit character
+				$('input[name="title"]').limit('200','#titleLimit');
+				$('input[name="url"]').limit('200','#urlLimit');
+				$('textarea[name="desc"]').limit('1000','#descLimit');
+
+				$('input[name="titleEN"]').limit('200','#titleENLimit');
+				$('input[name="urlEN"]').limit('200','#urlENLimit');
+				$('textarea[name="descEN"]').limit('1000','#descENLimit');
+
+			// file
+				selectFile('.btnSelectThumbnail', 'images')
+				// delele file
+				$('body').on('click', '.thumbnailDel', function(e) {
+					e.preventDefault();
+					thumbnailWrapper = $(this).parent('.thumbnailWrapper')
+					inputThumbnail = thumbnailWrapper.prev().children('.inputThumbnail')
+
+					inputThumbnail.val('')
+					thumbnailWrapper.html('').html(defaultIMG)
+				});
+
+			// editor
+				CKEDITOR.replace( 'contentNews', {
+		            entities_latin: false,
+		            entities_greek: false,
+		            toolbar: 'Full'
+		        })
+		        CKEDITOR.replace( 'contentNewsEN', {
+		            entities_latin: false,
+		            entities_greek: false,
+		            toolbar: 'Full'
+		        })
+			}
+
+		// add
+			if ($('#addContainer').length>0) {
+				var oper = 'add';
+
+			// validation
+				var $validator = $("#frmAdd").validate({
+				    rules: {
+				    	title: { 
+							required : true,
+							maxlength : 200
+						},
+						url: { 
+							required: true,
+							maxlength : 200,
+							remote: {
+								url: bUrl + module + '/ajax_existed_inCategory',
+				                type: 'post',
+				                data: {
+				                	csrf_hash : function(){ return $.cookie('csrf_cookie_ci') },
+				                	oper : function(){ return oper },
+									url : function(){ return $('input[name=url]').val(); },
+									parent_id : function(){ return $('input[name=parent_id]').val(); },
+									lang : function(){ return "vn" }
+				                }
+							}
+						},
+						desc: {
+							maxlength : 1000,
+						},
+						titleEN: { 
+							required : true,
+							maxlength : 200
+						},
+						urlEN: { 
+							required: true,
+							maxlength : 200,
+							remote: {
+								url: bUrl + module + '/ajax_existed_inCategory',
+				                type: 'post',
+				                data: {
+				                	csrf_hash : function(){ return $.cookie('csrf_cookie_ci') },
+				                	oper : function(){ return oper },
+									url : function(){ return $('input[name=urlEN]').val(); },
+									parent_id : function(){ return $('input[name=parent_id]').val(); },
+									lang : function(){ return "en" }
+				                }
+							}
+						},
+						descEN: {
+							maxlength : 1000,
+						}
+				    },
+				    messages: {
+				    	title: {
+				    		required : "Name is required",
+				    		maxlength : "Maximum is 200 characters"
+				    	},
+				      	url: {
+				      		required : "URL is required",
+				      		maxlength : "Maximum is 200 characters",
+				      		remote: jQuery.validator.format("URL \"{0}\" is already taken")
+				      	},
+				        desc: { 
+				        	maxlength : "Maximum is 1000 characters"
+				        },
+				        titleEN: {
+				    		required : "Name is required",
+				    		maxlength : "Maximum is 200 characters"
+				    	},
+				      	urlEN: {
+				      		required : "URL is required",
+				      		maxlength : "Maximum is 200 characters",
+				      		remote: jQuery.validator.format("URL \"{0}\" is already taken")
+				      	},
+				        descEN: { 
+				        	maxlength : "Maximum is 1000 characters"
+				        }
+				    },
+				    highlight: function (element) {
+				      	$(element).closest('.form-group').removeClass('has-success').addClass('has-error');
+				    },
+				    unhighlight: function (element) {
+				      	$(element).closest('.form-group').removeClass('has-error').addClass('has-success');
+				    },
+				    errorElement: 'span',
+				    errorClass: 'help-block',
+				    errorPlacement: function (error, element) {
+				      	if (element.parent('.input-group').length) {
+				        	error.insertAfter(element.parent());
+				      	} else {
+				        	error.insertAfter(element);
+				      	}
+				    },
+				    submitHandler: function(form) {
+				    	// check exist in category
+				    	$.ajax({
+				    		url: bUrl + module + '/ajax_multi_existed_inCategory',
+				            type: 'POST',
+			                cache: false,
+			                dataType: 'json',
+			                data: { 'csrf_hash' : $.cookie('csrf_cookie_ci'),
+			                		'oper': oper,
+			                		'id': $('input[name=id]').val(),
+			                		'url' : $('input[name=url]').val(),
+			                		'urlEN' : $('input[name=urlEN]').val(),
+			                		'parent_id': $('input[name=parent_id]').val()
+			                	  },
+			                success: function(data) {
+			                	if (data.error=="1") {
+			                		showSmartAlert("Error", "URL VN is already taken", '[YES]')
+			                	}
+			                	else if (data.error=="2") {
+			                		showSmartAlert("Error", "URL EN is already taken", '[YES]')
+			                	}
+			                	else {
+			                		$('input[name="csrf_hash"]').val($.cookie('csrf_cookie_ci'));
+				                	form.submit();
+				                }
+			                },
+			                error: function() {
+			                    showSmartAlert("Error", "Can send data. Please contact to admin.", '[YES]')
+			                }
+				    	});
+				    }
+				});
+			}
+
+		// edit
+			if ($('#editContainer').length>0) {
+				var oper = 'edit';
+				var id = $('input[name=id]').val();
+
+			// validation
+				var $validator = $("#frmEdit").validate({
+				    rules: {
+				    	title: { 
+							required : true,
+							maxlength : 200
+						},
+						url: { 
+							required: true,
+							maxlength : 200,
+							remote: {
+								url: bUrl + module + '/ajax_existed_inCategory',
+				                type: 'post',
+				                data: {
+				                	csrf_hash : function(){ return $.cookie('csrf_cookie_ci') },
+				                	oper : function(){ return oper },
+				                	id : id,
+									url : function(){ return $('input[name=url]').val(); },
+									parent_id : function(){ return $('input[name=parent_id]').val(); },
+									lang : function(){ return "vn" }
+				                }
+							}
+						},
+						desc: {
+							maxlength : 1000,
+						},
+						titleEN: { 
+							required : true,
+							maxlength : 200
+						},
+						urlEN: { 
+							required: true,
+							maxlength : 200,
+							remote: {
+								url: bUrl + module + '/ajax_existed_inCategory',
+				                type: 'post',
+				                data: {
+				                	csrf_hash : function(){ return $.cookie('csrf_cookie_ci') },
+				                	oper : function(){ return oper },
+				                	id : id,
+									url : function(){ return $('input[name=urlEN]').val(); },
+									parent_id : function(){ return $('input[name=parent_id]').val(); },
+									lang : function(){ return "en" }
+				                }
+							}
+						},
+						descEN: {
+							maxlength : 1000,
+						}
+				    },
+				    messages: {
+				    	title: {
+				    		required : "Name is required",
+				    		maxlength : "Maximum is 200 characters"
+				    	},
+				      	url: {
+				      		required : "URL is required",
+				      		maxlength : "Maximum is 200 characters",
+				      		remote: jQuery.validator.format("URL \"{0}\" is already taken")
+				      	},
+				        desc: { 
+				        	maxlength : "Maximum is 1000 characters"
+				        },
+				        titleEN: {
+				    		required : "Name is required",
+				    		maxlength : "Maximum is 200 characters"
+				    	},
+				      	urlEN: {
+				      		required : "URL is required",
+				      		maxlength : "Maximum is 200 characters",
+				      		remote: jQuery.validator.format("URL \"{0}\" is already taken")
+				      	},
+				        descEN: { 
+				        	maxlength : "Maximum is 1000 characters"
+				        }
+				    },
+				    highlight: function (element) {
+				      	$(element).closest('.form-group').removeClass('has-success').addClass('has-error');
+				    },
+				    unhighlight: function (element) {
+				      	$(element).closest('.form-group').removeClass('has-error').addClass('has-success');
+				    },
+				    errorElement: 'span',
+				    errorClass: 'help-block',
+				    errorPlacement: function (error, element) {
+				      	if (element.parent('.input-group').length) {
+				        	error.insertAfter(element.parent());
+				      	} else {
+				        	error.insertAfter(element);
+				      	}
+				    },
+				    submitHandler: function(form) {
+				    	// check exist in category
+				    	$.ajax({
+				    		url: bUrl + module + '/ajax_multi_existed_inCategory',
+				            type: 'POST',
+			                cache: false,
+			                dataType: 'json',
+			                data: { 'csrf_hash' : $.cookie('csrf_cookie_ci'),
+			                		'oper': oper,
+			                		id : id,
+			                		'url' : $('input[name=url]').val(),
+			                		'urlEN' : $('input[name=urlEN]').val(),
+			                		'parent_id': $('input[name=parent_id]').val()
+			                	  },
+			                success: function(data) {
+			                	if (data.error=="1") {
+			                		showSmartAlert("Error", "URL VN is already taken", '[YES]')
+			                	}
+			                	else if (data.error=="2") {
+			                		showSmartAlert("Error", "URL EN is already taken", '[YES]')
+			                	}
+			                	else {
+			                		$('input[name="csrf_hash"]').val($.cookie('csrf_cookie_ci'));
+				                	form.submit();
+				                }
+			                },
+			                error: function() {
+			                    showSmartAlert("Error", "Can send data. Please contact to admin.", '[YES]')
+			                }
+				    	});
+				    }
+				});
+			}
+
+		}
+	}
+
+// GALLERY
+	function galleryPage()
+	{
+		if ($('#galleryPage').length>0) {
+			module = 'gallery'
+
+		// list
+			if ($(idTableList).length>0) {
+				var statusStr = ":All;active:Active;inactive:Inactive";
+				caption = captionButton(module, true, true)
+
+			// jqGrid
+				jQuery(idTableList).jqGrid({
+					url: bUrl + module + '/ajax_list?q=2',
+					datatype: "json",
+					height : 'auto',
+					autowidth : true,
+					shrinkToFit: false,
+					gridResize: true,
+					autoResizeAllColumns: true,
+					iconSet: "fontAwesome",
+					colNames : ['Status', 'ID', 'Title', 'Category','Order', /*'Thumbnail',*/ 'Action'],
+					colModel : [{ name : 'status', index : 'status', align : 'center', width : '80',
+									stype: 'select', searchoptions:{ sopt:['eq'], value: statusStr }
+								},
+								{ name : 'id', index : 'id', search : true, align : 'center', width : '60' }, 
+								{ name : 'title', index : 'title', align : 'left', search : true, width : '150' }, 
+								{ name : 'categoryName', index : 'categoryName', search : true, width : '150' },
+								{ name : 'order', index : 'order', align : 'center', search : true, width : '60',
+									editable : true, 
+									editoptions: { dataInit: function (elem) { 
+											setTimeout( function() { 
+												$(elem).numeric();
+                   							}, 100);
+               							}
+               						}
+								},
+								// { name : 'thumbnail', index : 'thumbnail', align : 'center', search : false, width : '100' },
+								{ name: "act", index: 'act', editable : false, search : false, width : '80', align : 'center' }
+					],
+					rownumbers : true,
+					rowNum : defaultNumRows,
+					rowList : [10, 20, defaultNumRows],
+					pager : idPager,
+					sortname : 'id',
+					sortorder : "desc",
+					toolbarfilter : true,
+					viewrecords : true,
+					gridComplete : function() {
+						var ids = jQuery(idTableList).jqGrid('getDataIDs');
+						for (var i = 0; i < ids.length; i++) {
+							var cl = ids[i];
+							var rowData = jQuery(idTableList).jqGrid ('getRowData', cl);
+							var fa = ""
+							var fa = formatButton(cl, rowData.status, 'btnStatus_', 'btnStatus', 'modalStatus', arrClassValue_Status, classTextColor_Status)
+							/*var th = ""
+							if (rowData.thumbnail != "") {
+								th = '<img src="' + rowData.thumbnail + '" class="thumbInTable" />'
+							}*/
+							var	btnInline = btnEditInline(module, cl, true) + bntDeleteInline(module, false, cl, true)
+							jQuery(idTableList).jqGrid('setRowData', ids[i], {
+								status : fa,
+								// thumbnail : th,
+								act : btnInline
+							});
+
+						}
+					// btnStatus
+						click_btnInGrid('btnStatus', 'modalStatus', bUrl+module+'/ajax_status', arrClassValue_Status, function() {
+							location.reload();
+						});
+					},
+					ajaxRowOptions: { async: true },
+					caption : caption,
+					multiselect : true,
+					// editurl : bUrl + module + '/edit_inline',
+					loadBeforeSend: function () {
+						$(this).closest("div.ui-jqgrid-view").find("table.ui-jqgrid-htable>thead>tr>th").css({"text-align":"center"});
+					},
+					onSelectRow: function(id) { 
+					}
+				});
+
+			// common
+				tableCommon();
+
+			// delete inline
+				$('body').on('click','.btnDelete', function(e) {
+					e.preventDefault();
+
+					href = $(this).attr('href');
+					showSmartAlert("Warning", "<p>Are you sure delete data ?</p>", '[NO][YES]', function() {
+						// click YES
+						$('#ids').val(selectedRows)
+						$('#frmTopButtons').submit();
+					}, function() {
+						// click NO
+					});
+				});
+
+			// multi-delete
+				$('body').on('click', '#btnMultiDelete', function(e) {
+					e.preventDefault();
+					href = $(this).attr('href');
+
+					selectedRows = jQuery(idTableList).jqGrid('getGridParam','selarrrow');
+					if (selectedRows.length==0) {
+						showSmartAlert("Error", "Please select data.", '[YES]');
+					}
+					else {
+						showSmartAlert("Warning", "<p>Are you sure delete data ?</p>", '[NO][YES]', function() {
+							// click YES
+							$('#ids').val(selectedRows)
+							$('#frmTopButtons').submit();
+						}, function() {
+							// click NO
+						});
+					}
+				});
+
+			}
+		
+		// common add & edit
+			if ($('#addContainer').length>0 || $('#editContainer').length>0) {
+			// select category
+				selectCategory('.category', function(index, value) {
+					if (value=="10") {
+						$('input[name="title"]').val('')
+						$('input[name="titleEN"]').val('')
+
+						$('input[name="carInformation"]').val('Car information here')
+						$('input[name="carInformationEN"]').val('Car information EN here')
+						$('input[name="service"]').val('Service here')
+						$('input[name="serviceEN"]').val('Service EN here')
+
+						$('.beforeafterWrapper').fadeOut('fast')
+						$('.eventWrapper').fadeIn('fast')
+					} 
+					else if (value=="9") {
+						$('input[name="title"]').val('Title here')
+						$('input[name="titleEN"]').val('Title EN here')
+
+						$('input[name="carInformation"]').val('')
+						$('input[name="carInformationEN"]').val('')
+						$('input[name="service"]').val('')
+						$('input[name="serviceEN"]').val('')
+
+						$('.eventWrapper').fadeOut('fast')
+						$('.beforeafterWrapper').fadeIn('fast')
+					}
+				})
+				selectCategory('.type', function(index, value) {
+					if (index==0) {
+						$('.videoWrapper').fadeOut('fast')
+						$('.albumWrapper').fadeIn('fast')
+					} 
+					else if (index==1) {
+						$('.albumWrapper').fadeOut('fast')
+						$('.videoWrapper').fadeIn('fast')
+					}
+				})
+
+			// limit character
+				$('input[name="title"]').limit('200','#titleLimit');
+				$('input[name="carInformation"]').limit('200','#carInformationLimit');
+				$('input[name="service"]').limit('1000','#serviceLimit');
+
+				$('input[name="titleEN"]').limit('200','#titleENLimit');
+				$('input[name="carInformationEN"]').limit('200','#carInformationENLimit');
+				$('input[name="serviceEN"]').limit('1000','#serviceENLimit');
+
+			// before
+				selectFile('.btnSelectBefore', 'images')
+			// after
+				selectFile('.btnSelectAfter', 'images')
+			// event
+				selectFile('.btnSelectEventAlbum', 'images', true)
+
+				selectFile('.btnSelectEventVideo', 'media')
+				// delele file
+				$('body').on('click', '.thumbnailDel', function(e) {
+					e.preventDefault();
+					thumbnailWrapper = $(this).parent('.thumbnailWrapper')
+					inputThumbnail = thumbnailWrapper.prev().children('.inputThumbnail')
+
+					inputThumbnail.val('')
+					thumbnailWrapper.html('').html(defaultIMG)
+				});
+			}
+		
+		// add
+			if ($('#addContainer').length>0) {
+				var oper = 'add';
+
+			// validation
+				var $validator = $("#frmAdd").validate({
+				    rules: {
+				    	title: { 
+							required : true,
+							maxlength : 200
+						},
+						carInformation: {
+							required : true,
+							maxlength : 200,
+						},
+						service: {
+							required : true,
+							maxlength : 1000,
+						},
+						titleEN: { 
+							required : true,
+							maxlength : 200
+						},
+						carInformationEN: {
+							required : true,
+							maxlength : 200,
+						},
+						serviceEN: {
+							required : true,
+							maxlength : 1000,
+						}
+				    },
+				    messages: {
+				    	title: {
+				    		required : "required",
+				    		maxlength : "Maximum is 200 characters"
+				    	},
+				        carInformation: {
+				    		required : "required",
+				    		maxlength : "Maximum is 200 characters"
+				    	},
+				    	service: {
+				    		required : "required",
+				    		maxlength : "Maximum is 1000 characters"
+				    	},
+				        titleEN: {
+				    		required : "required",
+				    		maxlength : "Maximum is 200 characters"
+				    	},
+				        carInformationVN: {
+				    		required : "required",
+				    		maxlength : "Maximum is 200 characters"
+				    	},
+				    	serviceVN: {
+				    		required : "required",
+				    		maxlength : "Maximum is 1000 characters"
+				    	}
+				    },
+				    highlight: function (element) {
+				      	$(element).closest('.form-group').removeClass('has-success').addClass('has-error');
+				    },
+				    unhighlight: function (element) {
+				      	$(element).closest('.form-group').removeClass('has-error').addClass('has-success');
+				    },
+				    errorElement: 'span',
+				    errorClass: 'help-block',
+				    errorPlacement: function (error, element) {
+				      	if (element.parent('.input-group').length) {
+				        	error.insertAfter(element.parent());
+				      	} else {
+				        	error.insertAfter(element);
+				      	}
+				    },
+				    submitHandler: function(form) {
+				    	form.submit();
+				    }
+				});
+			}
+		}
+	}
+
+// BANENR
+	function bannerPage()
+	{
+		if ($('#bannerPage').length>0) {
+			module = 'banner'
+
+		// common add
+			if ($('#addContainer').length>0) {
+			// select category
+				selectCategory('.category', function(index, value) {
+					$('#allWrapper').find('.uploadWrapper.active').fadeOut('fast').removeClass('active')
+					$('#allWrapper').find('.uploadWrapper:eq('+index+')').fadeIn('fast').addClass('active')
+				})
+			// banner Home VN
+				selectFile('.btnSelectBannerHome_1VN', 'images', true)
+
+				$('body').on('click', '.imgWrapperOld .fa-trash-o', function() {
+	            	wrapper = $(this).parent()
+					wrapper.remove()
+					if (wrapper.hasClass('home_1VN')) {
+						inputDel = $('input[name="bannerHome_1VN_del[]"]')
+					} else if (wrapper.hasClass('home_1EN')) {
+						inputDel = $('input[name="bannerHome_1EN_del[]"]')
+					} else if (wrapper.hasClass('home_2VN')) {
+						inputDel = $('input[name="bannerHome_2VN_del[]"]')
+					} else if (wrapper.hasClass('home_2EN')) {
+						inputDel = $('input[name="bannerHome_2EN_del[]"]')
+					}
+					currentVal = inputDel.val();
+					if (currentVal=="") {
+						var obj = new Array;
+					}
+					else {
+						var obj = JSON.parse(inputDel.val());
+					}
+					src = $(this).attr('data')
+					obj.push(src)
+					inputDel.val(JSON.stringify(obj))
+	            })
+
+				selectFile('.btnSelectBannerHome_1EN', 'images', true)
+				selectFile('.btnSelectBannerHome_2VN', 'images', true)
+				selectFile('.btnSelectBannerHome_2EN', 'images', true)
+			// banner VN
+				selectFile('.btnSelectBannerVN', 'images')
+			// banner EN
+				selectFile('.btnSelectBannerEN', 'images')
+
+				// delele file
+				$('body').on('click', '.thumbnailDel', function(e) {
+					e.preventDefault();
+					thumbnailWrapper = $(this).parent('.thumbnailWrapper')
+					inputThumbnail = thumbnailWrapper.prev().children('.inputThumbnail')
+
+					inputThumbnail.val('')
+					thumbnailWrapper.html('').html(defaultIMG)
+				});
+
+			// validate
+				/*$('#frmAdd').submit( function() {
+					if ($('input[name="page"]').val() == 'home') {
+						if ($('input[name="bannerHome_1VN[]"]').val()=='' 
+							|| $('input[name="bannerHome_1EN[]"]').val()==''
+							|| $('input[name="bannerHome_2VN[]"]').val()==''
+							|| $('input[name="bannerHome_2EN[]"]').val()==''
+							) {
+							showSmartAlert("Error", "Please choose file to upload", '[YES]')
+							return false;
+						}
+					}
+				})*/
+			}
+		}
+	}
+
 // USER
 	function userPage()
 	{
@@ -2374,6 +3171,9 @@
 		memberPage()
 
 		servicePage()
+		newsPage()
+		galleryPage()
+		bannerPage()
 		userPage()
 	});
 

@@ -323,6 +323,15 @@
 		"outputStyle": 1,
 		"syntaxCheckerStyle": 0
 		},
+	"\/frontend\/css\/lightbox.css": {
+		"fileType": 16,
+		"ignore": 0,
+		"ignoreWasSetByUser": 0,
+		"inputAbbreviatedPath": "\/frontend\/css\/lightbox.css",
+		"outputAbbreviatedPath": "No Output Path",
+		"outputPathIsOutsideProject": 0,
+		"outputPathIsSetByUser": 0
+		},
 	"\/frontend\/css\/maintain-min.css": {
 		"fileType": 16,
 		"ignore": 1,

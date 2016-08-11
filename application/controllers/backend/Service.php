@@ -46,7 +46,7 @@ class Service extends Root {
         $sord = $_GET['sord']; // get the direction
         if(!$sidx) $sidx=1;
         // add where in string
-            $where = array();
+            $where = 'category.parent_id=2';
         // get filter if have
             // $search = $_GET['_search'];
             $like = array();
@@ -181,6 +181,8 @@ class Service extends Root {
                                  'title_en' => $titleEN,
                                  'url_en' => $urlEN,
                                  'desc_en' => $this->input->post('descEN', TRUE),
+                                 'content' => $this->input->post('contentService'),
+                                 'content_en' => $this->input->post('contentServiceEN'),
                                   'order' => $this->input->post('order', TRUE),
                                   'status' => $this->input->post('status', TRUE),
                                   'parent_id' => $parent_id,
@@ -285,6 +287,8 @@ class Service extends Root {
                                  'title_en' => $titleEN,
                                  'url_en' => $urlEN,
                                  'desc_en' => $this->input->post('descEN', TRUE),
+                                 'content' => $this->input->post('contentService'),
+                                 'content_en' => $this->input->post('contentServiceEN'),
                                   'order' => $this->input->post('order', TRUE),
                                   'status' => $this->input->post('status', TRUE),
                                   'parent_id' => $parent_id,

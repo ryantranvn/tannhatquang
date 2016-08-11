@@ -16,7 +16,9 @@ class Home extends Root {
 // HOME
     public function index()
     {
-    	// echo $this->data['device'];
+    	$this->data['url']['vn'] = F_URL . 'vn';
+        $this->data['url']['en'] = F_URL . 'en';
+
         $this->template->load($this->gate.'/template', $this->gate.'/home', $this->data);
     }
 

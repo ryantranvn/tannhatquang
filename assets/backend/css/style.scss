@@ -435,3 +435,27 @@ html#extr-page {
 		background: url(../images/select.png) center;
 	}
 
+.imgWrapper {
+	position: relative;
+	float: left; clear: none;
+	margin: 10px 5px;
+
+	i.fa {
+		position: absolute;
+		z-index: 10;
+		right: 10px; top: 0px;
+		color: white;
+		font-size: 20px;
+		padding: 5px;
+		background-color: red;
+	}
+	i.fa:hover {
+		cursor: pointer;
+	}
+}
+.uploadWrapper {
+	display: none;
+}
+.uploadWrapper.active {
+	display: block;
+}

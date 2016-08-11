@@ -15,8 +15,16 @@ class Root extends CI_Controller {
         $this->load->library('form_validation');
         $this->load->model('User_model');
 
+        $urlLang = $this->uri->segment(1,0);
+        if ($urlLang == FALSE || $urlLang == "") {
+            $urlLang = 'vn';
+            redirect(F_URL.'vn');
+        }
+        // echo $urlLang; die();
+
     // Lang
-        $this->data['lang'] = $this->session->userdata('site_lang');
+        $this->data['lang'] = $urlLang;
+        // $this->data['lang'] = $this->session->userdata('site_lang');
         if ($this->data['lang']) {
             $this->lang->load('root',$this->data['lang']);
         } else {
@@ -60,48 +68,6 @@ class Root extends CI_Controller {
         $this->data['page']['title'] = PAGE_NAME;
         $this->data['altImg'] = PAGE_NAME;
         $this->data['onair'] = ONAIR;
-
-    // set value to transfer to javascript
-        /*
-        $varJS = array('projectName' => PAGE_NAME, 'projectFolder' => PROJECT_FOLDER);
-        $varJS['assetsUrl'] = F_URL . 'assets/';
-        $varJS['fUrl'] = F_URL;
-        // $varJS['libsUrl'] = F_URL . 'libs/';
-        // $varJS['uploadDir'] = F_URL . 'upload/';
-        // $varJS['lang'] = $this->data['lang'];
-        $varJS['device'] = $this->data['device'];
-        
-        $varJS['valid'] = $varJS['invalid'] = $varJS['validationType'] = "";
-        if ($this->session->userdata('invalid')!==FALSE) {
-            $varJS['invalid'] = $this->session->userdata('invalid');
-            $varJS['validationType'] = $this->session->userdata('validationType');
-            $this->data['invalidData'] = $this->session->userdata('invalidData');
-
-            $this->session->unset_userdata('invalid');
-            $this->session->unset_userdata('validationType');
-            $this->session->unset_userdata('invalidData');
-        }
-        if ($this->session->userdata('valid')!==FALSE) {
-            $varJS['valid'] = $this->session->userdata('valid');
-            $varJS['validationType'] = $this->session->userdata('validationType');
-
-            $this->session->unset_userdata('valid');
-            $this->session->unset_userdata('validationType');
-        }
-       
-        // FB
-            // $varJS['fb_id'] = FBAPP_ID;
-            //$varJS['fb_secret'] = FBAPP_SECRET;
-            // $varJS['fb_fanpage'] = FANPAGE_ID;
-            //$varJS['fb_scope'] = FBSCOPE;
-            //$varJS['fb_redirectUrl'] = FB_REDIRECT_URL;
-        
-        // csrf
-            // $varJS['csrf_name'] = $this->security->get_csrf_token_name();
-            $varJS['csrf_hash'] = $this->security->get_csrf_hash();
-
-        $this->data['varJS'] = json_encode($varJS);
-        */
 
     }
 

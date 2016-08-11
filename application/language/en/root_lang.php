@@ -13,27 +13,31 @@
 	$lang['navigator']['contact'] = "CONTACT";
 
 /* links */ 
-	$lang['links']['home'] = F_URL;
+	$lang['links']['home'] = F_URL.'en';
 
-	$lang['links']['service']['introduction'] = F_URL . "service/introduction";
-	$lang['links']['service']['service'] = F_URL . "service/service";
-	$lang['links']['service']['certification'] = F_URL . "service/certification";
+	$lang['links']['service']['introduction'] = F_URL . "en/service/introduction";
+	$lang['links']['service']['service'] = F_URL . "en/service/service";
+	$lang['links']['service']['certification'] = F_URL . "en/service/certification";
 
-	$lang['links']['booking'] = F_URL . "booking";
+	$lang['links']['booking'] = F_URL . "en/booking";
 	
-	$lang['links']['gallery']['root'] = F_URL . "gallery";
-		$lang['links']['gallery']['beforeafter'] = F_URL . "gallery/before-after";
-		$lang['links']['gallery']['event'] = F_URL . "gallery/event";
+	$lang['links']['gallery']['root'] = F_URL . "en/gallery";
+		$lang['links']['gallery']['beforeafter'] = F_URL . "en/gallery/before-after";
+		$lang['links']['gallery']['event'] = F_URL . "en/gallery/event";
 
-	$lang['links']['news'] = F_URL . "news";
-	$lang['links']['newsDetail'] = F_URL . "news/detail";
+	$lang['links']['news'] = F_URL . "en/news";
+	$lang['links']['newsDetail'] = F_URL . "en/news/detail";
 
-	$lang['links']['contact'] = F_URL . "contact";
+	$lang['links']['contact'] = F_URL . "en/contact";
 
 /* breadcrumb */
 	$lang['breadcrumb']['news']['root'] = "News";
 
 	$lang['breadcrumb']['contact']['root'] = "Contact";
+
+	$lang['breadcrumb']['gallery']['root'] = "Gallery";
+	$lang['breadcrumb']['gallery']['beforeafter'] = "Before & After ";
+	$lang['breadcrumb']['gallery']['event'] = "Event";
 
 	$lang['breadcrumb']['service']['root'] = "Service";
 	$lang['breadcrumb']['service']['introduction'] = "Introduction";

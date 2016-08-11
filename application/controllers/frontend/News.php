@@ -14,11 +14,25 @@ class News extends Root {
         $this->data['activeMenu'] = 'news';
         $this->data['page'] = 'news';
     }
-// HOME
+// NEWS
     public function index()
     {
-    	// echo $this->data['device'];
+        $this->data['url']['vn'] = F_URL . 'vn/tin-tuc';
+        $this->data['url']['en'] = F_URL . 'en/news';
+
         $this->template->load($this->gate.'/template', $this->gate.'/news', $this->data);
+    }
+
+// DETAIL
+    public function detail()
+    {
+        // get detail
+
+
+        $this->data['url']['vn'] = F_URL . 'vn/tin-tuc';
+        $this->data['url']['en'] = F_URL . 'en/news';
+
+        $this->template->load($this->gate.'/template', $this->gate.'/news_detail', $this->data);
     }
 
 }

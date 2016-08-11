@@ -95,6 +95,7 @@ class Service_model extends Base_model {
             return TRUE;
         }
     }
+
 // update
 	function updatePost($connection, $id, $updateArr)
     {

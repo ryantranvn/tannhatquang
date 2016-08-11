@@ -30,6 +30,9 @@ class Booking extends Root {
         $frmUpload_action = F_URL.'booking/ajax_upload/';
         $this->data['frmUpload'] = frm($frmUpload_action, $frmUpload_attr, TRUE, NULL);
 
+        $this->data['url']['vn'] = F_URL . 'vn/dat-hen-tu-van';
+        $this->data['url']['en'] = F_URL . 'en/booking';
+        
         $this->template->load($this->gate.'/template', $this->gate.'/booking', $this->data);
     }
 

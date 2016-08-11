@@ -2,6 +2,7 @@
     var bUrl = fUrl + "backend/"
     var libsUrl = window.location.protocol + "//" + window.location.host + "/library/"
     var uploadDir = fUrl + 'upload/'
+
 // URL
     function lastUrl()
     {

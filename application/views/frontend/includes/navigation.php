@@ -1,5 +1,6 @@
 <div class="navigator fullContainer">
 	<div class="centerContainer">
+
 		<a class="logo" href="<?=F_URL?>" title="<?=LINK_TITLE?>">
 			<img src="<?=assetsUrl('frontend','images','logo.png');?>" />
 		</a>
@@ -43,20 +44,20 @@
 				<span>&#124;</span>
 			</li>
 			<li<? if ($activeMenu=='gallery') { ?> class="active"<? } ?>>
-				<a href="<?=$links['gallery']['root']?>">
+				<a href="<?=$links['gallery']['beforeafter']?>">
 					<?=$navigator['gallery']?> &nbsp;
 					<i class="fa fa-caret-right" aria-hidden="true"></i>
 				</a>
 				<span>&#124;</span>
 				<i class="fa fa-caret-up" aria-hidden="true"></i>
-				<ul class="submenu submenuGallery">
-					<li>
+				<ul class="submenu submenuGallery<? if ($activeMenu=='gallery') { ?> active<? } ?>">
+					<li<? if ($activeSubMenu=='beforeafter') { ?> class="active"<? } ?>>
 						<a href="<?=$links['gallery']['beforeafter']?>" class="linkSub">
 							<?=$navigatorSub['gallery']['beforeafter']?>
 						</a>
 						<span>&#124;</span>
 					</li>
-					<li>
+					<li<? if ($activeSubMenu=='event') { ?> class="active"<? } ?>>
 						<a href="<?=$links['gallery']['event']?>" class="linkSub">
 							<?=$navigatorSub['gallery']['event']?>
 						</a>
@@ -81,15 +82,15 @@
 		<div class="langWrapper">
 			<p>
 				<? if ($lang == 'vn') { ?>
-				<a href="#"><img src="<?=assetsUrl('frontend','images','icon-vn.png');?>" />Tiếng Việt</a>
+				<a href="<?=$url['vn']?>"><img src="<?=assetsUrl('frontend','images','icon-vn.png');?>" />Tiếng Việt</a>
 				<? } else { ?>
-				<a href="#"><img src="<?=assetsUrl('frontend','images','icon-en.png');?>" />English</a>
+				<a href="<?=$url['en']?>"><img src="<?=assetsUrl('frontend','images','icon-en.png');?>" />English</a>
 				<? } ?>
 				<i class="fa fa-caret-down" aria-hidden="true"></i>
 			</p>
 			<ul>
-				<li><a class="vn" href="#"><img src="<?=assetsUrl('frontend','images','icon-vn.png');?>" />Tiếng Việt</a></li>
-				<li><a class="en" href="#"><img src="<?=assetsUrl('frontend','images','icon-en.png');?>" />English</a></li>
+				<li><a class="vn" href="<?=$url['vn']?>"><img src="<?=assetsUrl('frontend','images','icon-vn.png');?>" />Tiếng Việt</a></li>
+				<li><a class="en" href="<?=$url['en']?>"><img src="<?=assetsUrl('frontend','images','icon-en.png');?>" />English</a></li>
 			</ul>
 		</div>
 	</div>

@@ -8,6 +8,9 @@
         <link rel="stylesheet" type="text/css" href="<?=libsUrl('font-awesome','css','font-awesome.min.css') ?>" />
 
         <link rel="stylesheet" type="text/css" href="<?=libsUrl('bxslider','css','jquery.bxslider.css') ?>" />
+        <link rel="stylesheet" type="text/css" href="<?=libsUrl('lightbox','css','lightbox.css') ?>" />
+        <link rel="stylesheet" type="text/css" href="<?=libsUrl('nanoGallery','css','nanogallery.min.css') ?>" />
+        
 
         <link rel="stylesheet" type="text/css" href="<?=assetsUrl('frontend','css','style-min.css') ?>" />
         <!--[if lt IE 9]>
@@ -80,6 +83,9 @@
         <script language="javascript" type="text/javascript" src="<?=assetsUrl('common','js','jquery.transit.min.js') ?>"></script>
         <script language="javascript" type="text/javascript" src="<?=assetsUrl('common','js','jquery.lettering.js')?>"></script>
         <script language="javascript" type="text/javascript" src="<?=libsUrl('bxslider','js','jquery.bxslider.min.js')?>"></script>
+        <script language="javascript" type="text/javascript" src="<?=libsUrl('lightbox','js','lightbox-min.js')?>"></script>
+        <script language="javascript" type="text/javascript" src="<?=libsUrl('nanoGallery','js','jquery.nanogallery.min.js')?>"></script>
+        
         <script language="javascript" type="text/javascript" src="<?=assetsUrl('common','js','jquery.easing.1.3.js')?>"></script>
         <script language="javascript" type="text/javascript" src="<?=assetsUrl('common','js','jquery.numeric.js') ?>"></script>
         <script language="javascript" type="text/javascript" src="<?=assetsUrl('common','js','jquery.form.js') ?>"></script>

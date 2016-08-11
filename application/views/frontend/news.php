@@ -11,8 +11,8 @@
 				<i class="fa fa-home" aria-hidden="true"></i>
 				<i class="fa fa-angle-right" aria-hidden="true"></i>
 				<span><?=$breadcrumb[$page]['root']?></span>
-				<i class="fa fa-angle-right" aria-hidden="true"></i>
-				<span>Khuyến mãi</span>
+				<!-- <i class="fa fa-angle-right" aria-hidden="true"></i>
+				<span>Khuyến mãi</span> -->
 				<!-- <span><?=$breadcrumb[$page][$subCat]?></span> -->
 			</div>
 			<div class="right small-0 medium-8 large-8 columns">&nbsp;</div>
@@ -36,7 +36,7 @@
 							</div>
 							<div class="small-24 medium-15 large-15 columns noPaddingRight">
 								<div class="desc">Ngày 12/5/2016, Vietnam Star Automobile chính thức khai trương Trung tâm đồng sơn quy mô và hiện đại nhất Việt Nam chuyên thực hiện các dịch vụ đồng sơn cho xe sang. Toạ lạc ở vị trí vô cùng thuận lợi, số 2&3, đường số 7, khu chế xuất Tân Thuận, phường Tân Thuận Đông, quận 7, TP. HCM,...</div>
-								<a class="linkXemthem" href="<?=F_URL.$links['newsDetail']?>">
+								<a class="linkXemthem" href="<?=$links['newsDetail']?>">
 									<i class="fa fa-angle-double-right" aria-hidden="true"></i>Xem thêm
 								</a>
 							</div>
