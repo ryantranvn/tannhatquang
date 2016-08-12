@@ -561,9 +561,14 @@
                     line-height: 40px;
                     border: solid 1px #cccccc;
                     padding: 0px 10px;
+                    font-size: 13px;
                 }
                 ul {
                     top: -165px;
+
+                    li {
+                        font-size: 13px;
+                    }
                 }
             }
             input[name="service"] {
@@ -998,12 +1003,14 @@
         }
     }
     .frmWrapper {
+        margin-top: 30px;
+
         .title {
             width: 100%;
             font-size: 26px;
             float: left; clear: both;
             text-align: left;
-            text-indent: 30px;
+            padding-left: 30px;
         }
         .row {
             float: left;
@@ -1340,7 +1347,7 @@
             margin-right: 20px;
         }
         #serviceWrapper {
-            width: 260px;
+            width: 300px;
             float: left; clear: none;
         }
         label[for="pictures"] {

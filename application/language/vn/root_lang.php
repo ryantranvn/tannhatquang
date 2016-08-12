@@ -99,4 +99,77 @@
 	$lang['mercedes'][23] = "V-Class";
 	$lang['mercedes'][24] = "Khác";
 
+/* textHome */
+	$lang['textHome']['service']['title'] = 'DỊCH VỤ';
+	$lang['textHome']['service'][0] = 'Sửa chữa, đồng sơn<br/>dòng xe sang';
+	$lang['textHome']['service'][1] = 'Sơn xe: từng phần,<br/>phủ màu, đổi màu xe';
+	$lang['textHome']['service'][2] = 'Tư vấn màu sắc';
+	$lang['textHome']['service'][3] = 'Chăm sóc, làm đẹp nội,<br/>ngoại thất xe';
+	$lang['textHome']['service'][4] = 'Cứu hộ 24/7';
+	$lang['textHome']['service'][5] = 'Bảo dưỡng xe<br/>Mercedes Benz';
 
+	$lang['textHome']['certification']['title'] = 'CHỨNG NHẬN CHẤT LƯỢNG';
+	$lang['textHome']['certification'][0]['title'] = "Máy móc & thiết bị hiện đại";
+	$lang['textHome']['certification'][0]['desc'] = "Với tổng số vốn đầu tư lên đến 5 triệu đô la Mỹ, diện tích sử dụng gần 9.200 mét vuông, trung tâm đồng sơn gồm ba tầng được trang bị các thiết bị và kỹ thuật hiện đại, tiến tiến bậc nhất";
+	$lang['textHome']['certification'][1]['title'] = "Quy trình tỉ mỉ";
+	$lang['textHome']['certification'][1]['desc'] = "Quy trình làm sơn gồm 14 bước tỉ mỉ, can thiệp vào từng lớp sơn, từng chi tiết nhỏ để đảm bảo màu sơn chuẩn xác với sơn gốc và độ bóng, mịn bề mặt tối ưu nhất";
+	$lang['textHome']['certification'][2]['title'] = "Đội ngũ kỹ thuật viên chuyên nghiệp";
+	$lang['textHome']['certification'][2]['desc'] = "Trung tâm Đồng sơn Vietnam Star  sở hữu đội ngũ kỹ thuật viên dày dạn kinh nghiệm, liên tục được cập nhật kiến thức và đào tạo về kỹ thuật pha màu do PPG chứng nhận";
+	$lang['textHome']['certification'][3]['title'] = "Chất lượng pha chỉnh màu và đa dạng về màu sắc";
+	$lang['textHome']['certification'][3]['desc'] = "Trung tâm Đồng sơn Vietnam Star  trang bị tủ chứa màu với 83 tinh màu và các công cụ màu chuyên dụng của PPG để tạo màu sơn đa dạng nhất. Nhiệt độ phòng pha sơn luôn đạt 5-40 độ C nhằm đảm bảo đạt chất lượng sơn";
+
+	$lang['textHome']['gallery']['title'] = 'THƯ VIỆN ẢNH';
+	$lang['textHome']['gallery']['desc'] = "Trung tâm Đồng sơn Vietnam Star tự hào giúp diện mạo chiếc xe của quý khách hoàn toàn mới như ngày đầu tiên khi đến với dịch vụ chúng tôi";
+
+	$lang['textHome']['contact']['title'] = "LIÊN HỆ";
+	$lang['textHome']['contact']['name'] = "Trung tâm đồng sơn Vietnam Star";
+	$lang['textHome']['contact']['address'] = 'Lô DVTM 2&3, Đường số 7, Khu chế xuất Tân Thuận, P.Tân Thuận Đông, Q.7, TP.HCM';
+	$lang['textHome']['contact']['button'] = 'Liên hệ tư vấn';
+
+/* textBooking */
+	$lang['textBooking']['title'] = 'Chiếc xe yêu quý của bạn<br/>cần sự chăm sóc đặc biệt?';
+	$lang['textBooking']['desc'] = "Worried about the latest dent or scratch on your car?<br/>Confused and have no idea of what to do with your car in case of emergency or accident?<br/>Book an appointment today with Vietnam Star Body & Paint center to get the best advice and possible solutions for your car.";
+	
+	$lang['textBooking']['form']['title'] = 'Vui lòng điền đầy đủ thông tin';
+	$lang['textBooking']['form']['textRequied'] = 'Những thông tin có đánh dấu <span>*</span> là bắt buộc nhập.';
+	$lang['textBooking']['form']['lblFullname'] = 'HỌ VÀ TÊN';
+	$lang['textBooking']['form']['lblEmail'] = 'EMAIL';
+	$lang['textBooking']['form']['lblPhone'] = 'SỐ ĐIỆN THOẠI';
+	$lang['textBooking']['form']['lblAddress'] = 'ĐỊA CHỈ';
+	$lang['textBooking']['form']['lblCar'] = 'THÔNG TIN XE';
+	$lang['textBooking']['form']['lblService'] = 'DỊCH VỤ';
+	$lang['textBooking']['form']['lblBooking'] = 'ĐẶT LỊCH HẸN';
+	$lang['textBooking']['form']['lblTitle'] = 'TIÊU ĐỀ';
+	$lang['textBooking']['form']['lblContent'] = 'NỘI DUNG';
+
+	$lang['textBooking']['form']['placeholderDate'] = 'Ngày/Tháng/Năm';
+	$lang['textBooking']['form']['placeholder250'] = '(Giới hạn 250 kí tự)';
+	$lang['textBooking']['form']['placeholder2000'] = '(Giới hạn 2000 kí tự)';
+
+	$lang['textBooking']['form']['lblUpload'] = 'ĐĂNG TẢI HÌNH ẢNH TÌNH TRẠNG HIỆN TẠI CỦA XE<br/>(tối đa 5 hình)';
+	$lang['textBooking']['form']['btnUpload'] = 'Đăng tải hình ảnh';
+
+	$lang['textBooking']['service']['title'] = 'DỊCH VỤ';
+	$lang['textBooking']['service'][0] = 'Sửa chữa, đồng sơn dòng xe sang';
+	$lang['textBooking']['service'][1] = 'Sơn xe: từng phần, phủ màu, đổi màu xe';
+	$lang['textBooking']['service'][2] = 'Tư vấn màu sắc';
+	$lang['textBooking']['service'][3] = 'Chăm sóc, làm đẹp nội, ngoại thất xe';
+	$lang['textBooking']['service'][4] = 'Cứu hộ 24/7';
+	$lang['textBooking']['service'][5] = 'Bảo dưỡng xe Mercedes Benz';
+
+	$lang['textBooking']['form']['btnSend'] = 'Hoàn thành';
+
+	$lang['textMore'] = 'Tìm hiểu dịch vụ';
+	$lang['textViewMore'] = 'Xem thêm';
+
+	$lang['textContactBox']['title'] = 'Liên hệ cần tư vấn';
+	$lang['textContactBox']['form']['title'] = 'Vui lòng điền đầy đủ thông tin';
+	$lang['textContactBox']['form']['btnSend'] = "Gửi yêu cầu";
+					
+/* textGallery */
+	$lang['textGallery']['tabBeforeAfter'] = "Xe trước & sau dịch vụ";
+	$lang['textGallery']['tabEvent'] = "Sự kiện khác";
+	$lang['textGallery']['textBefore'] = "BAN ĐẦU";
+	$lang['textGallery']['textAfter'] = "LÚC SAU";
+	$lang['textGallery']['textInfo'] = 'Thông tin xe';
+	$lang['textGallery']['textService'] = 'Dịch vụ';

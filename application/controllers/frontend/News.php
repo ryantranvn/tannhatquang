@@ -19,6 +19,8 @@ class News extends Root {
     {
         $this->data['url']['vn'] = F_URL . 'vn/tin-tuc';
         $this->data['url']['en'] = F_URL . 'en/news';
+        $banner = $this->Base_model->getDB('db','post',array('url','url_en'),array('parent_id'=>11,'type'=>'news'));
+        $this->data['banner'] = $banner[0];
 
         $this->template->load($this->gate.'/template', $this->gate.'/news', $this->data);
     }
@@ -31,6 +33,8 @@ class News extends Root {
 
         $this->data['url']['vn'] = F_URL . 'vn/tin-tuc';
         $this->data['url']['en'] = F_URL . 'en/news';
+        $banner = $this->Base_model->getDB('db','post',array('url','url_en'),array('parent_id'=>11,'type'=>'news'));
+        $this->data['banner'] = $banner[0];
 
         $this->template->load($this->gate.'/template', $this->gate.'/news_detail', $this->data);
     }

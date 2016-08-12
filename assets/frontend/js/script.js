@@ -212,7 +212,7 @@ $(document).ready( function() {
         // autofill
             $('.contactBox').on('focusout','input[name="email"]', function() {
                 $.ajax({
-                    url: fUrl + 'ajax_get_user',
+                    url: fUrl + 'vn/ajax_get_user',
                     type: 'POST',
                     cache: false,
                     dataType: 'json',
@@ -235,7 +235,7 @@ $(document).ready( function() {
             })
             $('.contactBox').on('focusout','input[name="phone"]', function() {
                 $.ajax({
-                    url: fUrl + 'ajax_get_user',
+                    url: fUrl + 'vn/ajax_get_user',
                     type: 'POST',
                     cache: false,
                     dataType: 'json',
@@ -282,7 +282,7 @@ $(document).ready( function() {
                 submitHandler: function(form, event) {
                     event.preventDefault();
                     $.ajax({
-                        url: fUrl + 'contact/ajax_submitContactBox',
+                        url: fUrl + 'vn/contact/ajax_submitContactBox',
                         type: 'POST',
                         cache: false,
                         dataType: 'json',
@@ -362,31 +362,6 @@ $(document).ready( function() {
                 },
                 submitHandle: function(form) {
                     form.submit();
-                    
-                    /*$.ajax({
-                        url: fUrl + 'ajax_validExisted',
-                        type: 'POST',
-                        cache: false,
-                        dataType: 'text',
-                        data: { email:$('input[name="email"]').val(), phone:$('input[name="phone"]').val(), 'csrf_ci' : $('input[name="csrf_ci"]').val() },
-                        success: function(data) {
-                            if (data == "email") {
-                                alert('Email này đã tồn tại')
-                                return false;
-                            }
-                            else if (data == "phone") {
-                                alert('Số điện thoại này đã tồn tại')
-                                return false;
-                            }
-                            else {
-                                // form.submit();
-                                return false;
-                            }
-                        },
-                        error: function() {
-                            console.log('Can not send data');
-                        }
-                    });*/
                 }
             });
         }
@@ -396,7 +371,7 @@ $(document).ready( function() {
         // autofill
             $('#frmContact').on('focusout','input[name="email"]', function() {
                 $.ajax({
-                    url: fUrl + 'ajax_get_user',
+                    url: fUrl + 'vn/ajax_get_user',
                     type: 'POST',
                     cache: false,
                     dataType: 'json',
@@ -420,7 +395,7 @@ $(document).ready( function() {
             })
             $('#frmContact').on('focusout','input[name="phone"]', function() {
                 $.ajax({
-                    url: fUrl + 'ajax_get_user',
+                    url: fUrl + 'vn/ajax_get_user',
                     type: 'POST',
                     cache: false,
                     dataType: 'json',
@@ -482,7 +457,7 @@ $(document).ready( function() {
                 submitHandler: function(form, event) {
                     event.preventDefault();
                     $.ajax({
-                        url: fUrl + 'contact/ajax_submitContactPage',
+                        url: fUrl + 'vn/contact/ajax_submitContactPage',
                         type: 'POST',
                         cache: false,
                         dataType: 'json',
@@ -587,7 +562,7 @@ $(document).ready( function() {
         // autofill
             $('#frmBooking').on('focusout','input[name="email"]', function() {
                 $.ajax({
-                    url: fUrl + 'ajax_get_user',
+                    url: fUrl + 'vn/ajax_get_user',
                     type: 'POST',
                     cache: false,
                     dataType: 'json',
@@ -611,7 +586,7 @@ $(document).ready( function() {
             })
             $('#frmBooking').on('focusout','input[name="phone"]', function() {
                 $.ajax({
-                    url: fUrl + 'ajax_get_user',
+                    url: fUrl + 'vn/ajax_get_user',
                     type: 'POST',
                     cache: false,
                     dataType: 'json',
@@ -692,7 +667,7 @@ $(document).ready( function() {
                     else {
 
                         $.ajax({
-                            url: fUrl + 'booking/ajax_submitBooking',
+                            url: fUrl + 'vn/booking/ajax_submitBooking',
                             type: 'POST',
                             cache: false,
                             dataType: 'json',
@@ -760,28 +735,50 @@ $(document).ready( function() {
               'resizeDuration': 200,
               'wrapAround': true
             })
-
+            
             $('.subtabContentItem').find('.item').on( 'click', 'a', function(e) {
                 e.preventDefault()
 
-                $('.imageGallery').fadeIn('slow')
-                $('body').css('overflow','hidden')
-                $(".imageGalleryContent").nanoGallery('reload')
+                id = $(this).attr('data-id')
+                $.ajax({
+                    url: fUrl + 'vn/ajax_gallery',
+                    type: 'POST',
+                    cache: false,
+                    dataType: 'json',
+                    data: { id : id, 
+                            csrf_hash : $.cookie('csrf_cookie_ci')
+                    },
+                    success: function(data) {
+                        if (data.error==0) {
+                            var jsonObj = []
+                            $.each(data.gallery, function(index, value) {
+                                item = {}
+                                item['src'] = value.value
+                                jsonObj.push(item)
+                            })
+                            $(".imageGalleryContent").nanoGallery({
+                                  thumbnailWidth: 150,
+                                  thumbnailHeight: 150,
+                                  thumbnailLabel: { display : false, hideIcons: true },
+                                  items: jsonObj
+                            })
+                            $('.imageGallery').fadeIn('slow')
+                            $('body').css('overflow','hidden')
+                        }
+                    },
+                    error: function() {
+                        console.log('Can not connect to data.')
+                    }
+                });
             })
+
             $(".imageGallery").on('click', '.imageGalleryClose', function() {
-                // $(".imageGalleryContent").html('')
+                $(".imageGalleryContent").html('').nanoGallery('destroy')
                 $(".imageGallery").fadeOut('fast')
                 $('body').css('overflow','visible')
                 history.pushState("", document.title, window.location.pathname);
             })
-            $(".imageGalleryContent").nanoGallery({
-                  thumbnailWidth: 150,
-                  thumbnailHeight: 150,
-                  thumbnailLabel: {
-                    display : false,
-                    hideIcons: true
-                }
-            });
+            
         }
 
 })

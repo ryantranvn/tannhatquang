@@ -1,7 +1,11 @@
 <div id="contactPage" class="fullContainer">
 <!-- banner -->
 	<div class="banner fullContainer">
-		<img src="<?=uploadUrl('images','banner/contact.jpg');?>" />
+		<? if ($lang=='vn') { ?>
+			<img src="<?=$banner['url']?>" />
+		<? } else { ?>
+			<img src="<?=$banner['url_en']?>" />
+		<? } ?>
 	</div>
 
 <!-- breadcrumb -->
@@ -21,10 +25,10 @@
 		<div class="centerContainer">
 			<div class="left small-24 medium-12 large-12 columns">
 				<img src="<?=assetsUrl('frontend','images','icon-contact.png');?>" />
-				<p class="title">THÔNG TIN LIÊN HỆ</p>
-				<p>Trung tâm đồng sơn Vietnam Star</p>
+				<p class="title"><?=$textHome['contact']['title']?></p>
+				<p><?=$textHome['contact']['name']?></p>
 				<p>-</p>
-				<p>Lô DVTM-2&3, Đường số 7, Khu chế xuất Tân Thuận, phường Tân Thuận Đông, Quận 7, TP.Hồ Chí Minh</p>
+				<p><?=$textHome['contact']['address']?></p>
 				<p>Tel: (84 8) 3770 8030 – Fax: (84 8) 3770 8031</p>
 				<p><strong>Hotline: 0903 001 365</strong></p>
 			</div>
@@ -40,27 +44,27 @@
 	<div class="frmWrapper fullContainer">
 		<div class="centerContainer">
 			<?=$frmContact['open'] ?>
-				<p class="title">Vui lòng điền đầy đủ thông tin</p>
+				<p class="title"><?=$textBooking['form']['title']?></p>
 				<div class="small-24 medium-12 large-12 columns">
 					<div class="row">
 						<div class="small-24 medium-24 large-24 columns">
-							<label><span>*</span>HỌ VÀ TÊN</label>
+							<label><span>*</span><?=$textBooking['form']['lblFullname']?></label>
 							<input type="text" name="fullname" />
 						</div>
 					</div>
 					<div class="row">
 						<div class="small-24 medium-12 large-12 columns">
-							<label><span>*</span>EMAIL</label>
+							<label><span>*</span><?=$textBooking['form']['lblEmail']?></label>
 							<input type="text" name="email" />
 						</div>
 						<div class="small-24 medium-12 large-12 columns">
-							<label><span>*</span>SỐ ĐIỆN THOẠI</label>
+							<label><span>*</span><?=$textBooking['form']['lblPhone']?></label>
 								<input type="text" name="phone" class="positive-integer" />
 						</div>
 					</div>
 					<div class="row">
 						<div class="small-24 medium-24 large-24 columns">
-							<label><span>*</span>ĐỊA CHỈ</label>
+							<label><span>*</span><?=$textBooking['form']['lblAddress']?></label>
 							<input type="text" name="address" />
 						</div>
 					</div>
@@ -68,13 +72,13 @@
 				<div class="small-24 medium-12 large-12 columns">
 					<div class="row">
 						<div class="small-24 medium-24 large-24 columns">
-							<label><span>*</span>TIÊU ĐÈ</label>
+							<label><span>*</span><?=$textBooking['form']['lblTitle']?></label>
 							<input type="text" name="title" />
 						</div>
 					</div>
 					<div class="row" style="height: 150px;">
 						<div class="small-24 medium-24 large-24 columns">
-							<label><span>*</span>NỘI DUNG</label>
+							<label><span>*</span><?=$textBooking['form']['lblContent']?></label>
 							<textarea name="content"></textarea>
 						</div>
 					</div>

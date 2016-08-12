@@ -27,11 +27,13 @@ class Booking extends Root {
         $this->data['frmBooking'] = frm($frmBooking_action, $frmBooking_attr, FALSE, NULL);
 
         $frmUpload_attr = array('name' => 'frmUpload', 'id' => 'frmUpload');
-        $frmUpload_action = F_URL.'booking/ajax_upload/';
+        $frmUpload_action = F_URL.'vn/booking/ajax_upload/';
         $this->data['frmUpload'] = frm($frmUpload_action, $frmUpload_attr, TRUE, NULL);
 
         $this->data['url']['vn'] = F_URL . 'vn/dat-hen-tu-van';
         $this->data['url']['en'] = F_URL . 'en/booking';
+        $banner = $this->Base_model->getDB('db','post',array('url','url_en'),array('parent_id'=>11,'type'=>'booking'));
+        $this->data['banner'] = $banner[0];
         
         $this->template->load($this->gate.'/template', $this->gate.'/booking', $this->data);
     }

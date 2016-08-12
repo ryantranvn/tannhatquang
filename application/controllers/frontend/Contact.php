@@ -17,8 +17,10 @@ class Contact extends Root {
 // CONTACT
     public function index()
     {
-        $this->data['url']['vn'] = F_URL . 'vn/lien-lac';
+        $this->data['url']['vn'] = F_URL . 'vn/lien-he';
         $this->data['url']['en'] = F_URL . 'en/contact';
+        $banner = $this->Base_model->getDB('db','post',array('url','url_en'),array('parent_id'=>11,'type'=>'contact'));
+        $this->data['banner'] = $banner[0];
 
         $this->template->load($this->gate.'/template', $this->gate.'/contact', $this->data);
     }

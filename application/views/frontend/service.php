@@ -1,7 +1,11 @@
 <div id="servicePage" class="fullContainer">
 <!-- banner -->
 	<div class="banner fullContainer">
-		<img src="<?=uploadUrl('images','banner/service.jpg');?>" />
+		<? if ($lang=='vn') { ?>
+			<img src="<?=$banner['url']?>" />
+		<? } else { ?>
+			<img src="<?=$banner['url_en']?>" />
+		<? } ?>
 	</div>
 <!-- breadcrumb -->
 	<div class="breadcrumb fullContainer">

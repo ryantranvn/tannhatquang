@@ -31,20 +31,73 @@ class Banner extends Root {
     // get banner
         $arrBanner = $this->Base_model->getDB('db', 'post', array('url', 'url_en', 'type'), array('parent_id'=>11));
         $bannerHome_1VN = $bannerHome_1EN = $bannerHome_2VN = $bannerHome_2EN = array();
-        $json_bannerHome_1VN = '[';
+        $bannerServiceIntroductionVN = $bannerServiceIntroductionEN = "";
+        $bannerServiceServiceVN = $bannerServiceServiceEN = "";
+        $bannerServiceCertificationVN = $bannerServiceCertificationEN = "";
+        $bannerBookingVN = $bannerBookingEN = "";
+        $bannerGalleryBeforeafterVN = $bannerGalleryBeforeafterEN = "";
+        $bannerGalleryEventVN = $bannerGalleryEventEN = "";
+        $bannerNewsVN = $bannerNewsEN = "";
+        $bannerNewsDetailVN = $bannerNewsDetailEN = "";
+        $bannerContactVN = $bannerContactEN = "";
         foreach ($arrBanner as $item) {
-            if ($item['url'] != "") {
-                if ($item['type'] == 'home_1') { array_push($bannerHome_1VN, $item['url']); }
-                else if ($item['type'] == 'home_2') { array_push($bannerHome_2VN, $item['url']); }
-            } else if ($item['url_en'] !== '' && $item['url_en'] !== NULL) {
-                if ($item['type'] == 'home_1') { array_push($bannerHome_1EN, $item['url_en']); }
-                else if ($item['type'] == 'home_2') { array_push($bannerHome_2EN, $item['url_en']); }
+            if ($item['type'] == 'home_1') {
+                if ($item['url'] != "") { array_push($bannerHome_1VN, $item['url']); }
+                else if ($item['url_en'] !== "") { array_push($bannerHome_1EN, $item['url_en']); }
+            } else if ($item['type'] == 'home_2') { 
+                if ($item['url'] != "") { array_push($bannerHome_2VN, $item['url']); }
+                else if ($item['url_en'] !== "") { array_push($bannerHome_2EN, $item['url_en']); }
+            } else if ($item['type'] == 'service-introduction') { 
+                $bannerServiceIntroductionVN = $item['url'];
+                $bannerServiceIntroductionEN = $item['url_en'];
+            } else if ($item['type'] == 'service-service') { 
+                $bannerServiceServiceVN = $item['url'];
+                $bannerServiceServiceEN = $item['url_en'];
+            } else if ($item['type'] == 'service-certification') { 
+                $bannerServiceCertificationVN = $item['url'];
+                $bannerServiceCertificationEN = $item['url_en'];
+            } else if ($item['type'] == 'booking') { 
+                $bannerBookingVN = $item['url'];
+                $bannerBookingEN = $item['url_en'];
+            } else if ($item['type'] == 'gallery-beforeafter') { 
+                $bannerGalleryBeforeafterVN = $item['url'];
+                $bannerGalleryBeforeafterEN = $item['url_en'];
+            } else if ($item['type'] == 'gallery-event') { 
+                $bannerGalleryEventVN = $item['url'];
+                $bannerGalleryEventEN = $item['url_en'];
+            } else if ($item['type'] == 'news') { 
+                $bannerNewsVN = $item['url'];
+                $bannerNewsEN = $item['url_en'];
+            } else if ($item['type'] == 'news-detail') { 
+                $bannerNewsDetailVN = $item['url'];
+                $bannerNewsDetailEN = $item['url_en'];
+            } else if ($item['type'] == 'contact') { 
+                $bannerContactVN = $item['url'];
+                $bannerContactEN = $item['url_en'];
             }
         }
         $this->data['banner'] = array('bannerHome_1VN' => $bannerHome_1VN,
                                       'bannerHome_1EN' => $bannerHome_1EN,
                                       'bannerHome_2VN' => $bannerHome_2VN,
-                                      'bannerHome_2EN' => $bannerHome_2EN
+                                      'bannerHome_2EN' => $bannerHome_2EN,
+                                      'bannerServiceIntroductionVN' => $bannerServiceIntroductionVN,
+                                      'bannerServiceIntroductionEN' => $bannerServiceIntroductionEN,
+                                      'bannerServiceServiceVN' => $bannerServiceServiceVN,
+                                      'bannerServiceServiceEN' => $bannerServiceServiceEN,
+                                      'bannerServiceCertificationVN' => $bannerServiceCertificationVN,
+                                      'bannerServiceCertificationEN' => $bannerServiceCertificationEN,
+                                      'bannerBookingVN' => $bannerBookingVN,
+                                      'bannerBookingEN' => $bannerBookingEN,
+                                      'bannerGalleryBeforeafterVN' => $bannerGalleryBeforeafterVN,
+                                      'bannerGalleryBeforeafterEN' => $bannerGalleryBeforeafterEN,
+                                      'bannerGalleryEventVN' => $bannerGalleryEventVN,
+                                      'bannerGalleryEventEN' => $bannerGalleryEventEN,
+                                      'bannerNewsVN' => $bannerNewsVN,
+                                      'bannerNewsEN' => $bannerNewsEN,
+                                      'bannerNewsDetailVN' => $bannerNewsDetailVN,
+                                      'bannerNewsDetailEN' => $bannerNewsDetailEN,
+                                      'bannerContactVN' => $bannerContactVN,
+                                      'bannerContactEN' => $bannerContactEN
                                 );
         // print_r("<pre>"); print_r($this->data['banner']); die();
     // create form
@@ -90,10 +143,49 @@ class Banner extends Root {
                 redirect(B_URL.$this->router->fetch_class());
             }
             else {
-                $arrBanner = array('vn' => $this->input->post('bannerVN', TRUE),
-                                    'en' => $this->input->post('bannerEN', TRUE)
-                                    );
-
+                switch ($page)
+                {
+                    case 'service-introduction':
+                        $bannerVN = $this->input->post('serviceIntroductionVN', TRUE);
+                        $bannerEN = $this->input->post('serviceIntroductionEN', TRUE);
+                        break;
+                    case 'service-service':
+                        $bannerVN = $this->input->post('serviceServiceVN', TRUE);
+                        $bannerEN = $this->input->post('serviceServiceEN', TRUE);
+                        break;
+                    case 'service-certification':
+                        $bannerVN = $this->input->post('serviceCertificationVN', TRUE);
+                        $bannerEN = $this->input->post('serviceCertificationEN', TRUE);
+                        break;
+                    case 'booking':
+                        $bannerVN = $this->input->post('bookingVN', TRUE);
+                        $bannerEN = $this->input->post('bookingEN', TRUE);
+                        break;
+                    case 'gallery-beforeafter':
+                        $bannerVN = $this->input->post('galleryBeforeVN', TRUE);
+                        $bannerEN = $this->input->post('galleryBeforeEN', TRUE);
+                        break;
+                    case 'gallery-event':
+                        $bannerVN = $this->input->post('galleryEventVN', TRUE);
+                        $bannerEN = $this->input->post('galleryEventEN', TRUE);
+                        break;
+                    case 'news':
+                        $bannerVN = $this->input->post('newsVN', TRUE);
+                        $bannerEN = $this->input->post('newsEN', TRUE);
+                        break;
+                    case 'news-detail':
+                        $bannerVN = $this->input->post('newsDetailVN', TRUE);
+                        $bannerEN = $this->input->post('newsDetailEN', TRUE);
+                        break;
+                    case 'contact':
+                        $bannerVN = $this->input->post('contactVN', TRUE);
+                        $bannerEN = $this->input->post('contactEN', TRUE);
+                        break;
+                    default:
+                        break;
+                }
+                $arrBanner = array('vn' => $bannerVN, 'en' => $bannerEN);
+                // print_r("<pre>"); print_r($arrBanner); die();
                 if ( $this->model->insertBanner('db', $page, $arrBanner) === FALSE ) {
                 $this->session->set_userdata('invalid', "Error insert new data.");
                 redirect($_SERVER['HTTP_REFERER']);

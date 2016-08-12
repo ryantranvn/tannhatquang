@@ -2,7 +2,8 @@
 defined('BASEPATH') OR exit('No direct script access allowed');
 
 /* FRONTEND */
-	$route['gallery/ajax_gallery/'] = 'frontend/Gallery/ajax_gallery';
+
+	$route['vn/ajax_gallery'] = 'frontend/Gallery/ajax_gallery';
 	$route['en/gallery/(:any)'] = 'frontend/Gallery';
 	$route['vn/thu-vien/(:any)'] = 'frontend/Gallery';
 	$route['en/gallery'] = 'frontend/Gallery';
@@ -13,14 +14,14 @@ defined('BASEPATH') OR exit('No direct script access allowed');
 	$route['en/news'] = 'frontend/News';
 	$route['vn/tin-tuc'] = 'frontend/News';
 
-	$route['ajax_get_user'] = 'frontend/Home/ajax_get_user';
+	$route['vn/ajax_get_user'] = 'frontend/Home/ajax_get_user';
 
-	$route['booking/ajax_submitBooking'] = 'frontend/Booking/ajax_submitBooking';
-	$route['contact/ajax_submitContactPage'] = 'frontend/Contact/ajax_submitContactPage';
-	$route['contact/ajax_submitContactBox'] = 'frontend/Contact/ajax_submitContactBox';
+	$route['vn/booking/ajax_submitBooking'] = 'frontend/Booking/ajax_submitBooking';
+	$route['vn/contact/ajax_submitContactPage'] = 'frontend/Contact/ajax_submitContactPage';
+	$route['vn/contact/ajax_submitContactBox'] = 'frontend/Contact/ajax_submitContactBox';
 
 	$route['booking/submit'] = 'frontend/Booking/submit';
-	$route['booking/ajax_upload'] = 'frontend/Booking/ajax_upload';
+	$route['vn/booking/ajax_upload'] = 'frontend/Booking/ajax_upload';
 	$route['vn/dat-hen-tu-van'] = 'frontend/Booking';
 	$route['en/booking'] = 'frontend/Booking';
 

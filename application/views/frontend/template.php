@@ -34,7 +34,7 @@
             </script>
         <!-- SCRIPT -->
         <script language="javascript" type="text/javascript" src="<?=assetsUrl('common','js','jquery-min.js')?>"></script>
-        <script language="javascript" type="text/javascript" src="<?=libsUrl('foundation24','js','what-input.js') ?>"></script>
+        <!-- <script language="javascript" type="text/javascript" src="<?=libsUrl('foundation24','js','what-input.js') ?>"></script>-->
         <script language="javascript" type="text/javascript" src="<?=libsUrl('foundation24','js','foundation.min.js') ?>"></script>
         <script language="javascript" type="text/javascript" src="<?=libsUrl('jqueryui','js','jquery-ui.min.js') ?>"></script>
     </head>

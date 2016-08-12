@@ -208,7 +208,7 @@
 															NOTE</span> &nbsp; Accept file *.png, *.jpg &amp; size <=5MBs.
 														</p>
 														<div class="input-group">
-															<input type="text" name="serviceIntroductionVN" class="inputThumbnail form-control" readonly>
+															<input type="text" name="serviceIntroductionVN" class="inputThumbnail form-control" value="<?=$banner['bannerServiceIntroductionVN']?>" readonly>
 															<div class="input-group-btn">
 																<button class="btn btn-default btnSelectBannerVN" type="button">
 																	Select File
@@ -216,7 +216,10 @@
 															</div>
 														</div>
 														<div class="thumbnailWrapper" style="margin-top: 10px">
-															<img class="thumbnail" src="<?php echo assetsUrl('common','images','default.jpg'); ?>" />
+															<?php if ($banner['bannerServiceIntroductionVN'] != "") { ?>
+																<img class="thumbnail" src="<?=$banner['bannerServiceIntroductionVN']?>" />
+																<a class="thumbnailDel"><i class="fa fa-trash-o"></i></a>
+															<?php } ?>
 														</div>
 													</div>
 												</fieldset>
@@ -230,7 +233,7 @@
 															NOTE</span> &nbsp; Accept file *.png, *.jpg &amp; size <=5MBs.
 														</p>
 														<div class="input-group">
-															<input type="text" name="serviceIntroductionEN" class="inputThumbnail form-control" readonly>
+															<input type="text" name="serviceIntroductionEN" class="inputThumbnail form-control" value="<?=$banner['bannerServiceIntroductionEN']?>" readonly>
 															<div class="input-group-btn">
 																<button class="btn btn-default btnSelectBannerEN" type="button">
 																	Select File
@@ -238,13 +241,441 @@
 															</div>
 														</div>
 														<div class="thumbnailWrapper" style="margin-top: 10px">
-															<img class="thumbnail" src="<?php echo assetsUrl('common','images','default.jpg'); ?>" />
+															<?php if ($banner['bannerServiceIntroductionEN'] != "") { ?>
+																<img class="thumbnail" src="<?=$banner['bannerServiceIntroductionEN']?>" />
+																<a class="thumbnailDel"><i class="fa fa-trash-o"></i></a>
+															<?php } ?>
+														</div>
+													</div>
+												</fieldset>
+											</div>
+										</div>
+									<!-- service service -->
+										<div class="row uploadWrapper">
+											<div class="col-sm-12 col-md-6 col-lg-6">
+												<fieldset>
+													<div class="form-group">
+														<label class="control-label">Banner VN</label>
+														<p>
+															<span class="label label-warning">
+															NOTE</span> &nbsp; Accept file *.png, *.jpg &amp; size <=5MBs.
+														</p>
+														<div class="input-group">
+															<input type="text" name="serviceServiceVN" class="inputThumbnail form-control" value="<?=$banner['bannerServiceServiceVN']?>" readonly>
+															<div class="input-group-btn">
+																<button class="btn btn-default btnSelectBannerVN" type="button">
+																	Select File
+																</button>
+															</div>
+														</div>
+														<div class="thumbnailWrapper" style="margin-top: 10px">
+															<?php if ($banner['bannerServiceServiceVN'] != "") { ?>
+																<img class="thumbnail" src="<?=$banner['bannerServiceServiceVN']?>" />
+																<a class="thumbnailDel"><i class="fa fa-trash-o"></i></a>
+															<?php } ?>
+														</div>
+													</div>
+												</fieldset>
+											</div>
+											<div class="col-sm-12 col-md-6 col-lg-6">
+												<fieldset>
+													<div class="form-group">
+														<label class="control-label">Banner EN</label>
+														<p>
+															<span class="label label-warning">
+															NOTE</span> &nbsp; Accept file *.png, *.jpg &amp; size <=5MBs.
+														</p>
+														<div class="input-group">
+															<input type="text" name="serviceServiceEN" class="inputThumbnail form-control" value="<?=$banner['bannerServiceServiceEN']?>" readonly>
+															<div class="input-group-btn">
+																<button class="btn btn-default btnSelectBannerEN" type="button">
+																	Select File
+																</button>
+															</div>
+														</div>
+														<div class="thumbnailWrapper" style="margin-top: 10px">
+															<?php if ($banner['bannerServiceServiceEN'] != "") { ?>
+																<img class="thumbnail" src="<?=$banner['bannerServiceServiceEN']?>" />
+																<a class="thumbnailDel"><i class="fa fa-trash-o"></i></a>
+															<?php } ?>
+														</div>
+													</div>
+												</fieldset>
+											</div>
+										</div>
+									<!-- service certification -->
+										<div class="row uploadWrapper">
+											<div class="col-sm-12 col-md-6 col-lg-6">
+												<fieldset>
+													<div class="form-group">
+														<label class="control-label">Banner VN</label>
+														<p>
+															<span class="label label-warning">
+															NOTE</span> &nbsp; Accept file *.png, *.jpg &amp; size <=5MBs.
+														</p>
+														<div class="input-group">
+															<input type="text" name="serviceCertificationVN" class="inputThumbnail form-control" value="<?=$banner['bannerServiceCertificationVN']?>" readonly>
+															<div class="input-group-btn">
+																<button class="btn btn-default btnSelectBannerVN" type="button">
+																	Select File
+																</button>
+															</div>
+														</div>
+														<div class="thumbnailWrapper" style="margin-top: 10px">
+															<?php if ($banner['bannerServiceCertificationVN'] != "") { ?>
+																<img class="thumbnail" src="<?=$banner['bannerServiceCertificationVN']?>" />
+																<a class="thumbnailDel"><i class="fa fa-trash-o"></i></a>
+															<?php } ?>
+														</div>
+													</div>
+												</fieldset>
+											</div>
+											<div class="col-sm-12 col-md-6 col-lg-6">
+												<fieldset>
+													<div class="form-group">
+														<label class="control-label">Banner EN</label>
+														<p>
+															<span class="label label-warning">
+															NOTE</span> &nbsp; Accept file *.png, *.jpg &amp; size <=5MBs.
+														</p>
+														<div class="input-group">
+															<input type="text" name="serviceCertificationEN" class="inputThumbnail form-control" value="<?=$banner['bannerServiceCertificationEN']?>" readonly>
+															<div class="input-group-btn">
+																<button class="btn btn-default btnSelectBannerEN" type="button">
+																	Select File
+																</button>
+															</div>
+														</div>
+														<div class="thumbnailWrapper" style="margin-top: 10px">
+															<?php if ($banner['bannerServiceCertificationEN'] != "") { ?>
+																<img class="thumbnail" src="<?=$banner['bannerServiceCertificationEN']?>" />
+																<a class="thumbnailDel"><i class="fa fa-trash-o"></i></a>
+															<?php } ?>
+														</div>
+													</div>
+												</fieldset>
+											</div>
+										</div>
+									<!-- booking -->
+										<div class="row uploadWrapper">
+											<div class="col-sm-12 col-md-6 col-lg-6">
+												<fieldset>
+													<div class="form-group">
+														<label class="control-label">Banner VN</label>
+														<p>
+															<span class="label label-warning">
+															NOTE</span> &nbsp; Accept file *.png, *.jpg &amp; size <=5MBs.
+														</p>
+														<div class="input-group">
+															<input type="text" name="bookingVN" class="inputThumbnail form-control" value="<?=$banner['bannerBookingVN']?>" readonly>
+															<div class="input-group-btn">
+																<button class="btn btn-default btnSelectBannerVN" type="button">
+																	Select File
+																</button>
+															</div>
+														</div>
+														<div class="thumbnailWrapper" style="margin-top: 10px">
+															<?php if ($banner['bannerBookingVN'] != "") { ?>
+																<img class="thumbnail" src="<?=$banner['bannerBookingVN']?>" />
+																<a class="thumbnailDel"><i class="fa fa-trash-o"></i></a>
+															<?php } ?>
+														</div>
+													</div>
+												</fieldset>
+											</div>
+											<div class="col-sm-12 col-md-6 col-lg-6">
+												<fieldset>
+													<div class="form-group">
+														<label class="control-label">Banner EN</label>
+														<p>
+															<span class="label label-warning">
+															NOTE</span> &nbsp; Accept file *.png, *.jpg &amp; size <=5MBs.
+														</p>
+														<div class="input-group">
+															<input type="text" name="bookingEN" class="inputThumbnail form-control" value="<?=$banner['bannerBookingEN']?>" readonly>
+															<div class="input-group-btn">
+																<button class="btn btn-default btnSelectBannerEN" type="button">
+																	Select File
+																</button>
+															</div>
+														</div>
+														<div class="thumbnailWrapper" style="margin-top: 10px">
+															<?php if ($banner['bannerBookingEN'] != "") { ?>
+																<img class="thumbnail" src="<?=$banner['bannerBookingEN']?>" />
+																<a class="thumbnailDel"><i class="fa fa-trash-o"></i></a>
+															<?php } ?>
+														</div>
+													</div>
+												</fieldset>
+											</div>
+										</div>
+									<!-- galleryBefore -->
+										<div class="row uploadWrapper">
+											<div class="col-sm-12 col-md-6 col-lg-6">
+												<fieldset>
+													<div class="form-group">
+														<label class="control-label">Banner VN</label>
+														<p>
+															<span class="label label-warning">
+															NOTE</span> &nbsp; Accept file *.png, *.jpg &amp; size <=5MBs.
+														</p>
+														<div class="input-group">
+															<input type="text" name="galleryBeforeVN" class="inputThumbnail form-control" value="<?=$banner['bannerGalleryBeforeafterVN']?>" readonly>
+															<div class="input-group-btn">
+																<button class="btn btn-default btnSelectBannerVN" type="button">
+																	Select File
+																</button>
+															</div>
+														</div>
+														<div class="thumbnailWrapper" style="margin-top: 10px">
+															<?php if ($banner['bannerGalleryBeforeafterVN'] != "") { ?>
+																<img class="thumbnail" src="<?=$banner['bannerGalleryBeforeafterVN']?>" />
+																<a class="thumbnailDel"><i class="fa fa-trash-o"></i></a>
+															<?php } ?>
+														</div>
+													</div>
+												</fieldset>
+											</div>
+											<div class="col-sm-12 col-md-6 col-lg-6">
+												<fieldset>
+													<div class="form-group">
+														<label class="control-label">Banner EN</label>
+														<p>
+															<span class="label label-warning">
+															NOTE</span> &nbsp; Accept file *.png, *.jpg &amp; size <=5MBs.
+														</p>
+														<div class="input-group">
+															<input type="text" name="galleryBeforeEN" class="inputThumbnail form-control" value="<?=$banner['bannerGalleryBeforeafterEN']?>" readonly>
+															<div class="input-group-btn">
+																<button class="btn btn-default btnSelectBannerEN" type="button">
+																	Select File
+																</button>
+															</div>
+														</div>
+														<div class="thumbnailWrapper" style="margin-top: 10px">
+															<?php if ($banner['bannerGalleryBeforeafterEN'] != "") { ?>
+																<img class="thumbnail" src="<?=$banner['bannerGalleryBeforeafterEN']?>" />
+																<a class="thumbnailDel"><i class="fa fa-trash-o"></i></a>
+															<?php } ?>
+														</div>
+													</div>
+												</fieldset>
+											</div>
+										</div>
+									<!-- galleryEvent -->
+										<div class="row uploadWrapper">
+											<div class="col-sm-12 col-md-6 col-lg-6">
+												<fieldset>
+													<div class="form-group">
+														<label class="control-label">Banner VN</label>
+														<p>
+															<span class="label label-warning">
+															NOTE</span> &nbsp; Accept file *.png, *.jpg &amp; size <=5MBs.
+														</p>
+														<div class="input-group">
+															<input type="text" name="galleryEventVN" class="inputThumbnail form-control" value="<?=$banner['bannerGalleryEventVN']?>" readonly>
+															<div class="input-group-btn">
+																<button class="btn btn-default btnSelectBannerVN" type="button">
+																	Select File
+																</button>
+															</div>
+														</div>
+														<div class="thumbnailWrapper" style="margin-top: 10px">
+															<?php if ($banner['bannerGalleryEventVN'] != "") { ?>
+																<img class="thumbnail" src="<?=$banner['bannerGalleryEventVN']?>" />
+																<a class="thumbnailDel"><i class="fa fa-trash-o"></i></a>
+															<?php } ?>
+														</div>
+													</div>
+												</fieldset>
+											</div>
+											<div class="col-sm-12 col-md-6 col-lg-6">
+												<fieldset>
+													<div class="form-group">
+														<label class="control-label">Banner EN</label>
+														<p>
+															<span class="label label-warning">
+															NOTE</span> &nbsp; Accept file *.png, *.jpg &amp; size <=5MBs.
+														</p>
+														<div class="input-group">
+															<input type="text" name="galleryEventEN" class="inputThumbnail form-control" value="<?=$banner['bannerGalleryEventEN']?>" readonly>
+															<div class="input-group-btn">
+																<button class="btn btn-default btnSelectBannerEN" type="button">
+																	Select File
+																</button>
+															</div>
+														</div>
+														<div class="thumbnailWrapper" style="margin-top: 10px">
+															<?php if ($banner['bannerGalleryEventEN'] != "") { ?>
+																<img class="thumbnail" src="<?=$banner['bannerGalleryEventEN']?>" />
+																<a class="thumbnailDel"><i class="fa fa-trash-o"></i></a>
+															<?php } ?>
+														</div>
+													</div>
+												</fieldset>
+											</div>
+										</div>
+									<!-- news -->
+										<div class="row uploadWrapper">
+											<div class="col-sm-12 col-md-6 col-lg-6">
+												<fieldset>
+													<div class="form-group">
+														<label class="control-label">Banner VN</label>
+														<p>
+															<span class="label label-warning">
+															NOTE</span> &nbsp; Accept file *.png, *.jpg &amp; size <=5MBs.
+														</p>
+														<div class="input-group">
+															<input type="text" name="newsVN" class="inputThumbnail form-control" value="<?=$banner['bannerNewsVN']?>" readonly>
+															<div class="input-group-btn">
+																<button class="btn btn-default btnSelectBannerVN" type="button">
+																	Select File
+																</button>
+															</div>
+														</div>
+														<div class="thumbnailWrapper" style="margin-top: 10px">
+															<?php if ($banner['bannerNewsVN'] != "") { ?>
+																<img class="thumbnail" src="<?=$banner['bannerNewsVN']?>" />
+																<a class="thumbnailDel"><i class="fa fa-trash-o"></i></a>
+															<?php } ?>
+														</div>
+													</div>
+												</fieldset>
+											</div>
+											<div class="col-sm-12 col-md-6 col-lg-6">
+												<fieldset>
+													<div class="form-group">
+														<label class="control-label">Banner EN</label>
+														<p>
+															<span class="label label-warning">
+															NOTE</span> &nbsp; Accept file *.png, *.jpg &amp; size <=5MBs.
+														</p>
+														<div class="input-group">
+															<input type="text" name="newsEN" class="inputThumbnail form-control" value="<?=$banner['bannerNewsEN']?>" readonly>
+															<div class="input-group-btn">
+																<button class="btn btn-default btnSelectBannerEN" type="button">
+																	Select File
+																</button>
+															</div>
+														</div>
+														<div class="thumbnailWrapper" style="margin-top: 10px">
+															<?php if ($banner['bannerNewsEN'] != "") { ?>
+																<img class="thumbnail" src="<?=$banner['bannerNewsEN']?>" />
+																<a class="thumbnailDel"><i class="fa fa-trash-o"></i></a>
+															<?php } ?>
+														</div>
+													</div>
+												</fieldset>
+											</div>
+										</div>
+									<!-- newsDetail -->
+										<div class="row uploadWrapper">
+											<div class="col-sm-12 col-md-6 col-lg-6">
+												<fieldset>
+													<div class="form-group">
+														<label class="control-label">Banner VN</label>
+														<p>
+															<span class="label label-warning">
+															NOTE</span> &nbsp; Accept file *.png, *.jpg &amp; size <=5MBs.
+														</p>
+														<div class="input-group">
+															<input type="text" name="newsDetailVN" class="inputThumbnail form-control" value="<?=$banner['bannerNewsDetailVN']?>" readonly>
+															<div class="input-group-btn">
+																<button class="btn btn-default btnSelectBannerVN" type="button">
+																	Select File
+																</button>
+															</div>
+														</div>
+														<div class="thumbnailWrapper" style="margin-top: 10px">
+															<?php if ($banner['bannerNewsDetailVN'] != "") { ?>
+																<img class="thumbnail" src="<?=$banner['bannerNewsDetailVN']?>" />
+																<a class="thumbnailDel"><i class="fa fa-trash-o"></i></a>
+															<?php } ?>
+														</div>
+													</div>
+												</fieldset>
+											</div>
+											<div class="col-sm-12 col-md-6 col-lg-6">
+												<fieldset>
+													<div class="form-group">
+														<label class="control-label">Banner EN</label>
+														<p>
+															<span class="label label-warning">
+															NOTE</span> &nbsp; Accept file *.png, *.jpg &amp; size <=5MBs.
+														</p>
+														<div class="input-group">
+															<input type="text" name="newsDetailEN" class="inputThumbnail form-control" value="<?=$banner['bannerNewsDetailEN']?>" readonly>
+															<div class="input-group-btn">
+																<button class="btn btn-default btnSelectBannerEN" type="button">
+																	Select File
+																</button>
+															</div>
+														</div>
+														<div class="thumbnailWrapper" style="margin-top: 10px">
+															<?php if ($banner['bannerNewsDetailEN'] != "") { ?>
+																<img class="thumbnail" src="<?=$banner['bannerNewsDetailEN']?>" />
+																<a class="thumbnailDel"><i class="fa fa-trash-o"></i></a>
+															<?php } ?>
+														</div>
+													</div>
+												</fieldset>
+											</div>
+										</div>
+									<!-- contact -->
+										<div class="row uploadWrapper">
+											<div class="col-sm-12 col-md-6 col-lg-6">
+												<fieldset>
+													<div class="form-group">
+														<label class="control-label">Banner VN</label>
+														<p>
+															<span class="label label-warning">
+															NOTE</span> &nbsp; Accept file *.png, *.jpg &amp; size <=5MBs.
+														</p>
+														<div class="input-group">
+															<input type="text" name="contactVN" class="inputThumbnail form-control" value="<?=$banner['bannerContactVN']?>" readonly>
+															<div class="input-group-btn">
+																<button class="btn btn-default btnSelectBannerVN" type="button">
+																	Select File
+																</button>
+															</div>
+														</div>
+														<div class="thumbnailWrapper" style="margin-top: 10px">
+															<?php if ($banner['bannerContactVN'] != "") { ?>
+																<img class="thumbnail" src="<?=$banner['bannerContactVN']?>" />
+																<a class="thumbnailDel"><i class="fa fa-trash-o"></i></a>
+															<?php } ?>
+														</div>
+													</div>
+												</fieldset>
+											</div>
+											<div class="col-sm-12 col-md-6 col-lg-6">
+												<fieldset>
+													<div class="form-group">
+														<label class="control-label">Banner EN</label>
+														<p>
+															<span class="label label-warning">
+															NOTE</span> &nbsp; Accept file *.png, *.jpg &amp; size <=5MBs.
+														</p>
+														<div class="input-group">
+															<input type="text" name="contactEN" class="inputThumbnail form-control" value="<?=$banner['bannerContactEN']?>" readonly>
+															<div class="input-group-btn">
+																<button class="btn btn-default btnSelectBannerEN" type="button">
+																	Select File
+																</button>
+															</div>
+														</div>
+														<div class="thumbnailWrapper" style="margin-top: 10px">
+															<?php if ($banner['bannerContactEN'] != "") { ?>
+																<img class="thumbnail" src="<?=$banner['bannerContactEN']?>" />
+																<a class="thumbnailDel"><i class="fa fa-trash-o"></i></a>
+															<?php } ?>
 														</div>
 													</div>
 												</fieldset>
 											</div>
 										</div>
 									</div>
+									
 									<!-- button -->
 										<div class="row" style="margin: 20px">
 											<div class="col-xs-12 col-sm-12 col-md-12 col-lg-12">

@@ -39,6 +39,14 @@ class Root extends CI_Controller {
         $this->data['car'] = $this->lang->line('car');
         $this->data['mercedes'] = $this->lang->line('mercedes');
 
+        $this->data['textHome'] = $this->lang->line('textHome');
+        $this->data['textBooking'] = $this->lang->line('textBooking');
+        $this->data['textContactBox'] = $this->lang->line('textContactBox');
+        $this->data['textGallery'] = $this->lang->line('textGallery');
+
+        $this->data['textMore'] = $this->lang->line('textMore');
+        $this->data['textViewMore'] = $this->lang->line('textViewMore');
+        
 
     // detect Mobile device
         $detect = new Mobile_Detect;

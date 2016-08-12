@@ -138,7 +138,13 @@ class Banner_model extends Base_model {
 
         $this->connection->trans_begin();
 
-        $this->insertDB($connection, 'post', array('parent_id'=>11, 'type'=>$page, 'url' => $arrBanner['vn'], 'url_en' => $arrBanner['en']));
+        $record = $this->getDB($connection, 'post', array('url'), array('parent_id'=>11, 'type'=>$page));
+        if ($record == FALSE || count($record)==0) {
+            $this->insertDB($connection, 'post', array('parent_id'=>11, 'type'=>$page, 'url' => $arrBanner['vn'], 'url_en' => $arrBanner['en']));
+        }
+        else {
+            $this->updateDB($connection, 'post', array('url' => $arrBanner['vn'], 'url_en' => $arrBanner['en']), array('parent_id'=>11, 'type'=>$page));
+        }
 
         if ($this->connection->trans_status() === FALSE)
         {

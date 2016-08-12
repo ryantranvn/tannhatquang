@@ -99,5 +99,78 @@
 	$lang['mercedes'][23] = "V-Class";
 	$lang['mercedes'][24] = "Other";
 
+/* textHome */
+	$lang['textHome']['service']['title'] = 'SERVICE';
+	$lang['textHome']['service'][0] = 'Luxury car repairs,<br/>paint and body services';
+	$lang['textHome']['service'][1] = 'Full & Part spraying,<br/>color change';
+	$lang['textHome']['service'][2] = 'Color consultancy';
+	$lang['textHome']['service'][3] = 'Car care Interior<br/>and Exterior';
+	$lang['textHome']['service'][4] = '24 hour emergency<br/>roadside assistance';
+	$lang['textHome']['service'][5] = 'Aftersales service for Mercedes Benz';
+
+	$lang['textHome']['certification']['title'] = 'QUALITY CERTIFICATION';
+	$lang['textHome']['certification'][0]['title'] = "Advanced equipment & facilities";
+	$lang['textHome']['certification'][0]['desc'] = "With nearly US$5 million capital of investment and 9,200 square meter floor space, the 3 floor Body and Paint center is well-equipped with the most advanced technology and modern facility.";
+	$lang['textHome']['certification'][1]['title'] = "Meticulous process";
+	$lang['textHome']['certification'][1]['desc'] = "The paint mixing procedure includes 14 meticulous, detailed steps to ensure colour accuracy, maximum fineness and ultimate consistency.";
+	$lang['textHome']['certification'][2]['title'] = "Professional technical crew";
+	$lang['textHome']['certification'][2]['desc'] = "Our highly experienced techinical crew is constantly updated and trained with the latest knowledge, technology and expertise on paint mixing technices qualified by PPG. ";
+	$lang['textHome']['certification'][3]['title'] = "Car paint mixing: quality & variety";
+	$lang['textHome']['certification'][3]['desc'] = "Vietnam Star Body & paint center has more than 83 colour codes and specialized mixing tools from PPG to produce numerous paint colours. Room temperature must always be around 5-40C to reach the best paint quality. ";
+
+	$lang['textHome']['gallery']['title'] = 'GALLERY';
+	$lang['textHome']['gallery']['desc'] = "";
+
+	$lang['textHome']['contact']['title'] = "CONTACT";
+	$lang['textHome']['contact']['name'] = "VIETNAM STAR BODY & PAINT CENTER";
+	$lang['textHome']['contact']['address'] = 'Vietnam Star body & paint center DVTM-2&3, Street 7, Tan Thuan Export Processing Zone, Tan Thuan Dong, D7, HCM city';
+	$lang['textHome']['contact']['button'] = 'Book Appointment';
+
+/* textBooking */
+	$lang['textBooking']['title'] = 'Is your beloved vehicle <br/>in need of a special treatment?';
+	$lang['textBooking']['desc'] = "Worried about the latest dent or scratch on your car?<br/>Confused and have no idea of what to do with your car in case of emergency or accident?<br/>Book an appointment today with Vietnam Star Body & Paint center to get the best advice and possible solutions for your car.";
+
+	$lang['textBooking']['form']['title'] = "Please leave your information here,<br/>we'll respond you as soon as possible!";
+	$lang['textBooking']['form']['textRequied'] = 'Required Information';
+	$lang['textBooking']['form']['lblFullname'] = 'FULLNAME';
+	$lang['textBooking']['form']['lblEmail'] = 'EMAIL';
+	$lang['textBooking']['form']['lblPhone'] = 'PHONE';
+	$lang['textBooking']['form']['lblAddress'] = 'ADDRESS';
+	$lang['textBooking']['form']['lblCar'] = 'CAR';
+	$lang['textBooking']['form']['lblService'] = 'SERVICE';
+	$lang['textBooking']['form']['lblBooking'] = 'BOOKING';
+	$lang['textBooking']['form']['lblTitle'] = 'TITLE';
+	$lang['textBooking']['form']['lblContent'] = 'CONTENT';
+	
+	$lang['textBooking']['form']['placeholderDate'] = 'Day/Month/Year';
+	$lang['textBooking']['form']['placeholder250'] = 'Maximum 250 characters';
+	$lang['textBooking']['form']['placeholder2000'] = 'Maximum 2000 characters';
+
+	$lang['textBooking']['form']['lblUpload'] = 'ĐĂNG TẢI HÌNH ẢNH TÌNH TRẠNG HIỆN TẠI CỦA XE<br/>(Maximum 5 pictures)';
+	$lang['textBooking']['form']['btnUpload'] = 'Upload';
+
+	$lang['textBooking']['service'][0] = 'Luxury car repairs, paint and body services';
+	$lang['textBooking']['service'][1] = 'Full & Part spraying, color change';
+	$lang['textBooking']['service'][2] = 'Color consultancy';
+	$lang['textBooking']['service'][3] = 'Car care Interior and Exterior';
+	$lang['textBooking']['service'][4] = '24 hour emergency roadside assistance';
+	$lang['textBooking']['service'][5] = 'Aftersales service for Mercedes Benz';
+
+	$lang['textBooking']['form']['btnSend'] = 'Send';
+
+	$lang['textMore'] = 'Read more';
+	$lang['textViewMore'] = 'View more';
+
+	$lang['textContactBox']['title'] = 'Appointment booking';
+	$lang['textContactBox']['form']['title'] = "Please leave your information here, we'll respond you as soon as possible!";
+	$lang['textContactBox']['form']['btnSend'] = "Send";
+
+/* textGallery */
+	$lang['textGallery']['tabBeforeAfter'] = "Before & after service";
+	$lang['textGallery']['tabEvent'] = "Event";
+	$lang['textGallery']['textBefore'] = "BEFORE";
+	$lang['textGallery']['textAfter'] = "AFTER";
+	$lang['textGallery']['textInfo'] = 'Vehicle info';
+	$lang['textGallery']['textService'] = 'Service';
 
 
