@@ -76,7 +76,7 @@
 					</div>
 				</div>
 				<div class="subtabContent small-24 medium-18 large-18 columns">
-					<div class="subtabContentItem active">
+					<div class="subtabContentItem ">
 						<? if (count($gallery['album'])>0) {
 							foreach ($gallery['album'] as $item) { ?>
 								<div class="item small-24 medium-8 large-8 columns">
@@ -91,8 +91,18 @@
 							<div class="imageGalleryContent"></div>
 						</div>
 					</div>
-					<div class="subtabContentItem">
-						video
+					<div class="subtabContentItem subtabVideoItem active">
+						<? if (count($gallery['video'])>0) {
+							foreach ($gallery['video'] as $item) { ?>
+							<div class="videoContainer">
+								<video id="video<?=$item['id']?>" controls="true">
+							        <source src="<?=$item['detail'][0]['value']?>"/>
+							        Your browser does not support HTML5 video tag. Please download FireFox 3.5 or higher.
+							    </video>
+							    <!-- <div id="videoThumbnail<?=$item['id']?>"></div> -->
+							</div>
+							<? }
+						} ?>
 					</div>
 				</div>
 			</div>

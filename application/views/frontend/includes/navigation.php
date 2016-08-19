@@ -17,7 +17,7 @@
 				</a>
 				<span>&#124;</span>
 				<i class="fa fa-caret-up<? if ($activeMenu=='service') { ?> active<? } ?>" aria-hidden="true"></i>
-				<ul class="submenu submenuService<? if ($activeMenu=='service') { ?> active<? } ?>">
+				<ul class="submenu submenuService<? if ($activeMenu=='service') { ?> active<? } ?><? if ($lang=='en') { ?> submenuService_en<? } ?>">
 					<li<? if ($activeSubMenu=='introduction') { ?> class="active"<? } ?>>
 						<a href="<?=$links['service']['introduction']?>" class="linkSub">
 							<?=$navigatorSub['service']['introduction']?>
@@ -50,7 +50,7 @@
 				</a>
 				<span>&#124;</span>
 				<i class="fa fa-caret-up" aria-hidden="true"></i>
-				<ul class="submenu submenuGallery<? if ($activeMenu=='gallery') { ?> active<? } ?>">
+				<ul class="submenu submenuGallery<? if ($activeMenu=='gallery') { ?> active<? } ?><? if ($lang=='en') { ?> submenuGallery_en<? } ?>">
 					<li<? if ($activeSubMenu=='beforeafter') { ?> class="active"<? } ?>>
 						<a href="<?=$links['gallery']['beforeafter']?>" class="linkSub">
 							<?=$navigatorSub['gallery']['beforeafter']?>

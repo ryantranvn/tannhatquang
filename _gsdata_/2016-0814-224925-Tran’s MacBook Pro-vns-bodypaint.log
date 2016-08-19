@@ -1,0 +1,22 @@
+2016-08-14 22:49:25: -- Analysis Started by User
+2016-08-14 22:49:30: Changes: 15 (43), Conflicts: 0, CopyTime: 0, CopyState: 0/0, Errors: 0, All: 8558
+2016-08-14 22:49:30: Left to Right: Copy File: 13 Rename/Move File/Folder: 2 
+2016-08-14 22:49:30: -- Analysis Complete. Time 00:00:05, Speed: 1645 files/s
+2016-08-14 22:49:30: 
+2016-08-14 22:49:31: == Sync Started by User
+2016-08-14 22:49:32: Move Folder /Volumes/Ryan SSD/htdocs/vns-bodypaint/system/language/english -> /Volumes/Ryan SSD/htdocs/vns-bodypaint/system/language/en
+2016-08-14 22:49:32: Copy Over '/Volumes/RyanWork/htdocs/vns-bodypaint/application/controllers/frontend/Contact.php' -> '/Volumes/Ryan SSD/htdocs/vns-bodypaint/application/controllers/frontend/Contact.php'
+2016-08-14 22:49:32: Copy Over '/Volumes/RyanWork/htdocs/vns-bodypaint/application/controllers/frontend/Gallery.php' -> '/Volumes/Ryan SSD/htdocs/vns-bodypaint/application/controllers/frontend/Gallery.php'
+2016-08-14 22:49:32: Copy Over '/Volumes/RyanWork/htdocs/vns-bodypaint/application/controllers/frontend/Service.php' -> '/Volumes/Ryan SSD/htdocs/vns-bodypaint/application/controllers/frontend/Service.php'
+2016-08-14 22:49:32: Copy Over '/Volumes/RyanWork/htdocs/vns-bodypaint/application/views/backend/dashboard.php' -> '/Volumes/Ryan SSD/htdocs/vns-bodypaint/application/views/backend/dashboard.php'
+2016-08-14 22:49:32: Copy Over '/Volumes/RyanWork/htdocs/vns-bodypaint/application/views/frontend/gallery.php' -> '/Volumes/Ryan SSD/htdocs/vns-bodypaint/application/views/frontend/gallery.php'
+2016-08-14 22:49:32: Copy Over '/Volumes/RyanWork/htdocs/vns-bodypaint/assets/backend/js/script-min.js' -> '/Volumes/Ryan SSD/htdocs/vns-bodypaint/assets/backend/js/script-min.js'
+2016-08-14 22:49:32: Copy Over '/Volumes/RyanWork/htdocs/vns-bodypaint/assets/backend/js/script.js' -> '/Volumes/Ryan SSD/htdocs/vns-bodypaint/assets/backend/js/script.js'
+2016-08-14 22:49:32: Copy Over '/Volumes/RyanWork/htdocs/vns-bodypaint/assets/config.codekit' -> '/Volumes/Ryan SSD/htdocs/vns-bodypaint/assets/config.codekit'
+2016-08-14 22:49:32: Copy Over '/Volumes/RyanWork/htdocs/vns-bodypaint/assets/frontend/css/.sass-cache/b5b34955c50fa58f22076aadfa317619607136b2/style.scssc' -> '/Volumes/Ryan SSD/htdocs/vns-bodypaint/assets/frontend/css/.sass-cache/b5b34955c50fa58f22076aadfa317619607136b2/style.scssc'
+2016-08-14 22:49:32: Copy Over '/Volumes/RyanWork/htdocs/vns-bodypaint/assets/frontend/css/style-min.css' -> '/Volumes/Ryan SSD/htdocs/vns-bodypaint/assets/frontend/css/style-min.css'
+2016-08-14 22:49:32: Copy Over '/Volumes/RyanWork/htdocs/vns-bodypaint/assets/frontend/css/style.scss' -> '/Volumes/Ryan SSD/htdocs/vns-bodypaint/assets/frontend/css/style.scss'
+2016-08-14 22:49:32: Copy Over '/Volumes/RyanWork/htdocs/vns-bodypaint/assets/frontend/js/script-min.js' -> '/Volumes/Ryan SSD/htdocs/vns-bodypaint/assets/frontend/js/script-min.js'
+2016-08-14 22:49:32: Copy Over '/Volumes/RyanWork/htdocs/vns-bodypaint/assets/frontend/js/script.js' -> '/Volumes/Ryan SSD/htdocs/vns-bodypaint/assets/frontend/js/script.js'
+2016-08-14 22:49:32: == Sync Complete. Time: 00:00:01, Speed: 712.9 KB/s, OK: 43, Errors: 0
+2016-08-14 22:49:32: 

@@ -50,7 +50,7 @@ class Contact extends Root {
                              'browser_info' => $_SERVER['HTTP_USER_AGENT'],
                              'created_datetime' => date("Y-m-d H:i:s"),
                              'service' => $this->input->post('service',TRUE),
-                             'type' => 'contact box'
+                             'type' => 'popup'
                             );
             if ($this->User_model->insertContactBox('db',$arrData) == FALSE) {
                 $arrJSON['error'] = 1;
@@ -58,6 +58,23 @@ class Contact extends Root {
             }
             else {
                 $arrJSON['error'] = 0;
+            // send email
+                try {
+                    $listEmail = $this->Base_model->getDB('db','setting',NULL,array('name'=>'email', 'status'=>'active'));
+                    $toListEmail = array();
+                    foreach ($listEmail as $item) {
+                        array_push($toListEmail, $item['value']);
+                    }
+                    if ($toListEmail!=FALSE && count($toListEmail)>0) {
+                        $contentEmail = '<p>Fullname : '.$arrData['fullname'].'</p>';
+                        $contentEmail .= '<p>Email : '.$arrData['email'].'</p>';
+                        $contentEmail .= '<p>Phone : '.$arrData['phone'].'</p>';
+                        $contentEmail .= '<p>Service : '.$arrData['service'].'</p>';
+
+                        send_gmail(EMAIL, EMAILPASS, $toListEmail, EMAIL_TITLE_1, $contentEmail, NULL, NULL, NULL);
+                    }
+                } catch (Exception $e) {
+                }
             }
         }
 
@@ -93,7 +110,7 @@ class Contact extends Root {
                              'ip' => client_ip(),
                              'browser_info' => $_SERVER['HTTP_USER_AGENT'],
                              'created_datetime' => date("Y-m-d H:i:s"),
-                             'type' => 'contact page'
+                             'type' => 'contact'
                             );
             if ($this->User_model->insertContactPage('db',$arrData) == FALSE) {
                 $arrJSON['error'] = 1;
@@ -101,6 +118,26 @@ class Contact extends Root {
             }
             else {
                 $arrJSON['error'] = 0;
+
+                try {
+                // send email
+                    $listEmail = $this->Base_model->getDB('db','setting',NULL,array('name'=>'email', 'status'=>'active'));
+                    $toListEmail = array();
+                    foreach ($listEmail as $item) {
+                        array_push($toListEmail, $item['value']);
+                    }
+                    if ($toListEmail!=FALSE && count($toListEmail)>0) {
+                        $contentEmail = '<p>Fullname : '.$arrData['fullname'].'</p>';
+                        $contentEmail .= '<p>Email : '.$arrData['email'].'</p>';
+                        $contentEmail .= '<p>Phone : '.$arrData['phone'].'</p>';
+                        $contentEmail .= '<p>Address : '.$arrData['address'].'</p>';
+                        $contentEmail .= '<p>Title : '.$arrData['title'].'</p>';
+                        $contentEmail .= '<p>Content : '.$arrData['content'].'</p>';
+
+                        send_gmail(EMAIL, EMAILPASS, $toListEmail, EMAIL_TITLE_2, $contentEmail, NULL, NULL, NULL);
+                    }
+                } catch (Exception $e) {
+                }
             }
         }
 

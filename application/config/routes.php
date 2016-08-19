@@ -2,6 +2,7 @@
 defined('BASEPATH') OR exit('No direct script access allowed');
 
 /* FRONTEND */
+	$route['vn/test_email'] = 'frontend/Home/test_email';
 
 	$route['vn/ajax_gallery'] = 'frontend/Gallery/ajax_gallery';
 	$route['en/gallery/(:any)'] = 'frontend/Gallery';
@@ -25,6 +26,8 @@ defined('BASEPATH') OR exit('No direct script access allowed');
 	$route['vn/dat-hen-tu-van'] = 'frontend/Booking';
 	$route['en/booking'] = 'frontend/Booking';
 
+	$route['vn/dich-vu/(:any)/(:any)'] = 'frontend/Service';
+	$route['en/service/(:any)/(:any)'] = 'frontend/Service';
 	$route['vn/dich-vu/(:any)'] = 'frontend/Service';
 	$route['en/service/(:any)'] = 'frontend/Service';
 	$route['vn/dich-vu'] = 'frontend/Service';

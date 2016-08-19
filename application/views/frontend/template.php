@@ -63,6 +63,7 @@
 					<?=$this->load->view('frontend/includes/footer','',TRUE)?>
 					<? if ($page != "contact" && $page != "booking") { echo $this->load->view('frontend/includes/contactBox','',TRUE); } ?>
                     <?=$this->load->view('frontend/includes/popup','',TRUE)?>
+                    <div class="processing"><img src="<?=assetsUrl('frontend','images','processing.gif');?>" /></div>
 					<!--================================================== -->
                 </div>
 

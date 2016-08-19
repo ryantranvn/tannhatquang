@@ -119,16 +119,39 @@ class Booking extends Root {
                             );
             if ($this->User_model->insertBooking('db',$arrData, $arrFile) == FALSE) {
                 $arrJSON['error'] = 1;
-                $arrJSON['errorContent'] = "Lỗi kết nối dữ liệu";
+                $arrJSON['errorContent'] = "Can not load data";
             }
             else {
                 $arrJSON['error'] = 0;
-                // move file to booking folder
+
+            // move file to booking folder
                 $folder_Temps = './upload/user/temps/';
                 $folder_Booking = './upload/user/booking/';
                 foreach ($arrFile as $filename) {
                     copy($folder_Temps.$filename, $folder_Booking.$filename);
                 }
+            // send email
+                try {
+                    $listEmail = $this->Base_model->getDB('db','setting',NULL,array('name'=>'email', 'status'=>'active'));
+                    $toListEmail = array();
+                    foreach ($listEmail as $item) {
+                        array_push($toListEmail, $item['value']);
+                    }
+                    if ($toListEmail!=FALSE && count($toListEmail)>0) {
+                        $contentEmail = '<p>Fullname : '.$arrData['fullname'].'</p>';
+                        $contentEmail .= '<p>Email : '.$arrData['email'].'</p>';
+                        $contentEmail .= '<p>Phone : '.$arrData['phone'].'</p>';
+                        $contentEmail .= '<p>Address : '.$arrData['address'].'</p>';
+                        $contentEmail .= '<p>Brand : '.$arrData['brandcar'].'</p>';
+                        $contentEmail .= '<p>Model : '.$arrData['modelcar'].'</p>';
+                        $contentEmail .= '<p>Date : '.$arrData['date'].'</p>';
+                        $contentEmail .= '<p>Title : '.$arrData['title'].'</p>';
+                        $contentEmail .= '<p>Content : '.$arrData['content'].'</p>';
+
+                        send_gmail(EMAIL, EMAILPASS, $toListEmail, EMAIL_TITLE_1, $contentEmail, NULL, NULL, $arrFile);
+                    }
+                }
+                catch (Exception $e) {}                    
             }
         }
 

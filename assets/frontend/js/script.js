@@ -227,6 +227,10 @@ $(document).ready( function() {
                             $('input[name="fullname"]').val(user['fullname'])
                             $('input[name="phone"]').val(user['phone'])
                         }
+                        // else {
+                        //     $('input[name="fullname"]').val('')
+                        //     $('input[name="phone"]').val('')
+                        // }
                     },
                     error: function() {
                         console.log('error')
@@ -250,6 +254,10 @@ $(document).ready( function() {
                             $('input[name="fullname"]').val(user['fullname'])
                             $('input[name="email"]').val(user['email'])
                         }
+                        // else {
+                        //     $('input[name="fullname"]').val('')
+                        //     $('input[name="email"]').val('')
+                        // }
                     },
                     error: function() {
                         console.log('error')
@@ -281,6 +289,7 @@ $(document).ready( function() {
                 },
                 submitHandler: function(form, event) {
                     event.preventDefault();
+                    $('.processing').fadeIn('fast');
                     $.ajax({
                         url: fUrl + 'vn/contact/ajax_submitContactBox',
                         type: 'POST',
@@ -295,15 +304,23 @@ $(document).ready( function() {
 
                         },
                         success: function(data) {
+                            $('input[name="csrf_hash"]').val($.cookie('csrf_cookie_ci'));
+                            $('.processing').fadeOut('fast');
                             if (data.error == 1) {
-                                openPopup(errorText.errorTitle, data.errorContent)
+                                openPopup("", data.errorContent, function() {}, function() {
+                                    $("#frmContact").find('input[name="fullname"]').val('')
+                                    $("#frmContact").find('input[name="email"]').val('')
+                                    $("#frmContact").find('input[name="phone"]').val('')
+                                    $("#frmContact").find('input[name="service"]').val('')
+                                })
                             }
                             else {
-                                openPopup(errorText.validContactBox_title, errorText.validContactBox_content)
+                                openPopup("", errorText.validContactBox_content)
                             }
                         },
                         error: function() {
-                            openPopup(errorText.errorTitle,errorText.ajax);
+                            $('.processing').fadeOut('fast');
+                            openPopup("",errorText.ajax);
                         }
                     });
                 }
@@ -317,7 +334,7 @@ $(document).ready( function() {
             });
         }
 
-// PAGEs
+    // PAGEs
     // homePage
         if ($('#homePage').length>0) {
             $('.bxslider-1').bxSlider({
@@ -387,6 +404,11 @@ $(document).ready( function() {
                             $('input[name="phone"]').val(user['phone'])
                             $('input[name="address"]').val(user['address'])
                         }
+                        // else {
+                        //     $('input[name="fullname"]').val('')
+                        //     $('input[name="phone"]').val('')
+                        //     $('input[name="address"]').val('')
+                        // }
                     },
                     error: function() {
                         console.log('error')
@@ -411,6 +433,11 @@ $(document).ready( function() {
                             $('input[name="email"]').val(user['email'])
                             $('input[name="address"]').val(user['address'])
                         }
+                        // else {
+                        //     $('input[name="fullname"]').val('')
+                        //     $('input[name="email"]').val('')
+                        //     $('input[name="address"]').val('')
+                        // }
                     },
                     error: function() {
                         console.log('error')
@@ -456,6 +483,8 @@ $(document).ready( function() {
                 },
                 submitHandler: function(form, event) {
                     event.preventDefault();
+
+                    $('.processing').fadeIn('fast');
                     $.ajax({
                         url: fUrl + 'vn/contact/ajax_submitContactPage',
                         type: 'POST',
@@ -471,23 +500,28 @@ $(document).ready( function() {
                             csrf_hash : $.cookie('csrf_cookie_ci')
                         },
                         success: function(data) {
+                            $('.processing').fadeOut('fast');
                             if (data.error == 1) {
-                                openPopup(errorText.errorTitle, data.errorContent)
+                                openPopup("", data.errorContent)
                             }
                             else {
-                                openPopup(errorText.validContactBox_title, errorText.validContactBox_content)
+                                openPopup("", errorText.validContactBox_content, function() {}, function() {
+                                    $("#frmContact").find('input[name="fullname"]').val('')
+                                    $("#frmContact").find('input[name="email"]').val('')
+                                    $("#frmContact").find('input[name="phone"]').val('')
+                                    $("#frmContact").find('input[name="address"]').val('')
+                                    $("#frmContact").find('input[name="title"]').val('')
+                                    $("#frmContact").find('textarea[name="content"]').val('')
+                                })
                             }
                         },
                         error: function() {
-                            openPopup(errorText.errorTitle,errorText.ajax);
+                            $('.processing').fadeOut('fast');
+                            openPopup("",errorText.ajax);
                         }
                     });
                 }
             });
-
-            // titlePopup = "Chúc mừng bạn đã hoàn tất"
-            // contentPopup = '<p>Chúng tôi đã nhận được thông tin và sẽ liên hệ quý khách sớm nhất. <br/>Cảm ơn đã lựa chọn Trung tâm đồng sơn Vietnam Star - Địa chỉ đáng tin cậy cho chiếc xe yêu quý của quý khách!</p><a class="btnBlue btnBackHome" href="'+fUrl+'">Quay lại trang chủ</a>'
-            // openPopup(titlePopup, contentPopup)
         }
     // bookingPage
         if ($('#bookingPage').length>0) {
@@ -578,6 +612,11 @@ $(document).ready( function() {
                             $('input[name="phone"]').val(user['phone'])
                             $('input[name="address"]').val(user['address'])
                         }
+                        // else {
+                        //     $('input[name="fullname"]').val('')
+                        //     $('input[name="phone"]').val('')
+                        //     $('input[name="address"]').val('')
+                        // }
                     },
                     error: function() {
                         console.log('error')
@@ -602,6 +641,11 @@ $(document).ready( function() {
                             $('input[name="email"]').val(user['email'])
                             $('input[name="address"]').val(user['address'])
                         }
+                        // else {
+                        //     $('input[name="fullname"]').val('')
+                        //     $('input[name="email"]').val('')
+                        //     $('input[name="address"]').val('')
+                        // }
                     },
                     error: function() {
                         console.log('error')
@@ -665,7 +709,7 @@ $(document).ready( function() {
                         openPopup(errorText.errorTitle, errorText.uploadOver)
                     }
                     else {
-
+                        $('.processing').fadeIn('fast');
                         $.ajax({
                             url: fUrl + 'vn/booking/ajax_submitBooking',
                             type: 'POST',
@@ -686,15 +730,18 @@ $(document).ready( function() {
                                 csrf_hash : $.cookie('csrf_cookie_ci')
                             },
                             success: function(data) {
+                                $('input[name="csrf_hash"]').val($.cookie('csrf_cookie_ci'));
+                                $('.processing').fadeOut('fast');
                                 if (data.error == 1) {
-                                    openPopup(errorText.errorTitle, data.errorContent)
+                                    openPopup("", data.errorContent)
                                 }
                                 else {
-                                    openPopup(errorText.validContactBox_title, errorText.validContactBox_content)
+                                    openPopup("", errorText.validContactBox_content)
                                 }
                             },
                             error: function() {
-                                openPopup(errorText.errorTitle,errorText.ajax);
+                                $('.processing').fadeOut('fast');
+                                openPopup("",errorText.ajax);
                             }
                         });
                     }
@@ -779,6 +826,13 @@ $(document).ready( function() {
                 history.pushState("", document.title, window.location.pathname);
             })
             
+            // $('.videoContainer').find('video').each( function(index, item) {
+                // videoId = $(this).attr('id')
+            //     containerId = $(this).next('div').attr('id')
+            //     // console.log(videoId, containerId)
+            //     shoot(videoId, containerId)
+            // })
+            $('.videoContainer').children('video').controls = false;
         }
 
 })

@@ -20,9 +20,17 @@ class User_model extends Base_model {
         $this->connection->trans_begin();
 
         // insert user
-            $insertUser = "INSERT INTO user (`fullname`,`email`,`phone`,`ip`,`browser_info`,`created_datetime`) VALUES (?,?,?,?,?,?)";
-            $this->connection->query($insertUser,array($arrData['fullname'],$arrData['email'],$arrData['phone'],$arrData['ip'],$arrData['browser_info'],$arrData['created_datetime']));
-            $idUser = $this->connection->insert_id();
+            $user = $this->getDB($connection, 'user', array('id'), array('email'=>$arrData['email']));
+            if ($user == FALSE && count($user)==0) {
+                $insertUser = "INSERT INTO user (`fullname`,`email`,`phone`,`ip`,`browser_info`,`created_datetime`) VALUES (?,?,?,?,?,?)";
+                $this->connection->query($insertUser,array($arrData['fullname'],$arrData['email'],$arrData['phone'],$arrData['ip'],$arrData['browser_info'],$arrData['created_datetime']));
+                $idUser = $this->connection->insert_id();
+            }
+            else {
+                $updateUser = "UPDATE user SET `fullname`=?,`email`=?,`phone`=?,`ip`=?,`browser_info`=?,`created_datetime`=? WHERE `id`=".$user[0]['id'];
+                $this->connection->query($updateUser,array($arrData['fullname'],$arrData['email'],$arrData['phone'],$arrData['ip'],$arrData['browser_info'],$arrData['created_datetime']));
+                $idUser = $user[0]['id'];
+            }
         // insert user contact
             $insertUserContact = "INSERT INTO user_contact (`user_id`,`service`,`type`,`ip`,`browser_info`,`created_datetime`) VALUES (?,?,?,?,?,?)";
             $this->connection->query($insertUserContact,array($idUser,$arrData['service'],$arrData['type'],$arrData['ip'],$arrData['browser_info'],$arrData['created_datetime']));
@@ -48,9 +56,17 @@ class User_model extends Base_model {
         $this->connection->trans_begin();
 
         // insert user
-            $insertUser = "INSERT INTO user (`fullname`,`email`,`phone`,`address`,`ip`,`browser_info`,`created_datetime`) VALUES (?,?,?,?,?,?,?)";
-            $this->connection->query($insertUser,array($arrData['fullname'],$arrData['email'],$arrData['phone'],$arrData['address'],$arrData['ip'],$arrData['browser_info'],$arrData['created_datetime']));
-            $idUser = $this->connection->insert_id();
+            $user = $this->getDB($connection, 'user', array('id'), array('email'=>$arrData['email']));
+            if ($user == FALSE && count($user)==0) {
+                $insertUser = "INSERT INTO user (`fullname`,`email`,`phone`,`address`,`ip`,`browser_info`,`created_datetime`) VALUES (?,?,?,?,?,?,?)";
+                $this->connection->query($insertUser,array($arrData['fullname'],$arrData['email'],$arrData['phone'],$arrData['address'],$arrData['ip'],$arrData['browser_info'],$arrData['created_datetime']));
+                $idUser = $this->connection->insert_id();
+            }
+            else {
+                $updateUser = "UPDATE user SET `fullname`=?,`email`=?,`phone`=?,`address`=?,`ip`=?,`browser_info`=?,`created_datetime`=? WHERE `id`=".$user[0]['id'];
+                $this->connection->query($updateUser,array($arrData['fullname'],$arrData['email'],$arrData['phone'],$arrData['address'],$arrData['ip'],$arrData['browser_info'],$arrData['created_datetime']));
+                $idUser = $user[0]['id'];
+            }
         // insert user contact
             $insertUserContact = "INSERT INTO user_contact (`user_id`,`title`,`content`,`type`,`ip`,`browser_info`,`created_datetime`) VALUES (?,?,?,?,?,?,?)";
             $this->connection->query($insertUserContact,array($idUser,$arrData['title'],$arrData['content'],$arrData['type'],$arrData['ip'],$arrData['browser_info'],$arrData['created_datetime']));
@@ -77,9 +93,17 @@ class User_model extends Base_model {
         $this->connection->trans_begin();
 
         // insert user
-            $insertUser = "INSERT INTO user (`fullname`,`email`,`phone`,`address`,`ip`,`browser_info`,`created_datetime`) VALUES (?,?,?,?,?,?,?)";
-            $this->connection->query($insertUser,array($arrData['fullname'],$arrData['email'],$arrData['phone'],$arrData['address'],$arrData['ip'],$arrData['browser_info'],$arrData['created_datetime']));
-            $idUser = $this->connection->insert_id();
+            $user = $this->getDB($connection, 'user', array('id'), array('email'=>$arrData['email']));
+            if ($user == FALSE && count($user)==0) {
+                $insertUser = "INSERT INTO user (`fullname`,`email`,`phone`,`address`,`ip`,`browser_info`,`created_datetime`) VALUES (?,?,?,?,?,?,?)";
+                $this->connection->query($insertUser,array($arrData['fullname'],$arrData['email'],$arrData['phone'],$arrData['address'],$arrData['ip'],$arrData['browser_info'],$arrData['created_datetime']));
+                $idUser = $this->connection->insert_id();
+            }
+            else {
+                $updateUser = "UPDATE user SET `fullname`=?,`email`=?,`phone`=?,`address`=?,`ip`=?,`browser_info`=?,`created_datetime`=? WHERE `id`=".$user[0]['id'];
+                $this->connection->query($updateUser,array($arrData['fullname'],$arrData['email'],$arrData['phone'],$arrData['address'],$arrData['ip'],$arrData['browser_info'],$arrData['created_datetime']));
+                $idUser = $user[0]['id'];
+            }
         // insert user contact
             $insertUserContact = "INSERT INTO user_contact (`user_id`,`title`,`content`,`service`,`type`,`brandcar`,`modelcar`,`date`,`ip`,`browser_info`,`created_datetime`) VALUES (?,?,?,?,?,?,?,?,?,?,?)";
             $this->connection->query($insertUserContact,array($idUser,$arrData['title'],$arrData['content'],$arrData['service'],$arrData['type'],$arrData['brandcar'],$arrData['modelcar'],$arrData['date'],$arrData['ip'],$arrData['browser_info'],$arrData['created_datetime']));
@@ -115,7 +139,7 @@ class User_model extends Base_model {
         }
         $this->connect_to($connection);
 
-        $sql = "SELECT user_contact.*, user.fullname, user.phone, user.email FROM user_contact INNER JOIN user ON user_contact.user_id=user.id";
+        $sql = "SELECT user.id FROM user";
         if ($where != NULL && $where != "") {
             $sql .= " WHERE ".$where;
         }
@@ -143,7 +167,7 @@ class User_model extends Base_model {
         }
         $this->connect_to($connection);
 
-        $sql = "SELECT user_contact.*, user.fullname, user.phone, user.email FROM user_contact INNER JOIN user ON user_contact.user_id=user.id";
+        $sql = "SELECT * FROM user";
         if ($where != NULL && $where != "") {
             $sql .= " WHERE ".$where;
         }
@@ -167,8 +191,8 @@ class User_model extends Base_model {
         return $result;
     }
 
-// getUser
-    public function getUser($connection)
+// getContact
+    public function getContact($connection)
     {
         // set connection
         if ($connection===NULL) {

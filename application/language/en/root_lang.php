@@ -26,7 +26,7 @@
 		$lang['links']['gallery']['event'] = F_URL . "en/gallery/event";
 
 	$lang['links']['news'] = F_URL . "en/news";
-	$lang['links']['newsDetail'] = F_URL . "en/news/detail";
+	// $lang['links']['newsDetail'] = F_URL . "en/news/detail";
 
 	$lang['links']['contact'] = F_URL . "en/contact";
 
@@ -46,7 +46,7 @@
 
 /* error */
 	$lang['errorText']['errorTitle'] = "ERROR";
-	$lang['errorText']['ajax'] = "Ajax error";
+	$lang['errorText']['ajax'] = "Lost connection. Please contact us to get help";
 	$lang['errorText']['uploadOver'] = "At least 1 file or at most 5 files.";
 
 	$lang['errorText']['invalid'][10] = "Invalid file type";
@@ -59,7 +59,7 @@
 	$lang['errorText']['invalid'][99] = "Error";
 
 	$lang['errorText']['validContactBox_title'] = "Thông tin đã gửi thành công";
-	$lang['errorText']['validContactBox_content'] = "<p>Chúng tôi đã nhận được thông tin và sẽ liên hệ quý khách sớm nhất.</p><p>Cảm ơn đã lựa chọn Trung tâm đồng sơn Vietnam Star - Địa chỉ đáng tin cậy cho chiếc xe yêu quý của quý khách!</p><a class='btnBlue btnBackHome' href='".F_URL."'>Quay lại trang chủ</a>";
+	$lang['errorText']['validContactBox_content'] = "<p>We have received your information and will get back to you as soon as possible.</p><p>Thank you for choosing our Vietnam Star Body & Paint center – a reliable place for your beloved cars!</p><a class='btnBlue btnBackHome' href='".F_URL."'>Back to homepage</a>";
 
 /* car list */
 	$lang['car'][1] = "Mercedes-Benz";
@@ -114,9 +114,9 @@
 	$lang['textHome']['certification'][1]['title'] = "Meticulous process";
 	$lang['textHome']['certification'][1]['desc'] = "The paint mixing procedure includes 14 meticulous, detailed steps to ensure colour accuracy, maximum fineness and ultimate consistency.";
 	$lang['textHome']['certification'][2]['title'] = "Professional technical crew";
-	$lang['textHome']['certification'][2]['desc'] = "Our highly experienced techinical crew is constantly updated and trained with the latest knowledge, technology and expertise on paint mixing technices qualified by PPG. ";
+	$lang['textHome']['certification'][2]['desc'] = "Our highly experienced techinical crew is constantly updated and trained with the latest knowledge, technology and expertise on paint mixing technices qualified by PPG.";
 	$lang['textHome']['certification'][3]['title'] = "Car paint mixing: quality & variety";
-	$lang['textHome']['certification'][3]['desc'] = "Vietnam Star Body & paint center has more than 83 colour codes and specialized mixing tools from PPG to produce numerous paint colours. Room temperature must always be around 5-40C to reach the best paint quality. ";
+	$lang['textHome']['certification'][3]['desc'] = "Vietnam Star Body & paint center has more than 83 colour codes and specialized mixing tools from PPG to produce numerous paint colours. Room temperature must always be around 5-40C to reach the best paint quality.";
 
 	$lang['textHome']['gallery']['title'] = 'GALLERY';
 	$lang['textHome']['gallery']['desc'] = "";
@@ -141,12 +141,14 @@
 	$lang['textBooking']['form']['lblBooking'] = 'BOOKING';
 	$lang['textBooking']['form']['lblTitle'] = 'TITLE';
 	$lang['textBooking']['form']['lblContent'] = 'CONTENT';
+	$lang['textBooking']['form']['lblModel'] = 'MODEL';
+	$lang['textBooking']['form']['lblBrand'] = 'BRAND';
 	
 	$lang['textBooking']['form']['placeholderDate'] = 'Day/Month/Year';
 	$lang['textBooking']['form']['placeholder250'] = 'Maximum 250 characters';
 	$lang['textBooking']['form']['placeholder2000'] = 'Maximum 2000 characters';
 
-	$lang['textBooking']['form']['lblUpload'] = 'ĐĂNG TẢI HÌNH ẢNH TÌNH TRẠNG HIỆN TẠI CỦA XE<br/>(Maximum 5 pictures)';
+	$lang['textBooking']['form']['lblUpload'] = "UPLOAD PHOTOS OF YOUR CAR'S CURRENT SITUATION <br/>(5 photos maximum)";
 	$lang['textBooking']['form']['btnUpload'] = 'Upload';
 
 	$lang['textBooking']['service'][0] = 'Luxury car repairs, paint and body services';
@@ -157,9 +159,6 @@
 	$lang['textBooking']['service'][5] = 'Aftersales service for Mercedes Benz';
 
 	$lang['textBooking']['form']['btnSend'] = 'Send';
-
-	$lang['textMore'] = 'Read more';
-	$lang['textViewMore'] = 'View more';
 
 	$lang['textContactBox']['title'] = 'Appointment booking';
 	$lang['textContactBox']['form']['title'] = "Please leave your information here, we'll respond you as soon as possible!";
@@ -173,4 +172,9 @@
 	$lang['textGallery']['textInfo'] = 'Vehicle info';
 	$lang['textGallery']['textService'] = 'Service';
 
+/* textNews */
+	$lang['textNews']['related'] = 'RELATED NEWS';
+
+	$lang['textMore'] = 'Read more';
+	$lang['textViewMore'] = 'View more';
 

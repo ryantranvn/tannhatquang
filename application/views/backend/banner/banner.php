@@ -89,8 +89,13 @@
 																<? if (count($banner['bannerHome_1VN'])>0) { 
 																	foreach ($banner['bannerHome_1VN'] as $item) { ?>
 																		<div class="imgWrapper imgWrapperOld home_1VN">
-																			<img src="<?=$item?>" />
-																			<i class="fa fa-trash-o" data="<?=$item?>"></i>
+																			<img src="<?=$item['url']?>" class="thumbnail" data-id="<?=$item['id']?>" />
+																			<i class="fa fa-trash-o" data-id="<?=$item['id']?>"></i>
+																			<div class="row">
+																				<label style="float: left; clear: both;">Link</label>
+																				<input type="text" name="bannerHome_1VN_id[]" value="<?=$item['id']?>" class="hiddenInput form-control" style="float: left; clear: both" />
+																				<input type="text" name="bannerHome_1VN_link[]" value="<?=$item['desc']?>" class="inputThumbnail form-control" style="float: left; clear: both" />
+																			</div>
 																		</div>
 																	<?}
 																} ?>
@@ -120,8 +125,13 @@
 																<? if (count($banner['bannerHome_1EN'])>0) { 
 																	foreach ($banner['bannerHome_1EN'] as $item) { ?>
 																		<div class="imgWrapper imgWrapperOld home_1EN">
-																			<img src="<?=$item?>" />
-																			<i class="fa fa-trash-o" data="<?=$item?>"></i>
+																			<img src="<?=$item['url']?>" class="thumbnail" data-id="<?=$item['id']?>" />
+																			<i class="fa fa-trash-o" data-id="<?=$item['id']?>"></i>
+																			<div class="row">
+																				<label style="float: left; clear: both;">Link</label>
+																				<input type="text" name="bannerHome_1EN_id[]" value="<?=$item['id']?>" class="hiddenInput form-control" style="float: left; clear: both" />
+																				<input type="text" name="bannerHome_1EN_link[]" value="<?=$item['desc']?>" class="inputThumbnail form-control" style="float: left; clear: both" />
+																			</div>
 																		</div>
 																	<?}
 																} ?>
@@ -154,8 +164,13 @@
 																<? if (count($banner['bannerHome_2VN'])>0) { 
 																	foreach ($banner['bannerHome_2VN'] as $item) { ?>
 																		<div class="imgWrapper imgWrapperOld home_2VN">
-																			<img src="<?=$item?>" />
-																			<i class="fa fa-trash-o" data="<?=$item?>"></i>
+																			<img src="<?=$item['url']?>" class="thumbnail" data-id="<?=$item['id']?>" />
+																			<i class="fa fa-trash-o" data-id="<?=$item['id']?>"></i>
+																			<div class="row">
+																				<label style="float: left; clear: both;">Link</label>
+																				<input type="text" name="bannerHome_2VN_id[]" value="<?=$item['id']?>" class="hiddenInput form-control" style="float: left; clear: both" />
+																				<input type="text" name="bannerHome_2VN_link[]" value="<?=$item['desc']?>" class="inputThumbnail form-control" style="float: left; clear: both" />
+																			</div>
 																		</div>
 																	<?}
 																} ?>
@@ -185,8 +200,13 @@
 																<? if (count($banner['bannerHome_2EN'])>0) { 
 																	foreach ($banner['bannerHome_2EN'] as $item) { ?>
 																		<div class="imgWrapper imgWrapperOld home_2EN">
-																			<img src="<?=$item?>" />
-																			<i class="fa fa-trash-o" data="<?=$item?>"></i>
+																			<img src="<?=$item['url']?>" class="thumbnail" data-id="<?=$item['id']?>" />
+																			<i class="fa fa-trash-o" data-id="<?=$item['id']?>"></i>
+																			<div class="row">
+																				<label style="float: left; clear: both;">Link</label>
+																				<input type="text" name="bannerHome_2EN_id[]" value="<?=$item['id']?>" class="hiddenInput form-control" style="float: left; clear: both" />
+																				<input type="text" name="bannerHome_2EN_link[]" value="<?=$item['desc']?>" class="inputThumbnail form-control" style="float: left; clear: both" />
+																			</div>
 																		</div>
 																	<?}
 																} ?>
@@ -208,7 +228,7 @@
 															NOTE</span> &nbsp; Accept file *.png, *.jpg &amp; size <=5MBs.
 														</p>
 														<div class="input-group">
-															<input type="text" name="serviceIntroductionVN" class="inputThumbnail form-control" value="<?=$banner['bannerServiceIntroductionVN']?>" readonly>
+															<input type="text" name="serviceIntroductionVN" class="inputThumbnail form-control" value="<?=$banner['bannerServiceIntroductionVN']['url']?>" readonly>
 															<div class="input-group-btn">
 																<button class="btn btn-default btnSelectBannerVN" type="button">
 																	Select File
@@ -216,9 +236,14 @@
 															</div>
 														</div>
 														<div class="thumbnailWrapper" style="margin-top: 10px">
-															<?php if ($banner['bannerServiceIntroductionVN'] != "") { ?>
-																<img class="thumbnail" src="<?=$banner['bannerServiceIntroductionVN']?>" />
+															<?php if ($banner['bannerServiceIntroductionVN']['url'] != "") { ?>
+																<img class="thumbnail" src="<?=$banner['bannerServiceIntroductionVN']['url']?>" />
 																<a class="thumbnailDel"><i class="fa fa-trash-o"></i></a>
+																<div class="row">
+																	<label style="float: left; clear: both;">Link</label>
+																	<input type="text" name="serviceIntroductionVN_id" value="<?=$banner['bannerServiceIntroductionVN']['id']?>" class="hiddenInput form-control" style="float: left; clear: both" />
+																	<input type="text" name="serviceIntroductionVN_link" value="<?=$banner['bannerServiceIntroductionVN']['desc']?>" class="inputThumbnail form-control" style="float: left; clear: both" />
+																</div>
 															<?php } ?>
 														</div>
 													</div>
@@ -233,7 +258,7 @@
 															NOTE</span> &nbsp; Accept file *.png, *.jpg &amp; size <=5MBs.
 														</p>
 														<div class="input-group">
-															<input type="text" name="serviceIntroductionEN" class="inputThumbnail form-control" value="<?=$banner['bannerServiceIntroductionEN']?>" readonly>
+															<input type="text" name="serviceIntroductionEN" class="inputThumbnail form-control" value="<?=$banner['bannerServiceIntroductionEN']['url']?>" readonly>
 															<div class="input-group-btn">
 																<button class="btn btn-default btnSelectBannerEN" type="button">
 																	Select File
@@ -242,8 +267,13 @@
 														</div>
 														<div class="thumbnailWrapper" style="margin-top: 10px">
 															<?php if ($banner['bannerServiceIntroductionEN'] != "") { ?>
-																<img class="thumbnail" src="<?=$banner['bannerServiceIntroductionEN']?>" />
+																<img class="thumbnail" src="<?=$banner['bannerServiceIntroductionEN']['url']?>" />
 																<a class="thumbnailDel"><i class="fa fa-trash-o"></i></a>
+																<div class="row">
+																	<label style="float: left; clear: both;">Link</label>
+																	<input type="text" name="serviceIntroductionEN_id" value="<?=$banner['bannerServiceIntroductionEN']['id']?>" class="hiddenInput form-control" style="float: left; clear: both" />
+																	<input type="text" name="serviceIntroductionEN_link" value="<?=$banner['bannerServiceIntroductionEN']['desc']?>" class="inputThumbnail form-control" style="float: left; clear: both" />
+																</div>
 															<?php } ?>
 														</div>
 													</div>
@@ -261,7 +291,7 @@
 															NOTE</span> &nbsp; Accept file *.png, *.jpg &amp; size <=5MBs.
 														</p>
 														<div class="input-group">
-															<input type="text" name="serviceServiceVN" class="inputThumbnail form-control" value="<?=$banner['bannerServiceServiceVN']?>" readonly>
+															<input type="text" name="serviceServiceVN" class="inputThumbnail form-control" value="<?=$banner['bannerServiceServiceVN']['url']?>" readonly>
 															<div class="input-group-btn">
 																<button class="btn btn-default btnSelectBannerVN" type="button">
 																	Select File
@@ -270,8 +300,13 @@
 														</div>
 														<div class="thumbnailWrapper" style="margin-top: 10px">
 															<?php if ($banner['bannerServiceServiceVN'] != "") { ?>
-																<img class="thumbnail" src="<?=$banner['bannerServiceServiceVN']?>" />
+																<img class="thumbnail" src="<?=$banner['bannerServiceServiceVN']['url']?>" />
 																<a class="thumbnailDel"><i class="fa fa-trash-o"></i></a>
+																<div class="row">
+																	<label style="float: left; clear: both;">Link</label>
+																	<input type="text" name="serviceServiceVN_id" value="<?=$banner['bannerServiceServiceVN']['id']?>" class="hiddenInput form-control" style="float: left; clear: both" />
+																	<input type="text" name="serviceServiceVN_link" value="<?=$banner['bannerServiceServiceVN']['desc']?>" class="inputThumbnail form-control" style="float: left; clear: both" />
+																</div>
 															<?php } ?>
 														</div>
 													</div>
@@ -286,7 +321,7 @@
 															NOTE</span> &nbsp; Accept file *.png, *.jpg &amp; size <=5MBs.
 														</p>
 														<div class="input-group">
-															<input type="text" name="serviceServiceEN" class="inputThumbnail form-control" value="<?=$banner['bannerServiceServiceEN']?>" readonly>
+															<input type="text" name="serviceServiceEN" class="inputThumbnail form-control" value="<?=$banner['bannerServiceServiceEN']['url']?>" readonly>
 															<div class="input-group-btn">
 																<button class="btn btn-default btnSelectBannerEN" type="button">
 																	Select File
@@ -295,8 +330,13 @@
 														</div>
 														<div class="thumbnailWrapper" style="margin-top: 10px">
 															<?php if ($banner['bannerServiceServiceEN'] != "") { ?>
-																<img class="thumbnail" src="<?=$banner['bannerServiceServiceEN']?>" />
+																<img class="thumbnail" src="<?=$banner['bannerServiceServiceEN']['url']?>" />
 																<a class="thumbnailDel"><i class="fa fa-trash-o"></i></a>
+																<div class="row">
+																	<label style="float: left; clear: both;">Link</label>
+																	<input type="text" name="serviceServiceEN_id" value="<?=$banner['bannerServiceServiceEN']['id']?>" class="hiddenInput form-control" style="float: left; clear: both" />
+																	<input type="text" name="serviceServiceeN_link" value="<?=$banner['bannerServiceServiceEN']['desc']?>" class="inputThumbnail form-control" style="float: left; clear: both" />
+																</div>
 															<?php } ?>
 														</div>
 													</div>
@@ -314,7 +354,7 @@
 															NOTE</span> &nbsp; Accept file *.png, *.jpg &amp; size <=5MBs.
 														</p>
 														<div class="input-group">
-															<input type="text" name="serviceCertificationVN" class="inputThumbnail form-control" value="<?=$banner['bannerServiceCertificationVN']?>" readonly>
+															<input type="text" name="serviceCertificationVN" class="inputThumbnail form-control" value="<?=$banner['bannerServiceCertificationVN']['url']?>" readonly>
 															<div class="input-group-btn">
 																<button class="btn btn-default btnSelectBannerVN" type="button">
 																	Select File
@@ -323,8 +363,13 @@
 														</div>
 														<div class="thumbnailWrapper" style="margin-top: 10px">
 															<?php if ($banner['bannerServiceCertificationVN'] != "") { ?>
-																<img class="thumbnail" src="<?=$banner['bannerServiceCertificationVN']?>" />
+																<img class="thumbnail" src="<?=$banner['bannerServiceCertificationVN']['url']?>" />
 																<a class="thumbnailDel"><i class="fa fa-trash-o"></i></a>
+																<div class="row">
+																	<label style="float: left; clear: both;">Link</label>
+																	<input type="text" name="serviceCertificationVN_id" value="<?=$banner['bannerServiceCertificationVN']['id']?>" class="hiddenInput form-control" style="float: left; clear: both" />
+																	<input type="text" name="serviceCertificationVN_link" value="<?=$banner['bannerServiceCertificationVN']['desc']?>" class="inputThumbnail form-control" style="float: left; clear: both" />
+																</div>
 															<?php } ?>
 														</div>
 													</div>
@@ -339,7 +384,7 @@
 															NOTE</span> &nbsp; Accept file *.png, *.jpg &amp; size <=5MBs.
 														</p>
 														<div class="input-group">
-															<input type="text" name="serviceCertificationEN" class="inputThumbnail form-control" value="<?=$banner['bannerServiceCertificationEN']?>" readonly>
+															<input type="text" name="serviceCertificationEN" class="inputThumbnail form-control" value="<?=$banner['bannerServiceCertificationEN']['url']?>" readonly>
 															<div class="input-group-btn">
 																<button class="btn btn-default btnSelectBannerEN" type="button">
 																	Select File
@@ -348,8 +393,13 @@
 														</div>
 														<div class="thumbnailWrapper" style="margin-top: 10px">
 															<?php if ($banner['bannerServiceCertificationEN'] != "") { ?>
-																<img class="thumbnail" src="<?=$banner['bannerServiceCertificationEN']?>" />
+																<img class="thumbnail" src="<?=$banner['bannerServiceCertificationEN']['url']?>" />
 																<a class="thumbnailDel"><i class="fa fa-trash-o"></i></a>
+																<div class="row">
+																	<label style="float: left; clear: both;">Link</label>
+																	<input type="text" name="serviceCertificationEN_id" value="<?=$banner['bannerServiceCertificationEN']['id']?>" class="hiddenInput form-control" style="float: left; clear: both" />
+																	<input type="text" name="serviceCertificationEN_link" value="<?=$banner['bannerServiceCertificationEN']['desc']?>" class="inputThumbnail form-control" style="float: left; clear: both" />
+																</div>
 															<?php } ?>
 														</div>
 													</div>
@@ -367,7 +417,7 @@
 															NOTE</span> &nbsp; Accept file *.png, *.jpg &amp; size <=5MBs.
 														</p>
 														<div class="input-group">
-															<input type="text" name="bookingVN" class="inputThumbnail form-control" value="<?=$banner['bannerBookingVN']?>" readonly>
+															<input type="text" name="bookingVN" class="inputThumbnail form-control" value="<?=$banner['bannerBookingVN']['url']?>" readonly>
 															<div class="input-group-btn">
 																<button class="btn btn-default btnSelectBannerVN" type="button">
 																	Select File
@@ -376,8 +426,13 @@
 														</div>
 														<div class="thumbnailWrapper" style="margin-top: 10px">
 															<?php if ($banner['bannerBookingVN'] != "") { ?>
-																<img class="thumbnail" src="<?=$banner['bannerBookingVN']?>" />
+																<img class="thumbnail" src="<?=$banner['bannerBookingVN']['url']?>" />
 																<a class="thumbnailDel"><i class="fa fa-trash-o"></i></a>
+																<div class="row">
+																	<label style="float: left; clear: both;">Link</label>
+																	<input type="text" name="bookingVN_id" value="<?=$banner['bannerBookingVN']['id']?>" class="hiddenInput form-control" style="float: left; clear: both" />
+																	<input type="text" name="bookingVN_link" value="<?=$banner['bannerBookingVN']['desc']?>" class="inputThumbnail form-control" style="float: left; clear: both" />
+																</div>
 															<?php } ?>
 														</div>
 													</div>
@@ -392,7 +447,7 @@
 															NOTE</span> &nbsp; Accept file *.png, *.jpg &amp; size <=5MBs.
 														</p>
 														<div class="input-group">
-															<input type="text" name="bookingEN" class="inputThumbnail form-control" value="<?=$banner['bannerBookingEN']?>" readonly>
+															<input type="text" name="bookingEN" class="inputThumbnail form-control" value="<?=$banner['bannerBookingEN']['url']?>" readonly>
 															<div class="input-group-btn">
 																<button class="btn btn-default btnSelectBannerEN" type="button">
 																	Select File
@@ -401,8 +456,13 @@
 														</div>
 														<div class="thumbnailWrapper" style="margin-top: 10px">
 															<?php if ($banner['bannerBookingEN'] != "") { ?>
-																<img class="thumbnail" src="<?=$banner['bannerBookingEN']?>" />
+																<img class="thumbnail" src="<?=$banner['bannerBookingEN']['url']?>" />
 																<a class="thumbnailDel"><i class="fa fa-trash-o"></i></a>
+																<div class="row">
+																	<label style="float: left; clear: both;">Link</label>
+																	<input type="text" name="bookingEN_id" value="<?=$banner['bannerBookingEN']['id']?>" class="hiddenInput form-control" style="float: left; clear: both" />
+																	<input type="text" name="bookingEN_link" value="<?=$banner['bannerBookingEN']['desc']?>" class="inputThumbnail form-control" style="float: left; clear: both" />
+																</div>
 															<?php } ?>
 														</div>
 													</div>
@@ -420,7 +480,7 @@
 															NOTE</span> &nbsp; Accept file *.png, *.jpg &amp; size <=5MBs.
 														</p>
 														<div class="input-group">
-															<input type="text" name="galleryBeforeVN" class="inputThumbnail form-control" value="<?=$banner['bannerGalleryBeforeafterVN']?>" readonly>
+															<input type="text" name="galleryBeforeVN" class="inputThumbnail form-control" value="<?=$banner['bannerGalleryBeforeafterVN']['url']?>" readonly>
 															<div class="input-group-btn">
 																<button class="btn btn-default btnSelectBannerVN" type="button">
 																	Select File
@@ -429,8 +489,13 @@
 														</div>
 														<div class="thumbnailWrapper" style="margin-top: 10px">
 															<?php if ($banner['bannerGalleryBeforeafterVN'] != "") { ?>
-																<img class="thumbnail" src="<?=$banner['bannerGalleryBeforeafterVN']?>" />
+																<img class="thumbnail" src="<?=$banner['bannerGalleryBeforeafterVN']['url']?>" />
 																<a class="thumbnailDel"><i class="fa fa-trash-o"></i></a>
+																<div class="row">
+																	<label style="float: left; clear: both;">Link</label>
+																	<input type="text" name="galleryBeforeafterVN_id" value="<?=$banner['bannerGalleryBeforeafterVN']['id']?>" class="hiddenInput form-control" style="float: left; clear: both" />
+																	<input type="text" name="galleryBeforeafterVN_link" value="<?=$banner['bannerGalleryBeforeafterVN']['desc']?>" class="inputThumbnail form-control" style="float: left; clear: both" />
+																</div>
 															<?php } ?>
 														</div>
 													</div>
@@ -445,7 +510,7 @@
 															NOTE</span> &nbsp; Accept file *.png, *.jpg &amp; size <=5MBs.
 														</p>
 														<div class="input-group">
-															<input type="text" name="galleryBeforeEN" class="inputThumbnail form-control" value="<?=$banner['bannerGalleryBeforeafterEN']?>" readonly>
+															<input type="text" name="galleryBeforeEN" class="inputThumbnail form-control" value="<?=$banner['bannerGalleryBeforeafterEN']['url']?>" readonly>
 															<div class="input-group-btn">
 																<button class="btn btn-default btnSelectBannerEN" type="button">
 																	Select File
@@ -454,8 +519,13 @@
 														</div>
 														<div class="thumbnailWrapper" style="margin-top: 10px">
 															<?php if ($banner['bannerGalleryBeforeafterEN'] != "") { ?>
-																<img class="thumbnail" src="<?=$banner['bannerGalleryBeforeafterEN']?>" />
+																<img class="thumbnail" src="<?=$banner['bannerGalleryBeforeafterEN']['url']?>" />
 																<a class="thumbnailDel"><i class="fa fa-trash-o"></i></a>
+																<div class="row">
+																	<label style="float: left; clear: both;">Link</label>
+																	<input type="text" name="galleryBeforeafterEN_id" value="<?=$banner['bannerGalleryBeforeafterEN']['id']?>" class="hiddenInput form-control" style="float: left; clear: both" />
+																	<input type="text" name="galleryBeforeafterEN_link" value="<?=$banner['bannerGalleryBeforeafterEN']['desc']?>" class="inputThumbnail form-control" style="float: left; clear: both" />
+																</div>
 															<?php } ?>
 														</div>
 													</div>
@@ -473,7 +543,7 @@
 															NOTE</span> &nbsp; Accept file *.png, *.jpg &amp; size <=5MBs.
 														</p>
 														<div class="input-group">
-															<input type="text" name="galleryEventVN" class="inputThumbnail form-control" value="<?=$banner['bannerGalleryEventVN']?>" readonly>
+															<input type="text" name="galleryEventVN" class="inputThumbnail form-control" value="<?=$banner['bannerGalleryEventVN']['url']?>" readonly>
 															<div class="input-group-btn">
 																<button class="btn btn-default btnSelectBannerVN" type="button">
 																	Select File
@@ -482,8 +552,13 @@
 														</div>
 														<div class="thumbnailWrapper" style="margin-top: 10px">
 															<?php if ($banner['bannerGalleryEventVN'] != "") { ?>
-																<img class="thumbnail" src="<?=$banner['bannerGalleryEventVN']?>" />
+																<img class="thumbnail" src="<?=$banner['bannerGalleryEventVN']['url']?>" />
 																<a class="thumbnailDel"><i class="fa fa-trash-o"></i></a>
+																<div class="row">
+																	<label style="float: left; clear: both;">Link</label>
+																	<input type="text" name="galleryEventVN_id" value="<?=$banner['bannerGalleryEventVN']['id']?>" class="hiddenInput form-control" style="float: left; clear: both" />
+																	<input type="text" name="galleryEventVN_link" value="<?=$banner['bannerGalleryEventVN']['desc']?>" class="inputThumbnail form-control" style="float: left; clear: both" />
+																</div>
 															<?php } ?>
 														</div>
 													</div>
@@ -498,7 +573,7 @@
 															NOTE</span> &nbsp; Accept file *.png, *.jpg &amp; size <=5MBs.
 														</p>
 														<div class="input-group">
-															<input type="text" name="galleryEventEN" class="inputThumbnail form-control" value="<?=$banner['bannerGalleryEventEN']?>" readonly>
+															<input type="text" name="galleryEventEN" class="inputThumbnail form-control" value="<?=$banner['bannerGalleryEventEN']['url']?>" readonly>
 															<div class="input-group-btn">
 																<button class="btn btn-default btnSelectBannerEN" type="button">
 																	Select File
@@ -507,8 +582,13 @@
 														</div>
 														<div class="thumbnailWrapper" style="margin-top: 10px">
 															<?php if ($banner['bannerGalleryEventEN'] != "") { ?>
-																<img class="thumbnail" src="<?=$banner['bannerGalleryEventEN']?>" />
+																<img class="thumbnail" src="<?=$banner['bannerGalleryEventEN']['url']?>" />
 																<a class="thumbnailDel"><i class="fa fa-trash-o"></i></a>
+																<div class="row">
+																	<label style="float: left; clear: both;">Link</label>
+																	<input type="text" name="galleryEventEN_id" value="<?=$banner['bannerGalleryEventEN']['id']?>" class="hiddenInput form-control" style="float: left; clear: both" />
+																	<input type="text" name="galleryEventEN_link" value="<?=$banner['bannerGalleryEventEN']['desc']?>" class="inputThumbnail form-control" style="float: left; clear: both" />
+																</div>
 															<?php } ?>
 														</div>
 													</div>
@@ -526,7 +606,7 @@
 															NOTE</span> &nbsp; Accept file *.png, *.jpg &amp; size <=5MBs.
 														</p>
 														<div class="input-group">
-															<input type="text" name="newsVN" class="inputThumbnail form-control" value="<?=$banner['bannerNewsVN']?>" readonly>
+															<input type="text" name="newsVN" class="inputThumbnail form-control" value="<?=$banner['bannerNewsVN']['url']?>" readonly>
 															<div class="input-group-btn">
 																<button class="btn btn-default btnSelectBannerVN" type="button">
 																	Select File
@@ -535,8 +615,13 @@
 														</div>
 														<div class="thumbnailWrapper" style="margin-top: 10px">
 															<?php if ($banner['bannerNewsVN'] != "") { ?>
-																<img class="thumbnail" src="<?=$banner['bannerNewsVN']?>" />
+																<img class="thumbnail" src="<?=$banner['bannerNewsVN']['url']?>" />
 																<a class="thumbnailDel"><i class="fa fa-trash-o"></i></a>
+																<div class="row">
+																	<label style="float: left; clear: both;">Link</label>
+																	<input type="text" name="newsVN_id" value="<?=$banner['bannerNewsVN']['id']?>" class="hiddenInput form-control" style="float: left; clear: both" />
+																	<input type="text" name="newsVN_link" value="<?=$banner['bannerNewsVN']['desc']?>" class="inputThumbnail form-control" style="float: left; clear: both" />
+																</div>
 															<?php } ?>
 														</div>
 													</div>
@@ -551,7 +636,7 @@
 															NOTE</span> &nbsp; Accept file *.png, *.jpg &amp; size <=5MBs.
 														</p>
 														<div class="input-group">
-															<input type="text" name="newsEN" class="inputThumbnail form-control" value="<?=$banner['bannerNewsEN']?>" readonly>
+															<input type="text" name="newsEN" class="inputThumbnail form-control" value="<?=$banner['bannerNewsEN']['url']?>" readonly>
 															<div class="input-group-btn">
 																<button class="btn btn-default btnSelectBannerEN" type="button">
 																	Select File
@@ -560,8 +645,13 @@
 														</div>
 														<div class="thumbnailWrapper" style="margin-top: 10px">
 															<?php if ($banner['bannerNewsEN'] != "") { ?>
-																<img class="thumbnail" src="<?=$banner['bannerNewsEN']?>" />
+																<img class="thumbnail" src="<?=$banner['bannerNewsEN']['url']?>" />
 																<a class="thumbnailDel"><i class="fa fa-trash-o"></i></a>
+																<div class="row">
+																	<label style="float: left; clear: both;">Link</label>
+																	<input type="text" name="newsEN_id" value="<?=$banner['bannerNewsEN']['id']?>" class="hiddenInput form-control" style="float: left; clear: both" />
+																	<input type="text" name="newsEN_link" value="<?=$banner['bannerNewsEN']['desc']?>" class="inputThumbnail form-control" style="float: left; clear: both" />
+																</div>
 															<?php } ?>
 														</div>
 													</div>
@@ -579,7 +669,7 @@
 															NOTE</span> &nbsp; Accept file *.png, *.jpg &amp; size <=5MBs.
 														</p>
 														<div class="input-group">
-															<input type="text" name="newsDetailVN" class="inputThumbnail form-control" value="<?=$banner['bannerNewsDetailVN']?>" readonly>
+															<input type="text" name="newsDetailVN" class="inputThumbnail form-control" value="<?=$banner['bannerNewsDetailVN']['url']?>" readonly>
 															<div class="input-group-btn">
 																<button class="btn btn-default btnSelectBannerVN" type="button">
 																	Select File
@@ -588,8 +678,13 @@
 														</div>
 														<div class="thumbnailWrapper" style="margin-top: 10px">
 															<?php if ($banner['bannerNewsDetailVN'] != "") { ?>
-																<img class="thumbnail" src="<?=$banner['bannerNewsDetailVN']?>" />
+																<img class="thumbnail" src="<?=$banner['bannerNewsDetailVN']['url']?>" />
 																<a class="thumbnailDel"><i class="fa fa-trash-o"></i></a>
+																<div class="row">
+																	<label style="float: left; clear: both;">Link</label>
+																	<input type="text" name="newsDetailVN_id" value="<?=$banner['bannerNewsDetailVN']['id']?>" class="hiddenInput form-control" style="float: left; clear: both" />
+																	<input type="text" name="newsDetailVN_link" value="<?=$banner['bannerNewsDetailVN']['desc']?>" class="inputThumbnail form-control" style="float: left; clear: both" />
+																</div>
 															<?php } ?>
 														</div>
 													</div>
@@ -604,7 +699,7 @@
 															NOTE</span> &nbsp; Accept file *.png, *.jpg &amp; size <=5MBs.
 														</p>
 														<div class="input-group">
-															<input type="text" name="newsDetailEN" class="inputThumbnail form-control" value="<?=$banner['bannerNewsDetailEN']?>" readonly>
+															<input type="text" name="newsDetailEN" class="inputThumbnail form-control" value="<?=$banner['bannerNewsDetailEN']['url']?>" readonly>
 															<div class="input-group-btn">
 																<button class="btn btn-default btnSelectBannerEN" type="button">
 																	Select File
@@ -613,8 +708,13 @@
 														</div>
 														<div class="thumbnailWrapper" style="margin-top: 10px">
 															<?php if ($banner['bannerNewsDetailEN'] != "") { ?>
-																<img class="thumbnail" src="<?=$banner['bannerNewsDetailEN']?>" />
+																<img class="thumbnail" src="<?=$banner['bannerNewsDetailEN']['url']?>" />
 																<a class="thumbnailDel"><i class="fa fa-trash-o"></i></a>
+																<div class="row">
+																	<label style="float: left; clear: both;">Link</label>
+																	<input type="text" name="newsDetailEN_id" value="<?=$banner['bannerNewsDetailEN']['id']?>" class="hiddenInput form-control" style="float: left; clear: both" />
+																	<input type="text" name="newsDetailEN_link" value="<?=$banner['bannerNewsDetailEN']['desc']?>" class="inputThumbnail form-control" style="float: left; clear: both" />
+																</div>
 															<?php } ?>
 														</div>
 													</div>
@@ -632,7 +732,7 @@
 															NOTE</span> &nbsp; Accept file *.png, *.jpg &amp; size <=5MBs.
 														</p>
 														<div class="input-group">
-															<input type="text" name="contactVN" class="inputThumbnail form-control" value="<?=$banner['bannerContactVN']?>" readonly>
+															<input type="text" name="contactVN" class="inputThumbnail form-control" value="<?=$banner['bannerContactVN']['url']?>" readonly>
 															<div class="input-group-btn">
 																<button class="btn btn-default btnSelectBannerVN" type="button">
 																	Select File
@@ -641,8 +741,13 @@
 														</div>
 														<div class="thumbnailWrapper" style="margin-top: 10px">
 															<?php if ($banner['bannerContactVN'] != "") { ?>
-																<img class="thumbnail" src="<?=$banner['bannerContactVN']?>" />
+																<img class="thumbnail" src="<?=$banner['bannerContactVN']['url']?>" />
 																<a class="thumbnailDel"><i class="fa fa-trash-o"></i></a>
+																<div class="row">
+																	<label style="float: left; clear: both;">Link</label>
+																	<input type="text" name="contactVN_id" value="<?=$banner['bannerContactVN']['id']?>" class="hiddenInput form-control" style="float: left; clear: both" />
+																	<input type="text" name="contactVN_link" value="<?=$banner['bannerContactVN']['desc']?>" class="inputThumbnail form-control" style="float: left; clear: both" />
+																</div>
 															<?php } ?>
 														</div>
 													</div>
@@ -657,7 +762,7 @@
 															NOTE</span> &nbsp; Accept file *.png, *.jpg &amp; size <=5MBs.
 														</p>
 														<div class="input-group">
-															<input type="text" name="contactEN" class="inputThumbnail form-control" value="<?=$banner['bannerContactEN']?>" readonly>
+															<input type="text" name="contactEN" class="inputThumbnail form-control" value="<?=$banner['bannerContactEN']['url']?>" readonly>
 															<div class="input-group-btn">
 																<button class="btn btn-default btnSelectBannerEN" type="button">
 																	Select File
@@ -666,8 +771,13 @@
 														</div>
 														<div class="thumbnailWrapper" style="margin-top: 10px">
 															<?php if ($banner['bannerContactEN'] != "") { ?>
-																<img class="thumbnail" src="<?=$banner['bannerContactEN']?>" />
+																<img class="thumbnail" src="<?=$banner['bannerContactEN']['url']?>" />
 																<a class="thumbnailDel"><i class="fa fa-trash-o"></i></a>
+																<div class="row">
+																	<label style="float: left; clear: both;">Link</label>
+																	<input type="text" name="contactEN_id" value="<?=$banner['bannerContactEN']['id']?>" class="hiddenInput form-control" style="float: left; clear: both" />
+																	<input type="text" name="contactEN_link" value="<?=$banner['bannerContactEN']['desc']?>" class="inputThumbnail form-control" style="float: left; clear: both" />
+																</div>
 															<?php } ?>
 														</div>
 													</div>

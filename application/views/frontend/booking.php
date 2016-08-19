@@ -57,7 +57,7 @@
 								<input type="text" name="car" class="valueGet hiddenInput" value="Mercedes-Benz" />
 							</div>
 							<div id="modelWrapper" class="selectWrapper">
-								<p class="valueShow">DÒNG XE</p>
+								<p class="valueShow"><?=$textBooking['form']['lblModel']?></p>
 								<ul>
 									<? foreach ($mercedes as $item) { ?>
 										<li class="pointer" data-val="<?=$item?>"><?=$item?></li>
@@ -66,7 +66,7 @@
 								<input type="text" name="model" class="valueGet hiddenInput" />
 							</div>
 							<div id="loaixeWrapper">
-								<label>LOẠI XE</label>
+								<label><?=$textBooking['form']['lblBrand']?></label>
 								<input type="text" name="modelOther" />
 							</div>
 						</div>

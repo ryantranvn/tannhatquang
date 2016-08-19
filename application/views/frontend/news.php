@@ -29,19 +29,19 @@
 		<!-- left -->
 			<div class="left small-24 medium-16 large-16 columns">
 				<ul id="itemContainer">
-					<? for ($i=1; $i<20; $i++) { ?>
+					<? foreach ($tintuc as $item) { ?>
 					<li>
 						<div class="item row">
-							<p class="title">Tin tức 1</p>
-							<p class="date">13/05/2016</p>
+							<p class="title"><? if ($lang=='vn') { echo $item['title']; } else { echo $item['title_en']; }?></p>
+							<p class="date"><?=date('d-m-Y', strtotime($item['created_datetime']))?></p>
 							<p>--</p>
 							<div class="small-24 medium-9 large-9 columns noPaddingLeft">
-								<img src="<?=uploadUrl('images','news/news1.jpg');?>" />
+								<img src="<?=$item['thumbnail']?>" />
 							</div>
 							<div class="small-24 medium-15 large-15 columns noPaddingRight">
-								<div class="desc">Ngày 12/5/2016, Vietnam Star Automobile chính thức khai trương Trung tâm đồng sơn quy mô và hiện đại nhất Việt Nam chuyên thực hiện các dịch vụ đồng sơn cho xe sang. Toạ lạc ở vị trí vô cùng thuận lợi, số 2&3, đường số 7, khu chế xuất Tân Thuận, phường Tân Thuận Đông, quận 7, TP. HCM,...</div>
-								<a class="linkXemthem" href="<?=$links['newsDetail']?>">
-									<i class="fa fa-angle-double-right" aria-hidden="true"></i>Xem thêm
+								<div class="desc"><? if ($lang=='vn') { echo $item['desc']; } else { echo $item['desc_en']; }?></div>
+								<a class="linkXemthem" href="<?=$links['news']?>/<? if ($lang=='vn') { echo $item['url']; } else { echo $item['url_en']; }?>">
+									<i class="fa fa-angle-double-right" aria-hidden="true"></i><?=$textViewMore?>
 								</a>
 							</div>
 						</div>
@@ -59,8 +59,16 @@
 		<!-- right -->
 			<div class="right small-24 medium-8 large-8 columns">
 				<div class="box">
-					<p class="titleBox">TIN TỨC LIÊN QUAN<span>--</span></p>
+					<p class="titleBox"><?=$textNews['related']?><span>--</span></p>
 					
+					<? for ($i=count($tintuc)-1; $i>=0; $i--) { ?>
+						<div class="item">
+							<img src="<?=$tintuc[$i]['thumbnail']?>" />
+							<p class="title"><? if ($lang=='vn') { echo $tintuc[$i]['title']; } else { echo $tintuc[$i]['title_en']; }?></p>
+							<p class="date"><?=date('d-m-Y', strtotime($tintuc[$i]['created_datetime']))?></p>
+						</div>
+					<? } ?>
+				<!-- 
 					<div class="item">
 						<img src="<?=uploadUrl('images','temp/1.jpg');?>" />
 						<p class="title">Tin tức liên quan 01</p>
@@ -81,7 +89,8 @@
 						<p class="title">Tin tức liên quan 01</p>
 						<p class="date">13/05/2016</p>
 					</div>
-					<a class="btnBlue btnXemthem" href="<?=F_URL?>">Xem thêm</a>
+					<a class="btnBlue btnXemthem" href="<?=F_URL?>"><?=$textViewMore?></a> 
+				-->
 				</div>
 			</div>
 		</div>

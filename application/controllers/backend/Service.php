@@ -49,7 +49,7 @@ class Service extends Root {
             $where = 'category.parent_id=2';
         // get filter if have
             // $search = $_GET['_search'];
-            $like = array();
+            $like = "";
             if (isset($_GET['filters'])) {
                 $filters = $_GET['filters'];
                 $filters = json_decode($filters);
@@ -63,7 +63,7 @@ class Service extends Root {
                     else {
                         $field = 'post.'.$field;
                     }
-                    $like[$field] = $value;
+                    $like .= $field." LIKE '%".$value."%'";
                 }
             }
             
@@ -343,6 +343,7 @@ class Service extends Root {
 
         redirect(B_URL.$this->router->fetch_class());
     }
+
 // ********************************
 // check existed
     private function _existed($oper, $parent_id, $url, $id=NULL, $lang="")

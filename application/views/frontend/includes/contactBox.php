@@ -32,12 +32,17 @@
 						<div id="serviceWrapper" class="selectWrapper">
 							<p class="valueShow"><?=$textBooking['service'][0]?></p>
 							<ul>
+								<? foreach ($serviceList as $service) { ?>
+								<li class="pointer" data-val="<?=$service?>"><?=$service?></li>
+								<? } ?>
+								<!--
 								<li class="pointer" data-val="<?=$textBooking['service'][0]?>"><?=$textBooking['service'][0]?></li>
-									<li class="pointer" data-val="<?=$textBooking['service'][1]?>"><?=$textBooking['service'][1]?></li>
-									<li class="pointer" data-val="<?=$textBooking['service'][2]?>"><?=$textBooking['service'][2]?></li>
-									<li class="pointer" data-val="<?=$textBooking['service'][3]?>"><?=$textBooking['service'][3]?></li>
-									<li class="pointer" data-val="<?=$textBooking['service'][4]?>"><?=$textBooking['service'][4]?></li>
-									<li class="pointer" data-val="<?=$textBooking['service'][5]?>"><?=$textBooking['service'][5]?></li>
+								<li class="pointer" data-val="<?=$textBooking['service'][1]?>"><?=$textBooking['service'][1]?></li>
+								<li class="pointer" data-val="<?=$textBooking['service'][2]?>"><?=$textBooking['service'][2]?></li>
+								<li class="pointer" data-val="<?=$textBooking['service'][3]?>"><?=$textBooking['service'][3]?></li>
+								<li class="pointer" data-val="<?=$textBooking['service'][4]?>"><?=$textBooking['service'][4]?></li>
+								<li class="pointer" data-val="<?=$textBooking['service'][5]?>"><?=$textBooking['service'][5]?></li>
+								-->
 							</ul>
 							<input type="text" name="service" class="valueGet hiddenInput" value="<?=$textBooking['service'][0]?>" />
 						</div>

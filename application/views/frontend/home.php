@@ -2,28 +2,31 @@
 <!-- banner -->
 	<div class="banner fullContainer">
 		<ul class="bxslider-1">
-			<? if ($lang=='vn') {
-				foreach ($bannerPos1_VN as $banner) { ?>
-					<li><img src="<?=$banner?>" /></li>
-				<? }
-			} else { 
-				foreach ($bannerPos1_EN as $banner) { ?>
-					<li><img src="<?=$banner?>" /></li>
-				<? }
-			} ?>
-		  	<!-- <li><img src="<?=uploadUrl('images','banner/position-1/1.jpg');?>" /></li>
-		  	<li><img src="<?=uploadUrl('images','banner/position-1/2.jpg');?>" /></li>
-		  	<li><img src="<?=uploadUrl('images','banner/position-1/3.jpg');?>" /></li>
-		  	<li><img src="<?=uploadUrl('images','banner/position-1/4.jpg');?>" /></li>
-		  	<li><img src="<?=uploadUrl('images','banner/position-1/5.jpg');?>" /></li> -->
+			<? foreach ($bannerPos1 as $banner) { ?>
+				<li> 
+					<? if ($banner['link'] != "") { ?>
+					<a href="<?=$banner['link']?>"><img src="<?=$banner['url']?>" /></a>
+					<? } else { ?>
+					<img src="<?=$banner['url']?>" />
+					<? } ?>
+				</li>
+			<? } ?>
 		</ul>
 	</div>
 <!-- service -->
 	<div class="service fullContainer">
 		<div class="centerContainer">
 			<p class="title"><?=$textHome['service']['title']?> <span></span></p>
-
 			<div class="row">
+				<? foreach ($service as $item) { ?>
+					<div class="small-24 medium-8 large-4 columns">
+						<img src="<?=$item['thumbnail']?>" />
+						<p class="caption"><? if ($lang=="vn") { echo $item['title']; } else { echo $item['title_en']; } ?></p>
+						<!-- <a class="linkFull" href="<? if ($lang=="vn") { echo $links['service']['service'].'/'.$item['url']; } else { echo $links['service']['service'].'/'.$item['url_en']; } ?>"></a> -->
+						<a class="linkFull" href="<?=$links['service']['service']?>"></a>
+					</div>
+				<? } ?>
+			<!--
 				<div class="small-24 medium-8 large-4 columns">
 					<img src="<?=assetsUrl('frontend','images','service/service-1.jpg');?>" />
 					<p class="caption"><?=$textHome['service'][0]?></p>
@@ -31,7 +34,6 @@
 				<div class="small-24 medium-8 large-4 columns">
 					<img src="<?=assetsUrl('frontend','images','service/service-2.jpg');?>" />
 					<p class="caption"><?=$textHome['service'][1]?></p>
-
 				</div>
 				<div class="small-24 medium-8 large-4 columns">
 					<img src="<?=assetsUrl('frontend','images','service/service-3.jpg');?>" />
@@ -49,24 +51,25 @@
 					<img src="<?=assetsUrl('frontend','images','service/service-6.jpg');?>" />
 					<p class="caption"><?=$textHome['service'][5]?></p>
 				</div>
+			-->
 			</div>
 		</div>
 		<div class="row">
-			<a class="btnBlue btnTimhieuthem" href="<?=F_URL?>"><?=$textMore?></a>
+			<a class="btnBlue btnTimhieuthem" href="<?=$links['service']['service']?>"><?=$textMore?></a>
 		</div>
 	</div>
 <!-- banner 2 -->
 	<div class="banner banner-2 fullContainer">
 		<ul class="bxslider-2">
-			<? if ($lang=='vn') {
-				foreach ($bannerPos2_VN as $banner) { ?>
-					<li><img src="<?=$banner?>" /></li>
-				<? }
-			} else { 
-				foreach ($bannerPos2_EN as $banner) { ?>
-					<li><img src="<?=$banner?>" /></li>
-				<? }
-			} ?>
+			<? foreach ($bannerPos2 as $banner) { ?>
+				<li>
+					<? if ($banner['link'] != "") { ?>
+					<a href="<?=$banner['link']?>"><img src="<?=$banner['url']?>" /></a>
+					<? } else { ?>
+					<img src="<?=$banner['url']?>" />
+					<? } ?>
+				</li>
+			<? } ?>
 		  	<!-- <li><img src="<?=uploadUrl('images','banner/position-2/1.jpg');?>" /></li>
 		  	<li><img src="<?=uploadUrl('images','banner/position-2/2.jpg');?>" /></li>
 		  	<li><img src="<?=uploadUrl('images','banner/position-2/3.jpg');?>" /></li>
@@ -81,6 +84,37 @@
 		<div class="right small-24 medium-12 large-14 columns">
 			<div class="wrapper">
 				<p class="title"><?=$textHome['certification']['title']?></p>
+				<? foreach ($certification as $item) { ?>
+				<div class="row" style="clear: both">
+					<? if (isset($item[0])) { ?>
+						<div class="small-24 medium-12 large-12 columns">
+							<div class="iconWrapper">
+								<img src="<?=$item[0]['thumbnail']?>" />
+								<span class="itemTitle" style="left: 70px;"><? if ($lang=="vn") { echo $item[0]['title']; } else { echo $item[0]['title_en']; }?></span>
+							</div>
+							<p class="itemDesc"><? if ($lang=="vn") { echo $item[0]['desc']; } else { echo $item[0]['desc_en']; }?></p>
+							<p class="itemMore">&#187;&nbsp;
+								<!-- <a href="<? if ($lang=="vn") { echo $links['service']['certification'].'/'.$item[0]['url']; } else { echo $links['service']['certification'].'/'.$item[0]['url_en']; }?>"><?=$textMore?></a> -->
+								<a href="<?=$links['service']['certification']?>"><?=$textMore?></a>
+							</p>
+						</div>
+					<? } ?>
+					<? if (isset($item[1])) { ?>
+						<div class="small-24 medium-12 large-12 columns">
+							<div class="iconWrapper">
+								<img src="<?=$item[1]['thumbnail']?>" />
+								<span class="itemTitle" style="left: 90px;"><? if ($lang=="vn") { echo $item[1]['title']; } else { echo $item[1]['title_en']; }?></span>
+							</div>
+							<p class="itemDesc"><? if ($lang=="vn") { echo $item[1]['desc']; } else { echo $item[1]['desc_en']; }?></p>
+							<p class="itemMore">&#187;&nbsp;
+								<!-- <a href="<? if ($lang=="vn") { echo $links['service']['certification'].'/'.$item[1]['url']; } else { echo $links['service']['certification'].'/'.$item[1]['url_en']; }?>"><?=$textMore?></a> -->
+								<a href="<?=$links['service']['certification']?>"><?=$textMore?></a>
+							</p>
+						</div>
+					<? } ?>
+				</div>
+				<? } ?>
+				<!-- 
 				<div class="row">
 					<div class="small-24 medium-12 large-12 columns">
 						<div class="iconWrapper">
@@ -116,7 +150,7 @@
 						<p class="itemDesc"><?=$textHome['certification'][3]['desc']?></p>
 						<p class="itemMore">&#187;&nbsp;<a href="<?=F_URL?>"><?=$textMore?></a></p>
 					</div>
-				</div>
+				</div> -->
 			</div>
 		</div>
 	</div>
@@ -127,69 +161,98 @@
 			<p calss="desc"><?=$textHome['gallery']['desc']?></p>
 			<div class="gallerySlide">
 				<ul class="bxslider-3">
-					<li>
-						<div class="row">
-							<div class="small-24 medium-12 large-12 columns">
-								<div class="imgWrapper small-12 medium-12 large-12 columns">
-									<img src="<?=uploadUrl('images','gallery/before/1.jpg');?>" />
-									<div class="caption">BAN ĐẦU</div>
+					<? if (count($gallery)>=5) { ?>
+						<? $arrChunk = array_chunk($gallery, 2);?>
+						<? for ($i=0; $i<5; $i++) { ?>
+							<li>
+								<div class="row">
+									<div class="small-24 medium-12 large-12 columns">
+										<div class="imgWrapper small-12 medium-12 large-12 columns">
+											<img src="<?=$arrChunk[$i][0]['detail'][0]['value']?>" />
+											<div class="caption"><?=$textGallery['textBefore']?></div>
+										</div>
+										<div class="imgWrapper small-12 medium-12 large-12 columns">
+											<img src="<?=$arrChunk[$i][0]['detail'][1]['value']?>" />
+											<div class="caption"><?=$textGallery['textAfter']?></div>
+										</div>
+										<p class="infoCar"><strong><?=$textGallery['textInfo']?>:</strong> <?=$arrChunk[$i][0]['title']?></p>
+										<p class="infoCar"><strong><?=$textGallery['textService']?>:</strong> <?=$arrChunk[$i][0]['desc']?></p>
+									</div>
+									<div class="small-24 medium-12 large-12 columns">
+										<div class="imgWrapper small-12 medium-12 large-12 columns">
+											<img src="<?=$arrChunk[$i][1]['detail'][0]['value']?>" />
+											<div class="caption"><?=$textGallery['textBefore']?></div>
+										</div>
+										<div class="imgWrapper small-12 medium-12 large-12 columns">
+											<img src="<?=$arrChunk[$i][1]['detail'][1]['value']?>" />
+											<div class="caption"><?=$textGallery['textAfter']?></div>
+										</div>
+										<p class="infoCar"><strong><?=$textGallery['textInfo']?>:</strong> <?=$arrChunk[$i][1]['title']?></p>
+										<p class="infoCar"><strong><?=$textGallery['textService']?>:</strong> <?=$arrChunk[$i][1]['desc']?></p>
+									</div>
 								</div>
-								<div class="imgWrapper small-12 medium-12 large-12 columns">
-									<img src="<?=uploadUrl('images','gallery/after/1.jpg');?>" />
-									<div class="caption">LÚC SAU</div>
-								</div>
-								<p class="infoCar"><strong>Thông tin xe:</strong> Mercedes GLS</p>
-								<p class="infoCar"><strong>Dịch vụ:</strong> Chỉnh móp đầu xe, khôi phục vết xước sơn xe.</p>
-							</div>
-							<div class="small-24 medium-12 large-12 columns">
-								<div class="imgWrapper small-12 medium-12 large-12 columns">
-									<img src="<?=uploadUrl('images','gallery/before/2.jpg');?>" />
-									<div class="caption">BAN ĐẦU</div>
-								</div>
-								<div class="imgWrapper small-12 medium-12 large-12 columns">
-									<img src="<?=uploadUrl('images','gallery/after/2.jpg');?>" />
-									<div class="caption">LÚC SAU</div>
-								</div>
-								<p class="infoCar"><strong>Thông tin xe:</strong> Mercedes GLS</p>
-								<p class="infoCar"><strong>Dịch vụ:</strong> Chỉnh móp đầu xe, khôi phục vết xước sơn xe.</p>
-							</div>
-						</div>
-					</li>
-					<li>
-						<div class="row">
-							<div class="small-24 medium-12 large-12 columns">
-								<div class="imgWrapper small-12 medium-12 large-12 columns">
-									<img src="<?=uploadUrl('images','gallery/before/1.jpg');?>" />
-									<div class="caption">BAN ĐẦU</div>
-								</div>
-								<div class="imgWrapper small-12 medium-12 large-12 columns">
-									<img src="<?=uploadUrl('images','gallery/after/1.jpg');?>" />
-									<div class="caption">LÚC SAU</div>
-								</div>
-								<p class="infoCar"><strong>Thông tin xe:</strong> Mercedes GLS</p>
-								<p class="infoCar"><strong>Dịch vụ:</strong> Chỉnh móp đầu xe, khôi phục vết xước sơn xe.</p>
-							</div>
-							<div class="small-24 medium-12 large-12 columns">
-								<div class="imgWrapper small-12 medium-12 large-12 columns">
-									<img src="<?=uploadUrl('images','gallery/before/2.jpg');?>" />
-									<div class="caption">BAN ĐẦU</div>
-								</div>
-								<div class="imgWrapper small-12 medium-12 large-12 columns">
-									<img src="<?=uploadUrl('images','gallery/after/2.jpg');?>" />
-									<div class="caption">LÚC SAU</div>
-								</div>
-								<p class="infoCar"><strong>Thông tin xe:</strong> Mercedes GLS</p>
-								<p class="infoCar"><strong>Dịch vụ:</strong> Chỉnh móp đầu xe, khôi phục vết xước sơn xe.</p>
-							</div>
-						</div>
-					</li>
+							</li>
+						<? } ?>
+					<? } 
+					else { ?>
+							<? if (count($gallery)==1) { ?>
+								<li>
+									<div class="row">
+										<div class="small-24 medium-12 large-12 columns">
+											<div class="imgWrapper small-12 medium-12 large-12 columns">
+												<img src="<?=$gallery[0]['detail'][0]['value']?>" />
+												<div class="caption"><?=$textGallery['textBefore']?></div>
+											</div>
+											<div class="imgWrapper small-12 medium-12 large-12 columns">
+												<img src="<?=$gallery[0]['detail'][1]['value']?>" />
+												<div class="caption"><?=$textGallery['textAfter']?></div>
+											</div>
+											<p class="infoCar"><strong><strong><?=$textGallery['textInfo']?>:</strong> Mercedes GLS</p>
+											<p class="infoCar"><strong><strong><?=$textGallery['textService']?>:</strong> Chỉnh móp đầu xe, khôi phục vết xước sơn xe.</p>
+										</div>
+									</div>
+								</li>
+							<? } else { ?>
+								<? $arrChunk = array_chunk($gallery, 2);?>
+								<? foreach ($arrChunk as $item) { ?>
+									<li>
+										<div class="row">
+											<div class="small-24 medium-12 large-12 columns">
+												<div class="imgWrapper small-12 medium-12 large-12 columns">
+													<img src="<?=$item[0]['detail'][0]['value']?>" />
+													<div class="caption"><?=$textGallery['textBefore']?></div>
+												</div>
+												<div class="imgWrapper small-12 medium-12 large-12 columns">
+													<img src="<?=$item[0]['detail'][1]['value']?>" />
+													<div class="caption"><?=$textGallery['textAfter']?></div>
+												</div>
+												<p class="infoCar"><strong><?=$textGallery['textInfo']?>:</strong> <?=$item[0]['title']?></p>
+												<p class="infoCar"><strong><?=$textGallery['textService']?>:</strong> <?=$item[0]['desc']?></p>
+											</div>
+											<div class="small-24 medium-12 large-12 columns">
+												<div class="imgWrapper small-12 medium-12 large-12 columns">
+													<img src="<?=$item[1]['detail'][0]['value']?>" />
+													<div class="caption"><?=$textGallery['textBefore']?></div>
+												</div>
+												<div class="imgWrapper small-12 medium-12 large-12 columns">
+													<img src="<?=$item[1]['detail'][1]['value']?>" />
+													<div class="caption"><?=$textGallery['textAfter']?></div>
+												</div>
+												<p class="infoCar"><strong><?=$textGallery['textInfo']?>:</strong> <?=$item[1]['title']?></p>
+												<p class="infoCar"><strong><?=$textGallery['textService']?>:</strong> <?=$item[1]['desc']?></p>
+											</div>
+										</div>
+									</li>
+								<? } ?>
+							<? } ?>
+					<? } ?>
 				</ul>
 				<div class="outside">
 				  	<div id="slider-prev"></div>
 				  	<div id="slider-next"></div>
 				</div>
 				<div class="row">
-					<a class="btnBlue btnXemthem" href="<?=F_URL?>"><?=$textMore?></a>
+					<a class="btnBlue btnXemthem" href="<?=$links['gallery']['beforeafter']?>"><?=$textViewMore?></a>
 				</div>
 			</div>
 		</div>

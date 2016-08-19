@@ -104,7 +104,21 @@
       margin: auto;
       position: relative;
     }
+    .processing {
+        width: 100%; height: 100%;
+        position: fixed;
+        z-index: 10000;
+        background-color: rgba(255,255,255,0.8);
+        text-align: center;
+        display: none;
 
+        img {
+            position: absolute;
+            left: 0; right: 0;
+            top: 0; bottom: 0;
+            margin: auto;
+        }
+    }
     @media screen and (max-width: $widthCenter) {
         .centerContainer {
             width: 98% !important;
@@ -115,6 +129,13 @@
     }
     .pointer:hover {
         cursor: pointer;
+    }
+    .linkFull {
+        display: block;
+        width: 100%; height: 100%;
+        position: absolute;
+        z-index: 1;
+        left: 0; top: 0;
     }
     .btnBlue {
         display: block;
@@ -129,6 +150,7 @@
         @include border-radius(50px);
         border: none;
         text-decoration: none;
+        font-size: 15px;
 
         &:hover {
             color: white !important;
@@ -147,7 +169,7 @@
     input[type="text"] {
         height: 40px;
         line-height: 40px;
-        font-size: 13px;
+        font-size: 15px;
     }
     label {
         cursor: default;
@@ -188,7 +210,7 @@
                 margin: 5px 0;
                 padding-left: 10px;
                 line-height: 24px;
-                font-size: 12px;
+                font-size: 15px;
 
                 &:hover {
                     color: white;
@@ -294,12 +316,18 @@
                     display: block;
                 }
                 .submenuService {
-                    width: 330px;
+                    width: 320px;
                     left: -30px;
                 }
+                .submenuService_en {
+                    width: 265px !important;
+                }
                 .submenuGallery {
-                    width: 270px;
+                    width: 265px;
                     left: -30px;
+                }
+                .submenuGallery_en {
+                    width: 175px !important;
                 }
             }
             li.active {
@@ -534,6 +562,7 @@
         }
         #frmContact {
             padding: 10px;
+            font-size: 15px;
 
             .row {
                 height: 80px;
@@ -554,20 +583,20 @@
                 overflow: visible;
 
                 p {
-                    width: 260px;
+                    width: 320px;
                     margin: 0;
                     margin-top: 15px;
                     height: 40px;
                     line-height: 40px;
                     border: solid 1px #cccccc;
                     padding: 0px 10px;
-                    font-size: 13px;
+                    /*font-size: 14px;*/
                 }
                 ul {
                     top: -165px;
 
                     li {
-                        font-size: 13px;
+                        font-size: 15px;
                     }
                 }
             }
@@ -577,7 +606,6 @@
 
             input[type="submit"] {
                 border: none;
-                font-size: 14px;
                 height: 40px;
                 line-height: 40px;
                 @include border-radius(50px);
@@ -642,13 +670,13 @@
             .popupClose {
                 position: absolute;
                 z-index: 1;
-                right: 10px; top: 10px;
+                right: 5px; top: 5px;
                 width: 30px; height: 30px;
 
                 i {
                     font-size: 24px;
                     color: white;
-                    position: absolute;
+                    /*position: absolute;*/
                 }
                 .fa-caret-down {
                     left: 5px; top: -7px;
@@ -676,7 +704,7 @@
                     position: relative;
                     padding: 30px;
                     text-align: left;
-                    font-size: 14px;
+                    font-size: 15px;
                 }
                 .btnBackHome {
                     position: absolute;
@@ -1108,8 +1136,8 @@
             margin: 0;
         }
         .item {
-            margin-bottom: 20px;
-            padding-bottom: 30px;
+            margin-bottom: 30px;
+            padding-bottom: 20px;
             border-bottom: solid 1px $colorBorder;
 
             .title {
@@ -1255,6 +1283,7 @@
         }
     }
     #frmBooking {
+
         .title {
             width: 100%;
             font-size: 26px;
@@ -1268,6 +1297,7 @@
             min-height: 80px;
         }
         input[type="text"], textarea {
+            font-size: 15px;
             background-color: #f0f0f0;
             @include border-radius(5px);
         }
@@ -1276,6 +1306,8 @@
             height: 111px;
         }
         label {
+            font-size: 15px;
+
             span {
                 color: red;
                 padding-right: 3px;
@@ -1286,7 +1318,7 @@
         }
         input[type="submit"] {
             border: none;
-            font-size: 14px;
+            /*font-size: 14px;*/
             height: 40px;
             line-height: 40px;
             @include border-radius(50px);
@@ -1306,7 +1338,7 @@
         }
         .valueShow {
             background-color: #c6c6c6;
-            font-size: 14px;
+            /*font-size: 14px;*/
             height: 40px;
             line-height: 40px;
             @include border-radius(5px);
@@ -1347,7 +1379,7 @@
             margin-right: 20px;
         }
         #serviceWrapper {
-            width: 300px;
+            width: 350px;
             float: left; clear: none;
         }
         label[for="pictures"] {
@@ -1357,7 +1389,7 @@
         }
         a.btnUpload {
             float: left; clear: none;
-            font-size: 12px;
+            /*font-size: 12px;*/
             height: 40px;
             line-height: 40px;
 
@@ -1574,7 +1606,25 @@
         left: 0 !important;
         margin: 5px !important;
     }
+    .videoContainer {
+        position: relative;
+        float: left; clear: none;
+        margin: 30px;
+        border: solid 1px $colorText;
 
+        video {
+            width: 300px;
+        }
+        /*div {
+            position: absolute;
+            z-index: 1;
+            left: 0; top: 0;
+
+            :hover {
+                cursor: pointer;
+            }
+        }*/
+    }
 }
 
 /* jquery UI */

@@ -313,9 +313,11 @@ else {
     date_default_timezone_set('Asia/Ho_Chi_Minh');
 
     // EMAIL
-	/*define('EMAIL', 'bpc.mailtest@gmail.com');
+	define('EMAIL', 'bpc.mailtest@gmail.com');
     define('EMAILPASS', 'bpc123456');
-    define('EMAIL_TITLE', '');*/
+    define('EMAIL_TITLE_1', 'BPC Vietnam Star_Dat hen tu van');
+    define('EMAIL_TITLE_2', 'BPC Vietnam Star_Lien he');
+    define('ATTACH_FOLDER', './upload/user/booking/');
 
 // FILE
     define('MAXUPLOAD', 10);

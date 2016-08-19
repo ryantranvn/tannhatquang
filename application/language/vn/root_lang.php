@@ -26,7 +26,7 @@
 		$lang['links']['gallery']['event'] = F_URL . "vn/thu-vien/su-kien-khac";
 	
 	$lang['links']['news'] = F_URL . "vn/tin-tuc";
-	$lang['links']['newsDetail'] = F_URL . "vn/tin-tuc/chi-tiet";
+	// $lang['links']['newsDetail'] = F_URL . "vn/tin-tuc/chi-tiet";
 	
 	$lang['links']['contact'] = F_URL . "vn/lien-he";
 
@@ -46,7 +46,7 @@
 
 /* error */
 	$lang['errorText']['errorTitle'] = "LỖI";
-	$lang['errorText']['ajax'] = "Lỗi ajax";
+	$lang['errorText']['ajax'] = "Lỗi đường truyền. Vui lòng liên hệ quản trị viên để được hỗ trợ.";
 	$lang['errorText']['uploadOver'] = "Bạn cần chọn ít nhất 1 hình và nhiều nhất 5 hình để tải lên";
 	
 	$lang['errorText']['invalid'][10] = "Tập tin tải lên không đúng định dạng cho phép";
@@ -128,7 +128,7 @@
 
 /* textBooking */
 	$lang['textBooking']['title'] = 'Chiếc xe yêu quý của bạn<br/>cần sự chăm sóc đặc biệt?';
-	$lang['textBooking']['desc'] = "Worried about the latest dent or scratch on your car?<br/>Confused and have no idea of what to do with your car in case of emergency or accident?<br/>Book an appointment today with Vietnam Star Body & Paint center to get the best advice and possible solutions for your car.";
+	$lang['textBooking']['desc'] = "Bạn lo lắng về Vết móp trên thân xe trong 1 cú va chạm nặng hay Vết trầy sơn trong 1 cú quẹt nhẹ?<br/>Bạn bối rối không biết xử lý thế nào khi xe gặp sự cố hoặc tai nạn?<br/>Bạn lăn tăn về vẻ bề ngoài của xe cần được chăm sóc hoàn hảo, đúng cách?<br/>Hãy đặt hẹn Trung tâm đồng sơn Vietnam Star để được tư vấn giải pháp cho chiếc xe yêu quý của bạn ngay hôm nay!";
 	
 	$lang['textBooking']['form']['title'] = 'Vui lòng điền đầy đủ thông tin';
 	$lang['textBooking']['form']['textRequied'] = 'Những thông tin có đánh dấu <span>*</span> là bắt buộc nhập.';
@@ -141,6 +141,8 @@
 	$lang['textBooking']['form']['lblBooking'] = 'ĐẶT LỊCH HẸN';
 	$lang['textBooking']['form']['lblTitle'] = 'TIÊU ĐỀ';
 	$lang['textBooking']['form']['lblContent'] = 'NỘI DUNG';
+	$lang['textBooking']['form']['lblModel'] = 'DÒNG XE';
+	$lang['textBooking']['form']['lblBrand'] = 'LOẠI XE';
 
 	$lang['textBooking']['form']['placeholderDate'] = 'Ngày/Tháng/Năm';
 	$lang['textBooking']['form']['placeholder250'] = '(Giới hạn 250 kí tự)';
@@ -159,10 +161,8 @@
 
 	$lang['textBooking']['form']['btnSend'] = 'Hoàn thành';
 
-	$lang['textMore'] = 'Tìm hiểu dịch vụ';
-	$lang['textViewMore'] = 'Xem thêm';
-
-	$lang['textContactBox']['title'] = 'Liên hệ cần tư vấn';
+/* ContactBox */
+	$lang['textContactBox']['title'] = 'Liên hệ tư vấn nhanh';
 	$lang['textContactBox']['form']['title'] = 'Vui lòng điền đầy đủ thông tin';
 	$lang['textContactBox']['form']['btnSend'] = "Gửi yêu cầu";
 					
@@ -173,3 +173,10 @@
 	$lang['textGallery']['textAfter'] = "LÚC SAU";
 	$lang['textGallery']['textInfo'] = 'Thông tin xe';
 	$lang['textGallery']['textService'] = 'Dịch vụ';
+
+/* textNews */
+	$lang['textNews']['related'] = 'TIN TỨC LIÊN QUAN';
+
+	$lang['textMore'] = 'Tìm hiểu dịch vụ';
+	$lang['textViewMore'] = 'Xem thêm';
+	

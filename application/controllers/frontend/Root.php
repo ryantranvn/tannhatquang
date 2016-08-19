@@ -1,7 +1,12 @@
 <?php 
 if (!defined('BASEPATH')) exit('No direct script access allowed');
 
-require_once(APPPATH . 'libraries/Mobile_Detect.php');
+if (file_exists(APPPATH . 'libraries/Mobile_Detect.php')) {
+    require_once(APPPATH . 'libraries/Mobile_Detect.php');
+}
+if (file_exists(APPPATH . 'libraries/PHPMailer/PHPMailerAutoload.php')) {
+    require_once(APPPATH . 'libraries/PHPMailer/PHPMailerAutoload.php');
+}
 
 class Root extends CI_Controller {
 
@@ -20,7 +25,6 @@ class Root extends CI_Controller {
             $urlLang = 'vn';
             redirect(F_URL.'vn');
         }
-        // echo $urlLang; die();
 
     // Lang
         $this->data['lang'] = $urlLang;
@@ -43,6 +47,7 @@ class Root extends CI_Controller {
         $this->data['textBooking'] = $this->lang->line('textBooking');
         $this->data['textContactBox'] = $this->lang->line('textContactBox');
         $this->data['textGallery'] = $this->lang->line('textGallery');
+        $this->data['textNews'] = $this->lang->line('textNews');
 
         $this->data['textMore'] = $this->lang->line('textMore');
         $this->data['textViewMore'] = $this->lang->line('textViewMore');
@@ -77,6 +82,31 @@ class Root extends CI_Controller {
         $this->data['altImg'] = PAGE_NAME;
         $this->data['onair'] = ONAIR;
 
+    // get the last post of service
+        if ($this->data['lang'] == "vn") { 
+            $titleLang = "title";
+            $urlLang = "url";
+        }
+        else {
+            $titleLang = "title_en";
+            $urlLang = "url_en";
+        }
+        
+        $gioithieu = $this->Base_model->getDB('db','post',array($urlLang),array('parent_id'=>3,'status'=>'active'),NULL,array('id'),array('desc'),1);
+        $this->data['defaultUrl']['serviceGioithieu'] = $this->data['links']['service']['introduction'].'/'.$gioithieu[0][$urlLang];
+
+        $dichvu = $this->Base_model->getDB('db','post',array($urlLang),array('parent_id'=>4,'status'=>'active'),NULL,array('id'),array('desc'),1);
+        $this->data['defaultUrl']['serviceDichvu'] = $this->data['links']['service']['service'].'/'.$dichvu[0][$urlLang];
+
+        $chungnhan = $this->Base_model->getDB('db','post',array($urlLang),array('parent_id'=>5,'status'=>'active'),NULL,array('id'),array('desc'),1);
+        $this->data['defaultUrl']['serviceChungnhan'] =$this->data['links']['service']['certification'].'/'.$chungnhan[0][$urlLang];
+
+    // get list service for form
+        $serviceList = $this->Base_model->getDB('db','post',array($titleLang),array('parent_id'=>4,'status'=>'active'),NULL,array('id'),array('asc'));
+        $this->data['serviceList'] = array();
+        foreach ($serviceList as $service) {
+            array_push($this->data['serviceList'], $service[$titleLang]);
+        }
     }
 
     public function index()

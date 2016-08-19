@@ -253,7 +253,143 @@
 
 /* ------------------------------------------- SECURITY */
 
+/* ------------------------------------------- EMAIL */
+    /*
+    function send_gmail($fromEmail, $passEmail, $toEmail, $titleEmail, $contentEmail, $cc, $bcc, $attachs)
+    {
+        $CI = & get_instance();
+        $CI->load->library('email');
+        $config = array();
+        $config['useragent']           = PAGE_NAME;
+        $config['mailpath']            = "/usr/sbin/sendmail"; // "/usr/bin/sendmail"; or "/usr/sbin/sendmail"
+        $config['protocol']            = "smtp";
+        $config['smtp_host']           = "ssl://smtp.googlemail.com";
+        // $config['smtp_host']           = "ssl://smtp.gmail.com";
+        // $config['smtp_host']           = "tls://smtp.gmail.com";
+        // $config['smtp_port']           = 25;
+        $config['smtp_port']           = 587;
+        // $config['smtp_port']           = 465;
+        $config['smtp_crypto']         = 'tls';
+        $config['smtp_user']            = $fromEmail;
+        $config['smtp_pass']            = $passEmail;
+        $config['mailtype']            = 'html';
+        $config['charset']             = 'utf-8';
+        $config['newline']             = "\r\n";
+        $config['wordwrap']            = TRUE;
 
+        $CI->email->initialize($config);
+        $CI->email->from($fromEmail, $titleEmail);
+        $CI->email->to($toEmail);
+        if ($cc!==NULL && count($cc)>0) {
+            foreach ($cc as $item) {
+                $CI->email->cc($item);
+            }
+        }
+        if ($bcc!==NULL && count($bcc)>0) {
+            foreach ($bcc as $item) {
+                $CI->email->bcc($item);
+            }
+        }
+        $CI->email->subject($titleEmail);
+        $CI->email->message($contentEmail);
+        if ($attachs!==NULL && count($attachs)>0) {
+            foreach ($attachs as $item) {
+                $CI->email->attach(ATTACH_FOLDER.$item);
+            }
+        }
+        if($CI->email->send()){
+            return TRUE;
+        }
+        else
+        {
+            // return FALSE;
+            show_error($CI->email->print_debugger());
+        }
+    }
+    */
+    function send_gmail($fromEmail, $passEmail, $toEmail, $titleEmail, $contentEmail, $cc, $bcc, $attachs)
+    {
+        // send_gmail(EMAIL, EMAILPASS, 'ryantran.vn@gmail.com', EMAIL_TITLE_1, 'Tiêu đề', NULL, NULL, NULL);
+        //Create a new PHPMailer instance
+        $mail = new PHPMailer;
+
+        $mail->CharSet = "UTF-8";
+        //Tell PHPMailer to use SMTP
+        // $mail->isSMTP();
+
+        //Enable SMTP debugging
+        // 0 = off (for production use)
+        // 1 = client messages
+        // 2 = client and server messages
+        $mail->SMTPDebug = 2;
+
+        //Ask for HTML-friendly debug output
+        $mail->Debugoutput = 'html';
+
+        //Set the hostname of the mail server
+        $mail->Host = 'smtp.gmail.com';
+        // use
+        // $mail->Host = gethostbyname('smtp.gmail.com');
+        // if your network does not support SMTP over IPv6
+
+        //Set the SMTP port number - 587 for authenticated TLS, a.k.a. RFC4409 SMTP submission
+        $mail->Port = 465;
+
+        //Set the encryption system to use - ssl (deprecated) or tls
+        $mail->SMTPSecure = 'ssl';
+
+        //Whether to use SMTP authentication
+        $mail->SMTPAuth = true;
+
+        //Username to use for SMTP authentication - use full email address for gmail
+        $mail->Username = $fromEmail;
+
+        //Password to use for SMTP authentication
+        $mail->Password = $passEmail;
+
+        //Set who the message is to be sent from
+        $mail->setFrom($fromEmail, $titleEmail);
+
+        //Set an alternative reply-to address
+        // $mail->addReplyTo('replyto@example.com', 'First Last');
+
+        //Set who the message is to be sent to
+        if (is_array($toEmail)) {
+            foreach ($toEmail as $email) {
+                $mail->addAddress($email);
+            }
+        }
+        else {
+            $mail->addAddress($toEmail);
+        }
+
+        //Set the subject line
+        $mail->Subject = $titleEmail;
+
+        //Read an HTML message body from an external file, convert referenced images to embedded,
+        //convert HTML into a basic plain-text alternative body
+        // $mail->msgHTML(file_get_contents('contents.html'), dirname(__FILE__));
+        $mail->msgHTML($contentEmail);
+
+        //Replace the plain text body with one created manually
+        // $mail->AltBody = 'This is a plain-text message body';
+
+        //Attach an image file
+        if (isset($attachs) && is_array($attachs)) {
+            foreach ($attachs as $attach) {
+                $mail->addAttachment(ATTACH_FOLDER.$attach);        
+            }
+        }
+
+        //send the message, check for errors
+        if (!$mail->send()) {
+            // echo "Mailer Error: " . $mail->ErrorInfo;
+            return FALSE;
+        } else {
+            // echo "Message sent!";
+            return TRUE;
+        }
+    }
 /* ------------------------------------------- VALID FILE */
 // valid TYPE
     function valid_filetype($file_type, $arr_type)

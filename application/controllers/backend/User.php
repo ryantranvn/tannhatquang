@@ -45,10 +45,10 @@ class User extends Root {
         $sord = $_GET['sord']; // get the direction
         if(!$sidx) $sidx=1;
         // add where in string
-            $where = array();
+            $where = "";
         // get filter if have
             // $search = $_GET['_search'];
-            $like = array();
+            $like = "";
             if (isset($_GET['filters'])) {
                 $filters = $_GET['filters'];
                 $filters = json_decode($filters);
@@ -56,13 +56,8 @@ class User extends Root {
                 foreach($filters->rules as $rule) { // filter is active
                     $field = $rule->field;
                     $value = $rule->data;
-                    if ($field == "categoryName") {
-                        $field = 'category.name';
-                    } 
-                    else {
-                        $field = 'post.'.$field;
-                    }
-                    $like[$field] = $value;
+                    
+                    $like .= $field." LIKE '%".$value."%'";
                 }
             }
             
@@ -131,15 +126,15 @@ class User extends Root {
                     ->setCellValue('C1', 'Email')
                     ->setCellValue('D1', 'Fullname')
                     ->setCellValue('E1', 'Phone')
-                    ->setCellValue('F1', 'Address')
-                    ->setCellValue('G1', 'Brand')
-                    ->setCellValue('H1', 'Model')
-                    ->setCellValue('I1', 'Date')
-                    ->setCellValue('J1', 'Service')
-                    ->setCellValue('K1', 'Title')
-                    ->setCellValue('L1', 'Content')
-                    ->setCellValue('M1', 'Created Datetime')
-                    ->setCellValue('N1', 'Status');
+                    ->setCellValue('F1', 'Address');
+                    // ->setCellValue('G1', 'Brand')
+                    // ->setCellValue('H1', 'Model')
+                    // ->setCellValue('I1', 'Date')
+                    // ->setCellValue('J1', 'Service')
+                    // ->setCellValue('K1', 'Title')
+                    // ->setCellValue('L1', 'Content')
+                    // ->setCellValue('M1', 'Created Datetime')
+                    // ->setCellValue('N1', 'Status');
                     // ->setCellValue('O1', 'Album')
                     // ->setCellValue('P1', 'Video')
                     // ->setCellValue('Q1', 'Selfie')
@@ -150,7 +145,7 @@ class User extends Root {
                     // ->setCellValue('V1', 'Download App');
 
         // get data
-        $data_list = $this->model->getUser('db');
+        $data_list = $this->Base_model->getDB('db','user');
         // print_r("<pre>"); print_r($data_list); die();
         $i = 2;
         if ($data_list!=FALSE) {
@@ -160,16 +155,16 @@ class User extends Root {
                             ->setCellValue('B'.$i, $item['id'])
                             ->setCellValue('C'.$i, $item['email'])
                             ->setCellValue('D'.$i, $item['fullname'])
-                            ->setCellValue('E'.$i, $item['phone'])
-                            ->setCellValue('F'.$i, $item['address'])
-                            ->setCellValue('G'.$i, $item['brandcar'])
-                            ->setCellValue('H'.$i, $item['modelcar'])
-                            ->setCellValue('I'.$i, $item['date'])
-                            ->setCellValue('J'.$i, $item['service'])
-                            ->setCellValue('K'.$i, $item['title'])
-                            ->setCellValue('L'.$i, $item['content'])
-                            ->setCellValue('M'.$i, $item['created_datetime'])
-                            ->setCellValue('N'.$i, $item['status'] == "active" ? "contacted" : "");
+                            ->setCellValueExplicit('E'.$i, $item['phone'],PHPExcel_Cell_DataType::TYPE_STRING)
+                            ->setCellValue('F'.$i, $item['address']);
+                            // ->setCellValue('G'.$i, $item['brandcar'])
+                            // ->setCellValue('H'.$i, $item['modelcar'])
+                            // ->setCellValue('I'.$i, $item['date'])
+                            // ->setCellValue('J'.$i, $item['service'])
+                            // ->setCellValue('K'.$i, $item['title'])
+                            // ->setCellValue('L'.$i, $item['content'])
+                            // ->setCellValue('M'.$i, $item['created_datetime'])
+                            // ->setCellValue('N'.$i, $item['status'] == "active" ? "contacted" : "");
                             // ->setCellValue('O'.$i, $item['album'])
                             // ->setCellValue('P'.$i, $item['video'])
                             // ->setCellValue('Q'.$i, $item['selfie'])

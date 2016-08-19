@@ -49,7 +49,7 @@ class Gallery extends Root {
             $where = 'category.parent_id=6';
         // get filter if have
             // $search = $_GET['_search'];
-            $like = array();
+            $like = "";
             if (isset($_GET['filters'])) {
                 $filters = $_GET['filters'];
                 $filters = json_decode($filters);
@@ -63,7 +63,7 @@ class Gallery extends Root {
                     else {
                         $field = 'post.'.$field;
                     }
-                    $like[$field] = $value;
+                    $like .= $field." LIKE '%".$value."%'";
                 }
             }
             
@@ -89,6 +89,23 @@ class Gallery extends Root {
 
         // return json 
             echo json_encode($arrJSON);
+    }
+
+// ajax_status
+    public function ajax_status()
+    {
+        // check permission
+            $this->noAccess($this->data['permissionsMember'], $this->module, 3);
+            
+        $id = $this->input->post('id',TRUE);
+        $value = $this->input->post('value',TRUE);
+
+        if ( $this->Base_model->updateDB('db', 'post', array('status' => $value), array('id' => $id)) === FALSE ) {
+            echo "false";
+        }
+        else {
+            echo "true";
+        }
     }
 
 // Add

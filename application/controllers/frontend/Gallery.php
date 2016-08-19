@@ -52,6 +52,7 @@ class Gallery extends Root {
                     }
                 }
                 $this->data['gallery'] = array('album'=>$album, 'video'=>$video);
+                $this->data['file'] = $video[0]['detail'][0]['value'];
                 // print_r("<pre>"); print_r($this->data['gallery']); die();
                 break;
             default:
@@ -77,5 +78,7 @@ class Gallery extends Root {
 
         echo json_encode($arrJSON);
     }
+
+
 
 }

@@ -368,18 +368,19 @@ html#extr-page {
 		float: left; clear: both;
 
 		img {
-			max-width: 200px;
-			max-height: 200px;
+			max-width: 300px;
+			max-height: 300px;
 			float: left; clear: none;
 			border: solid 1px #999;
-			margin-right: 10px;
 		}
 		a.thumbnailDel {
 			position: absolute;
-			bottom: 0;
-			i {
-				font-size: 30px;
-			}
+			z-index: 10;
+			right: 0px; top: 0px;
+			color: white;
+			font-size: 20px;
+			padding: 5px;
+			background-color: red;
 		}
 	}
 	#imageUploadWrapper {
@@ -443,7 +444,7 @@ html#extr-page {
 	i.fa {
 		position: absolute;
 		z-index: 10;
-		right: 10px; top: 0px;
+		right: 0px; top: 0px;
 		color: white;
 		font-size: 20px;
 		padding: 5px;

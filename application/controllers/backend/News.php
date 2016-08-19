@@ -49,7 +49,7 @@ class News extends Root {
             $where = 'category.parent_id=7';
         // get filter if have
             // $search = $_GET['_search'];
-            $like = array();
+            $like = "";
             if (isset($_GET['filters'])) {
                 $filters = $_GET['filters'];
                 $filters = json_decode($filters);
@@ -63,7 +63,7 @@ class News extends Root {
                     else {
                         $field = 'post.'.$field;
                     }
-                    $like[$field] = $value;
+                    $like .= $field." LIKE '%".$value."%'";
                 }
             }
             

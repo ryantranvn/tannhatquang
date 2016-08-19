@@ -179,6 +179,9 @@ class Member extends Root {
 // Edit
     public function edit($id)
     {
+        // check not access
+            $this->noAccess($this->data['permissionsMember'], $this->module, 2);
+
         if ($id===FALSE) {
             $this->session->set_userdata('invalid', "Requested data is not exitesed");
             redirect(B_URL.$this->router->fetch_class());
@@ -187,24 +190,32 @@ class Member extends Root {
         // get member
         $arrMember = $this->Base_model->getDB('db','member',array('id','username','thumbnail','status'),array('id'=>$id));
         $this->data['member'] = $arrMember[0];
-        // get member permission
-        foreach ($this->data['modules'] as $key => $item) {
-            $permissions = $this->Base_model->getDB('db','member_permission', array('id AS id_member_permission', 'id_permission','active AS activePermission'), array('id_member'=>$id, 'id_module' => $item['id']), NULL, array('id_member','id_module','id_permission'), array('asc','asc','asc'));
-            $this->data['modules'][$key]['permission_read'] = $permissions[0]['activePermission'];
-            $this->data['modules'][$key]['permission_add'] = $permissions[1]['activePermission'];
-            $this->data['modules'][$key]['permission_edit'] = $permissions[2]['activePermission'];
-            $this->data['modules'][$key]['permission_delete'] = $permissions[3]['activePermission'];
-        }
-        
+
         // create form
             $this->data['frmEditInfo'] = frm(B_URL.$this->module.'/edit_info_db', array('id' => 'frmEditInfo'), TRUE, array('id'=>$id));
             $this->data['frmEditPassword'] = frm(B_URL.$this->module.'/edit_password_db', array('id' => 'frmEditPassword'), FALSE, array('id'=>$id));
-            $this->data['frmEditPermission'] = frm(B_URL.$this->module.'/edit_permission_db', array('id' => 'frmEditPermission'), FALSE, array('id'=>$id));
+            if ($this->data['permissionsMember']['module'][1] == 1) {
+                $this->data['frmEditPermission'] = frm(B_URL.$this->module.'/edit_permission_db', array('id' => 'frmEditPermission'), FALSE, array('id'=>$id));
+                // get member permission
+                foreach ($this->data['modules'] as $key => $item) {
+                    $permissions = $this->Base_model->getDB('db','member_permission', array('id AS id_member_permission', 'id_permission','active AS activePermission'), array('id_member'=>$id, 'id_module' => $item['id']), NULL, array('id_member','id_module','id_permission'), array('asc','asc','asc'));
+                    $this->data['modules'][$key]['permission_read'] = $permissions[0]['activePermission'];
+                    $this->data['modules'][$key]['permission_add'] = $permissions[1]['activePermission'];
+                    $this->data['modules'][$key]['permission_edit'] = $permissions[2]['activePermission'];
+                    $this->data['modules'][$key]['permission_delete'] = $permissions[3]['activePermission'];
+                }
+            }
+            else {
+                $this->data['noPermissionModule'] = TRUE;
+            }
             
         $this->template->load('backend/template', 'backend/member/edit', $this->data);
     }
     public function edit_info_db()
     {
+        // check not access
+            $this->noAccess($this->data['permissionsMember'], $this->module, 2);
+
         $id = $this->input->post('id', TRUE);
         // validate
             $this->form_validation->set_rules('username', 'Username', 'trim|required|max_length[255]|xss_clean');

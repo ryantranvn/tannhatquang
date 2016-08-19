@@ -427,9 +427,17 @@
 	            	arr = new Array()
 	            }
 	            img = ""
+	            nameLinkInput = field.attr('name').substr(0,14)
 	            for (var i = 0; i < files.length; i++) {
 	                arr.push(files[i])
-	                img += '<div class="imgWrapper"><img src="' + files[i] + '" /><i class="fa fa-trash-o" data="' + files[i] + '"></i></div>'
+	                img += '<div class="imgWrapper">'
+	                	img += '<img src="' + files[i] + '" class="thumbnail" />'
+	                	img += '<i class="fa fa-trash-o"></i>'/*data="' + files[i] + '"*/
+	                	img += '<div class="row">'
+		                	img += '<label style="float: left; clear: both;">Link</label>'
+		                	img += '<input type="text" name="'+nameLinkInput+'_link[]" class="inputThumbnail form-control" style="float: left; clear: both" />'
+		                img += '</div>'
+	                img += '</div>'
 	            }
 	            wrapper.append(img)
 
@@ -458,7 +466,7 @@
 	{
 		$('body').on('click', buttonClass, function() {
 			
-			if (typeFile == 'images') {
+			if (typeFile == 'images' || typeFile == 'media') {
 				thumbnailWrapper = $(this).parent().parent().next('.thumbnailWrapper')
 			}
 			if (multiFile==undefined || multiFile=="") {
@@ -467,11 +475,25 @@
 					filename = inputField.val();
 					if (typeFile == 'images') {
 						typeDir = 'images/'
-						htmlImg = '<img src="' + filename + '" />';
+						htmlImg = '<img src="' + filename + '" class="thumbnail" />';
 		                htmlDel = '<a class="thumbnailDel"><i class="fa fa-trash-o"></i></a>'
-		                thumbnailWrapper.html('').html(htmlImg+htmlDel)
+	                	nameLinkInput = inputField.attr('name')
+	                	htmlLink = '<div class="row">'
+		                	htmlLink += '<label style="float: left; clear: both;">Link</label>'
+		                	htmlLink += '<input type="text" name="'+nameLinkInput+'_link" class="inputThumbnail form-control" style="float: left; clear: both" />'
+		                htmlLink += '</div>'
+
+		                thumbnailWrapper.html('').html(htmlImg+htmlDel+htmlLink)
+		                
 		            }
 		            else if (typeFile == 'media') {
+		            	htmlStr = '<video id="video" width="320" controls="true">'
+					        htmlStr += '<source src="'+filename+'">'
+					        htmlStr += 'Your browser does not support HTML5 video tag. Please download FireFox 3.5 or higher.'
+					    htmlStr += '</video><br/>'
+					    htmlStr += '<button onclick="shoot()" style="width: 64px;border: solid 2px #ccc;">Capture</button><br/>'
+					    htmlStr += '<div id="output" style="display: inline-block; top: 4px; position: relative ;border: dotted 1px #ccc; padding: 2px;"></div>'
+		            	thumbnailWrapper.html('').html(htmlStr)
 		            }
 				})
 			}
@@ -541,6 +563,50 @@
 	            fnCallback(index, value);
 	        }
 		});
+	}
+
+// capture video
+	var videoId = 'video';
+	var scaleFactor = 0.25;
+	var snapshots = [];
+	 
+	/**
+	 * Captures a image frame from the provided video element.
+	 *
+	 * @param {Video} video HTML5 video element from where the image frame will be captured.
+	 * @param {Number} scaleFactor Factor to scale the canvas element that will be return. This is an optional parameter.
+	 *
+	 * @return {Canvas}
+	 */
+	function capture(video, scaleFactor) {
+	    if(scaleFactor == null){
+	        scaleFactor = 1;
+	    }
+	    var w = video.videoWidth * scaleFactor;
+	    var h = video.videoHeight * scaleFactor;
+	    var canvas = document.createElement('canvas');
+	        canvas.width  = w;
+	        canvas.height = h;
+	    var ctx = canvas.getContext('2d');
+	        ctx.drawImage(video, 0, 0, w, h);
+	    return canvas;
+	} 
+	 
+	/**
+	 * Invokes the <code>capture</code> function and attaches the canvas element to the DOM.
+	 */
+	function shoot(){
+	    var video  = document.getElementById(videoId);
+	    var output = document.getElementById('output');
+	    var canvas = capture(video, scaleFactor);
+	        canvas.onclick = function(){
+	            window.open(this.toDataURL());
+	        };
+	    snapshots.unshift(canvas);
+	    output.innerHTML = '';
+	    for(var i=0; i<4; i++){
+	        output.appendChild(snapshots[i]);
+	    }
 	}
 
 //================================================== PAGEs
@@ -1331,7 +1397,7 @@
 							for (var i = 0; i < ids.length; i++) {
 								var cl = ids[i];
 								var rowData = jQuery(idTableList).jqGrid ('getRowData', cl);
-								if (rowData.id != authMember['id']) {
+								if (rowData.id == authMember['id']) {
 									var btnInline = btnEditInline(module, cl, true) + bntDeleteInline(module, false, cl, true)
 									var fa = formatButton(cl, rowData.status, 'btnStatus_', 'btnStatus', 'modalStatus', arrClassValue_Status, classTextColor_Status)
 								}
@@ -1399,7 +1465,6 @@
 
 		// common for add & edit
 			if ($('#frmAdd').length>0 || $('#frmEditPermission').length>0) {
-				
 			// Full Permission	
 				$('body').on('click','.permissionFull', function() {
 					group = $(this).parent('label').parent('.checkbox').parent('.form-group')
@@ -1804,6 +1869,7 @@
 		// list
 			if ($(idTableList).length>0) {
 				var statusStr = ":All;active:Active;inactive:Inactive";
+				var catetegoryStr = ":All;Giới thiệu:Giới thiệu;Dịch vụ:Dịch vụ;Chứng nhận chất lượng:Chứng nhận chất lượng";
 				caption = captionButton(module, true, true)
 
 			// jqGrid
@@ -1822,7 +1888,9 @@
 								},
 								{ name : 'id', index : 'id', search : true, align : 'center', width : '60' }, 
 								{ name : 'title', index : 'title', align : 'left', search : true, width : '150' }, 
-								{ name : 'categoryName', index : 'categoryName', search : true, width : '150' },
+								{ name : 'categoryName', index : 'categoryName', search : true, width : '150',
+									stype: 'select', searchoptions:{ sopt:['eq'], value: catetegoryStr }
+								},
 								{ name : 'order', index : 'order', align : 'center', search : true, width : '60',
 									editable : true, 
 									editoptions: { dataInit: function (elem) { 
@@ -1921,15 +1989,6 @@
 			if ($('#addContainer').length>0 || $('#editContainer').length>0) {
 			// select category
 				selectCategory('.category')
-				// $('body').on('click', '.category', function() {
-				// 	$('.category').removeClass('btn-success')
-				// 	$(this).addClass('btn-success')
-				// 	$('input[name="category"]').val($(this).attr('data-save'))
-
-				// 	index = $(this).index();
-				// 	$('.chooseDate').removeClass('showChooseDate');
-				// 	$('#inputDateWrapper').find('.chooseDate:eq('+index+')').addClass('showChooseDate')
-				// });
 
 			// generate URL
 				gen_url($('input[name="title"]'), $('input[name="url"]'));
@@ -2934,7 +2993,7 @@
 		}
 	}
 
-// BANENR
+// BANNER
 	function bannerPage()
 	{
 		if ($('#bannerPage').length>0) {
@@ -2949,7 +3008,10 @@
 				})
 			// banner Home VN
 				selectFile('.btnSelectBannerHome_1VN', 'images', true)
-
+				selectFile('.btnSelectBannerHome_1EN', 'images', true)
+				selectFile('.btnSelectBannerHome_2VN', 'images', true)
+				selectFile('.btnSelectBannerHome_2EN', 'images', true)
+			// delete file in multi
 				$('body').on('click', '.imgWrapperOld .fa-trash-o', function() {
 	            	wrapper = $(this).parent()
 					wrapper.remove()
@@ -2969,14 +3031,10 @@
 					else {
 						var obj = JSON.parse(inputDel.val());
 					}
-					src = $(this).attr('data')
+					src = $(this).attr('data-id')
 					obj.push(src)
 					inputDel.val(JSON.stringify(obj))
 	            })
-
-				selectFile('.btnSelectBannerHome_1EN', 'images', true)
-				selectFile('.btnSelectBannerHome_2VN', 'images', true)
-				selectFile('.btnSelectBannerHome_2EN', 'images', true)
 			// banner VN
 				selectFile('.btnSelectBannerVN', 'images')
 			// banner EN
@@ -3031,15 +3089,15 @@
 					gridResize: true,
 					autoResizeAllColumns: true,
 					iconSet: "fontAwesome",
-					colNames : ['Status', 'ID', 'Title', 'Service', 'Fullname', 'Phone'/*, 'Action'*/],
+					colNames : ['Status', 'ID', 'Fullname', 'Email', 'Phone', 'Address' /*, 'Action'*/],
 					colModel : [{ name : 'status', index : 'status', align : 'center', width : '80',
 									stype: 'select', searchoptions:{ sopt:['eq'], value: statusStr }
 								},
 								{ name : 'id', index : 'id', search : true, align : 'center', width : '60' }, 
-								{ name : 'title', index : 'title', align : 'left', search : true, width : '150' }, 
-								{ name : 'service', index : 'service', search : true, width : '150' },
 								{ name : 'fullname', index : 'fullname', search : true, width : '150' },
-								{ name : 'phone', index : 'phone', search : true, width : '150' },
+								{ name : 'email', index : 'email', search : true, width : '150' },
+								{ name : 'phone', index : 'phone', search : true, align : 'center', width : '150' },
+								{ name : 'address', index : 'address', search : true, width : '250' },
 								// { name: "act", index: 'act', editable : false, search : false, width : '80', align : 'center' }
 					],
 					rownumbers : true,
@@ -3061,6 +3119,150 @@
 							if (rowData.thumbnail != "") {
 								th = '<img src="' + rowData.thumbnail + '" class="thumbInTable" />'
 							}
+							var	btnInline = btnEditInline(module, cl, true) + bntDeleteInline(module, false, cl, true)
+							jQuery(idTableList).jqGrid('setRowData', ids[i], {
+								status : fa,
+								thumbnail : th,
+								act : btnInline
+							});
+
+						}
+					// btnStatus
+						click_btnInGrid('btnStatus', 'modalStatus', bUrl+module+'/ajax_status', arrClassValue_Status, function() {
+							location.reload();
+						});
+					},
+					ajaxRowOptions: { async: true },
+					caption : caption,
+					multiselect : true,
+					// editurl : bUrl + module + '/edit_inline',
+					loadBeforeSend: function () {
+						$(this).closest("div.ui-jqgrid-view").find("table.ui-jqgrid-htable>thead>tr>th").css({"text-align":"center"});
+					},
+					onSelectRow: function(id) { 
+					}
+				});
+
+			// common
+				tableCommon();
+			/*
+			// delete inline
+				$('body').on('click','.btnDelete', function(e) {
+					e.preventDefault();
+
+					href = $(this).attr('href');
+					showSmartAlert("Warning", "<p>Are you sure delete data ?</p>", '[NO][YES]', function() {
+						// click YES
+						$('#ids').val(selectedRows)
+						$('#frmTopButtons').submit();
+					}, function() {
+						// click NO
+					});
+				});
+
+			// multi-delete
+				$('body').on('click', '#btnMultiDelete', function(e) {
+					e.preventDefault();
+					href = $(this).attr('href');
+
+					selectedRows = jQuery(idTableList).jqGrid('getGridParam','selarrrow');
+					if (selectedRows.length==0) {
+						showSmartAlert("Error", "Please select data.", '[YES]');
+					}
+					else {
+						showSmartAlert("Warning", "<p>Are you sure delete data ?</p>", '[NO][YES]', function() {
+							// click YES
+							$('#ids').val(selectedRows)
+							$('#frmTopButtons').submit();
+						}, function() {
+							// click NO
+						});
+					}
+				});
+			*/
+			}
+		}
+	}
+
+// CONTACT
+	function contactPage()
+	{
+		if ($('#contactPage').length>0) {
+			module = 'contact'
+
+		// list
+			if ($(idTableList).length>0) {
+				var statusStr = ":All;active:Active;inactive:Inactive";
+				var typeStr = ":All;popup:popup;contact:contact;booking:booking";
+				caption = captionButton(module, false, false)
+				caption += captionExport(module);
+
+			// jqGrid
+				jQuery(idTableList).jqGrid({
+					url: bUrl + module + '/ajax_list?q=2',
+					datatype: "json",
+					height : 'auto',
+					autowidth : true,
+					shrinkToFit: false,
+					gridResize: true,
+					autoResizeAllColumns: true,
+					iconSet: "fontAwesome",
+					colNames : ['Status', 'ID', 'Type', 'Title', 'Content', 'Service', 'Date', 'Thumbnail', 'Brand', 'Model','Fullname', 'Email', 'Phone', 'Address'/*, 'Action'*/],
+					colModel : [{ name : 'status', index : 'status', align : 'center', width : '80',
+									stype: 'select', searchoptions:{ sopt:['eq'], value: statusStr }
+								},
+								{ name : 'id', index : 'id', search : true, align : 'center', width : '60' }, 
+								{ name : 'type', index : 'type', align : 'center', width : '100',
+									stype: 'select', searchoptions:{ sopt:['eq'], value: typeStr }
+								},
+								{ name : 'title', index : 'title', align : 'left', search : true, width : '150' }, 
+								{ name : 'content', index : 'content', search : true, width : '200' },
+								{ name : 'service', index : 'service', search : true, width : '150' },
+								{ name : 'date', index : 'date', search : true, align : 'center', width : '150' },
+								{ name : 'thumbnail', index : 'thumbnail', align : 'center', search : false, width : '200' },
+								{ name : 'brandcar', index : 'brandcar', search : true, width : '150' },
+								{ name : 'modelcar', index : 'modelcar', search : true, width : '150' },
+								{ name : 'fullname', index : 'fullname', search : true, width : '150' },
+								{ name : 'email', index : 'email', search : true, width : '150' },
+								{ name : 'phone', index : 'phone', search : true, align : 'center', width : '150' },
+								{ name : 'address', index : 'address', search : true, width : '200' },
+								// { name: "act", index: 'act', editable : false, search : false, width : '80', align : 'center' }
+					],
+					rownumbers : true,
+					rowNum : defaultNumRows,
+					rowList : [10, 20, defaultNumRows],
+					pager : idPager,
+					sortname : 'id',
+					sortorder : "desc",
+					toolbarfilter : true,
+					viewrecords : true,
+					gridComplete : function() {
+						var ids = jQuery(idTableList).jqGrid('getDataIDs');
+						for (var i = 0; i < ids.length; i++) {
+							var cl = ids[i];
+							var rowData = jQuery(idTableList).jqGrid ('getRowData', cl);
+							var fa = ""
+							var fa = formatButton(cl, rowData.status, 'btnStatus_', 'btnStatus', 'modalStatus', arrClassValue_Status, classTextColor_Status)
+							var th = ""
+							thumbnailObj = rowData.thumbnail
+							if (thumbnailObj.length > 0) {
+								if (thumbnailObj.indexOf(',')!=-1) {
+									arr = thumbnailObj.split(',')
+
+									lsth = ""
+									for(j=0; j < arr.length; j++) {
+										lsth += '<a class="groupFancyBox" rel="group'+i+'" href="' + uploadDir + 'user/booking/' + arr[j] + '"><img src="' + uploadDir + 'user/booking/' + arr[j] + '" class="thumbInTable" style="border: solid 1px black; float: left; clear: none; margin: 5px" /></a>'
+									}
+									th = lsth
+								}
+								else {
+									th = '<a class="groupFancyBox" rel="group'+i+'" href="' + uploadDir + 'user/booking/' + arr[j] + '"><img src="' + uploadDir + 'user/booking/' + thumbnailObj + '" class="thumbInTable" style="border: solid 1px black; margin: 5px" /></a>'
+								}
+							}
+							else {
+								th = ""
+							}
+
 							var	btnInline = btnEditInline(module, cl, true) + bntDeleteInline(module, false, cl, true)
 							jQuery(idTableList).jqGrid('setRowData', ids[i], {
 								status : fa,
@@ -3152,6 +3354,8 @@
 				$('#frmImport').submit();
 			});
 		}
+	// fancy box
+		$("a.groupFancyBox").fancybox();
 
 		pageSetUp()
 		positiveInteger();
@@ -3175,5 +3379,6 @@
 		galleryPage()
 		bannerPage()
 		userPage()
+		contactPage()
 	});
 
