@@ -42,13 +42,11 @@
 										<table id="jqgrid"></table>
 										<div id="pjqgrid"></div>
 									<!-- for multi delete -->
+									<? if ($this->data['authMember']['username'] == "admin") { ?>
 										<?=$frmTopButtons['open']?>
                                             <input type="text" name="ids[]" id="ids" class="hiddenInput" />
                                         <?=$frmTopButtons['close']?>
-                                        <!-- 
-                                        <?=$frmImport['open']?>
-                                            <input type="file" name="importFile" class="hiddenInput" />
-                                        <?=$frmImport['close']?> -->
+                                    <? } ?>
 									</div>
 								<!-- end widget content -->
 

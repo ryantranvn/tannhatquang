@@ -266,7 +266,7 @@
 															</div>
 														</div>
 														<div class="thumbnailWrapper" style="margin-top: 10px">
-															<?php if ($banner['bannerServiceIntroductionEN'] != "") { ?>
+															<?php if ($banner['bannerServiceIntroductionEN']['vn'] != "") { ?>
 																<img class="thumbnail" src="<?=$banner['bannerServiceIntroductionEN']['url']?>" />
 																<a class="thumbnailDel"><i class="fa fa-trash-o"></i></a>
 																<div class="row">
@@ -299,7 +299,7 @@
 															</div>
 														</div>
 														<div class="thumbnailWrapper" style="margin-top: 10px">
-															<?php if ($banner['bannerServiceServiceVN'] != "") { ?>
+															<?php if ($banner['bannerServiceServiceVN']['url'] != "") { ?>
 																<img class="thumbnail" src="<?=$banner['bannerServiceServiceVN']['url']?>" />
 																<a class="thumbnailDel"><i class="fa fa-trash-o"></i></a>
 																<div class="row">
@@ -329,7 +329,7 @@
 															</div>
 														</div>
 														<div class="thumbnailWrapper" style="margin-top: 10px">
-															<?php if ($banner['bannerServiceServiceEN'] != "") { ?>
+															<?php if ($banner['bannerServiceServiceEN']['url'] != "") { ?>
 																<img class="thumbnail" src="<?=$banner['bannerServiceServiceEN']['url']?>" />
 																<a class="thumbnailDel"><i class="fa fa-trash-o"></i></a>
 																<div class="row">

@@ -3,6 +3,10 @@
 <html class="no-js">
     <head>
         <?=$this->load->view('frontend/includes/pageTop','',TRUE)?>
+        <!--
+        <link rel="stylesheet" type="text/css" href="<?=libsUrl('foundation6','css','foundation.css') ?>" />
+        <link rel="stylesheet" type="text/css" href="<?=libsUrl('foundation6','css','app.css') ?>" />
+        -->
         <link rel="stylesheet" type="text/css" href="<?=libsUrl('foundation24','css','foundation.css') ?>" />
         <link rel="stylesheet" type="text/css" href="<?=libsUrl('jqueryui','css','redmond/jquery-ui.min.css') ?>" />
         <link rel="stylesheet" type="text/css" href="<?=libsUrl('font-awesome','css','font-awesome.min.css') ?>" />
@@ -32,43 +36,95 @@
                  document.body.appendChild(e);
                 } 
             </script>
-        <!-- SCRIPT -->
-        <script language="javascript" type="text/javascript" src="<?=assetsUrl('common','js','jquery-min.js')?>"></script>
-        <!-- <script language="javascript" type="text/javascript" src="<?=libsUrl('foundation24','js','what-input.js') ?>"></script>-->
-        <script language="javascript" type="text/javascript" src="<?=libsUrl('foundation24','js','foundation.min.js') ?>"></script>
-        <script language="javascript" type="text/javascript" src="<?=libsUrl('jqueryui','js','jquery-ui.min.js') ?>"></script>
+        
     </head>
     <body>
-        <div class="off-canvas-wrapper">
-            <div class="off-canvas-wrapper-inner" data-off-canvas-wrapper>
-
-            <!-- off-canvas title bar for 'small' screen -->
-                <div class="title-bar show-for-small-only">
-                    <a href="<?=F_URL?>"><img class="logo" src="<?=assetsUrl('frontend','images','logo.png');?>" /></a>
-                    <div class="title-bar-right">
-                        <button class="c-hamburger c-hamburger--htx menu-icon iconNav" type="button" data-toggle="offCanvasRight"><span></span></button>
-                    </div>
-                </div>
-            <!-- off-canvas right menu -->
-                <div class="off-canvas position-right show-for-small-only" id="offCanvasRight" data-off-canvas data-position="right">
-                    <ul class="vertical dropdown menu" data-dropdown-menu>
-                    </ul>
-                </div>
-
-            <!-- original content goes in this container -->
-                <div class="off-canvas-content" data-off-canvas-content>
-                	<!-- layout ================================================== -->	
-					<?=$this->load->view('frontend/includes/navigation','',TRUE)?>
-					<?=$content?>
-					<?=$this->load->view('frontend/includes/footer','',TRUE)?>
-					<? if ($page != "contact" && $page != "booking") { echo $this->load->view('frontend/includes/contactBox','',TRUE); } ?>
-                    <?=$this->load->view('frontend/includes/popup','',TRUE)?>
-                    <div class="processing"><img src="<?=assetsUrl('frontend','images','processing.gif');?>" /></div>
-					<!--================================================== -->
-                </div>
-
-            <!-- close wrapper, no more content after this -->
+    <!-- mobile Top -->
+        <div class="mobileTop show-for-small-only">
+            <a href="<?=F_URL?>" class="logoLink">
+                <img class="logo" src="<?=assetsUrl('frontend','images','mobile/logo.png');?>" />
+            </a>
+            <div class="hotline">
+                <a href="tel:0903001365">
+                    <i class="fa fa-phone" aria-hidden="true"></i>
+                    <span>Hotline: <strong>0903 001 365</strong></span>
+                </a>
             </div>
+            <div id="mobileMenuButton" class="show-for-small-only">
+                <span></span>
+                <span></span>
+                <span></span>
+                <span></span>
+            </div>
+        </div>
+    <!-- mobile Navigator -->
+        <div class="mobileNav show-for-small-only">
+            <ul>
+                <li<? if ($activeMenu=='home') { ?> class="active"<? } ?>>
+                    <a href="<?=$links['home']?>"><?=$navigator['home']?></a>
+                </li>
+                <li<? if ($activeMenu=='service') { ?> class="active"<? } ?>>
+                    <a href="<?=$links['service']['introduction']?>">
+                        <?=$navigator['service']?> &nbsp;
+                    </a>
+                    <ul class="submenu submenuService<? if ($activeMenu=='service') { ?> active<? } ?><? if ($lang=='en') { ?> submenuService_en<? } ?>">
+                        <li<? if ($activeSubMenu=='introduction') { ?> class="active"<? } ?>>
+                            <a href="<?=$links['service']['introduction']?>" class="linkSub">
+                                <?=$navigatorSub['service']['introduction']?>
+                            </a>
+                        </li>
+                        <li<? if ($activeSubMenu=='service') { ?> class="active"<? } ?>>
+                            <a href="<?=$links['service']['service']?>" class="linkSub">
+                                <?=$navigatorSub['service']['service']?>
+                            </a>
+                        </li>
+                        <li<? if ($activeSubMenu=='certification') { ?> class="active"<? } ?>>
+                            <a href="<?=$links['service']['certification']?>" class="linkSub">
+                                <?=$navigatorSub['service']['certification']?>
+                            </a>
+                        </li>
+                    </ul>
+                </li>
+                <li<? if ($activeMenu=='booking') { ?> class="active"<? } ?>>
+                    <a href="<?=$links['booking']?>">
+                        <?=$navigator['booking']?>
+                    </a>
+                </li>
+                <li<? if ($activeMenu=='gallery') { ?> class="active"<? } ?>>
+                    <a href="<?=$links['gallery']['beforeafter']?>">
+                        <?=$navigator['gallery']?>
+                    </a>
+                    <ul class="submenu submenuGallery<? if ($activeMenu=='gallery') { ?> active<? } ?><? if ($lang=='en') { ?> submenuGallery_en<? } ?>">
+                        <li<? if ($activeSubMenu=='beforeafter') { ?> class="active"<? } ?>>
+                            <a href="<?=$links['gallery']['beforeafter']?>" class="linkSub">
+                                <?=$navigatorSub['gallery']['beforeafter']?>
+                            </a>
+                        </li>
+                        <li<? if ($activeSubMenu=='event') { ?> class="active"<? } ?>>
+                            <a href="<?=$links['gallery']['event']?>" class="linkSub">
+                                <?=$navigatorSub['gallery']['event']?>
+                            </a>
+                        </li>
+                    </ul>
+                </li>
+                <li<? if ($activeMenu=='news') { ?> class="active"<? } ?>>
+                    <a href="<?=$links['news']?>"><?=$navigator['news']?></a>
+                </li>
+                <li<? if ($activeMenu=='contact') { ?> class="active"<? } ?>>
+                    <a href="<?=$links['contact']?>"><?=$navigator['contact']?></a>
+                </li>
+            </ul>
+        </div>
+    <!-- container -->
+        <div class="container fullContainer">
+            <!-- layout ================================================== -->  
+                <?=$this->load->view('frontend/includes/navigation','',TRUE)?>
+                <?=$content?>
+                <?=$this->load->view('frontend/includes/footer','',TRUE)?>
+                <? if ($page != "contact" && $page != "booking") { echo $this->load->view('frontend/includes/contactBox','',TRUE); } ?>
+                <?=$this->load->view('frontend/includes/popup','',TRUE)?>
+                <div class="processing"><img src="<?=assetsUrl('frontend','images','processing.gif');?>" /></div>
+            <!--================================================== -->
         </div>
 
     <!-- Pass to script -->
@@ -79,6 +135,16 @@
 		</script>
 
     <!-- SCRIPT -->
+    <!-- SCRIPT -->
+        <script language="javascript" type="text/javascript" src="<?=assetsUrl('common','js','jquery-min.js')?>"></script>
+        
+        <!--
+        <script language="javascript" type="text/javascript" src="<?=libsUrl('foundation6','js','vendor/what-input.js') ?>"></script>
+        <script language="javascript" type="text/javascript" src="<?=libsUrl('foundation6','js','vendor/foundation.js') ?>"></script>
+        <script language="javascript" type="text/javascript" src="<?=libsUrl('foundation6','js','app.js') ?>"></script>
+        -->
+        <script language="javascript" type="text/javascript" src="<?=libsUrl('foundation24','js','foundation/foundation.js') ?>"></script>
+        <script language="javascript" type="text/javascript" src="<?=libsUrl('jqueryui','js','jquery-ui.min.js') ?>"></script>
         <script language="javascript" type="text/javascript" src="<?=assetsUrl('common','js','jquery.validate.js') ?>"></script>
 		<script language="javascript" type="text/javascript" src="<?=assetsUrl('common','js','jquery.cookie.js') ?>"></script>
         <script language="javascript" type="text/javascript" src="<?=assetsUrl('common','js','jquery.transit.min.js') ?>"></script>

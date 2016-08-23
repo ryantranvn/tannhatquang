@@ -1,5 +1,5 @@
 <!-- <div id="arcText">Liên hệ tư vấn</div> -->
-<div class="contactBox">
+<div class="contactBox show-for-medium">
 	<div class="titleWrapper hideBox row">
 		<div class="small-24 medium-24 large-24 columns">
 			<p><?=$textContactBox['title']?></p>
@@ -53,6 +53,6 @@
 		</div>
 	</div>
 </div>
-<div class="contactBox_mini">
+<div class="contactBox_mini show-for-medium">
 	<p><?=$textContactBox['title']?><i class="fa fa-caret-up" aria-hidden="true"></i></p>
 </div>

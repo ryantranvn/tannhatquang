@@ -9,7 +9,7 @@
 	</div>
 
 <!-- booking -->
-	<div class="fullContainer">
+	<div class="fullContainer<? if ($device=='mobile') { ?> forMobile<? } ?>">
 		<div class="centerContainer">
 			<div class="left small-24 medium-10 large-10 columns">
 				<p class="title"><?=$textBooking['title']?></p>
@@ -26,11 +26,11 @@
 						</div>
 					</div>
 					<div class="row">
-						<div class="small-24 medium-12 large-12 columns noPaddingLeft">
+						<div class="small-12 medium-12 large-12 columns noPaddingLeft">
 							<label><span>*</span><?=$textBooking['form']['lblEmail']?></label>
 							<input type="text" name="email" />
 						</div>
-						<div class="small-24 medium-12 large-12 columns noPaddingRight">
+						<div class="small-12 medium-12 large-12 columns noPaddingRight">
 							<label><span>*</span><?=$textBooking['form']['lblPhone']?></label>
 								<input type="text" name="phone" class="positive-integer" />
 						</div>

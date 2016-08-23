@@ -27,6 +27,7 @@ class Member extends Root {
         $this->noAccess($this->data['permissionsMember'], $this->module, 1);
 
         $this->data['breadcrumb'][1] = array('name'=>'List', 'url' => B_URL . $this->router->fetch_method());
+        
         // frm
             $this->data['frmTopButtons'] = frm(B_URL.$this->module.'/multi_delete', array('id' => "frmTopButtons"), FALSE);
             // $this->data['frmImport'] = frm(B_URL.$this->module.'/import_db', array('id' => "frmImport"), TRUE);
@@ -44,10 +45,15 @@ class Member extends Root {
         $sord = $_GET['sord']; // get the direction
         if(!$sidx) $sidx=1;
         // add where in string
+        if ($this->data['authMember']['username'] !== "admin") {
+            $where = "username<>'admin'";
+        }
+        else {
             $where = "";
+        }
         // get filter if have
             // $search = $_GET['_search'];
-            $like = array();
+            $like = "";
             if (isset($_GET['filters'])) {
                 $filters = $_GET['filters'];
                 $filters = json_decode($filters);
@@ -55,13 +61,7 @@ class Member extends Root {
                 foreach($filters->rules as $rule) { // filter is active
                     $field = $rule->field;
                     $value = $rule->data;
-                    if ($field == "status") {
-                        $where['status'] = $value;
-                    }
-                    else {
-                        $field = 'member.'.$field;
-                        $like[$field] = $value;
-                    }
+                    $like .= $field." LIKE '%".$value."%'";
                 }
             }
             

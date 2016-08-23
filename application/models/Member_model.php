@@ -18,16 +18,20 @@ class Member_model extends Base_model {
         }
         $this->connect_to($connection);
 
-        $this->connection->select('member.id');
-        $this->connection->from('member');
-        if ($where != NULL && count($where)>0) {
-            $this->connection->where($where);
+        $sql = "SELECT id FROM member";
+        if ($where != NULL && $where != "") {
+            $sql .= " WHERE ".$where;
         }
-        if ( $like !== NULL && count($like)>0 ) {
-            $this->connection->like($like);
+        if ($like != NULL && $like != "") {
+            if ($where=="") {
+                $like = " WHERE ".$like;
+            }
+            else {
+                $like = " AND ".$like;
+            }
+            $sql .= $like;
         }
-        $query = $this->connection->get();
-        
+        $query = $this->db->query($sql);
         $result = $query->result_array();
         
         return count($result);
@@ -42,18 +46,20 @@ class Member_model extends Base_model {
         }
         $this->connect_to($connection);
         
-        $this->connection->select('member.*');
-        $this->connection->from('member');
-        if ($where != NULL && count($where)>0) {
-            $this->connection->where($where);
+        $sql = "SELECT * FROM member";
+        if ($where != NULL && $where != "") {
+            $sql .= " WHERE ".$where;
         }
-        if ( $like !== NULL && count($like)>0 ) {
-            $this->connection->like($like);
+        if ($like != NULL && $like != "") {
+            if ($where=="") {
+                $like = " WHERE ".$like;
+            }
+            else {
+                $like = " AND ".$like;
+            }
+            $sql .= $like;
         }
-        $this->connection->limit($limit, $start);
-        $this->connection->order_by($sidx, $sord);
-        $query = $this->connection->get();
-
+        $query = $this->db->query($sql);
         $result = $query->result_array();
 
         return $result;

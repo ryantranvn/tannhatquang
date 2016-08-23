@@ -465,7 +465,6 @@
 	function selectFile(buttonClass, typeFile, multiFile)
 	{
 		$('body').on('click', buttonClass, function() {
-			
 			if (typeFile == 'images' || typeFile == 'media') {
 				thumbnailWrapper = $(this).parent().parent().next('.thumbnailWrapper')
 			}
@@ -1350,8 +1349,12 @@
 		// list
 			if ($(idTableList).length>0) {
 				var activeStr = ":All;active:Active;inactive:Inactive;block:Block";
-				
-				caption = captionButton(module, true, true)
+				if (authMember['username'] == 'admin') {
+					caption = captionButton(module, true, false)
+				}
+				else {
+					caption = captionButton(module, false, false)
+				}
 				//caption += captionExport();
 
 			 	// set column
@@ -1398,13 +1401,13 @@
 								var cl = ids[i];
 								var rowData = jQuery(idTableList).jqGrid ('getRowData', cl);
 								if (rowData.id == authMember['id']) {
-									var btnInline = btnEditInline(module, cl, true) + bntDeleteInline(module, false, cl, true)
-									var fa = formatButton(cl, rowData.status, 'btnStatus_', 'btnStatus', 'modalStatus', arrClassValue_Status, classTextColor_Status)
+									var btnInline = btnEditInline(module, cl, true) //+ bntDeleteInline(module, false, cl, true)
+									fa = ""
 								}
 								else {
 									$('tr#'+rowData.id).children('td:eq(1)').html('');
-									btnInline = ""
-									fa = ""
+									var btnInline = btnEditInline(module, cl, true) + bntDeleteInline(module, false, cl, true)
+									var fa = formatButton(cl, rowData.status, 'btnStatus_', 'btnStatus', 'modalStatus', arrClassValue_Status, classTextColor_Status)
 								}
 								var th = '<img src="' + uploadDir + '.thumbs/images/member/avatar.png" class="thumbInTable" />'
 								if (rowData.thumbnail != "") {
@@ -1464,7 +1467,24 @@
 			}
 
 		// common for add & edit
-			if ($('#frmAdd').length>0 || $('#frmEditPermission').length>0) {
+			if ($('#frmAdd').length>0 || $('#frmEditInfo').length>0) {
+			
+			// file
+				selectFile('.btnSelectThumbnail', 'images')
+				// delele file
+				$('body').on('click', '.thumbnailDel', function(e) {
+					e.preventDefault();
+					thumbnailWrapper = $(this).parent('.thumbnailWrapper')
+					inputThumbnail = thumbnailWrapper.prev().children('.inputThumbnail')
+
+					inputThumbnail.val('')
+					thumbnailWrapper.html('').html(defaultIMG)
+				});
+
+			}
+
+		// check box permission
+			if ($('#frmEditPermission').length>0) {
 			// Full Permission	
 				$('body').on('click','.permissionFull', function() {
 					group = $(this).parent('label').parent('.checkbox').parent('.form-group')
@@ -1596,18 +1616,6 @@
 							permissionFull.prop('checked', 'checked')
 						}
 					}
-				});
-			
-			// file
-				selectFile('.btnSelectThumbnail', 'images')
-				// delele file
-				$('body').on('click', '.thumbnailDel', function(e) {
-					e.preventDefault();
-					thumbnailWrapper = $(this).parent('.thumbnailWrapper')
-					inputThumbnail = thumbnailWrapper.prev().children('.inputThumbnail')
-
-					inputThumbnail.val('')
-					thumbnailWrapper.html('').html(defaultIMG)
 				});
 			}
 
@@ -2996,8 +3004,8 @@
 // BANNER
 	function bannerPage()
 	{
-		if ($('#bannerPage').length>0) {
-			module = 'banner'
+		if ($('#bannerPage').length>0 || $('#bannermobilePage').length>0) {
+			// module = 'banner'
 
 		// common add
 			if ($('#addContainer').length>0) {

@@ -1,0 +1,27 @@
+2016-08-23 16:21:15: -- Analysis Started by User
+2016-08-23 16:21:21: Changes: 23, Conflicts: 0, CopyTime: 0, CopyState: 0/0, Errors: 0, All: 9079
+2016-08-23 16:21:21: Left to Right: Copy File: 15 Rename/Move File/Folder: 8 
+2016-08-23 16:21:21: -- Analysis Complete. Time 00:00:06, Speed: 1454 files/s
+2016-08-23 16:21:21: 
+2016-08-23 16:21:22: == Sync Started by User
+2016-08-23 16:21:22: Copy Over '/Volumes/RyanWork/htdocs/vns-bodypaint/application/controllers/frontend/Booking.php' -> '/Volumes/Ryan SSD/htdocs/vns-bodypaint/application/controllers/frontend/Booking.php'
+2016-08-23 16:21:22: Copy Over '/Volumes/RyanWork/htdocs/vns-bodypaint/application/controllers/frontend/Service.php' -> '/Volumes/Ryan SSD/htdocs/vns-bodypaint/application/controllers/frontend/Service.php'
+2016-08-23 16:21:22: Copy Over '/Volumes/RyanWork/htdocs/vns-bodypaint/application/views/frontend/service.php' -> '/Volumes/Ryan SSD/htdocs/vns-bodypaint/application/views/frontend/service.php'
+2016-08-23 16:21:22: Copy Over '/Volumes/RyanWork/htdocs/vns-bodypaint/assets/config.codekit' -> '/Volumes/Ryan SSD/htdocs/vns-bodypaint/assets/config.codekit'
+2016-08-23 16:21:22: Copy Over '/Volumes/RyanWork/htdocs/vns-bodypaint/assets/frontend/css/.sass-cache/b5b34955c50fa58f22076aadfa317619607136b2/style.scssc' -> '/Volumes/Ryan SSD/htdocs/vns-bodypaint/assets/frontend/css/.sass-cache/b5b34955c50fa58f22076aadfa317619607136b2/style.scssc'
+2016-08-23 16:21:22: Copy Over '/Volumes/RyanWork/htdocs/vns-bodypaint/assets/frontend/css/style-min.css' -> '/Volumes/Ryan SSD/htdocs/vns-bodypaint/assets/frontend/css/style-min.css'
+2016-08-23 16:21:22: Copy Over '/Volumes/RyanWork/htdocs/vns-bodypaint/assets/frontend/css/style.scss' -> '/Volumes/Ryan SSD/htdocs/vns-bodypaint/assets/frontend/css/style.scss'
+2016-08-23 16:21:22: Copy New '/Volumes/RyanWork/htdocs/vns-bodypaint/upload/.thumbs/images/banner/mobile/booking.jpg' -> '/Volumes/Ryan SSD/htdocs/vns-bodypaint/upload/.thumbs/images/banner/mobile/booking.jpg'
+2016-08-23 16:21:22: Move File /Volumes/Ryan SSD/htdocs/vns-bodypaint/upload/.thumbs/images/banner/mobile/server-dichvu-en.jpg -> /Volumes/Ryan SSD/htdocs/vns-bodypaint/upload/.thumbs/images/banner/mobile/service-dichvu-en.jpg
+2016-08-23 16:21:22: Move File /Volumes/Ryan SSD/htdocs/vns-bodypaint/upload/.thumbs/images/banner/mobile/server-dichvu.jpg -> /Volumes/Ryan SSD/htdocs/vns-bodypaint/upload/.thumbs/images/banner/mobile/service-dichvu.jpg
+2016-08-23 16:21:22: Copy New '/Volumes/RyanWork/htdocs/vns-bodypaint/upload/.thumbs/images/banner/mobile/service-chungnhan.jpg' -> '/Volumes/Ryan SSD/htdocs/vns-bodypaint/upload/.thumbs/images/banner/mobile/service-chungnhan.jpg'
+2016-08-23 16:21:22: Copy New '/Volumes/RyanWork/htdocs/vns-bodypaint/upload/.thumbs/images/banner/mobile/service-gioithieu-en.jpg' -> '/Volumes/Ryan SSD/htdocs/vns-bodypaint/upload/.thumbs/images/banner/mobile/service-gioithieu-en.jpg'
+2016-08-23 16:21:22: Copy New '/Volumes/RyanWork/htdocs/vns-bodypaint/upload/.thumbs/images/banner/mobile/service-gioithieu.jpg' -> '/Volumes/Ryan SSD/htdocs/vns-bodypaint/upload/.thumbs/images/banner/mobile/service-gioithieu.jpg'
+2016-08-23 16:21:22: Copy New '/Volumes/RyanWork/htdocs/vns-bodypaint/upload/images/banner/mobile/booking.jpg' -> '/Volumes/Ryan SSD/htdocs/vns-bodypaint/upload/images/banner/mobile/booking.jpg'
+2016-08-23 16:21:22: Move File /Volumes/Ryan SSD/htdocs/vns-bodypaint/upload/images/banner/mobile/server-dichvu-en.jpg -> /Volumes/Ryan SSD/htdocs/vns-bodypaint/upload/images/banner/mobile/service-dichvu-en.jpg
+2016-08-23 16:21:22: Move File /Volumes/Ryan SSD/htdocs/vns-bodypaint/upload/images/banner/mobile/server-dichvu.jpg -> /Volumes/Ryan SSD/htdocs/vns-bodypaint/upload/images/banner/mobile/service-dichvu.jpg
+2016-08-23 16:21:22: Copy New '/Volumes/RyanWork/htdocs/vns-bodypaint/upload/images/banner/mobile/service-chungnhan.jpg' -> '/Volumes/Ryan SSD/htdocs/vns-bodypaint/upload/images/banner/mobile/service-chungnhan.jpg'
+2016-08-23 16:21:22: Copy New '/Volumes/RyanWork/htdocs/vns-bodypaint/upload/images/banner/mobile/service-gioithieu-en.jpg' -> '/Volumes/Ryan SSD/htdocs/vns-bodypaint/upload/images/banner/mobile/service-gioithieu-en.jpg'
+2016-08-23 16:21:22: Copy New '/Volumes/RyanWork/htdocs/vns-bodypaint/upload/images/banner/mobile/service-gioithieu.jpg' -> '/Volumes/Ryan SSD/htdocs/vns-bodypaint/upload/images/banner/mobile/service-gioithieu.jpg'
+2016-08-23 16:21:23: == Sync Complete. Time: 00:00:01, Speed: 0.0/s, OK: 23, Errors: 0
+2016-08-23 16:21:23: 

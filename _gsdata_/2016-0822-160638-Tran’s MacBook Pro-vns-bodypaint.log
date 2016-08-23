@@ -1,0 +1,29 @@
+2016-08-22 16:06:38: -- Analysis Started by User
+2016-08-22 16:06:43: Changes: 21, Conflicts: 0, CopyTime: 0, CopyState: 0/0, Errors: 0, All: 9057
+2016-08-22 16:06:43: Left to Right: Copy File: 21 
+2016-08-22 16:06:43: -- Analysis Complete. Time 00:00:05, Speed: 1741 files/s
+2016-08-22 16:06:43: 
+2016-08-22 16:06:45: == Sync Started by User
+2016-08-22 16:06:46: Create Folder '/Volumes/Ryan SSD/htdocs/vns-bodypaint/application/views/backend/bannermobile'
+2016-08-22 16:06:46: Create Folder '/Volumes/Ryan SSD/htdocs/vns-bodypaint/upload/.thumbs/images/banner/mobile'
+2016-08-22 16:06:46: Create Folder '/Volumes/Ryan SSD/htdocs/vns-bodypaint/upload/.thumbs/images/banner/mobile/position-1'
+2016-08-22 16:06:46: Copy New '/Volumes/RyanWork/htdocs/vns-bodypaint/application/controllers/backend/Bannermobile.php' -> '/Volumes/Ryan SSD/htdocs/vns-bodypaint/application/controllers/backend/Bannermobile.php'
+2016-08-22 16:06:46: Copy Over '/Volumes/RyanWork/htdocs/vns-bodypaint/application/controllers/frontend/Home.php' -> '/Volumes/Ryan SSD/htdocs/vns-bodypaint/application/controllers/frontend/Home.php'
+2016-08-22 16:06:46: Copy Over '/Volumes/RyanWork/htdocs/vns-bodypaint/application/models/Banner_model.php' -> '/Volumes/Ryan SSD/htdocs/vns-bodypaint/application/models/Banner_model.php'
+2016-08-22 16:06:46: Copy Over '/Volumes/RyanWork/htdocs/vns-bodypaint/application/models/Member_model.php' -> '/Volumes/Ryan SSD/htdocs/vns-bodypaint/application/models/Member_model.php'
+2016-08-22 16:06:46: Copy Over '/Volumes/RyanWork/htdocs/vns-bodypaint/application/views/backend/banner/banner.php' -> '/Volumes/Ryan SSD/htdocs/vns-bodypaint/application/views/backend/banner/banner.php'
+2016-08-22 16:06:46: Copy New '/Volumes/RyanWork/htdocs/vns-bodypaint/application/views/backend/bannermobile/banner.php' -> '/Volumes/Ryan SSD/htdocs/vns-bodypaint/application/views/backend/bannermobile/banner.php'
+2016-08-22 16:06:46: Copy Over '/Volumes/RyanWork/htdocs/vns-bodypaint/application/views/backend/template.php' -> '/Volumes/Ryan SSD/htdocs/vns-bodypaint/application/views/backend/template.php'
+2016-08-22 16:06:46: Copy Over '/Volumes/RyanWork/htdocs/vns-bodypaint/application/views/frontend/contact.php' -> '/Volumes/Ryan SSD/htdocs/vns-bodypaint/application/views/frontend/contact.php'
+2016-08-22 16:06:46: Copy Over '/Volumes/RyanWork/htdocs/vns-bodypaint/application/views/frontend/gallery.php' -> '/Volumes/Ryan SSD/htdocs/vns-bodypaint/application/views/frontend/gallery.php'
+2016-08-22 16:06:46: Copy Over '/Volumes/RyanWork/htdocs/vns-bodypaint/application/views/frontend/home.php' -> '/Volumes/Ryan SSD/htdocs/vns-bodypaint/application/views/frontend/home.php'
+2016-08-22 16:06:46: Copy Over '/Volumes/RyanWork/htdocs/vns-bodypaint/application/views/frontend/template.php' -> '/Volumes/Ryan SSD/htdocs/vns-bodypaint/application/views/frontend/template.php'
+2016-08-22 16:06:46: Copy Over '/Volumes/RyanWork/htdocs/vns-bodypaint/assets/backend/js/script-min.js' -> '/Volumes/Ryan SSD/htdocs/vns-bodypaint/assets/backend/js/script-min.js'
+2016-08-22 16:06:46: Copy Over '/Volumes/RyanWork/htdocs/vns-bodypaint/assets/backend/js/script.js' -> '/Volumes/Ryan SSD/htdocs/vns-bodypaint/assets/backend/js/script.js'
+2016-08-22 16:06:46: Copy Over '/Volumes/RyanWork/htdocs/vns-bodypaint/assets/config.codekit' -> '/Volumes/Ryan SSD/htdocs/vns-bodypaint/assets/config.codekit'
+2016-08-22 16:06:46: Copy Over '/Volumes/RyanWork/htdocs/vns-bodypaint/assets/frontend/css/.sass-cache/b5b34955c50fa58f22076aadfa317619607136b2/style.scssc' -> '/Volumes/Ryan SSD/htdocs/vns-bodypaint/assets/frontend/css/.sass-cache/b5b34955c50fa58f22076aadfa317619607136b2/style.scssc'
+2016-08-22 16:06:46: Copy Over '/Volumes/RyanWork/htdocs/vns-bodypaint/assets/frontend/css/style-min.css' -> '/Volumes/Ryan SSD/htdocs/vns-bodypaint/assets/frontend/css/style-min.css'
+2016-08-22 16:06:46: Copy Over '/Volumes/RyanWork/htdocs/vns-bodypaint/assets/frontend/css/style.scss' -> '/Volumes/Ryan SSD/htdocs/vns-bodypaint/assets/frontend/css/style.scss'
+2016-08-22 16:06:46: Copy New '/Volumes/RyanWork/htdocs/vns-bodypaint/upload/.thumbs/images/banner/mobile/position-1/1.jpg' -> '/Volumes/Ryan SSD/htdocs/vns-bodypaint/upload/.thumbs/images/banner/mobile/position-1/1.jpg'
+2016-08-22 16:06:46: == Sync Complete. Time: 00:00:01, Speed: 825.6 KB/s, OK: 21, Errors: 0
+2016-08-22 16:06:46: 

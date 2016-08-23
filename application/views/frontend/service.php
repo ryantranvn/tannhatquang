@@ -33,7 +33,7 @@
 				</div>
 			</div>
 		<!-- right -->
-			<div class="right small-24 medium-8 large-8 columns">
+			<div class="right medium-8 large-8 columns hide-for-small-only">
 				<div class="box">
 					<p class="titleBox"><?=$textNews['related']?><span>--</span></p>
 					<? if ($subCat!='introduction') { ?>
@@ -41,6 +41,7 @@
 							<img src="<?=$gioithieu['thumbnail']?>" />
 							<p class="title"><? if ($lang=='vn') { echo $gioithieu['title']; } else { echo $gioithieu['title_en']; }?></p>
 							<p class="date"><?=date('d-m-Y', strtotime($gioithieu['created_datetime']))?></p>
+							<a href="<?=$links['service']['introduction']?>" class="linkFull"></a>
 						</div>
 					<? } ?>
 
@@ -49,6 +50,7 @@
 							<img src="<?=$dichvu['thumbnail']?>" />
 							<p class="title"><? if ($lang=='vn') { echo $dichvu['title']; } else { echo $dichvu['title_en']; }?></p>
 							<p class="date"><?=date('d-m-Y', strtotime($dichvu['created_datetime']))?></p>
+							<a href="<?=$links['service']['service']?>" class="linkFull"></a>
 						</div>
 					<? } ?>
 
@@ -57,10 +59,9 @@
 							<img src="<?=$chungnhan['thumbnail']?>" />
 							<p class="title"><? if ($lang=='vn') { echo $chungnhan['title']; } else { echo $chungnhan['title_en']; }?></p>
 							<p class="date"><?=date('d-m-Y', strtotime($chungnhan['created_datetime']))?></p>
+							<a href="<?=$links['service']['certification']?>" class="linkFull"></a>
 						</div>
 					<? } ?>
-					
-					
 				<!--
 					<? foreach ($dichvu as $item) { ?>
 						<div class="item">
@@ -81,6 +82,31 @@
 				-->
 				<!-- <a class="btnBlue btnXemthem" href="<?=F_URL?>"><?=$textViewMore?></a> -->
 				</div>
+			</div>
+			<div class="small-24 columns show-for-small-only forMobile">
+				<p class="titleBox"><?=$textNews['related']?><span>--</span></p>
+				<? if ($subCat!='introduction') { ?>
+					<div class="item">
+						<p class="title"><? if ($lang=='vn') { echo $gioithieu['title']; } else { echo $gioithieu['title_en']; }?></p>
+						<p class="date"><?=date('d-m-Y', strtotime($gioithieu['created_datetime']))?></p>
+						<a href="<?=$links['service']['introduction']?>" class="linkFull"></a>
+					</div>
+				<? } ?>
+				<? if ($subCat!='service') { ?>
+					<div class="item">
+						<p class="title"><? if ($lang=='vn') { echo $dichvu['title']; } else { echo $dichvu['title_en']; }?></p>
+						<p class="date"><?=date('d-m-Y', strtotime($dichvu['created_datetime']))?></p>
+						<a href="<?=$links['service']['service']?>" class="linkFull"></a>
+					</div>
+				<? } ?>
+
+				<? if ($subCat!='certification') { ?>
+					<div class="item">
+						<p class="title"><? if ($lang=='vn') { echo $chungnhan['title']; } else { echo $chungnhan['title_en']; }?></p>
+						<p class="date"><?=date('d-m-Y', strtotime($chungnhan['created_datetime']))?></p>
+						<a href="<?=$links['service']['certification']?>" class="linkFull"></a>
+					</div>
+				<? } ?>
 			</div>
 		</div>
 	</div>

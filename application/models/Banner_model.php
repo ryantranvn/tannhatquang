@@ -8,7 +8,7 @@ class Banner_model extends Base_model {
     {
         parent::__construct();
     }
-
+/*
 // total rows
     public function total_Rows($connection, $where="", $like=NULL)
     {
@@ -69,9 +69,9 @@ class Banner_model extends Base_model {
 
         return $result;
     }
-
+*/
 // insert
-    function insertBannerHome($connection, $page, $arrBannerHome_1VN, $arrBannerHome_1EN, $arrBannerHome_2VN, $arrBannerHome_2EN, $arrBannerHome_1VN_del, $arrBannerHome_1EN_del, $arrBannerHome_2VN_del, $arrBannerHome_2EN_del, $insertLinkHome_1VN, $insertLinkHome_1EN, $insertLinkHome_2VN, $insertLinkHome_2EN, $updateLinkHome_1VN, $updateLinkHome_1EN, $updateLinkHome_2VN, $updateLinkHome_2EN)
+    function insertBannerHome($connection, $page, $arrBannerHome_1VN, $arrBannerHome_1EN, $arrBannerHome_2VN, $arrBannerHome_2EN, $arrBannerHome_1VN_del, $arrBannerHome_1EN_del, $arrBannerHome_2VN_del, $arrBannerHome_2EN_del, $insertLinkHome_1VN, $insertLinkHome_1EN, $insertLinkHome_2VN, $insertLinkHome_2EN, $updateLinkHome_1VN, $updateLinkHome_1EN, $updateLinkHome_2VN, $updateLinkHome_2EN, $mobile=NULL)
     {
         // set connection
         if ($connection===NULL) {
@@ -81,25 +81,26 @@ class Banner_model extends Base_model {
 
         $this->connection->trans_begin();
 
-        // insert home 
+        // insert home
+            if ($mobile===NULL) { $mobileText = ""; } else { $mobileText = "-mobile"; }
             if (isset($arrBannerHome_1VN) && count($arrBannerHome_1VN)>0) {
                 foreach ($arrBannerHome_1VN as $key => $value) {
-                    $this->insertDB($connection, 'post', array('parent_id'=>11, 'type'=>$page.'_1', 'url' => $value, 'desc' => $insertLinkHome_1VN[$key]['link']));
+                    $this->insertDB($connection, 'post', array('parent_id'=>11, 'type'=>'home_1'.$mobileText, 'url' => $value, 'desc' => $insertLinkHome_1VN[$key]['link']));
                 }
             }
             if (isset($arrBannerHome_1EN) && count($arrBannerHome_1EN)>0) {
                 foreach ($arrBannerHome_1EN as $key => $value) {
-                    $this->insertDB($connection, 'post', array('parent_id'=>11, 'type'=>$page.'_1', 'url_en' => $value, 'desc_en' => $insertLinkHome_1EN[$key]['link']));
+                    $this->insertDB($connection, 'post', array('parent_id'=>11, 'type'=>'home_1'.$mobileText, 'url_en' => $value, 'desc_en' => $insertLinkHome_1EN[$key]['link']));
                 }
             }
             if (isset($arrBannerHome_2VN) && count($arrBannerHome_2VN)>0) {
                 foreach ($arrBannerHome_2VN as $key => $value) {
-                    $this->insertDB($connection, 'post', array('parent_id'=>11, 'type'=>$page.'_2', 'url' => $value, 'desc' => $insertLinkHome_2VN[$key]['link']));
+                    $this->insertDB($connection, 'post', array('parent_id'=>11, 'type'=>'home_2'.$mobileText, 'url' => $value, 'desc' => $insertLinkHome_2VN[$key]['link']));
                 }
             }
             if (isset($arrBannerHome_2EN) && count($arrBannerHome_2EN)>0) {
                 foreach ($arrBannerHome_2EN as $key => $value) {
-                    $this->insertDB($connection, 'post', array('parent_id'=>11, 'type'=>$page.'_2', 'url_en' => $value, 'desc_en' => $insertLinkHome_2EN[$key]['link']));
+                    $this->insertDB($connection, 'post', array('parent_id'=>11, 'type'=>'home_2'.$mobileText, 'url_en' => $value, 'desc_en' => $insertLinkHome_2EN[$key]['link']));
                 }
             }
         // delete old

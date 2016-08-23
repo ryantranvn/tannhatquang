@@ -20,7 +20,13 @@ class Home extends Root {
         $this->data['url']['en'] = F_URL . 'en';
 
         // get banner pos 1
-            $arrBannerPos1 = $this->Base_model->getDB('db','post',array('url','url_en','desc','desc_en'),array('parent_id'=>11,'type'=>'home_1'),NULL,array('url','url_en'),array('asc','asc'));
+        
+        if ($this->data['device']=='pc') {
+            $arrBannerPos1 = $this->Base_model->getDB('db','post',array('url','url_en','desc','desc_en','type'),array('parent_id'=>11,'type'=>'home_1'),NULL,array('url','url_en'),array('asc','asc'));
+        }
+        else {
+            $arrBannerPos1 = $this->Base_model->getDB('db','post',array('url','url_en','desc','desc_en'),array('parent_id'=>11,'type'=>'home_1-mobile'),NULL,array('url','url_en'),array('asc','asc'));   
+        }
             $bannerPos1_VN = $bannerPos1_EN = array();
             foreach ($arrBannerPos1 as $item) {
                 if ($item['url'] != "") {
@@ -35,9 +41,13 @@ class Home extends Root {
             else {
                 $this->data['bannerPos1'] = $bannerPos1_EN;    
             }
-            
         // get banner pos 2
-            $arrBannerPos2 = $this->Base_model->getDB('db','post',array('url','url_en','desc','desc_en'),array('parent_id'=>11,'type'=>'home_2'));
+            if ($this->data['device']=='pc') {
+                $arrBannerPos2 = $this->Base_model->getDB('db','post',array('url','url_en','desc','desc_en'),array('parent_id'=>11,'type'=>'home_2'),NULL,array('url','url_en'),array('asc','asc'));
+            }
+            else {
+                $arrBannerPos2 = $this->Base_model->getDB('db','post',array('url','url_en','desc','desc_en'),array('parent_id'=>11,'type'=>'home_2-mobile'),NULL,array('url','url_en'),array('asc','asc'));
+            }
             $bannerPos2_VN = $bannerPos2_EN = array();
             foreach ($arrBannerPos2 as $item) {
                 if ($item['url'] != "") {
@@ -52,15 +62,19 @@ class Home extends Root {
             else {
                 $this->data['bannerPos2'] = $bannerPos2_EN;    
             }
+        
         // get service
             $this->data['service'] = $this->Base_model->getDB('db','post',NULL,array('status='=>'active', 'parent_id='=>4, 'id<>'=>65),NULL,array('order'),array('asc'));
         // get certication
             $certification = $this->Base_model->getDB('db','post',NULL,array('status='=>'active', 'parent_id='=>5, 'id<>'=>66),NULL,array('order'),array('asc'));
             $this->data['certification'] = array_chunk($certification, 2);
 
-        $this->load->model('Gallery_model');
-        $gallery = $this->Gallery_model->getBeforeAfter('db', $this->data['lang']);
-        $this->data['gallery'] = $gallery;
+        // get gallery
+            $this->load->model('Gallery_model');
+            $gallery = $this->Gallery_model->getBeforeAfter('db', $this->data['lang']);
+            $this->data['gallery'] = $gallery;
+
+            // print_r("<pre>"); print_r($gallery); die();
 
         $this->template->load($this->gate.'/template', $this->gate.'/home', $this->data);
     }
@@ -86,7 +100,7 @@ class Home extends Root {
 // test
     public function test_email()
     {
-        send_gmail(EMAIL, EMAILPASS, array('ryantran.vn@gmail.com'), EMAIL_TITLE_1, 'Nội dung email', NULL, NULL, NULL);
+        //send_gmail(EMAIL, EMAILPASS, array('ryantran.vn@gmail.com'), EMAIL_TITLE_1, 'Nội dung email', NULL, NULL, NULL);
         
     /*
         //Create a new PHPMailer instance

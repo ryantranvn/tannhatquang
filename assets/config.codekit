@@ -558,6 +558,28 @@
 		"outputPathIsSetByUser": 0,
 		"processed": 0
 		},
+	"\/frontend\/images\/mobile\/bg-contact.jpg": {
+		"fileType": 16384,
+		"ignore": 0,
+		"ignoreWasSetByUser": 0,
+		"initialSize": 37848,
+		"inputAbbreviatedPath": "\/frontend\/images\/mobile\/bg-contact.jpg",
+		"outputAbbreviatedPath": "\/frontend\/images\/mobile\/bg-contact.jpg",
+		"outputPathIsOutsideProject": 0,
+		"outputPathIsSetByUser": 0,
+		"processed": 0
+		},
+	"\/frontend\/images\/mobile\/logo.png": {
+		"fileType": 32768,
+		"ignore": 0,
+		"ignoreWasSetByUser": 0,
+		"initialSize": 5798,
+		"inputAbbreviatedPath": "\/frontend\/images\/mobile\/logo.png",
+		"outputAbbreviatedPath": "\/frontend\/images\/mobile\/logo.png",
+		"outputPathIsOutsideProject": 0,
+		"outputPathIsSetByUser": 0,
+		"processed": 0
+		},
 	"\/frontend\/images\/service\/service-1.jpg": {
 		"fileType": 16384,
 		"ignore": 0,

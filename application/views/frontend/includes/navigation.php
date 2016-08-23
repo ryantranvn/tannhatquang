@@ -71,7 +71,6 @@
 			<li<? if ($activeMenu=='contact') { ?> class="active"<? } ?>>
 				<a href="<?=$links['contact']?>"><?=$navigator['contact']?></a>
 			</li>
-			<!-- <li class='activeBar'></li> -->
 		</ul>
 
 		<div class="hotline">

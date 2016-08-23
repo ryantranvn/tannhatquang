@@ -32,7 +32,12 @@ class Booking extends Root {
 
         $this->data['url']['vn'] = F_URL . 'vn/dat-hen-tu-van';
         $this->data['url']['en'] = F_URL . 'en/booking';
-        $banner = $this->Base_model->getDB('db','post',array('url','url_en'),array('parent_id'=>11,'type'=>'booking'));
+        if ($this->data['device']=='pc') {
+            $banner = $this->Base_model->getDB('db','post',array('url','url_en'),array('parent_id'=>11,'type'=>'booking'));
+        }
+        else {
+            $banner = $this->Base_model->getDB('db','post',array('url','url_en'),array('parent_id'=>11,'type'=>'booking-mobile'));
+        }
         $this->data['banner'] = $banner[0];
         
         $this->template->load($this->gate.'/template', $this->gate.'/booking', $this->data);

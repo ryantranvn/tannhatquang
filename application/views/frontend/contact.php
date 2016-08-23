@@ -26,7 +26,7 @@
 			<div class="left small-24 medium-12 large-12 columns">
 				<img src="<?=assetsUrl('frontend','images','icon-contact.png');?>" />
 				<p class="title"><?=$textHome['contact']['title']?></p>
-				<p><?=$textHome['contact']['name']?></p>
+				<p class="name"><?=$textHome['contact']['name']?></p>
 				<p>-</p>
 				<p><?=$textHome['contact']['address']?></p>
 				<p>Tel: (84 8) 3770 8030 – Fax: (84 8) 3770 8031</p>

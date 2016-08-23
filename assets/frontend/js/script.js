@@ -110,7 +110,34 @@ $(document).foundation();
 
 /* load */
 $(document).ready( function() {
+    
+    // mobile menu
+        wMobileNav = $('.mobileNav').width()
         
+        $('#mobileMenuButton').click(function(){
+            $(this).toggleClass('open');
+            if ($(this).hasClass('open')) {
+                $('.mobileNav').transition({ x : wMobileNav }, 50, function() {
+                    $('.mobileNav').css('opacity',1).transition({ x : 0 }, 800)
+                    $('.mobileTop').transition({ x : -(wMobileNav) }, 800)
+                    $('.container').transition({ x : -(wMobileNav) }, 800)
+                })
+            }
+            else {
+                $('.mobileNav').css('opacity',0).transition({ x : wMobileNav }, 800)
+                $('.mobileTop').transition({ x : 0 }, 800)
+                $('.container').transition({ x : 0 }, 800)
+            }
+        });
+        $('.container').click( function() {
+            if ($('#mobileMenuButton').hasClass('open')) {
+                $('.mobileNav').css('opacity',0).transition({ x : wMobileNav }, 800)
+                $('.mobileTop').transition({ x : 0 }, 800)
+                $('.container').transition({ x : 0 }, 800)
+                $('#mobileMenuButton').toggleClass('open');
+            }
+        })
+
     // menu
         /*
         var activeObj = $('.menu li.active')
@@ -355,6 +382,12 @@ $(document).ready( function() {
                 prevText: '<img src="'+fUrl+'assets/frontend/images/icon-prev.png" />'
             });
 
+            $('.bxslider-service').bxSlider({
+                infiniteLoop: false
+            });
+            $('.bxslider-galleryMobile').bxSlider({
+                infiniteLoop: false
+            });
             // validation
             $("#frmContact").validate({
                 rules: {

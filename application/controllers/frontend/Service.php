@@ -33,6 +33,12 @@ class Service extends Root {
 
     	$subMenu = $this->uri->segment(3,0);
         $urlDetail = $this->uri->segment(4,0);
+        if ($this->data['device']=='pc') {
+            $mobileText = "";
+        }
+        else {
+            $mobileText = "-mobile";
+        }
         switch ($subMenu) {
             case 'gioi-thieu':
             case 'introduction':
@@ -40,7 +46,8 @@ class Service extends Root {
                 $this->data['subCat'] = 'introduction';
                 $this->data['url']['vn'] = F_URL . 'vn/dich-vu/gioi-thieu';
                 $this->data['url']['en'] = F_URL . 'en/service/introduction';
-                $banner = $this->Base_model->getDB('db','post',array('url','url_en'),array('parent_id'=>11,'type'=>'service-introduction'));
+
+                $banner = $this->Base_model->getDB('db','post',array('url','url_en'),array('parent_id'=>11,'type'=>'service-introduction'.$mobileText));
                 $this->data['banner'] = $banner[0];
                 /*
                     if ($urlDetail == FALSE || $urlDetail=="") {
@@ -64,7 +71,7 @@ class Service extends Root {
                 $this->data['subCat'] = 'service';
                 $this->data['url']['vn'] = F_URL . 'vn/dich-vu/dich-vu';
                 $this->data['url']['en'] = F_URL . 'en/service/service';
-                $banner = $this->Base_model->getDB('db','post',array('url','url_en'),array('parent_id'=>11,'type'=>'service-service'));
+                $banner = $this->Base_model->getDB('db','post',array('url','url_en'),array('parent_id'=>11,'type'=>'service-service'.$mobileText));
                 $this->data['banner'] = $banner[0];
                 /*
                     if ($urlDetail == FALSE || $urlDetail=="") {
@@ -88,7 +95,7 @@ class Service extends Root {
                 $this->data['subCat'] = 'certification';
                 $this->data['url']['vn'] = F_URL . 'vn/dich-vu/chung-nhan-chat-luong';
                 $this->data['url']['en'] = F_URL . 'en/service/certification';
-                $banner = $this->Base_model->getDB('db','post',array('url','url_en'),array('parent_id'=>11,'type'=>'service-certification'));
+                $banner = $this->Base_model->getDB('db','post',array('url','url_en'),array('parent_id'=>11,'type'=>'service-certification'.$mobileText));
                 $this->data['banner'] = $banner[0];
                 /*
                     if ($urlDetail == FALSE || $urlDetail=="") {

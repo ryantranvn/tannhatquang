@@ -76,7 +76,7 @@
 					</div>
 				</div>
 				<div class="subtabContent small-24 medium-18 large-18 columns">
-					<div class="subtabContentItem ">
+					<div class="subtabContentItem active">
 						<? if (count($gallery['album'])>0) {
 							foreach ($gallery['album'] as $item) { ?>
 								<div class="item small-24 medium-8 large-8 columns">
@@ -91,7 +91,7 @@
 							<div class="imageGalleryContent"></div>
 						</div>
 					</div>
-					<div class="subtabContentItem subtabVideoItem active">
+					<div class="subtabContentItem subtabVideoItem">
 						<? if (count($gallery['video'])>0) {
 							foreach ($gallery['video'] as $item) { ?>
 							<div class="videoContainer">
