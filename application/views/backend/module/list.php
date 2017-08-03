@@ -1,11 +1,11 @@
 <!-- page title  -->
 	<div id="<?=$activeModule?>Page" class="mainContainer row">
-		
+
 		<!-- col -->
 		<div class="col-xs-12 col-sm-7 col-md-7 col-lg-4">
 			<h1 class="page-title txt-color-blueDark">
 				<!-- PAGE HEADER -->
-				<i class="<?=$modules[$activeModule]['icon']?>"></i> 
+				<i class="<?=$modules[$activeModule]['icon']?>"></i>
 				<a href="<?=$breadcrumb[0]['url']?>"><?=$breadcrumb[0]['name']?></a>
 			</h1>
 		</div>
@@ -18,7 +18,7 @@
 		<!-- row -->
 			<div class="row">
 			<!-- ADD -->
-				<?php if ($permissionsMember['module']['2'] == 1 || $permissionsMember['module']['3'] == 1) { ?>
+				<?php if ($permissionsMember['Module']['2'] == 1 || $permissionsMember['Module']['3'] == 1) { ?>
 					<article id="addContainer" class="col-xs-12 col-sm-12 col-md-4 col-lg-4">
 						<div class="jarviswidget jarviswidget-color-blue" data-widget-editbutton="false" data-widget-deletebutton="false" id="add<?=$breadcrumb[0]['name']?>">
 							<!-- header -->
@@ -97,7 +97,7 @@
 											<div class="actions">
 												<input type="text" name="oper" value="add" class="hiddenInput" />
 												<input type="text" name="id" class="hiddenInput" />
-												<?php if ($permissionsMember['module']['2'] == 1) { ?>
+												<?php if ($permissionsMember['Module']['2'] == 1) { ?>
 												<button class="btn btn-sm btn-success pull-right btnSubmit" type="submit">
 													<i class="fa fa-lg fa-plus"></i> Submit
 												</button>
@@ -106,14 +106,14 @@
 										<?=$frmModule['close']?>
 									</div>
 								<!-- end widget content -->
-									
+
 								</div>
 							<!-- end widget div -->
 						</div>
 					</article>
 				<?php } ?>
 			<!-- LIST -->
-				<?php if ($permissionsMember['module']['2'] == 1 || $permissionsMember['module']['3'] == 1) { ?>
+				<?php if ($permissionsMember['Module']['2'] == 1 || $permissionsMember['Module']['3'] == 1) { ?>
 					<article id="listContainer" class="col-xs-12 col-sm-12 col-md-8 col-lg-8">
 				<?php } else { ?>
 					<article id="listContainer" class="col-xs-12 col-sm-12 col-md-12 col-lg-12">
@@ -124,7 +124,7 @@
 									<h2>List </h2>
 								</header>
 							<!-- end header -->
-							
+
 							<!-- widget div-->
 								<div>
 									<!-- widget edit box -->
@@ -139,10 +139,11 @@
 											<table id="jqgrid"></table>
 											<div id="pjqgrid"></div>
 										<!-- for multi delete -->
-											<?=$frmTopButtons['open']?>
-	                                            <input type="text" name="ids[]" id="ids" class="hiddenInput" />
-	                                        <?=$frmTopButtons['close']?>
-										</div>
+											<?php if (isset($frmTopButtons)) { ?>
+												<?=$frmTopButtons['open']?>
+		                                            <input type="text" name="ids[]" id="ids" class="hiddenInput" />
+		                                        <?=$frmTopButtons['close']?>
+											<? } ?>
 									<!-- end widget content -->
 								</div>
 							<!-- end widget div -->

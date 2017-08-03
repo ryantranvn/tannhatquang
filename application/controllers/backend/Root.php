@@ -1,4 +1,4 @@
-<?php 
+<?php
 if (!defined('BASEPATH')) exit('No direct script access allowed');
 
 class Root extends CI_Controller {
@@ -9,6 +9,9 @@ class Root extends CI_Controller {
     {
         parent::__construct();
 
+			// if (!in_array ($_SERVER['REMOTE_ADDR'], array("115.79.63.188"))) {
+			//    redirect(F_URL);
+			// }
 		// load
 	        $this->load->helper('form');
 	        $this->load->library('form_validation');
@@ -26,18 +29,17 @@ class Root extends CI_Controller {
 	        if ( $this->session->userdata('authMember') == FALSE) {
 	            redirect(B_URL.'auth');
 	        }
-	        else {
-	            $this->data['authMember'] = $this->session->userdata('authMember');
-	            $this->data['permissionsMember'] = $this->Permission_model->get_MemberPermissions('db', $this->data['authMember']['id']);
-	            // print_r("<pre>");print_r($this->data['permissionsMember']);die();
-	        }
+            $this->data['authMember'] = $this->session->userdata('authMember');
+            $this->data['permissionsMember'] = $this->Permission_model->get_memberPermissions($this->data['authMember']['id']);
 	    // Menu
-	        $modules = $this->Base_model->getDB('db','module',NULL, NULL ,NULL,'order','asc');
-	        $arrMobdules = array();
+	        $modules = $this->Base_model->get_db('module',NULL, NULL ,NULL,'order','asc');
+	        $arrModules  = array();
 	        foreach ($modules as $module) {
-	        	$arrMobdules[$module['url']] = $module;
+                $arrModules[$module['control_name']] = $module;
 	        }
-        	$this->data['modules'] = $arrMobdules;
+            $this->data['modules'] = $arrModules;
+
+        	// print_r("<pre>"); print_r($arrModules); exit();
         // Reply Template
         	$this->data['reply'] = reply();
 
@@ -48,12 +50,14 @@ class Root extends CI_Controller {
 	            $this->data['varJS']['replyErrorContent'] = $this->session->userdata('replyError');
 	            $this->session->unset_userdata('replyError');
 	        }
+        // block js & css
+            $this->data['cssBlock'] = array();
+            $this->data['jsBlock'] = array();
 	}
 
 // index
     public function index()
     {
-        // Some example data
     }
 
 // Permission member
@@ -70,5 +74,5 @@ class Root extends CI_Controller {
         if (!$this->havePermission($permissionMember, $module, $id_permission)) {
             redirect(B_URL . 'page404');
         }
-    }    
+    }
 }

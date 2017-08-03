@@ -107,6 +107,7 @@ class uploader {
         if (count($_FILES))
             $this->file = &$_FILES[key($_FILES)];
 
+
         // LOAD DEFAULT CONFIGURATION
         require "conf/config.php";
 
@@ -406,6 +407,7 @@ class uploader {
     }
 
     protected function checkFilePath($file) {
+        return TRUE;
         $rPath = realpath($file);
         if (strtoupper(substr(PHP_OS, 0, 3)) == "WIN")
             $rPath = str_replace("\\", "/", $rPath);
@@ -456,7 +458,7 @@ class uploader {
                     $this->label("The uploaded file exceeds {size} bytes.",
                         array('size' => ini_get('upload_max_filesize'))) : (
                 ($file['error'] == UPLOAD_ERR_FORM_SIZE) ?
-                    $this->label("The uploaded file exceeds {size} bytes.",
+                    $this->label("The uploaded file exceeds {size} bytes",
                         array('size' => $_GET['MAX_FILE_SIZE'])) : (
                 ($file['error'] == UPLOAD_ERR_PARTIAL) ?
                     $this->label("The uploaded file was only partially uploaded.") : (

@@ -1,28 +1,20 @@
-<div class="footer fullContainer">
-	<div class="centerContainer show-for-medium">
-		<a class="logoFooter" href="<?=F_URL?>" title="<?=LINK_TITLE?>">
-			<img src="<?=assetsUrl('frontend','images','logo-footer.png');?>" />
-		</a>
-		<div class="copyright">
-			<a href="#"><i class="fa fa-copyright" aria-hidden="true"></i> </a>
-			2015 Vietnam Star Automobile. All Rights reserved.
+<div id="footer" class="fullContainer">
+	<div class="centerContainer hide-for-small-only">
+		<div class="small-12 medium-6 large-6 columns">
+			<a class="linkLogo float-left show-for-medium" href="<?=F_URL?>"><img src="<?=assetsUrl('frontend','images','logo.png');?>" /></a>
+			<ul class="footer_navigator float-left">
+				<li><a href="#">Giới thiệu</a></li>
+				<li><a href="#">Bảng giá</a></li>
+				<li><a href="#">Tin tức</a></li>
+				<li><a href="#">Liên hệ</a></li>
+			</ul>
 		</div>
-		<div class="linkSocial">
-			<a href="#"><i class="fa fa-facebook" aria-hidden="true"></i></a>
-			<a href="#"><i class="fa fa-twitter" aria-hidden="true"></i></a>
-			<a href="#"><i class="fa fa-instagram" aria-hidden="true"></i></a>
-		</div>
-		<div class="terms">Legal Notices and Terms   <span>&#124;</span>   Privacy Statement</div>
-	</div>
-	<div class="centerContainer show-for-small-only forMobile">
-		<div class="copyright">
-			<a href="#"><i class="fa fa-copyright" aria-hidden="true"></i> 2015 Vietnam Star Automobile. All Rights reserved.</a>
-		</div>
-		<div class="linkSocial">
-			<a href="#"><i class="fa fa-facebook" aria-hidden="true"></i></a>
-			<a href="#"><i class="fa fa-twitter" aria-hidden="true"></i></a>
-			<a href="#"><i class="fa fa-instagram" aria-hidden="true"></i></a>
-			Legal Notices and Terms   <span>&#124;</span>   Privacy Statement
+		<div class="small-12 medium-6 large-6 columns">
+			<p class="company_name">Công Ty TNHH TM NHẬT QUANG</p>
+			<p class="company_address">12 Hoàng Diệu, Phường 2, Tp Cà Mau, Việt Nam<br/>
+			Phone : +84 7803 515 555 | +84 7806 515 555</br/>
+			Fax : +84 7806 251 022</br/>
+			Email : dntntannhatquang@gmail.com</p>
 		</div>
 	</div>
 </div>

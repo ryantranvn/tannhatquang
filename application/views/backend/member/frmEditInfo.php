@@ -5,7 +5,7 @@
 				<h2>Info </h2>
 			</header>
 		<!-- end header -->
-		
+
 		<!-- widget div-->
 			<div>
 				<!-- widget edit box -->

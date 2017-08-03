@@ -11,12 +11,12 @@
 <!-- IMPORTANT: APP CONFIG -->
 	<script src="<?php echo libsUrl('smartadmin','js','app.config.js'); ?>"></script>
 
-<!-- JS TOUCH : include this plugin for mobile drag / drop touch events -->	
+<!-- JS TOUCH : include this plugin for mobile drag / drop touch events -->
 	<script src="<?php echo libsUrl('smartadmin','js/plugin/jquery-touch','jquery.ui.touch-punch.min.js'); ?>"></script>
 
-<!-- BOOTSTRAP JS -->		
+<!-- BOOTSTRAP JS -->
 	<script src="<?php echo libsUrl('smartadmin','js/bootstrap','bootstrap.min.js'); ?>"></script>
-	
+
 	<!-- <script src="<?php echo libsUrl('smartadmin','js/plugin/bootstrapvalidator','bootstrapValidator.min.js'); ?>"></script>-->
 	<script src="<?php echo libsUrl('smartadmin','js/plugin/bootstrap-wizard','jquery.bootstrap.wizard.min.js'); ?>"></script>
 
@@ -51,10 +51,10 @@
 	<script src="<?php echo libsUrl('smartadmin','js/plugin/fastclick','fastclick.min.js'); ?>"></script>
 
 <!-- SmartChat UI : plugin -->
-	
+
 	<script src="<?php echo libsUrl('smartadmin','js/smart-chat-ui','smart.chat.ui.min.js'); ?>"></script>
-	<script src="<?php echo libsUrl('smartadmin','js/smart-chat-ui','smart.chat.manager.min.js'); ?>"></script> 
-	
+	<script src="<?php echo libsUrl('smartadmin','js/smart-chat-ui','smart.chat.manager.min.js'); ?>"></script>
+
 <!--[if IE 8]>
 	<h1>Your browser is out of date, please update your browser by going to www.microsoft.com/download</h1>
 <![endif]-->

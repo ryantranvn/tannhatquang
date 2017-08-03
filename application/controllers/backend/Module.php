@@ -7,35 +7,80 @@ if (file_exists(APPPATH . 'controllers/backend/Root.php')) {
 
 class Module extends Root {
 
-	private $module = 'module';
-
 	public function __construct()
     {
         parent::__construct();
-
+        $this->currentModule = $this->data['modules'][ucfirst($this->router->fetch_class())];
+        $this->data['varJS']['currentModule'] = $this->currentModule;
     // load
-        $this->load->model($this->module.'_model', 'model');
+        $this->load->model($this->currentModule['control_name'].'_model', 'model');
 
-    	$this->data['activeModule'] = $this->module;
-        $this->data['activeNav'] = $this->module;
-        $this->data['breadcrumb'][0] = array('name'=>ucfirst($this->module), 'url' => B_URL . $this->module);
-
+        $this->data['activeModule'] = $this->currentModule['control_name'];
+        $this->data['activeNav'] = $this->currentModule['control_name'];
+        $this->data['breadcrumb'][0] = array('name'=>$this->currentModule['control_name'], 'url' => B_URL . $this->currentModule['url']);
+    // block js and css
+        // array_push($this->data['cssBlock'], '<link rel="stylesheet" type="text/css" href="'. ASSETS_URL . 'backend/css//module.min.css" />');
+        array_push($this->data['jsBlock'], '<script language="javascript" type="text/javascript" src="'. ASSETS_URL . 'backend/js/module.min.js"></script>');
+    // status array
+        $this->data['statusArr'] = array(
+             'active' => '<button class="btn bg-color-green txt-color-white" data-value="active">Active</button>'
+            ,'inactive' => '<button class="btn bg-color-blueDark txt-color-white" data-value="inactive">Inactive</button>'
+            // ,'block' => '<button class="btn bg-color-red txt-color-white" data-value="block">Block</button>'
+        );
     }
 // index
     public function index()
     {
     // check not access
-        $this->noAccess($this->data['permissionsMember'], $this->module, 1);
+        $this->noAccess($this->data['permissionsMember'], $this->currentModule['control_name'], 1);
+        $this->noAccess($this->data['permissionsMember'], $this->currentModule['control_name'], 2);
+        $this->noAccess($this->data['permissionsMember'], $this->currentModule['control_name'], 3);
+        $this->noAccess($this->data['permissionsMember'], $this->currentModule['control_name'], 4);
 
     	// $this->data['breadcrumb'][1] = array('name'=>'List', 'url' => B_URL . $this->router->fetch_method());
-        
+
         // frm
-        	$this->data['frmModule'] = frm(B_URL.$this->module.'/submit_db', array('id' => "frmModule"), FALSE);
-            $this->data['frmTopButtons'] = frm(B_URL.$this->module.'/multi_delete', array('id' => "frmTopButtons"), FALSE);
+        	$this->data['frmModule'] = frm(B_URL . $this->currentModule['url'] . '/submit_db', array('id' => "frmModule"), FALSE);
+            $this->data['frmTopButtons'] = frm(B_URL . $this->currentModule['url'] . '/multi_delete', array('id' => "frmTopButtons"), FALSE);
             // $this->data['frmImport'] = frm(B_URL.$this->module.'/import_db', array('id' => "frmImport"), TRUE);
 
         $this->template->load('backend/template', 'backend/module/list', $this->data);
     }
+//  Ajax List
+    public function ajax_list()
+    {
+        // get params
+            $params = array(
+                 'page'     => $_GET['page']
+                ,'limit'    => $_GET['rows']
+                ,'sidx'     => $_GET['sidx']
+                ,'sord'     => $_GET['sord']
+            );
+            $sql = "SELECT * FROM module";
+            $where = "";
+            if (isset($_GET['filters'])) {
+                $params['filters'] = json_decode($_GET['filters']);
+                if (count($params['filters']->rules)>0) {
+                    if ($where == "") {$where .= "WHERE"; } else { $where .= " AND"; }
+                    foreach($params['filters']->rules as $rule) {
+                        $field = $this->db->escape($rule->field);
+                        $value = $this->db->escape_like_str($rule->data);
+                        if ($field == "status") {
+                            $where .= " status='" . $value . "'";
+                        }
+                        else {
+                            $where .= $field . " LIKE '%" . $value . "%'";
+                        }
+                    }
+                }
+            }
+            $sql .= $where;
+
+        // return json
+            echo json_encode($this->Base_model->table_list_in_page($sql, $params));
+    }
+
+/*
 //  Ajax List
     public function ajax_list()
     {
@@ -53,7 +98,7 @@ class Module extends Root {
             if (isset($_GET['filters'])) {
                 $filters = $_GET['filters'];
                 $filters = json_decode($filters);
-                
+
                 foreach($filters->rules as $rule) { // filter is active
                     $field = $rule->field;
                     $value = $rule->data;
@@ -63,7 +108,7 @@ class Module extends Root {
                     else {
                         if ($field == "categoryName") {
                             $field = 'category.name';
-                        } 
+                        }
                         else {
                             $field = 'post.'.$field;
                         }
@@ -71,9 +116,9 @@ class Module extends Root {
                     }
                 }
             }
-            
+
         // get total row => total page
-            $count = $this->model->total_Rows('db', $where, $like); 
+            $count = $this->model->total_Rows('db', $where, $like);
             if( $count>0 ) {
                 $total_pages = ceil($count/$limit);
             } else {
@@ -97,7 +142,7 @@ class Module extends Root {
             // }
 
 
-        // return json 
+        // return json
             echo json_encode($arrJSON);
     }
 
@@ -119,13 +164,13 @@ class Module extends Root {
         }
 
         echo json_encode($arrJSON);
-    }   
+    }
 
 // Submit DB
     public function submit_db()
     {
         $oper = $this->input->post('oper', TRUE);
-        
+
         if ($oper == "add") {
         // check permission
             $this->noAccess($this->data['permissionsMember'], $this->module, 2);
@@ -166,7 +211,7 @@ class Module extends Root {
         // check permission
             $this->noAccess($this->data['permissionsMember'], $this->module, 3);
         // get id on edit
-            $id = $this->input->post('id',TRUE); 
+            $id = $this->input->post('id',TRUE);
         // Just for edit icon and description
             $icon = $this->input->post('icon', TRUE);
             $desc = $this->input->post('desc', TRUE);
@@ -198,7 +243,7 @@ class Module extends Root {
             $this->session->set_userdata('valid', "Delete data successful.");
         }
         redirect(B_URL.$this->router->fetch_class());
-    }    
+    }
 
 // ********************************
 // check existed
@@ -239,5 +284,5 @@ class Module extends Root {
             echo "true"; // not valid because do not allow change name
         }
     }
-
+*/
 }

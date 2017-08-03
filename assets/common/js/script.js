@@ -1,6 +1,8 @@
     var fUrl = window.location.protocol + "//" + window.location.host + "/"
+    var assetsUrl = fUrl + "assets/"
     var bUrl = fUrl + "backend/"
-    var libsUrl = window.location.protocol + "//" + window.location.host + "/library/"
+    var apiUrl = fUrl + "api/"
+    var libsUrl = fUrl + "library/"
     var uploadDir = fUrl + 'upload/'
 
 // URL
@@ -12,7 +14,7 @@
     }
 
 // Layout
-    function scrollup() 
+    function scrollup()
     {
         $(window).scroll(function(){
             if ($(this).scrollTop() > 100) {
@@ -27,8 +29,8 @@
         });
     }
 
-// DATE & TIME 
-    // today  
+// DATE & TIME
+    // today
         function nowDate()
         {
             var d=new Date();
@@ -46,7 +48,7 @@
     // datepicker
         function myDatePicker(ele)
         {
-            ele.datepicker({    
+            ele.datepicker({
                 dateFormat: 'dd-mm-yy',
                 changeMonth: true,
                 changeYear: true,
@@ -60,6 +62,10 @@
         }
 
 // STRING
+    function trim_space(str)
+    {
+        return str.replace(/\s+/g, " ").trim();
+    }
     function cut_string(obj_class, num_obj, pos_space)
     {
         obj = new Array();
@@ -91,12 +97,12 @@
             var possible = 'ABCDEFGHIJKLMNOPQRSTUVWXYZabcdefghijklmnopqrstuvwxyz';
         }
         else if (type == "alphaNum") {
-            var possible = 'ABCDEFGHIJKLMNOPQRSTUVWXYZabcdefghijklmnopqrstuvwxyz0123456789';    
+            var possible = 'ABCDEFGHIJKLMNOPQRSTUVWXYZabcdefghijklmnopqrstuvwxyz0123456789';
         }
-        
+
         for(var i=0; i < n; i++)
         {
-            text += possible.charAt(Math.floor(Math.random() * possible.length));
+            text += String(possible).charAt(Math.floor(Math.random() * String(possible).length));
         }
 
         return text;
@@ -120,22 +126,22 @@
         return text;
     }
 
-    function make_url(str) 
+    function make_url(str)
     {
-        str= str.toLowerCase();  
-        str= str.replace(/à|á|ạ|ả|ã|â|ầ|ấ|ậ|ẩ|ẫ|ă|ằ|ắ|ặ|ẳ|ẵ/g,"a");  
-        str= str.replace(/è|é|ẹ|ẻ|ẽ|ê|ề|ế|ệ|ể|ễ/g,"e");  
-        str= str.replace(/ì|í|ị|ỉ|ĩ/g,"i");  
-        str= str.replace(/ò|ó|ọ|ỏ|õ|ô|ồ|ố|ộ|ổ|ỗ|ơ|ờ|ớ|ợ|ở|ỡ/g,"o");  
-        str= str.replace(/ù|ú|ụ|ủ|ũ|ư|ừ|ứ|ự|ử|ữ/g,"u");  
-        str= str.replace(/ỳ|ý|ỵ|ỷ|ỹ/g,"y");  
-        str= str.replace(/đ/g,"d");  
-        str= str.replace(/!|@|%|\^|\*|\(|\)|\+|\=|\<|\>|\?|\/|,|\.|\:|\;|\'| |\"|\&|\#|\[|\]|~|$|_/g,"-"); 
+        str= str.toLowerCase();
+        str= str.replace(/à|á|ạ|ả|ã|â|ầ|ấ|ậ|ẩ|ẫ|ă|ằ|ắ|ặ|ẳ|ẵ/g,"a");
+        str= str.replace(/è|é|ẹ|ẻ|ẽ|ê|ề|ế|ệ|ể|ễ/g,"e");
+        str= str.replace(/ì|í|ị|ỉ|ĩ/g,"i");
+        str= str.replace(/ò|ó|ọ|ỏ|õ|ô|ồ|ố|ộ|ổ|ỗ|ơ|ờ|ớ|ợ|ở|ỡ/g,"o");
+        str= str.replace(/ù|ú|ụ|ủ|ũ|ư|ừ|ứ|ự|ử|ữ/g,"u");
+        str= str.replace(/ỳ|ý|ỵ|ỷ|ỹ/g,"y");
+        str= str.replace(/đ/g,"d");
+        str= str.replace(/!|@|%|\^|\*|\(|\)|\+|\=|\<|\>|\?|\/|,|\.|\:|\;|\'| |\"|\&|\#|\[|\]|~|$|_/g,"-");
 
-        str= str.replace(/-+-/g,"-"); //thay thế 2- thành 1- 
-        str= str.replace(/^\-+|\-+$/g,"");  
+        str= str.replace(/-+-/g,"-"); //thay thế 2- thành 1-
+        str= str.replace(/^\-+|\-+$/g,"");
 
-        return str;  
+        return str;
     }
 
     function fill_url(value, el)
@@ -153,9 +159,9 @@
     }
 
 // NUMBER
-    function genRanNum(min,max) 
+    function genRanNum(min,max)
     {
-        var random = Math.floor(Math.random() * (max - min + 1)) + min;   
+        var random = Math.floor(Math.random() * (max - min + 1)) + min;
         return (random < 4 && random > -4) ? GenerateRandomNumber() : random;
     }
 
@@ -166,7 +172,7 @@
             form.find('input[type="text"], textarea').val('').find('input[type="checkbox"]').attr('checked','checked');
         });
     }
-    function preventUnicode(fieldInput) 
+    function preventUnicode(fieldInput)
     {
         var str = fieldInput.val();// lấy chuỗi dữ liệu nhập vào
         str= str.toLowerCase();// chuyển chuỗi sang chữ thường để xử lý
@@ -196,13 +202,31 @@
             return this.optional(element) || value != param;
         }, "Please specify a different (non-default) value");
 
+    // valid domain in email
+        function isPruEmail(email)
+        {
+            var re = /^\s*[\w\-\+_]+(\.[\w\-\+_]+)*\@[\w\-\+_]+\.[\w\-\+_]+(\.[\w\-\+_]+)*\s*$/
+            if (email.indexOf('@prudential.com.vn', email.length - '@prudential.com.vn'.length) !== -1) {
+                return true
+            } else {
+                return false
+            }
+        }
+        jQuery.validator.addMethod("pruEmail", function(value, element) {
+        // allow any non-whitespace characters as the host part
+            if (isPruEmail(value)) {
+                return true
+            }
+        }, 'Vui lòng nhập email của prudential.');
+
+
     function isUrl(url) {
         return /^(http(s)?:\/\/)?(www\.)?[a-z0-9]+([\-\.]{1}[a-z0-9]+)*\.[a-z]{2,5}(:[0-9]{1,5})?(\/.*)?$/.test(url);
     }
     // count word
         function getWordCount(wordString) {
             var words = wordString.split(" ");
-            words = words.filter(function(words) { 
+            words = words.filter(function(words) {
                 return words.length > 0
             }).length;
             return words;
@@ -274,19 +298,19 @@
         return v > 4 ? v : undef;
 
     }());
-    
+
     // Jquery
-    var BrowserDetect = 
+    var BrowserDetect =
     {
-        init: function () 
+        init: function ()
         {
             this.browser = this.searchString(this.dataBrowser) || "Other";
             this.version = this.searchVersion(navigator.userAgent) ||       this.searchVersion(navigator.appVersion) || "Unknown";
         },
 
-        searchString: function (data) 
+        searchString: function (data)
         {
-            for (var i=0 ; i < data.length ; i++)   
+            for (var i=0 ; i < data.length ; i++)
             {
                 var dataString = data[i].string;
                 this.versionSearchString = data[i].subString;
@@ -298,14 +322,14 @@
             }
         },
 
-        searchVersion: function (dataString) 
+        searchVersion: function (dataString)
         {
             var index = dataString.indexOf(this.versionSearchString);
             if (index == -1) return;
             return parseFloat(dataString.substring(index+this.versionSearchString.length+1));
         },
 
-        dataBrowser: 
+        dataBrowser:
         [
             { string: navigator.userAgent, subString: "Chrome",  identity: "Chrome" },
             { string: navigator.userAgent, subString: "MSIE",    identity: "Explorer" },
@@ -318,14 +342,14 @@
     BrowserDetect.init();
 
 // is Function
-    function isFunction(functionToCheck) 
+    function isFunction(functionToCheck)
     {
         var getType = {};
         return functionToCheck && getType.toString.call(functionToCheck) === '[object Function]';
     }
 
 // CLEAR CONSOLE
-    function clearconsole() { 
+    function clearconsole() {
         console.log(window.console);
         if(window.console || window.console.firebug) {
             console.clear();
@@ -354,7 +378,7 @@
         }
 
 // add link on copy content
-    function addLink() 
+    function addLink()
     {
         //Get the selected text and append the extra info
         var body_element = document.getElementsByTagName('body')[0];
@@ -363,16 +387,16 @@
         var pagelink = "<br /><br /> Nguồn bài viết : <a href='"+document.location.href+"'>"+document.location.href+"</a>";
         var copytext = selection + pagelink;
         var newdiv = document.createElement('div');
-        
+
         //hide the newly created container
         newdiv.style.position='absolute';
         newdiv.style.left='-99999px';
-        
+
         //insert the container, fill it with the extended text, and define the new selection
         body_element.appendChild(newdiv);
         newdiv.innerHTML = copytext;
         selection.selectAllChildren(newdiv);
-        
+
         window.setTimeout(function() {
             body_element.removeChild(newdiv);
         },0);
@@ -390,4 +414,13 @@
                 }
             }
         });
-    }    
+    }
+
+// findButNotNested
+    $.fn.findButNotInside = function(selector) {
+        var origElement = $(this);
+        return origElement.find(selector).filter(function() {
+            var nearestMatch = $(this).parent().closest(selector);
+            return nearestMatch.length == 0 || origElement.find(nearestMatch).length == 0;
+        });
+    };

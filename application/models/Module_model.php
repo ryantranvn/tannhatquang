@@ -1,7 +1,7 @@
 <?php if ( ! defined('BASEPATH')) exit('No direct script access allowed');
 
 class Module_model extends Base_model {
-    
+
 	protected $connection;
 
     public function __construct()
@@ -26,9 +26,9 @@ class Module_model extends Base_model {
             $this->connection->like($like);
         }
         $query = $this->connection->get();
-        
+
         $result = $query->result_array();
-        
+
         return count($result);
     }
 
@@ -40,7 +40,7 @@ class Module_model extends Base_model {
             $connection = 'db';
         }
         $this->connect_to($connection);
-        
+
         $this->connection->select('*');
         $this->connection->from('module');
         if ($where != NULL && count($where)>0) {
@@ -105,7 +105,7 @@ class Module_model extends Base_model {
         }
     }
 
-// delete    
+// delete
     public function deleteModule($connection, $arrID)
     {
         // set connection
@@ -116,7 +116,7 @@ class Module_model extends Base_model {
 
         $this->connection->trans_begin();
 
-        // delete permission 
+        // delete permission
             $this->deleteDB($connection, 'member_permission', 'id_module', $arrID);
         // delele folder
             foreach ($arrID as $id) {

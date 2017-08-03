@@ -45,7 +45,7 @@ class User extends Root {
         $sord = $_GET['sord']; // get the direction
         if(!$sidx) $sidx=1;
         // add where in string
-            $where = "";
+            $where = "id<>'1' AND id<>'2' AND id<>'3'";
         // get filter if have
             // $search = $_GET['_search'];
             $like = "";
@@ -90,6 +90,58 @@ class User extends Root {
             echo json_encode($arrJSON);
     }
 
+// Ajax Sub List
+    public function ajax_sublist()
+    {
+        $arrJSON = array();
+        $page = $_GET['page']; // get the requested page
+        $limit = $_GET['rows']; // get how many rows we want to have into the grid
+        $sidx = $_GET['sidx']; // get index row - i.e. user click to sort
+        $sord = $_GET['sord']; // get the direction
+        if(!$sidx) $sidx=1;
+
+        $idUser = $_GET['id'];
+        // add where in string
+            $where = "id_user=".$idUser;
+        // get filter if have
+            // $search = $_GET['_search'];
+            $like = "";
+            if (isset($_GET['filters'])) {
+                $filters = $_GET['filters'];
+                $filters = json_decode($filters);
+                if (count($filters->rules)>0) {
+                    foreach($filters->rules as $rule) { // filter is active
+                        if ($rule->field != "") {
+                            $field = $rule->field;
+                            $value = $rule->data;
+                            
+                            $like .= $field." LIKE '%".$value."%'";
+                        }
+                    }
+                }
+            }
+    // get total row => total page
+        $count = $this->model->subTotal_Rows('db', $where, $like); 
+        if( $count>0 ) {
+            $total_pages = ceil($count/$limit);
+        } else {
+            $total_pages = 0;
+        }
+        if ($page > $total_pages) $page=$total_pages;
+        $start = $limit*$page - $limit;
+        if ($start <= 0) $start=0;
+    // query database
+        $list = $this->model->get_subList('db', $where, $like, $sidx, $sord, $start, $limit);
+    // arrange result
+        $arrJSON['sidx'] = $sidx;
+        $arrJSON['page'] = $page;
+        $arrJSON['total'] = $total_pages;
+        $arrJSON['records'] = $count;
+        $arrJSON['rows'] = $list;
+
+        echo json_encode($arrJSON);
+    }
+
 // ajax_status
     public function ajax_status()
     {
@@ -122,11 +174,11 @@ class User extends Root {
         // Add some data
         $objPHPExcel->setActiveSheetIndex(0)
                     ->setCellValue('A1', 'STT')
-                    ->setCellValue('B1', 'ID')
-                    ->setCellValue('C1', 'Email')
-                    ->setCellValue('D1', 'Fullname')
-                    ->setCellValue('E1', 'Phone')
-                    ->setCellValue('F1', 'Address');
+                    ->setCellValue('B1', 'Email')
+                    ->setCellValue('C1', 'Top Score')
+                    ->setCellValue('D1', 'Time')
+                    ->setCellValue('E1', 'Regist Datetime');
+                    // ->setCellValue('F1', 'Address');
                     // ->setCellValue('G1', 'Brand')
                     // ->setCellValue('H1', 'Model')
                     // ->setCellValue('I1', 'Date')
@@ -145,6 +197,7 @@ class User extends Root {
                     // ->setCellValue('V1', 'Download App');
 
         // get data
+        // $data_list = $this->model->getExport('db');
         $data_list = $this->Base_model->getDB('db','user');
         // print_r("<pre>"); print_r($data_list); die();
         $i = 2;
@@ -152,11 +205,11 @@ class User extends Root {
             foreach ($data_list as $key => $item) {
                 $objPHPExcel->setActiveSheetIndex(0)
                             ->setCellValue('A'.$i, $i-1)
-                            ->setCellValue('B'.$i, $item['id'])
-                            ->setCellValue('C'.$i, $item['email'])
-                            ->setCellValue('D'.$i, $item['fullname'])
-                            ->setCellValueExplicit('E'.$i, $item['phone'],PHPExcel_Cell_DataType::TYPE_STRING)
-                            ->setCellValue('F'.$i, $item['address']);
+                            ->setCellValue('B'.$i, $item['email'])
+                            ->setCellValue('C'.$i, $item['score'])
+                            ->setCellValue('D'.$i, $item['time'])
+                            ->setCellValue('E'.$i, $item['created_datetime']);
+                            // ->setCellValue('F'.$i, $item['address']);
                             // ->setCellValue('G'.$i, $item['brandcar'])
                             // ->setCellValue('H'.$i, $item['modelcar'])
                             // ->setCellValue('I'.$i, $item['date'])
@@ -183,10 +236,10 @@ class User extends Root {
         // Set active sheet index to the first sheet, so Excel opens this as the first sheet
         $objPHPExcel->setActiveSheetIndex(0);
         
-        
+        $filename = "user_".time().".xls";
         // Redirect output to a client’s web browser (Excel5)
         header('Content-Type: application/vnd.ms-excel');
-        header('Content-Disposition: attachment;filename="body_and_paint_users.xls"');
+        header('Content-Disposition: attachment;filename="'.$filename.'"');
         header('Cache-Control: max-age=0');
         // If you're serving to IE 9, then the following may be needed
         header('Cache-Control: max-age=1');

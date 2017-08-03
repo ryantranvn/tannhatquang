@@ -31,7 +31,6 @@ Looking for a feasible idea to delete them all.
 
 class Captcha {
 
-
 /*
 You can overrite All this variables during initialization
 */
@@ -128,12 +127,12 @@ You can overrite All this variables during initialization
         ImageJPEG( $img, $this->img_path.$img_name);
 
         $security_code = md5(md5(md5($code)));
-        
+
         $img_markup = '<img src="' . $this->img_url . $img_name . '" width="' . $this->img_width
         . '" height="' . $this->img_height . '" style="border:0;" alt=" " id="'.$security_code.'" />';
 
         ImageDestroy($img);
-        
+
         return array('word' => $code, 'time' => $now, 'image' => $img_markup, 'security_code' => $security_code);
 
     }
@@ -152,7 +151,7 @@ You can overrite All this variables during initialization
             $files[] = $file;
 
             return $files;
-        } 
+        }
         else return false;
     }
 

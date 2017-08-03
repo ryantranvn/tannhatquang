@@ -1,24 +1,9 @@
+    var screenHeight = $(window).height();
 // isMobile
-    var isMobile = {
-        Android: function() {
-            return navigator.userAgent.match(/Android/i);
-        },
-        BlackBerry: function() {
-            return navigator.userAgent.match(/BlackBerry/i);
-        },
-        iOS: function() {
-            return navigator.userAgent.match(/iPhone|iPad|iPod/i);
-        },
-        Opera: function() {
-            return navigator.userAgent.match(/Opera Mini/i);
-        },
-        Windows: function() {
-            return navigator.userAgent.match(/IEMobile/i);
-        },
-        any: function() {
-            return (isMobile.Android() || isMobile.BlackBerry() || isMobile.iOS() || isMobile.Opera() || isMobile.Windows());
-        }
-    };
+    var isMobile = false
+    if (navigator.userAgent.match('Mobile')) {
+        isMobile = true
+    }
 
 // select dropdown list
     function selectDropDown(selectWrapper, effect, fnCallbackSelected)
@@ -33,7 +18,7 @@
                     $(selectWrapper).children('ul').slideToggle(speed);
                 }
             });
-        
+
         // get value of select
             $('body').on('click', selectWrapper + ' ul li', function () {
             // get value
@@ -42,7 +27,7 @@
                 $(selectWrapper).children('.valueShow').html(selectedValue);
             // get value for input
                 $(selectWrapper).children('.valueGet').val($(this).attr('data-val'))
-            
+
             // callback after slideUp list
                 if (effect=="fade") {
                     $(selectWrapper).children('ul').fadeOut(speed, function() {
@@ -58,9 +43,9 @@
                         }
                     });
                 }
-                
+
             });
-        
+
         // slideUp on click outside
             $(document).mouseup(function (e) {
                 e.stopPropagation();
@@ -77,27 +62,29 @@
     }
 
 // popup
-    function openPopup(titlePopup, contentPopup, fnCallbackOpen, fnCallbackClose)
+    function openPopup(idPopup, titlePopup, contentPopup, fnCallbackOpen, fnCallbackClose)
     {
-        $('.popup').find('.popupContent').html(contentPopup)
-        $('.popup').find('.popupTitle').html(titlePopup).promise().done(function(){
-            $('.popup').fadeIn("slow", function() {
+        if (contentPopup != undefined) {
+            $('#'+idPopup).find('.popupContent').html(contentPopup)
+        }
+        $('#'+idPopup).find('.popupTitle').html(titlePopup).promise().done(function(){
+            if(fnCallbackOpen != false && typeof fnCallbackOpen == "function"){
+                fnCallbackOpen()
+            }
+            $('#'+idPopup).fadeIn("slow", function() {
                 $('body').css({ 'overflow':'hidden' })
-                if(fnCallbackOpen != false && typeof fnCallbackOpen == "function"){
-                    fnCallbackOpen();
-                }
             });
         });
-        $('.popup').on('click', '.popupClose', function() {
-            $('.popup').fadeOut('fast', function() {
+        $('#'+idPopup).on('click', '.popupClose', function() {
+            $('#'+idPopup).fadeOut('fast', function() {
                 $('body').css({ 'overflow':'visible' })
                 if(fnCallbackClose != false && typeof fnCallbackClose == "function"){
                     fnCallbackClose();
                 }
             });
         });
-        $('.popup').on('click', '.popupBg', function() {
-            $('.popup').fadeOut('fast', function() {
+        $('#'+idPopup).on('click', '.popupBg', function() {
+            $('#'+idPopup).fadeOut('fast', function() {
                 $('body').css({ 'overflow':'visible' })
                 if(fnCallbackClose != false && typeof fnCallbackClose == "function"){
                     fnCallbackClose();
@@ -106,766 +93,202 @@
         });
     }
 
+// slide hotProduct
+    jQuery(function($) {
+      'use strict';
+
+        (function() {
+            var $frame = $('#hotProductFrame');
+            var $slidee = $frame.children('ul').eq(0);
+            var $wrap = $frame.parent();
+
+            // Call Sly on frame
+            $frame.sly({
+              horizontal: 1,
+              itemNav: 'basic',
+              smart: 1,
+              activateOn: 'click',
+              mouseDragging: 1,
+              touchDragging: 1,
+              releaseSwing: 1,
+              startAt: 0,
+              scrollBar: $wrap.find('.scrollbar'),
+              scrollBy: 1,
+              pagesBar: $wrap.find('.pages'),
+              activatePageOn: 'click',
+              speed: 300,
+              elasticBounds: 1,
+              easing: 'easeOutExpo',
+              dragHandle: 1,
+              dynamicHandle: 1,
+              clickBar: 1,
+
+              // Buttons
+              forward: $wrap.find('.forward'),
+              backward: $wrap.find('.backward'),
+              prev: $wrap.find('.prev'),
+              next: $wrap.find('.next'),
+              prevPage: $wrap.find('.prevPage'),
+              nextPage: $wrap.find('.nextPage')
+            });
+
+        }());
+    });
+
+// slide saleProduct
+    jQuery(function($) {
+      'use strict';
+
+        (function() {
+            var $frame = $('#saleProductFrame');
+            var $slidee = $frame.children('ul').eq(0);
+            var $wrap = $frame.parent();
+
+            // Call Sly on frame
+            $frame.sly({
+              horizontal: 1,
+              itemNav: 'basic',
+              smart: 1,
+              activateOn: 'click',
+              mouseDragging: 1,
+              touchDragging: 1,
+              releaseSwing: 1,
+              startAt: 0,
+              scrollBar: $wrap.find('.scrollbar'),
+              scrollBy: 1,
+              pagesBar: $wrap.find('.pages'),
+              activatePageOn: 'click',
+              speed: 300,
+              elasticBounds: 1,
+              easing: 'easeOutExpo',
+              dragHandle: 1,
+              dynamicHandle: 1,
+              clickBar: 1,
+
+              // Buttons
+              forward: $wrap.find('.forward'),
+              backward: $wrap.find('.backward'),
+              prev: $wrap.find('.prev'),
+              next: $wrap.find('.next'),
+              prevPage: $wrap.find('.prevPage'),
+              nextPage: $wrap.find('.nextPage')
+            });
+
+        }());
+    });
+
 $(document).foundation();
 
-/* load */
 $(document).ready( function() {
-    
+
     // mobile menu
         wMobileNav = $('.mobileNav').width()
-        
+
         $('#mobileMenuButton').click(function(){
             $(this).toggleClass('open');
             if ($(this).hasClass('open')) {
                 $('.mobileNav').transition({ x : wMobileNav }, 50, function() {
                     $('.mobileNav').css('opacity',1).transition({ x : 0 }, 800)
-                    $('.mobileTop').transition({ x : -(wMobileNav) }, 800)
                     $('.container').transition({ x : -(wMobileNav) }, 800)
                 })
             }
             else {
                 $('.mobileNav').css('opacity',0).transition({ x : wMobileNav }, 800)
-                $('.mobileTop').transition({ x : 0 }, 800)
                 $('.container').transition({ x : 0 }, 800)
             }
         });
-        $('.container').click( function() {
-            if ($('#mobileMenuButton').hasClass('open')) {
-                $('.mobileNav').css('opacity',0).transition({ x : wMobileNav }, 800)
-                $('.mobileTop').transition({ x : 0 }, 800)
-                $('.container').transition({ x : 0 }, 800)
-                $('#mobileMenuButton').toggleClass('open');
-            }
-        })
 
-    // menu
-        /*
-        var activeObj = $('.menu li.active')
-        var wObj = activeObj.width()-20;
-        var leftObj = activeObj.position().left+10;
-        var bar = $('.activeBar')
-        var speed = 300
-        var activeSubmenu = $('.submenu li.active')
-        bar.css({ 'width':(wObj)+'px', 'left' : (leftObj)+'px' })
-        */
-        
-        // hover a of menu
-            $('.menu').on('mouseenter', 'li a:not(.linkSub)', function() {
-                li = $(this).parent('li')
-                $('.submenu.active').parent('li').children('a').children('i.fa.fa-caret-right').transition({ rotate: '0deg' },100,'linear');
-                $('.submenu.active').prev('.fa.fa-caret-up').removeClass('active')
-                $('.submenu.active').removeClass('active')
-
-                if (li.find('.submenu').length>0) {
-                    li.children('a').children('i.fa.fa-caret-right').transition({ rotate: '90deg' },100,'linear');
-                    li.find('i.fa.fa-caret-up').addClass('active')
-                    li.find('.submenu').addClass('active')
-                }
-            })
-        // move bar on hover a of menu
-            /*
-            $('.menu').children('li').children('a').mouseenter( function() {
-                wNewObj = $(this).parent('li').width()
-                leftNewObj = $(this).parent('li').position().left
-                
-                bar.stop(false,true).animate({
-                    'left' : (leftNewObj)+'px',
-                    'width' : (wNewObj)+'px'
-                }, speed, "linear")
-            })
-            */
-        // out menu
-            $('body').on('mouseleave', '.menu', function() {
-            /*
-            // back location of bar
-                bar.stop(false,true).animate({
-                    'left' : (leftObj)+'px',
-                    'width' : (wObj)+'px'
-                }, speed, "linear")
-            */
-            // hide submenu does not active
-                if (!$('.submenu.active').parent('li').hasClass('active')) {
-                    $('.submenu.active').parent('li').children('a').children('i.fa.fa-caret-right').transition({ rotate: '0deg' },100,'linear');
-                    $('.submenu.active').prev('i.fa.fa-caret-up').removeClass('active')
-                    $('.submenu.active').removeClass('active')
-                }
-            // re-show submenu active
-                $('.submenu li.active').parent('ul').parent('li').children('a').children('i.fa.fa-caret-right').transition({ rotate: '90deg' },100,'linear');
-                $('.submenu li.active').parent('ul').addClass('active')
-            })
-    
-    // lang
-        $('.navigator').on('click', '.langWrapper p', function(e) {
-            e.preventDefault()
-
-            $(this).next('ul').stop(false, false).slideToggle(500)
-        })
-        $('.navigator').on('click', '.langWrapper ul li a', function(e) {
-            // e.preventDefault()
-
-            $(this).closest('ul').slideUp(500)
-            // window.location.href = fUrl + 'switch_lang/' + $(this).attr('class')
-        });
-        clickOut($('.navigator .langWrapper'), function() {
-            $('.navigator .langWrapper ul').slideUp(500)
-        })
-    
-    // contactBox
-        if ($('.contactBox').length>0) {
-            // $('#arcText').circleType({radius: 98, dir: 1.5});
-            // $('#arcText').circleType({fitText:true, radius: 60});
-
-            $(window).scroll(function() {
-                if($(window).scrollTop() + $(window).height() > $(document).height() - 100) {
-                   $('.contactBox_mini').css({ 'bottom' : '52px' })
-                }
-                else {
-                    $('.contactBox_mini').css({ 'bottom' : '0px' })
-                }
-            });
-            $('body').on('click', '.contactBox_mini', function() {
-                $(this).fadeOut('fast', function() {
-                    $('.contactBox').transition({ y: '-340px' },500,'linear')
-                })
-            })
-            $('body').on('click', '.contactBox .titleWrapper', function() {
-                $('.contactBox').transition({ y: '0px' },500,'linear', function() {
-                    $('.contactBox_mini').fadeIn('fast')    
-                })
-                
-            });
-
-            selectDropDown('#serviceWrapper', "fade")
-        // autofill
-            $('.contactBox').on('focusout','input[name="email"]', function() {
-                $.ajax({
-                    url: fUrl + 'vn/ajax_get_user',
-                    type: 'POST',
-                    cache: false,
-                    dataType: 'json',
-                    data: { 
-                        type : 'email', 
-                        inputData : $('input[name="email"]').val(),
-                        csrf_hash : $.cookie('csrf_cookie_ci')
-                    },
-                    success: function(data) {
-                        if (data.error == 0) {
-                            user = data.user
-                            $('input[name="fullname"]').val(user['fullname'])
-                            $('input[name="phone"]').val(user['phone'])
-                        }
-                        // else {
-                        //     $('input[name="fullname"]').val('')
-                        //     $('input[name="phone"]').val('')
-                        // }
-                    },
-                    error: function() {
-                        console.log('error')
-                    }
-                });
-            })
-            $('.contactBox').on('focusout','input[name="phone"]', function() {
-                $.ajax({
-                    url: fUrl + 'vn/ajax_get_user',
-                    type: 'POST',
-                    cache: false,
-                    dataType: 'json',
-                    data: { 
-                        type : 'phone', 
-                        inputData : $('input[name="phone"]').val(),
-                        csrf_hash : $.cookie('csrf_cookie_ci')
-                    },
-                    success: function(data) {
-                        if (data.error == 0) {
-                            user = data.user
-                            $('input[name="fullname"]').val(user['fullname'])
-                            $('input[name="email"]').val(user['email'])
-                        }
-                        // else {
-                        //     $('input[name="fullname"]').val('')
-                        //     $('input[name="email"]').val('')
-                        // }
-                    },
-                    error: function() {
-                        console.log('error')
-                    }
-                });
-            })
-
-        // validation
-            $("#frmContact").validate({
-                rules: {
-                    fullname: { required: true, maxlength: 200 },
-                    phone: { required: true, minlength: 8, maxlength: 20 },
-                    email: { required: true, email: true }
-                },
-                messages: {
-                    fullname: {
-                        required: "bắt buộc",
-                        maxlength: "nhiều nhất 200 ký tự"
-                    },
-                    phone: {
-                        required: "bắt buộc",
-                        minlength: "ít nhất 8 ký tự",
-                        maxlength: "niều nhất 20 ký tự"
-                    },
-                    email: {
-                        required: "bắt buộc",
-                        email: "email chưa đúng định dạng"
-                    }
-                },
-                submitHandler: function(form, event) {
-                    event.preventDefault();
-                    $('.processing').fadeIn('fast');
-                    $.ajax({
-                        url: fUrl + 'vn/contact/ajax_submitContactBox',
-                        type: 'POST',
-                        cache: false,
-                        dataType: 'json',
-                        data: { 
-                            fullname : $('input[name="fullname"]').val(), 
-                            email : $('input[name="email"]').val(), 
-                            phone : $('input[name="phone"]').val(),
-                            service : $('input[name="service"]').val(),
-                            csrf_hash : $.cookie('csrf_cookie_ci')
-
-                        },
-                        success: function(data) {
-                            $('input[name="csrf_hash"]').val($.cookie('csrf_cookie_ci'));
-                            $('.processing').fadeOut('fast');
-                            if (data.error == 1) {
-                                openPopup("", data.errorContent, function() {}, function() {
-                                    $("#frmContact").find('input[name="fullname"]').val('')
-                                    $("#frmContact").find('input[name="email"]').val('')
-                                    $("#frmContact").find('input[name="phone"]').val('')
-                                    $("#frmContact").find('input[name="service"]').val('')
-                                })
-                            }
-                            else {
-                                openPopup("", errorText.validContactBox_content)
-                            }
-                        },
-                        error: function() {
-                            $('.processing').fadeOut('fast');
-                            openPopup("",errorText.ajax);
-                        }
-                    });
-                }
-            });
-        }
-    
     // positive number
         if ($(".positive-integer").length>0) {
-            $(".positive-integer").numeric({ decimal: false, negative: false }, function() { 
-                this.value = ""; this.focus(); 
+            $(".positive-integer").numeric({ decimal: false, negative: false }, function() {
+                this.value = ""; this.focus();
+            });
+        }
+
+    // scroll top
+        $(window).scroll(function (event) {
+            var scroll = $(window).scrollTop();
+
+            if (scroll >= 200) {
+                $('#gotoTop').fadeIn('fast')
+            }
+            else {
+                $('#gotoTop').fadeOut('fast')
+            }
+        });
+        $('body').on('click', '#gotoTop', function() {
+            $("html, body").animate({ scrollTop: 0 }, 600, function() {
+                $('#gotoTop').fadeOut('fast')
+            });
+        });
+
+    // view auth box
+    $('body').on('mouseenter', '#authWrapper', function() {
+        $('#authBox').fadeIn('fast')
+    })
+    $('body').on('mouseleave', '#authWrapper', function() {
+        $('#authBox').fadeOut('fast')
+    })
+
+    $('#authBox').on('click', '.signin a', function(e) {
+        e.preventDefault()
+        openPopup('popupAuth')
+    });
+
+
+    // banner
+        if ($("#banner").length>0) {
+            $("#banner").owlCarousel({
+                navigation : true,
+                slideSpeed : 300,
+                paginationSpeed : 400,
+                singleItem : true,
+                lazyLoad: true
+            });
+        }
+
+    // hotline
+        if ($("#hotline").length>0) {
+            $("div.holder").jPages({
+                containerID : "hotlineList",
+                perPage : 4,
+                animation   : "fadeIn",
+                pause       : 10000,
+                clickStop   : true,
+                first       : false,
+                previous    : "span.arrowPrev",
+                next        : "span.arrowNext",
+                last        : false
             });
         }
 
     // PAGEs
     // homePage
         if ($('#homePage').length>0) {
-            $('.bxslider-1').bxSlider({
-                auto : true,
-                mode : 'fade'
-            });
-            $('.bxslider-2').bxSlider({
-                auto : true,
-                mode : 'fade'
-            });
-            $('.bxslider-3').bxSlider({
-                auto : true,
-                mode : 'fade',
-                // pager : false,
-                nextSelector: '#slider-next',
-                prevSelector: '#slider-prev',
-                nextText: '<img src="'+fUrl+'assets/frontend/images/icon-next.png" />',
-                prevText: '<img src="'+fUrl+'assets/frontend/images/icon-prev.png" />'
-            });
-
-            $('.bxslider-service').bxSlider({
-                infiniteLoop: false
-            });
-            $('.bxslider-galleryMobile').bxSlider({
-                infiniteLoop: false
-            });
-            // validation
-            $("#frmContact").validate({
-                rules: {
-                    fullname: { required: true, maxlength: 200 },
-                    phone: { required: true, minlength: 8, maxlength: 20 },
-                    email: { required: true, email: true }
-                },
-                messages: {
-                    fullname: {
-                        required: "bắt buộc",
-                        maxlength: "nhiều nhất 200 ký tự"
-                    },
-                    phone: {
-                        required: "bắt buộc",
-                        minlength: "ít nhất 8 ký tự",
-                        maxlength: "niều nhất 20 ký tự"
-                    },
-                    email: {
-                        required: "bắt buộc",
-                        email: "email chưa đúng định dạng"
-                    }
-                },
-                submitHandle: function(form) {
-                    form.submit();
-                }
+        }
+        if ($('#sanphamPage').length>0) {
+            $("div.holder_sanphamList").jPages({
+                containerID : "sanphamList",
+                perPage     : 12,
+                animation   : "fadeIn",
+                first       : false,
+                previous    : "span.arrowPrev_sanpham",
+                next        : "span.arrowNext_sanpham",
+                last        : false
             });
         }
-    // contactPage
-        if ($('#contactPage').length>0) {
-
-        // autofill
-            $('#frmContact').on('focusout','input[name="email"]', function() {
-                $.ajax({
-                    url: fUrl + 'vn/ajax_get_user',
-                    type: 'POST',
-                    cache: false,
-                    dataType: 'json',
-                    data: { 
-                        type : 'email', 
-                        inputData : $('input[name="email"]').val(),
-                        csrf_hash : $.cookie('csrf_cookie_ci')
-                    },
-                    success: function(data) {
-                        if (data.error == 0) {
-                            user = data.user
-                            $('input[name="fullname"]').val(user['fullname'])
-                            $('input[name="phone"]').val(user['phone'])
-                            $('input[name="address"]').val(user['address'])
-                        }
-                        // else {
-                        //     $('input[name="fullname"]').val('')
-                        //     $('input[name="phone"]').val('')
-                        //     $('input[name="address"]').val('')
-                        // }
-                    },
-                    error: function() {
-                        console.log('error')
-                    }
-                });
-            })
-            $('#frmContact').on('focusout','input[name="phone"]', function() {
-                $.ajax({
-                    url: fUrl + 'vn/ajax_get_user',
-                    type: 'POST',
-                    cache: false,
-                    dataType: 'json',
-                    data: { 
-                        type : 'phone', 
-                        inputData : $('input[name="phone"]').val(),
-                        csrf_hash : $.cookie('csrf_cookie_ci')
-                    },
-                    success: function(data) {
-                        if (data.error == 0) {
-                            user = data.user
-                            $('input[name="fullname"]').val(user['fullname'])
-                            $('input[name="email"]').val(user['email'])
-                            $('input[name="address"]').val(user['address'])
-                        }
-                        // else {
-                        //     $('input[name="fullname"]').val('')
-                        //     $('input[name="email"]').val('')
-                        //     $('input[name="address"]').val('')
-                        // }
-                    },
-                    error: function() {
-                        console.log('error')
-                    }
-                });
-            })
-        // validation
-            $("#frmContact").validate({
-                rules: {
-                    fullname: { required: true, maxlength: 200 },
-                    phone: { required: true, minlength: 8, maxlength: 20 },
-                    address: { required: true, maxlength: 500 },
-                    title: { required: true, maxlength: 200 },
-                    content: { required: true, maxlength: 1000 },
-                    email: { required: true, email: true }
-                },
-                messages: {
-                    fullname: {
-                        required: "bắt buộc",
-                        maxlength: "nhiều nhất 200 ký tự"
-                    },
-                    phone: {
-                        required: "bắt buộc",
-                        minlength: "ít nhất 8 ký tự",
-                        maxlength: "niều nhất 20 ký tự"
-                    },
-                    address: {
-                        required: "bắt buộc",
-                        maxlength: "niều nhất 500 ký tự"
-                    },
-                    title: {
-                        required: "bắt buộc",
-                        maxlength: "niều nhất 200 ký tự"
-                    },
-                    content: {
-                        required: "bắt buộc",
-                        maxlength: "niều nhất 1000 ký tự"
-                    },
-                    email: {
-                        required: "bắt buộc",
-                        email: "email chưa đúng định dạng"
-                    }
-                },
-                submitHandler: function(form, event) {
-                    event.preventDefault();
-
-                    $('.processing').fadeIn('fast');
-                    $.ajax({
-                        url: fUrl + 'vn/contact/ajax_submitContactPage',
-                        type: 'POST',
-                        cache: false,
-                        dataType: 'json',
-                        data: { 
-                            fullname : $('input[name="fullname"]').val(), 
-                            email : $('input[name="email"]').val(), 
-                            phone : $('input[name="phone"]').val(),
-                            address : $('input[name="address"]').val(), 
-                            title : $('input[name="title"]').val(),
-                            content : $('textarea[name="content"]').val(),
-                            csrf_hash : $.cookie('csrf_cookie_ci')
-                        },
-                        success: function(data) {
-                            $('.processing').fadeOut('fast');
-                            if (data.error == 1) {
-                                openPopup("", data.errorContent)
-                            }
-                            else {
-                                openPopup("", errorText.validContactBox_content, function() {}, function() {
-                                    $("#frmContact").find('input[name="fullname"]').val('')
-                                    $("#frmContact").find('input[name="email"]').val('')
-                                    $("#frmContact").find('input[name="phone"]').val('')
-                                    $("#frmContact").find('input[name="address"]').val('')
-                                    $("#frmContact").find('input[name="title"]').val('')
-                                    $("#frmContact").find('textarea[name="content"]').val('')
-                                })
-                            }
-                        },
-                        error: function() {
-                            $('.processing').fadeOut('fast');
-                            openPopup("",errorText.ajax);
-                        }
-                    });
-                }
+        if ($('#sanpham_chitietPage').length>0) {
+            $("div.holder_sanphamList").jPages({
+                containerID : "sanphamList",
+                perPage     : 9,
+                animation   : "fadeIn",
+                first       : false,
+                previous    : "span.arrowPrev_sanpham",
+                next        : "span.arrowNext_sanpham",
+                last        : false
             });
         }
-    // bookingPage
-        if ($('#bookingPage').length>0) {
 
-        // select dropdown list
-            selectDropDown('#carWrapper', "slide", function() {
-                if ($('input[name="car"]').val()!="Mercedes-Benz") {
-                    $('input[name="model"]').val('')
-                    $('#modelWrapper').fadeOut('fast', function() {
-                        $('#loaixeWrapper').fadeIn('fast')    
-                    })
-                }
-                else {
-                    $('#loaixeWrapper').fadeOut('fast', function() {
-                        $('#modelWrapper').fadeIn('fast')    
-                    })
-                }
-            })
-            $('input[name="modelOther"]').change( function() {
-                $('input[name="model"]').val($('input[name="modelOther"]').val())
-            })
-            selectDropDown('#modelWrapper')
-            selectDropDown('#serviceWrapper')
 
-        // upload file
-            $('body').on('click','.btnUpload', function(e) {
-                e.preventDefault();
-                $('input[name="ajax_files[]"]').click()
-            });
-            $('input[name="ajax_files[]"]').change( function() {
-                var totalFiles = document.getElementById("ajax_files").files.length;
-                if (totalFiles<1 || totalFiles>5) {
-                    openPopup(errorText.errorTitle,errorText.uploadOver);
-                }
-                else {
-                    $('#frmUpload').ajaxSubmit({
-                        dataType:  'json',
-                        data: { csrf_hash : $.cookie('csrf_cookie_ci') },
-                        success: function(data) {
-                            $('input[name="csrf_hash"]').val($.cookie('csrf_cookie_ci'));
-                            if (data.errorText=="") {
-                                files = data.files;
-                                htmlStr = '';
-                                for (i=0; i<files.length; i++) {
-                                    htmlStr += '<div class="imgWrapper">';
-                                        htmlStr += '<img class="thumbnail" src="'+uploadDir+'user/temps/'+files[i]+'" />';
-                                        htmlStr += '<input type="text" name="filenames[]" class="filenames hiddenInput" value="'+files[i]+'" />'
-                                        htmlStr += '<div class="imgDel pointer"><i class="fa fa-trash" aria-hidden="true"></i></div>'
-                                    htmlStr += '</div>';
-                                }
-                                $('#imgContainer').html(htmlStr)
-                            }
-                            else {
-                                openPopup(errorText.errorTitle, data.errorText);
-                            }
-                        },
-                        error: function() {
-                            openPopup(errorText.errorTitle,errorText.ajax);
-                        }
-                    });
-                }
-            })
-            
-            $('body').on('click', '.imgWrapper .imgDel', function() {
-                $(this).parent('.imgWrapper').remove()
-            })
-        
-            myDatePicker($('input[name="date"]'))
-            $('input[name="title"]').limit('250','#titleLimit');
-            $('textarea[name="bookingContent"]').limit('2000','#bookingContentLimit');
-            
-        // autofill
-            $('#frmBooking').on('focusout','input[name="email"]', function() {
-                $.ajax({
-                    url: fUrl + 'vn/ajax_get_user',
-                    type: 'POST',
-                    cache: false,
-                    dataType: 'json',
-                    data: { 
-                        type : 'email', 
-                        inputData : $('input[name="email"]').val(),
-                        csrf_hash : $.cookie('csrf_cookie_ci')
-                    },
-                    success: function(data) {
-                        if (data.error == 0) {
-                            user = data.user
-                            $('input[name="fullname"]').val(user['fullname'])
-                            $('input[name="phone"]').val(user['phone'])
-                            $('input[name="address"]').val(user['address'])
-                        }
-                        // else {
-                        //     $('input[name="fullname"]').val('')
-                        //     $('input[name="phone"]').val('')
-                        //     $('input[name="address"]').val('')
-                        // }
-                    },
-                    error: function() {
-                        console.log('error')
-                    }
-                });
-            })
-            $('#frmBooking').on('focusout','input[name="phone"]', function() {
-                $.ajax({
-                    url: fUrl + 'vn/ajax_get_user',
-                    type: 'POST',
-                    cache: false,
-                    dataType: 'json',
-                    data: { 
-                        type : 'phone', 
-                        inputData : $('input[name="phone"]').val(),
-                        csrf_hash : $.cookie('csrf_cookie_ci')
-                    },
-                    success: function(data) {
-                        if (data.error == 0) {
-                            user = data.user
-                            $('input[name="fullname"]').val(user['fullname'])
-                            $('input[name="email"]').val(user['email'])
-                            $('input[name="address"]').val(user['address'])
-                        }
-                        // else {
-                        //     $('input[name="fullname"]').val('')
-                        //     $('input[name="email"]').val('')
-                        //     $('input[name="address"]').val('')
-                        // }
-                    },
-                    error: function() {
-                        console.log('error')
-                    }
-                });
-            })
-
-        // validation
-            $("#frmBooking").validate({
-                rules: {
-                    fullname: { required: true, maxlength: 200 },
-                    email: { required: true, email: true },
-                    phone: { required: true, minlength: 8, maxlength: 20 },
-                    address: { required: true, maxlength: 500 },
-                    title: { required: true, maxlength: 200 },
-                    bookingContent: { required: true, maxlength: 2000 },
-                    date: { notEqualValue : "Ngày/Tháng/Năm" },
-                    model: { required: true },
-                    modelOther: { required: true }
-                },
-                messages: {
-                    fullname: {
-                        required: "bắt buộc",
-                        maxlength: "nhiều nhất 200 ký tự"
-                    },
-                    email: {
-                        required: "bắt buộc",
-                        email: "email chưa đúng định dạng"
-                    },
-                    phone: {
-                        required: "bắt buộc",
-                        minlength: "ít nhất 8 ký tự",
-                        maxlength: "niều nhất 20 ký tự"
-                    },
-                    address: {
-                        required: "bắt buộc",
-                        maxlength: "niều nhất 500 ký tự"
-                    },
-                    title: {
-                        required: "bắt buộc",
-                        maxlength: "nhiều nhất 200 ký tự"
-                    },
-                    bookingContent: {
-                        required: "bắt buộc",
-                        maxlength: "nhiều nhất 2000 ký tự"
-                    },
-                    date: { 
-                        notEqualValue : "bắt buộc" 
-                    },
-                    model: {
-                        required: "bắt buộc"
-                    },
-                    modelOther: {
-                        required: "bắt buộc"
-                    }
-                },
-                submitHandler: function(form, event) {
-                    event.preventDefault()
-
-                    if ($('#imgContainer').find('.imgWrapper').length==0) {
-                        openPopup(errorText.errorTitle, errorText.uploadOver)
-                    }
-                    else {
-                        $('.processing').fadeIn('fast');
-                        $.ajax({
-                            url: fUrl + 'vn/booking/ajax_submitBooking',
-                            type: 'POST',
-                            cache: false,
-                            dataType: 'json',
-                            data: { 
-                                fullname : $('input[name="fullname"]').val(), 
-                                email : $('input[name="email"]').val(), 
-                                phone : $('input[name="phone"]').val(),
-                                address : $('input[name="address"]').val(),
-                                car : $('input[name="car"]').val(),
-                                model : $('input[name="model"]').val(),
-                                service : $('input[name="service"]').val(),
-                                date : $('input[name="date"]').val(),
-                                filenames : $('input[name="filenames[]').serializeArray(),
-                                title : $('input[name="title"]').val(),
-                                content : $('textarea[name="bookingContent"]').val(),
-                                csrf_hash : $.cookie('csrf_cookie_ci')
-                            },
-                            success: function(data) {
-                                $('input[name="csrf_hash"]').val($.cookie('csrf_cookie_ci'));
-                                $('.processing').fadeOut('fast');
-                                if (data.error == 1) {
-                                    openPopup("", data.errorContent)
-                                }
-                                else {
-                                    openPopup("", errorText.validContactBox_content)
-                                }
-                            },
-                            error: function() {
-                                $('.processing').fadeOut('fast');
-                                openPopup("",errorText.ajax);
-                            }
-                        });
-                    }
-                }
-            });
-        }
-    // newsPage
-        if ($('#newsPage').length>0) {
-            $("div.holder").jPages({
-                containerID : "itemContainer",
-                perPage : 3,
-                first       : "",
-                previous    : "span.arrowPrev",
-                next        : "span.arrowNext",
-                last        : ""
-            });
-        }
-    // galleryPage
-        if ($('#galleryPage').length>0) {
-            // tab
-            /*$('.tab').on('click', '.tabItem', function() {
-                index = $(this).index()
-                $('.tab').find('.tabItem.active').removeClass('active')
-                $(this).addClass('active')
-                $('.tabContent').find('.tabContentItem.active').removeClass('active')
-                $('.tabContent').find('.tabContentItem:eq('+index+')').addClass('active')
-            })*/
-
-            $('.subtab').on('click', '.subtabItem', function() {
-                index = $(this).index()
-                $('.subtab').find('.subtabItem.active').removeClass('active')
-                $(this).addClass('active')
-                $('.subtabContent').find('.subtabContentItem.active').removeClass('active')
-                $('.subtabContent').find('.subtabContentItem:eq('+index+')').addClass('active')
-            })
-
-            lightbox.option({
-              'resizeDuration': 200,
-              'wrapAround': true
-            })
-            
-            $('.subtabContentItem').find('.item').on( 'click', 'a', function(e) {
-                e.preventDefault()
-
-                id = $(this).attr('data-id')
-                $.ajax({
-                    url: fUrl + 'vn/ajax_gallery',
-                    type: 'POST',
-                    cache: false,
-                    dataType: 'json',
-                    data: { id : id, 
-                            csrf_hash : $.cookie('csrf_cookie_ci')
-                    },
-                    success: function(data) {
-                        if (data.error==0) {
-                            var jsonObj = []
-                            $.each(data.gallery, function(index, value) {
-                                item = {}
-                                item['src'] = value.value
-                                jsonObj.push(item)
-                            })
-                            $(".imageGalleryContent").nanoGallery({
-                                  thumbnailWidth: 150,
-                                  thumbnailHeight: 150,
-                                  thumbnailLabel: { display : false, hideIcons: true },
-                                  items: jsonObj
-                            })
-                            $('.imageGallery').fadeIn('slow')
-                            $('body').css('overflow','hidden')
-                        }
-                    },
-                    error: function() {
-                        console.log('Can not connect to data.')
-                    }
-                });
-            })
-
-            $(".imageGallery").on('click', '.imageGalleryClose', function() {
-                $(".imageGalleryContent").html('').nanoGallery('destroy')
-                $(".imageGallery").fadeOut('fast')
-                $('body').css('overflow','visible')
-                history.pushState("", document.title, window.location.pathname);
-            })
-            
-            // $('.videoContainer').find('video').each( function(index, item) {
-                // videoId = $(this).attr('id')
-            //     containerId = $(this).next('div').attr('id')
-            //     // console.log(videoId, containerId)
-            //     shoot(videoId, containerId)
-            // })
-            $('.videoContainer').children('video').controls = false;
-        }
 
 })

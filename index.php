@@ -1,5 +1,4 @@
 <?php
-
 	define('ENVIRONMENT', isset($_SERVER['CI_ENV']) ? $_SERVER['CI_ENV'] : 'development');
 
 /*
@@ -272,8 +271,8 @@ else {
  */
 	define('CACHE', FALSE);
 	define('ENCRYPTION_KEY', 'Ifv3tiG2w6UyDrhB8TB29PHgGtiB3K7g');
-	
-	// set PATH_URL    
+
+	// set PATH_URL
     if ( isset($_SERVER['HTTPS']) && ($_SERVER['HTTPS'] == "on") ) {
         define('F_URL', "https://".$_SERVER['HTTP_HOST'].str_replace(basename($_SERVER['SCRIPT_NAME']),"",$_SERVER['SCRIPT_NAME']));
     }
@@ -282,65 +281,80 @@ else {
     }
     define('B_URL', F_URL.'backend/');
     define('M_URL', F_URL.'mobile/');
+	define('ASSETS_URL', F_URL.'assets/');
+	define('API_URL', F_URL.'api/');
 
     // project name
-    define("PROJECT_FOLDER","vns-bodypaint");
-    define("PAGE_NAME", "Body & Paint Center");
-    define("LINK_TITLE", "Body & Paint Center");
+    define("PROJECT_FOLDER","tannhatquang");
+    define("PAGE_NAME", "tannhatquang");
+    define("LINK_TITLE", "Tân Nhật Quang");
     define("LOGO_URL", F_URL."assets/frontend/images/logo.png");
 
+    // valid email
+    // define('EMAIL_DOMAIN', '@prudential.com.vn');
+
+    //define('OFF', date("2016-11-30 23:59:59"));
+    // define('OFF', date("2016-11-27 10:29:39"));
 // DATABASE
     // haveDB ?
     	define('HAVE_DB', TRUE);
-
     	define('DEBUG_DB', TRUE);
     // local
 	    define('DB_HOST', 'localhost');
 	    define('DB_PREFIX', '');
 
-	    define('DB_NAME', 'ci_vns_bodypaint');
+	    define('DB_NAME', 'tannhatquang_DB');
 	    define('DB_USER', 'root');
 	    define('DB_PASS', 'ruut');
     // online
-   		// define('DB_HOST', 'localhost');
+  //  		define('DB_HOST', 'localhost');
 	    // define('DB_PREFIX', '');
-
-	    // define('DB_NAME', 'ci_vns_bodypaint');
-	    // define('DB_USER', 'ci_vns_bodypaint');
-	    // define('DB_PASS', '_KE{3.PN#*tU');
+		//
+	    // define('DB_NAME', 'tane66c4_db');
+	    // define('DB_USER', 'tane66c4');
+	    // define('DB_PASS', 'c8436eebA@!');
 
 // set local time
     date_default_timezone_set('Asia/Ho_Chi_Minh');
+    define('P', 300);
 
-    // EMAIL
-	define('EMAIL', 'bpc.mailtest@gmail.com');
-    define('EMAILPASS', 'bpc123456');
-    define('EMAIL_TITLE_1', 'BPC Vietnam Star_Dat hen tu van');
-    define('EMAIL_TITLE_2', 'BPC Vietnam Star_Lien he');
-    define('ATTACH_FOLDER', './upload/user/booking/');
+// EMAIL
+    define('MAIL_SERVER', '');
+    define('EMAIL', '');
+    define('EMAILPASS', '');
+    define('ATTACH_FOLDER', '');
+// PUSHER
+    // define('PUSHER_ID', 241601);
+    // define('PUSHER_KEY', "4128d1cd76ddabfdafc2");
+    // define('PUSHER_SECRET', "ceb00c785566477d8607");
 
+    define('PUSHER_ID', 273291);
+    define('PUSHER_KEY', "8ec694ef306b343095c8");
+    define('PUSHER_SECRET', "b1e6eac06b196d07e57d");
 // FILE
     define('MAXUPLOAD', 10);
     define('THUMB_SIZE', 1024);     define('THUMB_WIDTH', 1024);        define('THUMB_HEIGHT', 1024);
     define('IMG_SIZE', 5120);       define('IMG_WIDTH', 4000);          define('IMG_HEIGHT', 4000);
-    define('IMG_MAX_WIDTH', 3000);          define('IMG_MAX_HEIGHT', 3000);
+    define('IMG_MAX_WIDTH', 4000);          define('IMG_MAX_HEIGHT', 4000);
     define('IMG_MIN_WIDTH', 300);          define('IMG_MIN_HEIGHT', 300);
-    define('VIDEO_SIZE', 5120);
+    define('VIDEO_SIZE', 112400);
     define('DOCUMENT_SIZE', 2048);
-    $picture_extensions = array("image/gif", "image/jpeg", "image/pjpeg", "image/png");
+    $picture_extensions = array("image/gif", "image/jpeg", "image/pjpeg", "image/pjpeg", "image/png");
     $video_extensions = array('video/mp4','video/ogg','video/x-flv');
     $video_extensions = array('video/quicktime','video/mp4','video/mpeg','video/ogg','video/x-ms-wmv','video/x-msvideo','video/x-flv');
     $document_extensions = array('application/msword','application/pdf');
-    
+
 
 // FACEBOOK
-    /* https://www.facebook.com/dialog/pagetab?app_id=966293903402829&redirect_uri=URL */
-	/*define('FBAPP_ID', '');
+    /* https://www.facebook.com/dialog/pagetab?app_id=appID&redirect_uri=URL */
+	/*
+	define('FBAPP_ID', '');
     define('FBAPP_SECRET', '');
     define('FANPAGE_ID', '');
     define('FBSCOPE', "email,public_profile,user_likes");
     $fb_scope = array("email", "public_profile", "user_likes");
-    define('FB_REDIRECT_URL', '');*/
+    define('FB_REDIRECT_URL', '');
+    */
 // GOOGLE
 	// define('GAPP_CLIENT_ID', '');
 	// define('GAPP_SECRET', '');

@@ -4,13 +4,10 @@
 	var defaultNumRows = 50
 	var defaultIMG = '<img class="thumbnail" src="'+fUrl+'assets/common/images/default.jpg" />'
 
-	var classTextColor_Status = classTextColor_Position = 'txt-color-white'
-	var arrClassValue_Status = new Array();
-		arrClassValue_Status['active'] = 'bg-color-green'
-		arrClassValue_Status['inactive'] = 'bg-color-blueDark'
-		arrClassValue_Status['block'] = 'bg-color-red'
-
-// alert
+	$( document ).ajaxStart(function() {
+		$( "#loading" ).show();
+	});
+/* alert */
 	function showSmartAlert(title, content, buttons, fnCallbackYES, fnCallbackNO, fnCallbackCANCEL)
 	{
 		$('body').css({ 'overflow' : 'hidden' })
@@ -65,7 +62,7 @@
 	}
 
 // table common
-	function tableCommon() 
+	function tableCommon()
 	{
 		/*
 			jQuery("#jqgrid").jqGrid('inlineNav', idPager, {
@@ -89,7 +86,7 @@
 			// jQuery("#m1s").click(function() {
 			// 	jQuery("#jqgrid").jqGrid('setSelection', "13");
 			// });
-		
+
 		// remove classes
 			$(".ui-jqgrid").removeClass("ui-widget ui-widget-content");
 			$(".ui-jqgrid-view").children().removeClass("ui-widget-header ui-state-default");
@@ -129,10 +126,10 @@
 	}
 
 // saveRow
-	function actionSaveRow(rowid) 
+	function actionSaveRow(rowid)
 	{
-		jQuery(idTableList).jqGrid('saveRow',rowid, 
-		{ 
+		jQuery(idTableList).jqGrid('saveRow',rowid,
+		{
 		    aftersavefunc: function ( rowid, response ) {
 		    	responseText = $.parseJSON(response.responseText)
 		    	if(responseText.text == "OK") {
@@ -148,20 +145,19 @@
 	}
 
 // action buttons on top
-	function captionButton(module, btnAdd, btnDelete)
+	function captionButton(btnAdd, btnDelete)
 	{
 		caption = "";
 
-		if (btnAdd == true && permissionsMember[module][2] == 1) {
-			caption += '<a id="btnAdd" href="'+bUrl+module+'/add" class="btnTop btn btn-success"><i class="fa fa-plus"></i> Add</a>';	
+		if (btnAdd == true && permissionsMember[currentModule['control_name']][2] == 1) {
+			caption += '<a id="btnAdd" href="'+bUrl+currentModule['url']+'/add" class="btnTop btn btn-success"><i class="fa fa-plus"></i> Add</a>';
 		}
-		if (btnDelete == true && permissionsMember[module][4] == 1) {
+		if (btnDelete == true && permissionsMember[currentModule['control_name']][4] == 1) {
 			caption += '<a id="btnMultiDelete" href="#" class="btnTop btn btn-danger"><i class="fa fa-trash-o"></i> Delete</a>';
 		}
 
 		return caption;
 	}
-
 	function captionExport(module)
 	{
 		return '<a id="btnExport" href="'+bUrl+module+'/export_db" class="btnTop pull-right btn btn-primary"><i class="fa fa-cloud-download"></i> Export</a>';
@@ -172,68 +168,77 @@
 	}
 
 // action buttons inline
-	function btnEditInline(module, id, btnEdit)
+	function btnEditInline(id)
 	{
 		buttons = '';
-		if (btnEdit == true && permissionsMember[module][3] == 1) {
-			buttons += '<a href="' + bUrl + module + '/edit/' + id + '" data-id="' + id + '" class="btn btn-primary btn-xs btnEdit"><i class="fa fa-edit"></i></a>'
+		if (permissionsMember[currentModule['control_name']][3] == 1) {
+			buttons += '<a href="' + bUrl + currentModule['url'] + '/edit/' + id + '" data-id="' + id + '" class="btn btn-primary btn-xs btnEdit"><i class="fa fa-edit"></i></a>'
 		}
+
 		return buttons;
 	}
-	function bntDeleteInline(module, extendModule, id, btnDelete)
+	function bntDeleteInline(id)
 	{
 		buttons = '';
-		if (btnDelete == true && permissionsMember[module][4] == 1) {
-			if (extendModule == false) {
-				buttons += '<a href="' + bUrl + module + '/delete/' + id + '" data-id="' + id + '" class="btn btn-danger btn-xs btnDelete"><i class="fa fa-trash-o"></i></a>'
-			}
-			else {
-				buttons += '<a href="' + bUrl + extendModule + '/delete/' + id + '" data-id="' + id + '" class="btn btn-danger btn-xs btnDelete"><i class="fa fa-trash-o"></i></a>'
-			}
+		if (permissionsMember[currentModule['control_name']][4] == 1) {
+			buttons += '<a href="' + bUrl + currentModule['url'] + '/delete/' + id + '" data-id="' + id + '" class="btn btn-danger btn-xs btnDelete"><i class="fa fa-trash-o"></i></a>'
 		}
 		return buttons;
 	}
 
 // status
-	function set_NewRadio(classWrapper, statusVal, arrClassValue, classTextColor)
-	{
-		activeClass = ""
-		for (value in arrClassValue) {
-			if (statusVal == value) {
-				activeClass = arrClassValue[value]
-				activeClass += " "+classTextColor
-			}
+	var clsTextColor_Status = 'txt-color-white'
+	var clsBgColor_ActiveStatus = 'bg-color-green'
+	var clsBgColor_InactiveStatus = 'bg-color-blueDark'
+	var clsBgColor_BlockStatus = 'bg-color-red'
+	var arrStatus = new Array()
+	arrStatus['active'] 	= ['bg-color-green', 	'txt-color-white']
+	arrStatus['inactive'] 	= ['bg-color-blueDark', 'txt-color-white']
+	arrStatus['block'] 		= ['bg-color-red', 		'txt-color-white']
+	// init both add or edit form has status element
+	function init_Radio() {
+		if ($('.radioWrapper').length>0) {
+			$('body').find('.radioWrapper').each( function() {
+				var radioId = $(this).attr('id')
+				var radioWrapper = $('#'+radioId)
+				var checkedStatus = radioWrapper.find('input[name=status]:checked')
+
+				if (checkedStatus != undefined) {
+					checkedStatus.parent('label').addClass('active')
+					checkedStatus.parent('label').addClass(arrStatus[checkedStatus.val()][0])
+					checkedStatus.parent('label').addClass(arrStatus[checkedStatus.val()][1])
+				}
+
+				// on click
+				radioWrapper.on('click', 'label.btn', function() {
+					var thisLabel = $(this)
+					var input = thisLabel.children('input')
+					var btn_group = thisLabel.parent('.btn-group')
+					var is_checked = input.is(':checked')
+					if (!is_checked) {
+						// reset
+						btn_group.find('input:checked').removeAttr('checked')
+						btn_group.find('label').attr('class','btn btn-default')
+						// new
+						thisLabel.addClass(arrStatus[input.val()][0]).addClass(arrStatus[input.val()][1])
+						input.attr('checked','checked');
+					}
+				})
+			})
 		}
-		$('.'+classWrapper+' label:has(input[value="'+statusVal+'"])').addClass('active').addClass(activeClass)
-		$('.'+classWrapper+' label:has(input[value="'+statusVal+'"])').children('input').attr('checked','checked')
 	}
-	function click_NewRadio(classWrapper, arrClassValue, classTextColor)
-	{	
-		// on click
-		$('.'+classWrapper).on('click', '.btn', function() {
-			for (value in arrClassValue) {
-				$('.'+classWrapper).find("."+arrClassValue[value]).removeClass(arrClassValue[value]).removeClass(classTextColor).removeClass('active')
-			}
-			set_NewRadio(classWrapper, $(this).children('input').val(), arrClassValue, classTextColor)
-		})
-	}
-	function formatButton(idRow, statusVal, preID_Btn, class_Btn, id_Modal, arrClassValue, classTextColor) // button in grid list
+
+	function formatButton(idRow, statusVal, preID_Btn, class_Btn, id_Modal) // button in grid list
 	{
-		activeClass = ""
-		for (value in arrClassValue) {
-			if (statusVal == value) {
-				activeClass = arrClassValue[value]
-				activeClass += " "+classTextColor
-			}
-		}
-		
+		activeClass = arrStatus[statusVal][0] + " " + arrStatus[statusVal][1]
+
 		fa = '<button id="'+preID_Btn+idRow+'" class="btn '+class_Btn+' '+activeClass+'" data-id="'+idRow+'" data-toggle="modal" data-target="#'+id_Modal+'">'
 			fa += statusVal
 		fa += '</button>'
 
 		return fa;
 	}
-	function click_btnInGrid(class_Btn, id_Modal, url_Ajax, arrClassValue, fnCallback)
+	function click_btnInGrid(class_Btn, id_Modal, url_Ajax, fnCallback)
 	{
 		// on show
 			var idBtn
@@ -273,20 +278,16 @@
 		                	  },
 		                success: function(data) {
 		                	if (data=="true") {
-		                		for (value in arrClassValue) {
-		                			if (oldValue == value) {
-		                				removeClass = arrClassValue[value]
-		                			}
-		                			if (newValue == value) {
-										activeClass = arrClassValue[value]
-									}
-								}
+							/*
+								removeClass = arrStatus[oldValue][0] + " " + arrStatus[oldValue][1]
+								activeClass = arrStatus[newValue][0] + " " + arrStatus[newValue][1]
 							// remove oldClass
 								$('#'+idBtn).removeClass(removeClass)
 							// add newClass
 								$('#'+idBtn).addClass(activeClass)
 							// set value
 								$('#'+idBtn).html(newValue)
+							*/
 							// callback
 								if(typeof fnCallback == "function"){
 									fnCallback();
@@ -308,20 +309,6 @@
 				}
 			});
 	}
-	function statusAdd()
-	{
-		if ($('#statusAdd').length>0) {
-			set_NewRadio('statusWrapper', 'active', arrClassValue_Status, classTextColor_Status)
-			click_NewRadio('statusWrapper', arrClassValue_Status, classTextColor_Status);
-		}
-	}
-	function statusEdit()
-	{
-		if ($('#statusEdit').length>0) {
-			set_NewRadio('statusWrapper', $('.statusWrapper label.active input[name="status"]').val(), arrClassValue_Status, classTextColor_Status)
-			click_NewRadio('statusWrapper', arrClassValue_Status, classTextColor_Status);
-		}
-	}
 
 // tree view
 	function treeView()
@@ -330,23 +317,23 @@
 			$('.tree').find('li').addClass('parent_li').attr('role', 'treeitem').children('span').on('click', function() {
 			// set color
 				$('.tree').find('li').children('span').removeClass('label-success');
-			
+
 				$(this).addClass('label-success');
 			// set data
-				$('input[name=parent_id]').val($(this).attr('data-id'))
+				$(this).closest('form').find('input[name=parent_id]').val($(this).attr('data-id'))
 			});
-			
+
 			// collapse all
 				/*
 				$('.tree ul li span').filter(function() {
 				  	return $(this).attr("data-indent") > 1;
 				}).next('ul').css('display','none');
 				*/
-			
+
 			// expantion + collapse
 				$('body').on('click', '.tree ul li span i', function() {
 
-					sub = $(this).parent('span').parent('li').children('ul');					
+					sub = $(this).parent('span').parent('li').children('ul');
 
 					if ($(this).attr('class').indexOf('fa-minus-circle') != -1) {
 						if (sub != 'undefined') {
@@ -372,14 +359,14 @@
 	function positiveInteger()
 	{
 		if ($(".positive-integer").length>0) {
-        	$(".positive-integer").numeric({ decimal: false, negative: false }, function() { 
-	            this.value = ""; this.focus(); 
+        	$(".positive-integer").numeric({ decimal: false, negative: false }, function() {
+	            this.value = ""; this.focus();
 	        });
 	    }
 	}
 
 // KCFinder
-	function openKCFinder(field, type, fnCallback) 
+	function openKCFinder(field, type, fnCallback)
 	{
 	    window.KCFinder = {
 	        callBack: function(url) {
@@ -411,7 +398,7 @@
 		    );
 		}
 	}
-	function openKCFinderMulti(field, type, fnCallback) {
+	function openKCFinderMulti(field, type, hasLink, fnCallback) {
 	    window.KCFinder = {
 	        callBackMultiple: function(files) {
 	            window.KCFinder = null;
@@ -433,10 +420,12 @@
 	                img += '<div class="imgWrapper">'
 	                	img += '<img src="' + files[i] + '" class="thumbnail" />'
 	                	img += '<i class="fa fa-trash-o"></i>'/*data="' + files[i] + '"*/
-	                	img += '<div class="row">'
-		                	img += '<label style="float: left; clear: both;">Link</label>'
-		                	img += '<input type="text" name="'+nameLinkInput+'_link[]" class="inputThumbnail form-control" style="float: left; clear: both" />'
-		                img += '</div>'
+	                	if (hasLink==true) {
+		                	img += '<div class="row">'
+			                	img += '<label style="float: left; clear: both;">Link</label>'
+			                	img += '<input type="text" name="'+nameLinkInput+'_link[]" class="inputThumbnail form-control" style="float: left; clear: both" />'
+			                img += '</div>'
+		            	}
 	                img += '</div>'
 	            }
 	            wrapper.append(img)
@@ -460,9 +449,9 @@
 		    );
 		}
 	}
-	
+
 // select File
-	function selectFile(buttonClass, typeFile, multiFile)
+	function selectFile(buttonClass, typeFile, multiFile, hasLink)
 	{
 		$('body').on('click', buttonClass, function() {
 			if (typeFile == 'images' || typeFile == 'media') {
@@ -477,34 +466,39 @@
 						htmlImg = '<img src="' + filename + '" class="thumbnail" />';
 		                htmlDel = '<a class="thumbnailDel"><i class="fa fa-trash-o"></i></a>'
 	                	nameLinkInput = inputField.attr('name')
-	                	htmlLink = '<div class="row">'
-		                	htmlLink += '<label style="float: left; clear: both;">Link</label>'
-		                	htmlLink += '<input type="text" name="'+nameLinkInput+'_link" class="inputThumbnail form-control" style="float: left; clear: both" />'
-		                htmlLink += '</div>'
+	                	if (hasLink==undefined || hasLink=="") {
+	                		htmlLink = ''
+	                	}
+	                	else if (hasLink==true) {
+		                	htmlLink = '<div class="row">'
+			                	htmlLink += '<label style="float: left; clear: both;">Link</label>'
+			                	htmlLink += '<input type="text" name="'+nameLinkInput+'_link" class="inputThumbnail form-control" style="float: left; clear: both" />'
+			                htmlLink += '</div>'
+			            }
 
 		                thumbnailWrapper.html('').html(htmlImg+htmlDel+htmlLink)
-		                
+
 		            }
 		            else if (typeFile == 'media') {
 		            	htmlStr = '<video id="video" width="320" controls="true">'
 					        htmlStr += '<source src="'+filename+'">'
 					        htmlStr += 'Your browser does not support HTML5 video tag. Please download FireFox 3.5 or higher.'
 					    htmlStr += '</video><br/>'
-					    htmlStr += '<button onclick="shoot()" style="width: 64px;border: solid 2px #ccc;">Capture</button><br/>'
-					    htmlStr += '<div id="output" style="display: inline-block; top: 4px; position: relative ;border: dotted 1px #ccc; padding: 2px;"></div>'
+					    // htmlStr += '<button onclick="shoot()" style="width: 64px;border: solid 2px #ccc;">Capture</button><br/>'
+					    // htmlStr += '<div id="output" style="display: inline-block; top: 4px; position: relative ;border: dotted 1px #ccc; padding: 2px;"></div>'
 		            	thumbnailWrapper.html('').html(htmlStr)
 		            }
 				})
 			}
 			else {
 				inputField = $(this).parent().next()
-				openKCFinderMulti(inputField, typeFile, function() {
+				openKCFinderMulti(inputField, typeFile, hasLink, function() {
 					$('body').on('click', '.imgWrapper .fa-trash-o', function() {
 		            	wrapper = $(this).parent()
 						wrapper.remove()
 						var obj = JSON.parse(inputField.val());
-						filtered = obj.filter(function(item) { 
-						   return item !== wrapper.children('img').attr('src');  
+						filtered = obj.filter(function(item) {
+						   return item !== wrapper.children('img').attr('src');
 						})
 						inputField.val('').val(JSON.stringify(filtered))
 		            })
@@ -535,21 +529,11 @@
 		}
 	}
 
-// positive-integer
-	function positiveInteger()
-	{
-		if ($(".positive-integer").length>0) {
-        	$(".positive-integer").numeric({ decimal: false, negative: false }, function() { 
-	            this.value = ""; this.focus(); 
-	        });
-	    }
-	}
-
 // select category
 	function selectCategory(itemClass, fnCallback)
 	{
 		$('body').on('click', itemClass, function() {
-			
+
 			inputField = $(itemClass).parent().next('input')
 			index = $(this).index();
 			value = $(this).attr('data-save')
@@ -568,7 +552,7 @@
 	var videoId = 'video';
 	var scaleFactor = 0.25;
 	var snapshots = [];
-	 
+
 	/**
 	 * Captures a image frame from the provided video element.
 	 *
@@ -589,8 +573,8 @@
 	    var ctx = canvas.getContext('2d');
 	        ctx.drawImage(video, 0, 0, w, h);
 	    return canvas;
-	} 
-	 
+	}
+
 	/**
 	 * Invokes the <code>capture</code> function and attaches the canvas element to the DOM.
 	 */
@@ -639,7 +623,7 @@
 	                required: "not empty"
 	            }
 	        },
-	        submitHandle: function(form) {
+	        submitHandler: function(form) {
 	            form.submit();
 	        }
 	    });
@@ -650,7 +634,7 @@
 	    $('#captcha_refesh').click( function() {
 	        btnRefesh = $(this);
 	        sc = btnRefesh.prev('img').attr("id");
-	        
+
 	        $.ajax({
 	            url: bUrl + "auth/ajax_captcha",
 	            type: 'POST',
@@ -674,669 +658,6 @@
 	{
 		if ($('#dashboardPage').length>0) {
 			module = 'dashboard'
-		}
-	}
-
-// CATEGORY
-	function categoryPage()
-	{
-		if ($('#categoryPage').length>0) {
-			module = 'category'
-
-		// list
-			if ($(idTableList).length>0) {
-				var statusStr = ":All;active:Active;inactive:Inactive";
-				caption = captionButton(module, true, true)
-
-			// jqGrid
-				jQuery(idTableList).jqGrid({
-					url: bUrl + module + '/ajax_list?q=2',
-					datatype: "json",
-					height : 'auto',
-					autowidth : true,
-					shrinkToFit: false,
-					gridResize: true,
-					autoResizeAllColumns: true,
-					iconSet: "fontAwesome",
-					colNames : ['Status', 'ID', 'Name', 'Parent','Order', 'Thumbnail', 'Action'],
-					colModel : [{ name : 'status', index : 'status', align : 'center', width : '80',
-									stype: 'select', searchoptions:{ sopt:['eq'], value: statusStr }
-								},
-								{ name : 'id', index : 'id', search : true, align : 'center', width : '60' }, 
-								{ name : 'name', index : 'name', align : 'left', search : true, width : '150' }, 
-								{ name : 'parent', index : 'parent', search : true, width : '150' },
-								{ name : 'order', index : 'order', align : 'center', search : true, width : '60',
-									editable : true, 
-									editoptions: { dataInit: function (elem) { 
-											setTimeout( function() { 
-												$(elem).numeric();
-                   							}, 100);
-               							}
-               						}
-								},
-								{ name : 'thumbnail', index : 'thumbnail', align : 'center', search : false, width : '100' },
-								{ name: "act", index: 'act', editable : false, search : false, width : '80', align : 'center' }
-					],
-					rownumbers : true,
-					rowNum : defaultNumRows,
-					rowList : [10, 20, defaultNumRows],
-					pager : idPager,
-					sortname : 'parent',
-					sortorder : "asc",
-					toolbarfilter : true,
-					viewrecords : true,
-					rowattr: function (rd) {
-		                if (rd.name=='default') {
-		                    return {
-		                        "class": "ui-state-disabled ui-jqgrid-disablePointerEvents"
-		                    };
-		                }
-		            },
-					gridComplete : function() {
-						var ids = jQuery(idTableList).jqGrid('getDataIDs');
-						for (var i = 0; i < ids.length; i++) {
-							var cl = ids[i];
-							var rowData = jQuery(idTableList).jqGrid ('getRowData', cl);
-							var fa = ""
-							if (cl > 1) {
-								var fa = formatButton(cl, rowData.status, 'btnStatus_', 'btnStatus', 'modalStatus', arrClassValue_Status, classTextColor_Status)
-							}
-							var th = ""
-							if (rowData.thumbnail != "") {
-								th = '<img src="' + rowData.thumbnail + '" class="thumbInTable" />'
-							}
-							var btnInline = ""
-							if (cl > 1) {
-								btnInline = btnEditInline(module, cl, true) + bntDeleteInline(module, false, cl, true)
-							}
-							jQuery(idTableList).jqGrid('setRowData', ids[i], {
-								status : fa,
-								thumbnail : th,
-								act : btnInline
-							});
-
-						}
-					// btnStatus
-						click_btnInGrid('btnStatus', 'modalStatus', bUrl+module+'/ajax_status', arrClassValue_Status, function() {
-							location.reload();
-						});
-					},
-					ajaxRowOptions: { async: true },
-					caption : caption,
-					multiselect : true,
-					// editurl : bUrl + module + '/edit_inline',
-					loadBeforeSend: function () {
-						$(this).closest("div.ui-jqgrid-view").find("table.ui-jqgrid-htable>thead>tr>th").css({"text-align":"center"});
-					},
-					onSelectRow: function(id) { 
-					}
-				});
-
-			// common
-				tableCommon();
-
-			// delete inline
-				$('body').on('click','.btnDelete', function(e) {
-					e.preventDefault();
-
-					href = $(this).attr('href');
-					showSmartAlert("Warning", "<p>Delete a category maybe effect to another data.</p><p>[YES] : Delete all children.<br/>[NO] : Just delete this category.<br/>[CANCEL] : Cancel delete action.</p><p>Are you sure delete this data ?</p>", '[YES][NO][CANCEL]', function() {
-						// click YES
-						window.location.href = href + '?dc=1'
-					}, function() {
-						// click NO
-						window.location.href = href + '?dc=0'
-					}, function() {
-						// click CANCEL
-					});
-				});
-
-			// multi-delete
-				$('body').on('click', '#btnMultiDelete', function(e) {
-					e.preventDefault();
-					href = $(this).attr('href');
-
-					selectedRows = jQuery(idTableList).jqGrid('getGridParam','selarrrow');
-					if (selectedRows.length==0) {
-						showSmartAlert("Error", "Please select data.", '[YES]');
-					}
-					else {
-						showSmartAlert("Warning", "<p>Delete categories maybe effect to another data.</p><p>[YES] : Delete all children.<br/>[NO] : Just delete selected categories.<br/>[CANCEL] : Cancel delete action.</p><p>Are you sure delete data ?</p>", '[CANCEL][NO][YES]', function() {
-							// click YES
-							$('#ids').val(selectedRows)
-						}, function() {
-							// click NO
-							$('#ids').val(selectedRows);
-							$('#frmTopButtons').submit();
-							
-						}, function() {
-							// click CANCEL
-						});
-					}
-				});
-
-			}
-
-		// common of add & edit
-			if ($('#addContainer').length>0 || $('#editContainer').length>0) {
-				// tree view
-					treeView()
-
-				// generate URL
-					gen_url($('input[name="name"]'), $('input[name="url"]'));
-					gen_url($('input[name="nameEN"]'), $('input[name="urlEN"]'));
-
-				// limit character
-					$('input[name="name"]').limit('200','#nameLimit');
-					$('input[name="url"]').limit('200','#urlLimit');
-					$('textarea[name="desc"]').limit('1000','#descLimit');
-
-					$('input[name="nameEN"]').limit('200','#nameENLimit');
-					$('input[name="urlEN"]').limit('200','#urlENLimit');
-					$('textarea[name="descEN"]').limit('1000','#descENLimit');
-
-				// file
-					selectFile('.btnSelectThumbnail', 'images')
-					// delele file
-					$('body').on('click', '.thumbnailDel', function(e) {
-						e.preventDefault();
-						thumbnailWrapper = $(this).parent('.thumbnailWrapper')
-						inputThumbnail = thumbnailWrapper.prev().children('.inputThumbnail')
-
-						inputThumbnail.val('')
-						thumbnailWrapper.html('').html(defaultIMG)
-					});
-			}
-
-		// add
-			if ($('#addContainer').length>0) {
-				var oper = 'add';
-			// validation
-				var $validator = $("#frmAdd").validate({
-				    rules: {
-				    	name: { 
-							required : true,
-							maxlength : 200
-						},
-						url: { 
-							required: true,
-							maxlength : 200,
-							remote: {
-								url: bUrl + module + '/ajax_existed_inCategory',
-				                type: 'post',
-				                data: {
-				                	csrf_hash : function(){ return $.cookie('csrf_cookie_ci') },
-				                	oper : function(){ return oper },
-									url : function(){ return $('input[name=url]').val(); },
-									parent_id : function(){ return $('input[name=parent_id]').val(); },
-									lang : function(){ return "vn" }
-				                }
-							}
-						},
-						desc: {
-							maxlength : 1000,
-						},
-						nameEN: { 
-							required : true,
-							maxlength : 200
-						},
-						urlEN: { 
-							required: true,
-							maxlength : 200,
-							remote: {
-								url: bUrl + module + '/ajax_existed_inCategory',
-				                type: 'post',
-				                data: {
-				                	csrf_hash : function(){ return $.cookie('csrf_cookie_ci') },
-				                	oper : function(){ return oper },
-									url : function(){ return $('input[name=urlEN]').val(); },
-									parent_id : function(){ return $('input[name=parent_id]').val(); },
-									lang : function(){ return "en" }
-				                }
-							}
-						},
-						descEN: {
-							maxlength : 1000,
-						}
-				    },
-				    messages: {
-				    	name: {
-				    		required : "Name is required",
-				    		maxlength : "Maximum is 200 characters"
-				    	},
-				      	url: {
-				      		required : "URL is required",
-				      		maxlength : "Maximum is 200 characters",
-				      		remote: jQuery.validator.format("URL \"{0}\" is already taken")
-				      	},
-				        desc: { 
-				        	maxlength : "Maximum is 1000 characters"
-				        },
-				        nameEN: {
-				    		required : "Name is required",
-				    		maxlength : "Maximum is 200 characters"
-				    	},
-				      	urlEN: {
-				      		required : "URL is required",
-				      		maxlength : "Maximum is 200 characters",
-				      		remote: jQuery.validator.format("URL \"{0}\" is already taken")
-				      	},
-				        descEN: { 
-				        	maxlength : "Maximum is 1000 characters"
-				        }
-				    },
-				    highlight: function (element) {
-				      	$(element).closest('.form-group').removeClass('has-success').addClass('has-error');
-				    },
-				    unhighlight: function (element) {
-				      	$(element).closest('.form-group').removeClass('has-error').addClass('has-success');
-				    },
-				    errorElement: 'span',
-				    errorClass: 'help-block',
-				    errorPlacement: function (error, element) {
-				      	if (element.parent('.input-group').length) {
-				        	error.insertAfter(element.parent());
-				      	} else {
-				        	error.insertAfter(element);
-				      	}
-				    },
-				    submitHandler: function(form) {
-				    	// check exist in category
-				    	$.ajax({
-				    		url: bUrl + module + '/ajax_multi_existed_inCategory',
-				            type: 'POST',
-			                cache: false,
-			                dataType: 'json',
-			                data: { 'csrf_hash' : $.cookie('csrf_cookie_ci'),
-			                		'oper': oper,
-			                		'id': $('input[name=id]').val(),
-			                		'url' : $('input[name=url]').val(),
-			                		'urlEN' : $('input[name=urlEN]').val(),
-			                		'parent_id': $('input[name=parent_id]').val()
-			                	  },
-			                success: function(data) {
-			                	if (data.error=="1") {
-			                		showSmartAlert("Error", "URL VN is already taken", '[YES]')
-			                	}
-			                	else if (data.error=="2") {
-			                		showSmartAlert("Error", "URL EN is already taken", '[YES]')
-			                	}
-			                	else {
-			                		$('input[name="csrf_hash"]').val($.cookie('csrf_cookie_ci'));
-				                	form.submit();
-				                }
-			                },
-			                error: function() {
-			                    showSmartAlert("Error", "Can send data. Please contact to admin.", '[YES]')
-			                }
-				    	});
-				    }
-				});
-			}
-
-		// edit
-			if ($('#editContainer').length>0) {
-				var oper = 'edit';
-				var id = $('input[name=id]').val();
-				
-			// tree view
-				// invisible all children
-				selectedItem = $('.tree').find('li > span[data-id='+id+']');
-				selectedItem.parent('li').children('span').addClass('btn btn-danger disabled')
-				selectedItem.parent('li').find('ul').children('li').children('span').addClass('btn btn-danger disabled')
-			
-			// validation
-				var $validator = $("#frmEdit").validate({
-				    rules: {
-				    	name: { 
-							required : true,
-							maxlength : 200
-						},
-						url: { 
-							required: true,
-							maxlength : 200,
-							remote: {
-								url: bUrl + module + '/ajax_existed_inCategory',
-				                type: 'post',
-				                data: {
-				                	csrf_hash : function(){ return $.cookie('csrf_cookie_ci') },
-				                	oper : function(){ return oper },
-				                	id : id,
-									url : function(){ return $('input[name=url]').val(); },
-									parent_id : function(){ return $('input[name=parent_id]').val(); }
-				                }
-							}
-						},
-						desc: {
-							maxlength : 1000,
-						},
-						nameEN: { 
-							required : true,
-							maxlength : 200
-						},
-						urlEN: { 
-							required: true,
-							maxlength : 200,
-							remote: {
-								url: bUrl + module + '/ajax_existed_inCategory',
-				                type: 'post',
-				                data: {
-				                	csrf_hash : function(){ return $.cookie('csrf_cookie_ci') },
-				                	oper : function(){ return oper },
-				                	id : id,
-									url : function(){ return $('input[name=urlEN]').val(); },
-									parent_id : function(){ return $('input[name=parent_id]').val(); },
-									lang : function(){ return "en" }
-				                }
-							}
-						},
-						descEN: {
-							maxlength : 1000,
-						}
-				    },
-				    messages: {
-				    	name: {
-				    		required : "Name is required",
-				    		maxlength : "Maximum is 200 characters"
-				    	},
-				      	url: {
-				      		required : "URL is required",
-				      		maxlength : "Maximum is 200 characters",
-				      		remote: jQuery.validator.format("URL VN \"{0}\" is already taken")
-				      	},
-				        desc: { 
-				        	required : "Description is required",
-				        	maxlength : "Maximum is 1000 characters"
-				        },
-				        nameEN: {
-				    		required : "Name is required",
-				    		maxlength : "Maximum is 200 characters"
-				    	},
-				      	urlEN: {
-				      		required : "URL is required",
-				      		maxlength : "Maximum is 200 characters",
-				      		remote: jQuery.validator.format("URL EN \"{0}\" is already taken")
-				      	},
-				        descEN: { 
-				        	maxlength : "Maximum is 1000 characters"
-				        }
-				    },
-				    highlight: function (element) {
-				      	$(element).closest('.form-group').removeClass('has-success').addClass('has-error');
-				    },
-				    unhighlight: function (element) {
-				      	$(element).closest('.form-group').removeClass('has-error').addClass('has-success');
-				    },
-				    errorElement: 'span',
-				    errorClass: 'help-block',
-				    errorPlacement: function (error, element) {
-				      	if (element.parent('.input-group').length) {
-				        	error.insertAfter(element.parent());
-				      	} else {
-				        	error.insertAfter(element);
-				      	}
-				    },
-				    submitHandler: function(form) {
-				    	// check exist in category
-				    	$.ajax({
-				    		url: bUrl + module + '/ajax_multi_existed_inCategory',
-				            type: 'POST',
-			                cache: false,
-			                dataType: 'json',
-			                data: { 'csrf_hash' : $.cookie('csrf_cookie_ci'),
-			                		'oper': oper,
-			                		'id': id,
-			                		'url' : $('input[name=url]').val(),
-			                		'urlEN' : $('input[name=urlEN]').val(),
-			                		'parent_id': $('input[name=parent_id]').val()
-			                	  },
-			                success: function(data) {
-			                	if (data.error=="1") {
-			                		showSmartAlert("Error", "URL is already taken", '[YES]')
-			                	}
-			                	else {
-				                	form.submit();
-				                }
-			                },
-			                error: function() {
-			                    showSmartAlert("Error", "Can send data. Please contact to admin.", '[YES]')
-			                }
-				    	});
-				    }
-				});
-			}
-
-		}
-	}
-
-// MODULE
-	function modulePage()
-	{
-		if ($('#modulePage').length>0) {
-			module = 'module'
-
-		// list
-			// var activeStr = ":All;1:Active;0:Lock";
-			caption = captionButton(module, true, false)
-		 	
-		 	// set column
-				jQuery("#jqgrid").jqGrid({
-					url: bUrl + module + '/ajax_list?q=2',
-					datatype: "json",
-					height : 'auto',
-					autowidth : true,
-					shrinkToFit: false,
-					gridResize: true,
-					autoResizeAllColumns: true,
-					iconSet: "fontAwesome",
-					colNames : ['Name', 'URL', 'Icon', 'Desc', 'Order', 'Action'],
-					colModel : [{ name : 'name', index : 'name', align : 'left', search : true, width : '150' }, 
-								{ name : 'url', index : 'url', align : 'left', search : true, width : '150' }, 
-								{ name : 'icon', index : 'icon', align : 'center', search : false, width : '50' },
-								{ name : 'desc', index : 'desc', align : 'left', search : true, width : '200' },
-								{ name : 'order', index : 'order', align : 'center', search : true, width : '50' },
-								{ name: "act", index: 'act', editable : false, search : false, width : '80', align : 'center' }
-					],
-					rownumbers : true,
-					rowNum : defaultNumRows,
-					rowList : [10, 20, defaultNumRows],
-					pager : idPager,
-					sortname : 'id',
-					sortorder : "asc",
-					toolbarfilter : true,
-					viewrecords : true,
-					gridComplete : function() {
-						var ids = jQuery("#jqgrid").jqGrid('getDataIDs');
-						for (var i = 0; i < ids.length; i++) {
-							var cl = ids[i];
-							var rowData = jQuery(idTableList).jqGrid ('getRowData', cl);
-							
-							var btnInline = btnEditInline(module, cl, true) + bntDeleteInline(module, false, cl, true)
-							
-							ico = '<i class="'+rowData.icon+'" />'	
-							
-							jQuery("#jqgrid").jqGrid('setRowData', ids[i], {
-								act : btnInline,
-								icon : ico
-							});
-						}
-					},
-					ajaxRowOptions: { async: true },
-					caption : caption,
-					multiselect : true,
-					// editurl : bUrl + module + '/edit_inline',
-					loadBeforeSend: function () {
-						$(this).closest("div.ui-jqgrid-view").find("table.ui-jqgrid-htable>thead>tr>th").css({"text-align":"center"});
-					}
-				});
-
-			// common
-				tableCommon();
-
-			// add
-				$('body').on('click', '#btnAdd', function(e) {
-					e.preventDefault();
-					location.reload();
-				});
-
-			// edit
-				$('body').on('click', '.btnEdit', function(e) {
-					e.preventDefault();
-
-					oper = 'edit'
-					id = $(this).attr('data-id')
-					$.ajax({
-			    		url: bUrl + module + '/ajax_getModule',
-			            type: 'POST',
-		                cache: false,
-		                dataType: 'json',
-		                data: { 'id': id, 'csrf_hash' : $.cookie('csrf_cookie_ci') },
-		                success: function(data) {
-		                	if (data.error==0) {
-		                		$('input[name="csrf_hash"]').val($.cookie('csrf_cookie_ci'));
-		                		var module = data.module
-		                		$('#frmModule input[name="name"]').val(module.name).attr('disabled','disabled')
-		                		$('#frmModule input[name="url"]').val(module.url).attr('disabled','disabled')
-		                		$('#frmModule input[name="icon"]').val(module.icon)
-		                		$('#frmModule textarea[name="desc"]').val(module.desc)
-		                		$('#frmModule input[name="order"]').val(module.order)
-
-		                		$('#frmModule input[name="name"]').focus();
-		                		$('#frmModule input[name="oper"]').val('edit');
-		                		$('#frmModule input[name="id"]').val(id);
-
-		                		$('#frmModule button[type="submit"]').html('').html('<i class="fa fa-lg fa-save"></i> Save')
-		                	}
-		                	else {
-			                	showSmartAlert("Error", "Can get data. Please contact to admin.", '[YES]')
-			                }
-		                },
-		                error: function() {
-		                    showSmartAlert("Error", "Can send data. Please contact to admin.", '[YES]')
-		                }
-			    	});
-				});
-
-			// delete inline
-				$('body').on('click','.btnDelete', function(e) {
-					e.preventDefault();
-
-					href = $(this).attr('href');
-					showSmartAlert("Warning", "<p>Are you sure delete this data ?</p>", '[NO][YES]', function() {
-						// click YES
-						window.location.href = href
-					}, function() {
-						// click NO
-					});
-				});
-			
-			// generate URL
-				gen_url($('input[name="name"]'), $('#frmModule input[name="url"]'));
-
-			// limit character
-				$('input[name="name"]').limit('255','#nameLimit');
-				$('textarea[name="desc"]').limit('1000','#descLimit');
-		
-			// validation
-				var $validator = $("#frmModule").validate({
-				    rules: {
-						name: { 
-							required: true,
-							lettersonly: true,
-							remote: {
-								url: bUrl + module + '/ajax_existed',
-				                type: 'post',
-				                data: {
-				                	csrf_hash : function(){ return $.cookie('csrf_cookie_ci') },
-				                	oper : function(){ return oper },
-									name : function(){ return $('input[name=name]').val(); }
-				                }
-							}
-						},
-						url: { required: true },
-				    },
-				    messages: {
-				      	name: {
-				      		required : "Name is required",
-				      		lettersonly : "Name only contains letters",
-				      		remote: jQuery.validator.format("Name \"{0}\" is already taken")
-				      	},
-				        url: "Url is required"
-				    },
-				    highlight: function (element) {
-				      	$(element).closest('.form-group').removeClass('has-success').addClass('has-error');
-				    },
-				    unhighlight: function (element) {
-				      	$(element).closest('.form-group').removeClass('has-error').addClass('has-success');
-				    },
-				    errorElement: 'span',
-				    errorClass: 'help-block',
-				    errorPlacement: function (error, element) {
-				      	if (element.parent('.input-group').length) {
-				        	error.insertAfter(element.parent());
-				      	} else {
-				        	error.insertAfter(element);
-				      	}
-				    },
-				    submitHandler: function(form) {
-				    	// check exist in category
-				    	$.ajax({
-				    		url: bUrl + module + '/ajax_existed',
-				            type: 'POST',
-			                cache: false,
-			                dataType: 'text',
-			                data: { 'oper': oper,
-			                		'name':$('input[name=name]').val(),
-			                		'csrf_hash' : $.cookie('csrf_cookie_ci')
-			                	  },
-			                success: function(data) {
-			                	if (data=="false") {
-			                		errorContent = '<span for="name" class="help-block">Name "'+$('input[name=name]').val()+'" is already taken</span>';
-			                		$('input[name=name]').closest('.form-group').removeClass('has-success').addClass('has-error');
-			                		$('input[name=name]').after(errorContent)
-			                	}
-			                	else {
-			                		$('input[name="csrf_hash"]').val($.cookie('csrf_cookie_ci'));
-				                	form.submit();
-				                }
-			                },
-			                error: function() {
-			                    showSmartAlert("Error", "Can send data. Please contact to admin.", '[YES]')
-			                }
-				    	});
-				    }
-				});
-		
-		// show icon wrapper
-			$('input[name="icon"]').click( function() {
-
-				selectedIcon = ''
-				showSmartAlert("Choose icon for module <span class='selectedIcon'>your choose</span>", $(this).next('.iconWrapper').html(), '[NO][YES]', function() {
-					$('input[name="icon"]').val(selectedIcon)				
-				});
-				$('.MessageBoxContainer').css({
-					'max-height' : '100%',
-					'height' : '100%',
-					'top' : '0'
-				})
-				$('.MessageBoxMiddle').css({
-					'width' : '80%',
-					'height' : '100%',
-					'left' : '10%'
-				})
-				$('.MessageBoxMiddle .pText').next('.row').css({
-					'max-height' : '80%',
-					'height' : '80%',
-					'padding-right' : '5%',
-					'overflow-y' : 'scroll'
-				});
-				$('.MessageBoxContainer').find('.demo-icon-font').each( function() {
-					$(this).click( function() {
-						$('.MsgTitle .selectedIcon').html('').html($(this).html())
-						selectedIcon = $(this).children('i').attr("class");
-					});
-				});
-			});
 		}
 	}
 
@@ -1371,8 +692,8 @@
 						colModel : [{ name : 'status', index : 'status', align : 'center', width : '100',
 										stype: 'select', searchoptions:{ sopt:['eq'], value: activeStr }
 									},
-									{ name : 'id', index : 'id', search : true, align : 'center', width : '60' }, 
-									{ name : 'username', index : 'username', align : 'left', search : true, width : '200' }, 
+									{ name : 'id', index : 'id', search : true, align : 'center', width : '60' },
+									{ name : 'username', index : 'username', align : 'left', search : true, width : '200' },
 									{ name : 'thumbnail', index : 'thumbnail', align : 'center', search : false, width : '100' },
 									{ name : 'created_datetime', index : 'created_datetime', align : 'center', search : false, width : '150' },
 									{ name: "act", index: 'act', editable : false, search : false, width : '80', align : 'center' }
@@ -1385,6 +706,7 @@
 						sortorder : "asc",
 						toolbarfilter : true,
 						viewrecords : true,
+						/*
 						rowattr: function (rd) {
 			                if (rd.username=='admin') {
 			                    return {
@@ -1392,6 +714,7 @@
 			                    };
 			                }
 			            },
+			            */
 						loadBeforeSend: function () {
 							$(this).closest("div.ui-jqgrid-view").find("table.ui-jqgrid-htable>thead>tr>th").css({"text-align":"center"});
 						},
@@ -1407,7 +730,7 @@
 								else {
 									$('tr#'+rowData.id).children('td:eq(1)').html('');
 									var btnInline = btnEditInline(module, cl, true) + bntDeleteInline(module, false, cl, true)
-									var fa = formatButton(cl, rowData.status, 'btnStatus_', 'btnStatus', 'modalStatus', arrClassValue_Status, classTextColor_Status)
+									var fa = formatButton(cl, rowData.status, 'btnStatus_', 'btnStatus', 'modalStatus')
 								}
 								var th = '<img src="' + uploadDir + '.thumbs/images/member/avatar.png" class="thumbInTable" />'
 								if (rowData.thumbnail != "") {
@@ -1420,8 +743,10 @@
 								});
 							}
 						// btnStatus
-							click_btnInGrid('btnStatus', 'modalStatus', bUrl+module+'/ajax_status', arrClassValue_Status)
-							
+							click_btnInGrid('btnStatus', 'modalStatus', bUrl+module+'/ajax_status', function() {
+								location.reload();
+							});
+
 						},
 						ajaxRowOptions: { async: true },
 						caption : caption,
@@ -1444,7 +769,7 @@
 						// click NO
 					});
 				});
-			
+
 			// multi-delete
 				$('body').on('click', '#btnMultiDelete', function(e) {
 					e.preventDefault();
@@ -1468,7 +793,7 @@
 
 		// common for add & edit
 			if ($('#frmAdd').length>0 || $('#frmEditInfo').length>0) {
-			
+
 			// file
 				selectFile('.btnSelectThumbnail', 'images')
 				// delele file
@@ -1484,8 +809,8 @@
 			}
 
 		// check box permission
-			if ($('#frmEditPermission').length>0) {
-			// Full Permission	
+			if ($('#frmAdd').length>0 || $('#frmEditPermission').length>0) {
+			// Full Permission
 				$('body').on('click','.permissionFull', function() {
 					group = $(this).parent('label').parent('.checkbox').parent('.form-group')
 					permissionFull = group.find('.checkbox .permissionFull');
@@ -1621,7 +946,7 @@
 
 		// add
 			if ($('#frmAdd').length>0) {
-			
+
 			// password
 				$('body').on('focus','input[name="password"]', function() {
 					$(this).prop('type','password').val('')
@@ -1636,7 +961,7 @@
 			// validation
 				var $validator = $("#frmAdd").validate({
 					    rules: {
-							username: { 
+							username: {
 								required: true,
 								maxlength : 255,
 								remote: {
@@ -1649,7 +974,7 @@
 					                }
 								}
 							},
-							password: { 
+							password: {
 								required: true,
 								minlength : 3,
 								maxlength : 20
@@ -1702,7 +1027,7 @@
 				                cache: false,
 				                dataType: 'text',
 				                data: { 'oper':'add',
-				                		'username':$('input[name="username"]').val(), 
+				                		'username':$('input[name="username"]').val(),
 				                		'csrf_hash' : $.cookie('csrf_cookie_ci')
 				                	  },
 				                success: function(data) {
@@ -1723,14 +1048,14 @@
 					    }
 					});
 			}
-		
+
 		// edit info
 			if ($('#frmEditInfo').length>0) {
-			
+
 			// validation
 				var $validator = $("#frmEditInfo").validate({
 					    rules: {
-							username: { 
+							username: {
 								required: true,
 								maxlength : 255,
 								remote: {
@@ -1775,7 +1100,7 @@
 				                cache: false,
 				                dataType: 'text',
 				                data: { 'oper':'edit',
-				                		'username':$('input[name="username"]').val(), 
+				                		'username':$('input[name="username"]').val(),
 				                		'id' : $('input[name="id"]').val(),
 				                		'csrf_hash' : $.cookie('csrf_cookie_ci')
 				                	  },
@@ -1814,11 +1139,11 @@
 			// validation
 				var $validator = $("#frmEditPassword").validate({
 					    rules: {
-							old_password: { 
+							old_password: {
 								required: true,
 								maxlength : 255
 							},
-							password: { 
+							password: {
 								required: true,
 								minlength : 3,
 								maxlength : 20
@@ -1868,1210 +1193,56 @@
 		}
 	}
 
-// SERVICE
-	function servicePage()
+// SETTING
+	function settingPage()
 	{
-		if ($('#servicePage').length>0) {
-			module = 'service'
-
-		// list
-			if ($(idTableList).length>0) {
-				var statusStr = ":All;active:Active;inactive:Inactive";
-				var catetegoryStr = ":All;Giới thiệu:Giới thiệu;Dịch vụ:Dịch vụ;Chứng nhận chất lượng:Chứng nhận chất lượng";
-				caption = captionButton(module, true, true)
-
-			// jqGrid
-				jQuery(idTableList).jqGrid({
-					url: bUrl + module + '/ajax_list?q=2',
-					datatype: "json",
-					height : 'auto',
-					autowidth : true,
-					shrinkToFit: false,
-					gridResize: true,
-					autoResizeAllColumns: true,
-					iconSet: "fontAwesome",
-					colNames : ['Status', 'ID', 'Title', 'Category','Order', 'Thumbnail', 'Action'],
-					colModel : [{ name : 'status', index : 'status', align : 'center', width : '80',
-									stype: 'select', searchoptions:{ sopt:['eq'], value: statusStr }
-								},
-								{ name : 'id', index : 'id', search : true, align : 'center', width : '60' }, 
-								{ name : 'title', index : 'title', align : 'left', search : true, width : '150' }, 
-								{ name : 'categoryName', index : 'categoryName', search : true, width : '150',
-									stype: 'select', searchoptions:{ sopt:['eq'], value: catetegoryStr }
-								},
-								{ name : 'order', index : 'order', align : 'center', search : true, width : '60',
-									editable : true, 
-									editoptions: { dataInit: function (elem) { 
-											setTimeout( function() { 
-												$(elem).numeric();
-                   							}, 100);
-               							}
-               						}
-								},
-								{ name : 'thumbnail', index : 'thumbnail', align : 'center', search : false, width : '100' },
-								{ name: "act", index: 'act', editable : false, search : false, width : '80', align : 'center' }
-					],
-					rownumbers : true,
-					rowNum : defaultNumRows,
-					rowList : [10, 20, defaultNumRows],
-					pager : idPager,
-					sortname : 'id',
-					sortorder : "desc",
-					toolbarfilter : true,
-					viewrecords : true,
-					gridComplete : function() {
-						var ids = jQuery(idTableList).jqGrid('getDataIDs');
-						for (var i = 0; i < ids.length; i++) {
-							var cl = ids[i];
-							var rowData = jQuery(idTableList).jqGrid ('getRowData', cl);
-							var fa = ""
-							var fa = formatButton(cl, rowData.status, 'btnStatus_', 'btnStatus', 'modalStatus', arrClassValue_Status, classTextColor_Status)
-							var th = ""
-							if (rowData.thumbnail != "") {
-								th = '<img src="' + rowData.thumbnail + '" class="thumbInTable" />'
-							}
-							var	btnInline = btnEditInline(module, cl, true) + bntDeleteInline(module, false, cl, true)
-							jQuery(idTableList).jqGrid('setRowData', ids[i], {
-								status : fa,
-								thumbnail : th,
-								act : btnInline
-							});
-
+		if ($('#frmEditMeta').length>0) {
+			var $validator = $("#frmEditMeta").validate({
+					rules: {
+						pageTitle: {
+							required: true,
+							maxlength : 255
+						},
+						metaKey: {
+							required: true
+						},
+						metaDesc: {
+							required : true,
+							maxlength : 255
 						}
-					// btnStatus
-						click_btnInGrid('btnStatus', 'modalStatus', bUrl+module+'/ajax_status', arrClassValue_Status, function() {
-							location.reload();
-						});
 					},
-					ajaxRowOptions: { async: true },
-					caption : caption,
-					multiselect : true,
-					// editurl : bUrl + module + '/edit_inline',
-					loadBeforeSend: function () {
-						$(this).closest("div.ui-jqgrid-view").find("table.ui-jqgrid-htable>thead>tr>th").css({"text-align":"center"});
+					messages: {
+						pageTitle: {
+							required : "Page Title is required",
+							maxlength : "Maximum is 255 characters"
+						},
+						metaKey: {
+							required : "Meta Keyword is required"
+						},
+						metaDesc: {
+							required : "Meta Description is required",
+							maxlength : "Maximum is 255 characters",
+						}
 					},
-					onSelectRow: function(id) { 
-					}
-				});
-
-			// common
-				tableCommon();
-
-			// delete inline
-				$('body').on('click','.btnDelete', function(e) {
-					e.preventDefault();
-
-					href = $(this).attr('href');
-					showSmartAlert("Warning", "<p>Are you sure delete data ?</p>", '[NO][YES]', function() {
-						// click YES
-						$('#ids').val(selectedRows)
-						$('#frmTopButtons').submit();
-					}, function() {
-						// click NO
-					});
-				});
-
-			// multi-delete
-				$('body').on('click', '#btnMultiDelete', function(e) {
-					e.preventDefault();
-					href = $(this).attr('href');
-
-					selectedRows = jQuery(idTableList).jqGrid('getGridParam','selarrrow');
-					if (selectedRows.length==0) {
-						showSmartAlert("Error", "Please select data.", '[YES]');
-					}
-					else {
-						showSmartAlert("Warning", "<p>Are you sure delete data ?</p>", '[NO][YES]', function() {
-							// click YES
-							$('#ids').val(selectedRows)
-							$('#frmTopButtons').submit();
-						}, function() {
-							// click NO
-						});
-					}
-				});
-
-			}
-		
-		// common add & edit
-			if ($('#addContainer').length>0 || $('#editContainer').length>0) {
-			// select category
-				selectCategory('.category')
-
-			// generate URL
-				gen_url($('input[name="title"]'), $('input[name="url"]'));
-				gen_url($('input[name="titleEN"]'), $('input[name="urlEN"]'));
-
-			// limit character
-				$('input[name="title"]').limit('200','#titleLimit');
-				$('input[name="url"]').limit('200','#urlLimit');
-				$('textarea[name="desc"]').limit('1000','#descLimit');
-
-				$('input[name="titleEN"]').limit('200','#titleENLimit');
-				$('input[name="urlEN"]').limit('200','#urlENLimit');
-				$('textarea[name="descEN"]').limit('1000','#descENLimit');
-
-			// file
-				selectFile('.btnSelectThumbnail', 'images')
-				// delele file
-				$('body').on('click', '.thumbnailDel', function(e) {
-					e.preventDefault();
-					thumbnailWrapper = $(this).parent('.thumbnailWrapper')
-					inputThumbnail = thumbnailWrapper.prev().children('.inputThumbnail')
-
-					inputThumbnail.val('')
-					thumbnailWrapper.html('').html(defaultIMG)
-				});
-
-			// editor
-				CKEDITOR.replace( 'contentService', {
-		            entities_latin: false,
-		            entities_greek: false,
-		            toolbar: 'Full'
-		        })
-		        CKEDITOR.replace( 'contentServiceEN', {
-		            entities_latin: false,
-		            entities_greek: false,
-		            toolbar: 'Full'
-		        })
-			}
-
-		// add
-			if ($('#addContainer').length>0) {
-				var oper = 'add';
-
-			// validation
-				var $validator = $("#frmAdd").validate({
-				    rules: {
-				    	title: { 
-							required : true,
-							maxlength : 200
-						},
-						url: { 
-							required: true,
-							maxlength : 200,
-							remote: {
-								url: bUrl + module + '/ajax_existed_inCategory',
-				                type: 'post',
-				                data: {
-				                	csrf_hash : function(){ return $.cookie('csrf_cookie_ci') },
-				                	oper : function(){ return oper },
-									url : function(){ return $('input[name=url]').val(); },
-									parent_id : function(){ return $('input[name=parent_id]').val(); },
-									lang : function(){ return "vn" }
-				                }
-							}
-						},
-						desc: {
-							maxlength : 1000,
-						},
-						titleEN: { 
-							required : true,
-							maxlength : 200
-						},
-						urlEN: { 
-							required: true,
-							maxlength : 200,
-							remote: {
-								url: bUrl + module + '/ajax_existed_inCategory',
-				                type: 'post',
-				                data: {
-				                	csrf_hash : function(){ return $.cookie('csrf_cookie_ci') },
-				                	oper : function(){ return oper },
-									url : function(){ return $('input[name=urlEN]').val(); },
-									parent_id : function(){ return $('input[name=parent_id]').val(); },
-									lang : function(){ return "en" }
-				                }
-							}
-						},
-						descEN: {
-							maxlength : 1000,
-						}
-				    },
-				    messages: {
-				    	title: {
-				    		required : "Name is required",
-				    		maxlength : "Maximum is 200 characters"
-				    	},
-				      	url: {
-				      		required : "URL is required",
-				      		maxlength : "Maximum is 200 characters",
-				      		remote: jQuery.validator.format("URL \"{0}\" is already taken")
-				      	},
-				        desc: { 
-				        	maxlength : "Maximum is 1000 characters"
-				        },
-				        titleEN: {
-				    		required : "Name is required",
-				    		maxlength : "Maximum is 200 characters"
-				    	},
-				      	urlEN: {
-				      		required : "URL is required",
-				      		maxlength : "Maximum is 200 characters",
-				      		remote: jQuery.validator.format("URL \"{0}\" is already taken")
-				      	},
-				        descEN: { 
-				        	maxlength : "Maximum is 1000 characters"
-				        }
-				    },
-				    highlight: function (element) {
-				      	$(element).closest('.form-group').removeClass('has-success').addClass('has-error');
-				    },
-				    unhighlight: function (element) {
-				      	$(element).closest('.form-group').removeClass('has-error').addClass('has-success');
-				    },
-				    errorElement: 'span',
-				    errorClass: 'help-block',
-				    errorPlacement: function (error, element) {
-				      	if (element.parent('.input-group').length) {
-				        	error.insertAfter(element.parent());
-				      	} else {
-				        	error.insertAfter(element);
-				      	}
-				    },
-				    submitHandler: function(form) {
-				    	// check exist in category
-				    	$.ajax({
-				    		url: bUrl + module + '/ajax_multi_existed_inCategory',
-				            type: 'POST',
-			                cache: false,
-			                dataType: 'json',
-			                data: { 'csrf_hash' : $.cookie('csrf_cookie_ci'),
-			                		'oper': oper,
-			                		'id': $('input[name=id]').val(),
-			                		'url' : $('input[name=url]').val(),
-			                		'urlEN' : $('input[name=urlEN]').val(),
-			                		'parent_id': $('input[name=parent_id]').val()
-			                	  },
-			                success: function(data) {
-			                	if (data.error=="1") {
-			                		showSmartAlert("Error", "URL VN is already taken", '[YES]')
-			                	}
-			                	else if (data.error=="2") {
-			                		showSmartAlert("Error", "URL EN is already taken", '[YES]')
-			                	}
-			                	else {
-			                		$('input[name="csrf_hash"]').val($.cookie('csrf_cookie_ci'));
-				                	form.submit();
-				                }
-			                },
-			                error: function() {
-			                    showSmartAlert("Error", "Can send data. Please contact to admin.", '[YES]')
-			                }
-				    	});
-				    }
-				});
-			}
-
-		// edit
-			if ($('#editContainer').length>0) {
-				var oper = 'edit';
-				var id = $('input[name=id]').val();
-
-			// validation
-				var $validator = $("#frmEdit").validate({
-				    rules: {
-				    	title: { 
-							required : true,
-							maxlength : 200
-						},
-						url: { 
-							required: true,
-							maxlength : 200,
-							remote: {
-								url: bUrl + module + '/ajax_existed_inCategory',
-				                type: 'post',
-				                data: {
-				                	csrf_hash : function(){ return $.cookie('csrf_cookie_ci') },
-				                	oper : function(){ return oper },
-				                	id : id,
-									url : function(){ return $('input[name=url]').val(); },
-									parent_id : function(){ return $('input[name=parent_id]').val(); },
-									lang : function(){ return "vn" }
-				                }
-							}
-						},
-						desc: {
-							maxlength : 1000,
-						},
-						titleEN: { 
-							required : true,
-							maxlength : 200
-						},
-						urlEN: { 
-							required: true,
-							maxlength : 200,
-							remote: {
-								url: bUrl + module + '/ajax_existed_inCategory',
-				                type: 'post',
-				                data: {
-				                	csrf_hash : function(){ return $.cookie('csrf_cookie_ci') },
-				                	oper : function(){ return oper },
-				                	id : id,
-									url : function(){ return $('input[name=urlEN]').val(); },
-									parent_id : function(){ return $('input[name=parent_id]').val(); },
-									lang : function(){ return "en" }
-				                }
-							}
-						},
-						descEN: {
-							maxlength : 1000,
-						}
-				    },
-				    messages: {
-				    	title: {
-				    		required : "Name is required",
-				    		maxlength : "Maximum is 200 characters"
-				    	},
-				      	url: {
-				      		required : "URL is required",
-				      		maxlength : "Maximum is 200 characters",
-				      		remote: jQuery.validator.format("URL \"{0}\" is already taken")
-				      	},
-				        desc: { 
-				        	maxlength : "Maximum is 1000 characters"
-				        },
-				        titleEN: {
-				    		required : "Name is required",
-				    		maxlength : "Maximum is 200 characters"
-				    	},
-				      	urlEN: {
-				      		required : "URL is required",
-				      		maxlength : "Maximum is 200 characters",
-				      		remote: jQuery.validator.format("URL \"{0}\" is already taken")
-				      	},
-				        descEN: { 
-				        	maxlength : "Maximum is 1000 characters"
-				        }
-				    },
-				    highlight: function (element) {
-				      	$(element).closest('.form-group').removeClass('has-success').addClass('has-error');
-				    },
-				    unhighlight: function (element) {
-				      	$(element).closest('.form-group').removeClass('has-error').addClass('has-success');
-				    },
-				    errorElement: 'span',
-				    errorClass: 'help-block',
-				    errorPlacement: function (error, element) {
-				      	if (element.parent('.input-group').length) {
-				        	error.insertAfter(element.parent());
-				      	} else {
-				        	error.insertAfter(element);
-				      	}
-				    },
-				    submitHandler: function(form) {
-				    	// check exist in category
-				    	$.ajax({
-				    		url: bUrl + module + '/ajax_multi_existed_inCategory',
-				            type: 'POST',
-			                cache: false,
-			                dataType: 'json',
-			                data: { 'csrf_hash' : $.cookie('csrf_cookie_ci'),
-			                		'oper': oper,
-			                		id : id,
-			                		'url' : $('input[name=url]').val(),
-			                		'urlEN' : $('input[name=urlEN]').val(),
-			                		'parent_id': $('input[name=parent_id]').val()
-			                	  },
-			                success: function(data) {
-			                	if (data.error=="1") {
-			                		showSmartAlert("Error", "URL VN is already taken", '[YES]')
-			                	}
-			                	else if (data.error=="2") {
-			                		showSmartAlert("Error", "URL EN is already taken", '[YES]')
-			                	}
-			                	else {
-			                		$('input[name="csrf_hash"]').val($.cookie('csrf_cookie_ci'));
-				                	form.submit();
-				                }
-			                },
-			                error: function() {
-			                    showSmartAlert("Error", "Can send data. Please contact to admin.", '[YES]')
-			                }
-				    	});
-				    }
-				});
-			}
-		}
-	}
-
-// NEWS
-	function newsPage()
-	{
-		if ($('#newsPage').length>0) {
-			module = 'news'
-
-		// list
-			if ($(idTableList).length>0) {
-				var statusStr = ":All;active:Active;inactive:Inactive";
-				caption = captionButton(module, true, true)
-
-			// jqGrid
-				jQuery(idTableList).jqGrid({
-					url: bUrl + module + '/ajax_list?q=2',
-					datatype: "json",
-					height : 'auto',
-					autowidth : true,
-					shrinkToFit: false,
-					gridResize: true,
-					autoResizeAllColumns: true,
-					iconSet: "fontAwesome",
-					colNames : ['Status', 'ID', 'Title', 'Category','Order', 'Thumbnail', 'Action'],
-					colModel : [{ name : 'status', index : 'status', align : 'center', width : '80',
-									stype: 'select', searchoptions:{ sopt:['eq'], value: statusStr }
-								},
-								{ name : 'id', index : 'id', search : true, align : 'center', width : '60' }, 
-								{ name : 'title', index : 'title', align : 'left', search : true, width : '150' }, 
-								{ name : 'categoryName', index : 'categoryName', search : true, width : '150' },
-								{ name : 'order', index : 'order', align : 'center', search : true, width : '60',
-									editable : true, 
-									editoptions: { dataInit: function (elem) { 
-											setTimeout( function() { 
-												$(elem).numeric();
-                   							}, 100);
-               							}
-               						}
-								},
-								{ name : 'thumbnail', index : 'thumbnail', align : 'center', search : false, width : '100' },
-								{ name: "act", index: 'act', editable : false, search : false, width : '80', align : 'center' }
-					],
-					rownumbers : true,
-					rowNum : defaultNumRows,
-					rowList : [10, 20, defaultNumRows],
-					pager : idPager,
-					sortname : 'id',
-					sortorder : "desc",
-					toolbarfilter : true,
-					viewrecords : true,
-					gridComplete : function() {
-						var ids = jQuery(idTableList).jqGrid('getDataIDs');
-						for (var i = 0; i < ids.length; i++) {
-							var cl = ids[i];
-							var rowData = jQuery(idTableList).jqGrid ('getRowData', cl);
-							var fa = ""
-							var fa = formatButton(cl, rowData.status, 'btnStatus_', 'btnStatus', 'modalStatus', arrClassValue_Status, classTextColor_Status)
-							var th = ""
-							if (rowData.thumbnail != "") {
-								th = '<img src="' + rowData.thumbnail + '" class="thumbInTable" />'
-							}
-							var	btnInline = btnEditInline(module, cl, true) + bntDeleteInline(module, false, cl, true)
-							jQuery(idTableList).jqGrid('setRowData', ids[i], {
-								status : fa,
-								thumbnail : th,
-								act : btnInline
-							});
-
-						}
-					// btnStatus
-						click_btnInGrid('btnStatus', 'modalStatus', bUrl+module+'/ajax_status', arrClassValue_Status, function() {
-							location.reload();
-						});
+					highlight: function (element) {
+						$(element).closest('.form-group').removeClass('has-success').addClass('has-error');
 					},
-					ajaxRowOptions: { async: true },
-					caption : caption,
-					multiselect : true,
-					// editurl : bUrl + module + '/edit_inline',
-					loadBeforeSend: function () {
-						$(this).closest("div.ui-jqgrid-view").find("table.ui-jqgrid-htable>thead>tr>th").css({"text-align":"center"});
+					unhighlight: function (element) {
+						$(element).closest('.form-group').removeClass('has-error').addClass('has-success');
 					},
-					onSelectRow: function(id) { 
-					}
-				});
-
-			// common
-				tableCommon();
-
-			// delete inline
-				$('body').on('click','.btnDelete', function(e) {
-					e.preventDefault();
-
-					href = $(this).attr('href');
-					showSmartAlert("Warning", "<p>Are you sure delete data ?</p>", '[NO][YES]', function() {
-						// click YES
-						$('#ids').val(selectedRows)
-						$('#frmTopButtons').submit();
-					}, function() {
-						// click NO
-					});
-				});
-
-			// multi-delete
-				$('body').on('click', '#btnMultiDelete', function(e) {
-					e.preventDefault();
-					href = $(this).attr('href');
-
-					selectedRows = jQuery(idTableList).jqGrid('getGridParam','selarrrow');
-					if (selectedRows.length==0) {
-						showSmartAlert("Error", "Please select data.", '[YES]');
-					}
-					else {
-						showSmartAlert("Warning", "<p>Are you sure delete data ?</p>", '[NO][YES]', function() {
-							// click YES
-							$('#ids').val(selectedRows)
-							$('#frmTopButtons').submit();
-						}, function() {
-							// click NO
-						});
-					}
-				});
-
-			}
-		
-		// common add & edit
-			if ($('#addContainer').length>0 || $('#editContainer').length>0) {
-			// select category
-				selectCategory('.category')
-				/*$('body').on('click', '.category', function() {
-					$('.category').removeClass('btn-success')
-					$(this).addClass('btn-success')
-					$('input[name="category"]').val($(this).attr('data-save'))
-
-					index = $(this).index();
-					$('.chooseDate').removeClass('showChooseDate');
-					$('#inputDateWrapper').find('.chooseDate:eq('+index+')').addClass('showChooseDate')
-				});
-				*/
-
-			// generate URL
-				gen_url($('input[name="title"]'), $('input[name="url"]'));
-				gen_url($('input[name="titleEN"]'), $('input[name="urlEN"]'));
-
-			// limit character
-				$('input[name="title"]').limit('200','#titleLimit');
-				$('input[name="url"]').limit('200','#urlLimit');
-				$('textarea[name="desc"]').limit('1000','#descLimit');
-
-				$('input[name="titleEN"]').limit('200','#titleENLimit');
-				$('input[name="urlEN"]').limit('200','#urlENLimit');
-				$('textarea[name="descEN"]').limit('1000','#descENLimit');
-
-			// file
-				selectFile('.btnSelectThumbnail', 'images')
-				// delele file
-				$('body').on('click', '.thumbnailDel', function(e) {
-					e.preventDefault();
-					thumbnailWrapper = $(this).parent('.thumbnailWrapper')
-					inputThumbnail = thumbnailWrapper.prev().children('.inputThumbnail')
-
-					inputThumbnail.val('')
-					thumbnailWrapper.html('').html(defaultIMG)
-				});
-
-			// editor
-				CKEDITOR.replace( 'contentNews', {
-		            entities_latin: false,
-		            entities_greek: false,
-		            toolbar: 'Full'
-		        })
-		        CKEDITOR.replace( 'contentNewsEN', {
-		            entities_latin: false,
-		            entities_greek: false,
-		            toolbar: 'Full'
-		        })
-			}
-
-		// add
-			if ($('#addContainer').length>0) {
-				var oper = 'add';
-
-			// validation
-				var $validator = $("#frmAdd").validate({
-				    rules: {
-				    	title: { 
-							required : true,
-							maxlength : 200
-						},
-						url: { 
-							required: true,
-							maxlength : 200,
-							remote: {
-								url: bUrl + module + '/ajax_existed_inCategory',
-				                type: 'post',
-				                data: {
-				                	csrf_hash : function(){ return $.cookie('csrf_cookie_ci') },
-				                	oper : function(){ return oper },
-									url : function(){ return $('input[name=url]').val(); },
-									parent_id : function(){ return $('input[name=parent_id]').val(); },
-									lang : function(){ return "vn" }
-				                }
-							}
-						},
-						desc: {
-							maxlength : 1000,
-						},
-						titleEN: { 
-							required : true,
-							maxlength : 200
-						},
-						urlEN: { 
-							required: true,
-							maxlength : 200,
-							remote: {
-								url: bUrl + module + '/ajax_existed_inCategory',
-				                type: 'post',
-				                data: {
-				                	csrf_hash : function(){ return $.cookie('csrf_cookie_ci') },
-				                	oper : function(){ return oper },
-									url : function(){ return $('input[name=urlEN]').val(); },
-									parent_id : function(){ return $('input[name=parent_id]').val(); },
-									lang : function(){ return "en" }
-				                }
-							}
-						},
-						descEN: {
-							maxlength : 1000,
-						}
-				    },
-				    messages: {
-				    	title: {
-				    		required : "Name is required",
-				    		maxlength : "Maximum is 200 characters"
-				    	},
-				      	url: {
-				      		required : "URL is required",
-				      		maxlength : "Maximum is 200 characters",
-				      		remote: jQuery.validator.format("URL \"{0}\" is already taken")
-				      	},
-				        desc: { 
-				        	maxlength : "Maximum is 1000 characters"
-				        },
-				        titleEN: {
-				    		required : "Name is required",
-				    		maxlength : "Maximum is 200 characters"
-				    	},
-				      	urlEN: {
-				      		required : "URL is required",
-				      		maxlength : "Maximum is 200 characters",
-				      		remote: jQuery.validator.format("URL \"{0}\" is already taken")
-				      	},
-				        descEN: { 
-				        	maxlength : "Maximum is 1000 characters"
-				        }
-				    },
-				    highlight: function (element) {
-				      	$(element).closest('.form-group').removeClass('has-success').addClass('has-error');
-				    },
-				    unhighlight: function (element) {
-				      	$(element).closest('.form-group').removeClass('has-error').addClass('has-success');
-				    },
-				    errorElement: 'span',
-				    errorClass: 'help-block',
-				    errorPlacement: function (error, element) {
-				      	if (element.parent('.input-group').length) {
-				        	error.insertAfter(element.parent());
-				      	} else {
-				        	error.insertAfter(element);
-				      	}
-				    },
-				    submitHandler: function(form) {
-				    	// check exist in category
-				    	$.ajax({
-				    		url: bUrl + module + '/ajax_multi_existed_inCategory',
-				            type: 'POST',
-			                cache: false,
-			                dataType: 'json',
-			                data: { 'csrf_hash' : $.cookie('csrf_cookie_ci'),
-			                		'oper': oper,
-			                		'id': $('input[name=id]').val(),
-			                		'url' : $('input[name=url]').val(),
-			                		'urlEN' : $('input[name=urlEN]').val(),
-			                		'parent_id': $('input[name=parent_id]').val()
-			                	  },
-			                success: function(data) {
-			                	if (data.error=="1") {
-			                		showSmartAlert("Error", "URL VN is already taken", '[YES]')
-			                	}
-			                	else if (data.error=="2") {
-			                		showSmartAlert("Error", "URL EN is already taken", '[YES]')
-			                	}
-			                	else {
-			                		$('input[name="csrf_hash"]').val($.cookie('csrf_cookie_ci'));
-				                	form.submit();
-				                }
-			                },
-			                error: function() {
-			                    showSmartAlert("Error", "Can send data. Please contact to admin.", '[YES]')
-			                }
-				    	});
-				    }
-				});
-			}
-
-		// edit
-			if ($('#editContainer').length>0) {
-				var oper = 'edit';
-				var id = $('input[name=id]').val();
-
-			// validation
-				var $validator = $("#frmEdit").validate({
-				    rules: {
-				    	title: { 
-							required : true,
-							maxlength : 200
-						},
-						url: { 
-							required: true,
-							maxlength : 200,
-							remote: {
-								url: bUrl + module + '/ajax_existed_inCategory',
-				                type: 'post',
-				                data: {
-				                	csrf_hash : function(){ return $.cookie('csrf_cookie_ci') },
-				                	oper : function(){ return oper },
-				                	id : id,
-									url : function(){ return $('input[name=url]').val(); },
-									parent_id : function(){ return $('input[name=parent_id]').val(); },
-									lang : function(){ return "vn" }
-				                }
-							}
-						},
-						desc: {
-							maxlength : 1000,
-						},
-						titleEN: { 
-							required : true,
-							maxlength : 200
-						},
-						urlEN: { 
-							required: true,
-							maxlength : 200,
-							remote: {
-								url: bUrl + module + '/ajax_existed_inCategory',
-				                type: 'post',
-				                data: {
-				                	csrf_hash : function(){ return $.cookie('csrf_cookie_ci') },
-				                	oper : function(){ return oper },
-				                	id : id,
-									url : function(){ return $('input[name=urlEN]').val(); },
-									parent_id : function(){ return $('input[name=parent_id]').val(); },
-									lang : function(){ return "en" }
-				                }
-							}
-						},
-						descEN: {
-							maxlength : 1000,
-						}
-				    },
-				    messages: {
-				    	title: {
-				    		required : "Name is required",
-				    		maxlength : "Maximum is 200 characters"
-				    	},
-				      	url: {
-				      		required : "URL is required",
-				      		maxlength : "Maximum is 200 characters",
-				      		remote: jQuery.validator.format("URL \"{0}\" is already taken")
-				      	},
-				        desc: { 
-				        	maxlength : "Maximum is 1000 characters"
-				        },
-				        titleEN: {
-				    		required : "Name is required",
-				    		maxlength : "Maximum is 200 characters"
-				    	},
-				      	urlEN: {
-				      		required : "URL is required",
-				      		maxlength : "Maximum is 200 characters",
-				      		remote: jQuery.validator.format("URL \"{0}\" is already taken")
-				      	},
-				        descEN: { 
-				        	maxlength : "Maximum is 1000 characters"
-				        }
-				    },
-				    highlight: function (element) {
-				      	$(element).closest('.form-group').removeClass('has-success').addClass('has-error');
-				    },
-				    unhighlight: function (element) {
-				      	$(element).closest('.form-group').removeClass('has-error').addClass('has-success');
-				    },
-				    errorElement: 'span',
-				    errorClass: 'help-block',
-				    errorPlacement: function (error, element) {
-				      	if (element.parent('.input-group').length) {
-				        	error.insertAfter(element.parent());
-				      	} else {
-				        	error.insertAfter(element);
-				      	}
-				    },
-				    submitHandler: function(form) {
-				    	// check exist in category
-				    	$.ajax({
-				    		url: bUrl + module + '/ajax_multi_existed_inCategory',
-				            type: 'POST',
-			                cache: false,
-			                dataType: 'json',
-			                data: { 'csrf_hash' : $.cookie('csrf_cookie_ci'),
-			                		'oper': oper,
-			                		id : id,
-			                		'url' : $('input[name=url]').val(),
-			                		'urlEN' : $('input[name=urlEN]').val(),
-			                		'parent_id': $('input[name=parent_id]').val()
-			                	  },
-			                success: function(data) {
-			                	if (data.error=="1") {
-			                		showSmartAlert("Error", "URL VN is already taken", '[YES]')
-			                	}
-			                	else if (data.error=="2") {
-			                		showSmartAlert("Error", "URL EN is already taken", '[YES]')
-			                	}
-			                	else {
-			                		$('input[name="csrf_hash"]').val($.cookie('csrf_cookie_ci'));
-				                	form.submit();
-				                }
-			                },
-			                error: function() {
-			                    showSmartAlert("Error", "Can send data. Please contact to admin.", '[YES]')
-			                }
-				    	});
-				    }
-				});
-			}
-
-		}
-	}
-
-// GALLERY
-	function galleryPage()
-	{
-		if ($('#galleryPage').length>0) {
-			module = 'gallery'
-
-		// list
-			if ($(idTableList).length>0) {
-				var statusStr = ":All;active:Active;inactive:Inactive";
-				caption = captionButton(module, true, true)
-
-			// jqGrid
-				jQuery(idTableList).jqGrid({
-					url: bUrl + module + '/ajax_list?q=2',
-					datatype: "json",
-					height : 'auto',
-					autowidth : true,
-					shrinkToFit: false,
-					gridResize: true,
-					autoResizeAllColumns: true,
-					iconSet: "fontAwesome",
-					colNames : ['Status', 'ID', 'Title', 'Category','Order', /*'Thumbnail',*/ 'Action'],
-					colModel : [{ name : 'status', index : 'status', align : 'center', width : '80',
-									stype: 'select', searchoptions:{ sopt:['eq'], value: statusStr }
-								},
-								{ name : 'id', index : 'id', search : true, align : 'center', width : '60' }, 
-								{ name : 'title', index : 'title', align : 'left', search : true, width : '150' }, 
-								{ name : 'categoryName', index : 'categoryName', search : true, width : '150' },
-								{ name : 'order', index : 'order', align : 'center', search : true, width : '60',
-									editable : true, 
-									editoptions: { dataInit: function (elem) { 
-											setTimeout( function() { 
-												$(elem).numeric();
-                   							}, 100);
-               							}
-               						}
-								},
-								// { name : 'thumbnail', index : 'thumbnail', align : 'center', search : false, width : '100' },
-								{ name: "act", index: 'act', editable : false, search : false, width : '80', align : 'center' }
-					],
-					rownumbers : true,
-					rowNum : defaultNumRows,
-					rowList : [10, 20, defaultNumRows],
-					pager : idPager,
-					sortname : 'id',
-					sortorder : "desc",
-					toolbarfilter : true,
-					viewrecords : true,
-					gridComplete : function() {
-						var ids = jQuery(idTableList).jqGrid('getDataIDs');
-						for (var i = 0; i < ids.length; i++) {
-							var cl = ids[i];
-							var rowData = jQuery(idTableList).jqGrid ('getRowData', cl);
-							var fa = ""
-							var fa = formatButton(cl, rowData.status, 'btnStatus_', 'btnStatus', 'modalStatus', arrClassValue_Status, classTextColor_Status)
-							/*var th = ""
-							if (rowData.thumbnail != "") {
-								th = '<img src="' + rowData.thumbnail + '" class="thumbInTable" />'
-							}*/
-							var	btnInline = btnEditInline(module, cl, true) + bntDeleteInline(module, false, cl, true)
-							jQuery(idTableList).jqGrid('setRowData', ids[i], {
-								status : fa,
-								// thumbnail : th,
-								act : btnInline
-							});
-
-						}
-					// btnStatus
-						click_btnInGrid('btnStatus', 'modalStatus', bUrl+module+'/ajax_status', arrClassValue_Status, function() {
-							location.reload();
-						});
-					},
-					ajaxRowOptions: { async: true },
-					caption : caption,
-					multiselect : true,
-					// editurl : bUrl + module + '/edit_inline',
-					loadBeforeSend: function () {
-						$(this).closest("div.ui-jqgrid-view").find("table.ui-jqgrid-htable>thead>tr>th").css({"text-align":"center"});
-					},
-					onSelectRow: function(id) { 
-					}
-				});
-
-			// common
-				tableCommon();
-
-			// delete inline
-				$('body').on('click','.btnDelete', function(e) {
-					e.preventDefault();
-
-					href = $(this).attr('href');
-					showSmartAlert("Warning", "<p>Are you sure delete data ?</p>", '[NO][YES]', function() {
-						// click YES
-						$('#ids').val(selectedRows)
-						$('#frmTopButtons').submit();
-					}, function() {
-						// click NO
-					});
-				});
-
-			// multi-delete
-				$('body').on('click', '#btnMultiDelete', function(e) {
-					e.preventDefault();
-					href = $(this).attr('href');
-
-					selectedRows = jQuery(idTableList).jqGrid('getGridParam','selarrrow');
-					if (selectedRows.length==0) {
-						showSmartAlert("Error", "Please select data.", '[YES]');
-					}
-					else {
-						showSmartAlert("Warning", "<p>Are you sure delete data ?</p>", '[NO][YES]', function() {
-							// click YES
-							$('#ids').val(selectedRows)
-							$('#frmTopButtons').submit();
-						}, function() {
-							// click NO
-						});
-					}
-				});
-
-			}
-		
-		// common add & edit
-			if ($('#addContainer').length>0 || $('#editContainer').length>0) {
-			// select category
-				selectCategory('.category', function(index, value) {
-					if (value=="10") {
-						$('input[name="title"]').val('')
-						$('input[name="titleEN"]').val('')
-
-						$('input[name="carInformation"]').val('Car information here')
-						$('input[name="carInformationEN"]').val('Car information EN here')
-						$('input[name="service"]').val('Service here')
-						$('input[name="serviceEN"]').val('Service EN here')
-
-						$('.beforeafterWrapper').fadeOut('fast')
-						$('.eventWrapper').fadeIn('fast')
-					} 
-					else if (value=="9") {
-						$('input[name="title"]').val('Title here')
-						$('input[name="titleEN"]').val('Title EN here')
-
-						$('input[name="carInformation"]').val('')
-						$('input[name="carInformationEN"]').val('')
-						$('input[name="service"]').val('')
-						$('input[name="serviceEN"]').val('')
-
-						$('.eventWrapper').fadeOut('fast')
-						$('.beforeafterWrapper').fadeIn('fast')
-					}
-				})
-				selectCategory('.type', function(index, value) {
-					if (index==0) {
-						$('.videoWrapper').fadeOut('fast')
-						$('.albumWrapper').fadeIn('fast')
-					} 
-					else if (index==1) {
-						$('.albumWrapper').fadeOut('fast')
-						$('.videoWrapper').fadeIn('fast')
-					}
-				})
-
-			// limit character
-				$('input[name="title"]').limit('200','#titleLimit');
-				$('input[name="carInformation"]').limit('200','#carInformationLimit');
-				$('input[name="service"]').limit('1000','#serviceLimit');
-
-				$('input[name="titleEN"]').limit('200','#titleENLimit');
-				$('input[name="carInformationEN"]').limit('200','#carInformationENLimit');
-				$('input[name="serviceEN"]').limit('1000','#serviceENLimit');
-
-			// before
-				selectFile('.btnSelectBefore', 'images')
-			// after
-				selectFile('.btnSelectAfter', 'images')
-			// event
-				selectFile('.btnSelectEventAlbum', 'images', true)
-
-				selectFile('.btnSelectEventVideo', 'media')
-				// delele file
-				$('body').on('click', '.thumbnailDel', function(e) {
-					e.preventDefault();
-					thumbnailWrapper = $(this).parent('.thumbnailWrapper')
-					inputThumbnail = thumbnailWrapper.prev().children('.inputThumbnail')
-
-					inputThumbnail.val('')
-					thumbnailWrapper.html('').html(defaultIMG)
-				});
-			}
-		
-		// add
-			if ($('#addContainer').length>0) {
-				var oper = 'add';
-
-			// validation
-				var $validator = $("#frmAdd").validate({
-				    rules: {
-				    	title: { 
-							required : true,
-							maxlength : 200
-						},
-						carInformation: {
-							required : true,
-							maxlength : 200,
-						},
-						service: {
-							required : true,
-							maxlength : 1000,
-						},
-						titleEN: { 
-							required : true,
-							maxlength : 200
-						},
-						carInformationEN: {
-							required : true,
-							maxlength : 200,
-						},
-						serviceEN: {
-							required : true,
-							maxlength : 1000,
-						}
-				    },
-				    messages: {
-				    	title: {
-				    		required : "required",
-				    		maxlength : "Maximum is 200 characters"
-				    	},
-				        carInformation: {
-				    		required : "required",
-				    		maxlength : "Maximum is 200 characters"
-				    	},
-				    	service: {
-				    		required : "required",
-				    		maxlength : "Maximum is 1000 characters"
-				    	},
-				        titleEN: {
-				    		required : "required",
-				    		maxlength : "Maximum is 200 characters"
-				    	},
-				        carInformationVN: {
-				    		required : "required",
-				    		maxlength : "Maximum is 200 characters"
-				    	},
-				    	serviceVN: {
-				    		required : "required",
-				    		maxlength : "Maximum is 1000 characters"
-				    	}
-				    },
-				    highlight: function (element) {
-				      	$(element).closest('.form-group').removeClass('has-success').addClass('has-error');
-				    },
-				    unhighlight: function (element) {
-				      	$(element).closest('.form-group').removeClass('has-error').addClass('has-success');
-				    },
-				    errorElement: 'span',
-				    errorClass: 'help-block',
-				    errorPlacement: function (error, element) {
-				      	if (element.parent('.input-group').length) {
-				        	error.insertAfter(element.parent());
-				      	} else {
-				        	error.insertAfter(element);
-				      	}
-				    },
-				    submitHandler: function(form) {
-				    	form.submit();
-				    }
-				});
-			}
-		}
-	}
-
-// BANNER
-	function bannerPage()
-	{
-		if ($('#bannerPage').length>0 || $('#bannermobilePage').length>0) {
-			// module = 'banner'
-
-		// common add
-			if ($('#addContainer').length>0) {
-			// select category
-				selectCategory('.category', function(index, value) {
-					$('#allWrapper').find('.uploadWrapper.active').fadeOut('fast').removeClass('active')
-					$('#allWrapper').find('.uploadWrapper:eq('+index+')').fadeIn('fast').addClass('active')
-				})
-			// banner Home VN
-				selectFile('.btnSelectBannerHome_1VN', 'images', true)
-				selectFile('.btnSelectBannerHome_1EN', 'images', true)
-				selectFile('.btnSelectBannerHome_2VN', 'images', true)
-				selectFile('.btnSelectBannerHome_2EN', 'images', true)
-			// delete file in multi
-				$('body').on('click', '.imgWrapperOld .fa-trash-o', function() {
-	            	wrapper = $(this).parent()
-					wrapper.remove()
-					if (wrapper.hasClass('home_1VN')) {
-						inputDel = $('input[name="bannerHome_1VN_del[]"]')
-					} else if (wrapper.hasClass('home_1EN')) {
-						inputDel = $('input[name="bannerHome_1EN_del[]"]')
-					} else if (wrapper.hasClass('home_2VN')) {
-						inputDel = $('input[name="bannerHome_2VN_del[]"]')
-					} else if (wrapper.hasClass('home_2EN')) {
-						inputDel = $('input[name="bannerHome_2EN_del[]"]')
-					}
-					currentVal = inputDel.val();
-					if (currentVal=="") {
-						var obj = new Array;
-					}
-					else {
-						var obj = JSON.parse(inputDel.val());
-					}
-					src = $(this).attr('data-id')
-					obj.push(src)
-					inputDel.val(JSON.stringify(obj))
-	            })
-			// banner VN
-				selectFile('.btnSelectBannerVN', 'images')
-			// banner EN
-				selectFile('.btnSelectBannerEN', 'images')
-
-				// delele file
-				$('body').on('click', '.thumbnailDel', function(e) {
-					e.preventDefault();
-					thumbnailWrapper = $(this).parent('.thumbnailWrapper')
-					inputThumbnail = thumbnailWrapper.prev().children('.inputThumbnail')
-
-					inputThumbnail.val('')
-					thumbnailWrapper.html('').html(defaultIMG)
-				});
-
-			// validate
-				/*$('#frmAdd').submit( function() {
-					if ($('input[name="page"]').val() == 'home') {
-						if ($('input[name="bannerHome_1VN[]"]').val()=='' 
-							|| $('input[name="bannerHome_1EN[]"]').val()==''
-							|| $('input[name="bannerHome_2VN[]"]').val()==''
-							|| $('input[name="bannerHome_2EN[]"]').val()==''
-							) {
-							showSmartAlert("Error", "Please choose file to upload", '[YES]')
-							return false;
+					errorElement: 'span',
+					errorClass: 'help-block',
+					errorPlacement: function (error, element) {
+						if (element.parent('.input-group').length) {
+							error.insertAfter(element.parent());
+						} else {
+							error.insertAfter(element);
 						}
 					}
-				})*/
-			}
+				});
+
+			$('input[name="pageTitle"]').limit('255','#pageTitleLimit');
+			$('input[name="metaDesc"]').limit('255','#metaDescLimit');
 		}
 	}
 
@@ -3085,6 +1256,7 @@
 			if ($(idTableList).length>0) {
 				var statusStr = ":All;active:Active;inactive:Inactive";
 				caption = captionButton(module, false, false)
+				// caption += captionImport(module);
 				caption += captionExport(module);
 
 			// jqGrid
@@ -3097,16 +1269,194 @@
 					gridResize: true,
 					autoResizeAllColumns: true,
 					iconSet: "fontAwesome",
-					colNames : ['Status', 'ID', 'Fullname', 'Email', 'Phone', 'Address' /*, 'Action'*/],
+					colNames : ['Status', /*'ID',*/ 'Email', 'Max Score', 'Time', 'Regist Datetime'],
 					colModel : [{ name : 'status', index : 'status', align : 'center', width : '80',
 									stype: 'select', searchoptions:{ sopt:['eq'], value: statusStr }
 								},
-								{ name : 'id', index : 'id', search : true, align : 'center', width : '60' }, 
-								{ name : 'fullname', index : 'fullname', search : true, width : '150' },
-								{ name : 'email', index : 'email', search : true, width : '150' },
-								{ name : 'phone', index : 'phone', search : true, align : 'center', width : '150' },
-								{ name : 'address', index : 'address', search : true, width : '250' },
-								// { name: "act", index: 'act', editable : false, search : false, width : '80', align : 'center' }
+								// { name : 'id', index : 'id', search : true, align : 'center', width : '60' },
+								{ name : 'email', index : 'email', align : 'left', search : true, width : '400' },
+								{ name : 'score', index : 'score', align : 'center', search : true, width : '100' },
+								{ name : 'time', index : 'time', align : 'center', search : true, width : '100' },
+								{ name : 'created_datetime', index : 'created_datetime', align : 'center', search : true, width : '200' }
+					],
+					rownumbers : true,
+					rowNum : defaultNumRows,
+					rowList : [10, 20, defaultNumRows],
+					pager : idPager,
+					sortname : 'id',
+					sortorder : "asc",
+					toolbarfilter : true,
+					viewrecords : true,
+					gridComplete : function() {
+						var ids = jQuery(idTableList).jqGrid('getDataIDs');
+						for (var i = 0; i < ids.length; i++) {
+							var cl = ids[i];
+							var rowData = jQuery(idTableList).jqGrid ('getRowData', cl);
+							var aiDi = rowData.id - 3
+							var fa = ""
+							var fa = formatButton(cl, rowData.status, 'btnStatus_', 'btnStatus', 'modalStatus')
+							var th = ""
+							if (rowData.thumbnail != "") {
+								th = '<img src="' + rowData.thumbnail + '" class="thumbInTable" />'
+							}
+							var	btnInline = btnEditInline(module, cl, true) + bntDeleteInline(module, false, cl, true)
+							jQuery(idTableList).jqGrid('setRowData', ids[i], {
+								id : aiDi,
+								status : fa,
+								thumbnail : th,
+								act : btnInline
+							});
+
+						}
+					// btnStatus
+						click_btnInGrid('btnStatus', 'modalStatus', bUrl+module+'/ajax_status', arrClassValue_Status, function() {
+							location.reload();
+						});
+					},
+					subGrid : true,
+					subGridBeforeExpand: function(subgrid_id, row_id) {
+						// $('#'+row_id).addClass('expandRow');
+					},
+					subGridRowExpanded: function(subgrid_id, row_id) {
+						var subgrid_table_id, pager_id;
+						subgrid_table_id = subgrid_id+"_t";
+						pager_id = "p_"+subgrid_table_id;
+						$("#"+subgrid_id).html("<table id='"+subgrid_table_id+"' class='scroll subTable'></table><div id='"+pager_id+"' class='scroll'></div>");
+						jQuery("#"+subgrid_table_id).jqGrid({
+							url:  bUrl + module + '/ajax_sublist?q=2&id='+row_id,
+							datatype: "json",
+							colNames: ['Score','Time','Datetime'],
+							colModel: [
+								{ name : "total_score", index : "total_score", width : "200", align : "center" },
+								{ name : "client_time", index : "client_time", width : "200", align : "center" },
+								{ name : "created_datetime", index : "created_datetime", width : "200", align : "center" }
+							],
+							rownumbers : true,
+						   	rowNum : 20,
+						   	// pager: pager_id,
+						   	sortname: 'id',
+						    sortorder: "asc",
+						    height: '100%',
+						    gridComplete : function() {
+						    	var subIds = jQuery("#"+subgrid_table_id).jqGrid('getDataIDs');
+								for (var i = 0; i < subIds.length; i++) {
+									var cl = subIds[i];
+									var rowData = jQuery("#"+subgrid_table_id).jqGrid ('getRowData', cl);
+									if (rowData.total_score == "") {
+										ts = 0
+									}
+									else {
+										ts = rowData.total_score
+									}
+									if (rowData.right == 1) {
+										right = '<span class="label label-primary">TRUE</span>'
+									}
+									else {
+										right = '<span class="label label-danger">FALSE</span>'
+									}
+
+									jQuery("#"+subgrid_table_id).jqGrid('setRowData', subIds[i], {
+										right : right,
+										total_score : ts
+									});
+								}
+						    }
+						});
+					},
+					subGridRowColapsed: function(subgrid_id, row_id) {
+						//$('#'+row_id).removeClass('expandRow');
+					},
+					ajaxRowOptions: { async: true },
+					caption : caption,
+					multiselect : true,
+					// editurl : bUrl + module + '/edit_inline',
+					loadBeforeSend: function () {
+						$(this).closest("div.ui-jqgrid-view").find("table.ui-jqgrid-htable>thead>tr>th").css({"text-align":"center"});
+					},
+					onSelectRow: function(id) {
+					}
+				});
+
+			// common
+				tableCommon();
+
+			// delete inline
+				$('body').on('click','.btnDelete', function(e) {
+					e.preventDefault();
+					selectedRows = jQuery(idTableList).jqGrid('getGridParam','selarrrow');
+					href = $(this).attr('href');
+					showSmartAlert("Warning", "<p>Are you sure delete data ?</p>", '[NO][YES]', function() {
+						// click YES
+						$('#ids').val(selectedRows)
+						$('#frmTopButtons').submit();
+					}, function() {
+						// click NO
+					});
+				});
+
+			// multi-delete
+				$('body').on('click', '#btnMultiDelete', function(e) {
+					e.preventDefault();
+					href = $(this).attr('href');
+
+					selectedRows = jQuery(idTableList).jqGrid('getGridParam','selarrrow');
+					if (selectedRows.length==0) {
+						showSmartAlert("Error", "Please select data.", '[YES]');
+					}
+					else {
+						showSmartAlert("Warning", "<p>Are you sure delete data ?</p>", '[NO][YES]', function() {
+							// click YES
+							$('#ids').val(selectedRows)
+							$('#frmTopButtons').submit();
+						}, function() {
+							// click NO
+						});
+					}
+				});
+
+			}
+		}
+	}
+
+// PRODUCT
+	function productPage()
+	{
+		if ($('#productPage').length>0) {
+			module = 'product'
+
+		// list
+			if ($(idTableList).length>0) {
+				var statusStr = ":All;active:Active;inactive:Inactive";
+				caption = captionButton(module, true, true)
+
+			// jqGrid
+				jQuery(idTableList).jqGrid({
+					url: bUrl + module + '/ajax_list?q=2',
+					datatype: "json",
+					height : 'auto',
+					autowidth : true,
+					shrinkToFit: false,
+					gridResize: true,
+					autoResizeAllColumns: true,
+					iconSet: "fontAwesome",
+					colNames : ['Status', 'ID', 'Title', 'Category','Order', 'Thumbnail', 'Action'],
+					colModel : [{ name : 'status', index : 'status', align : 'center', width : '80',
+									stype: 'select', searchoptions:{ sopt:['eq'], value: statusStr }
+								},
+								{ name : 'id', index : 'id', search : true, align : 'center', width : '60' },
+								{ name : 'title', index : 'title', align : 'left', search : true, width : '150' },
+								{ name : 'categoryName', index : 'categoryName', search : true, width : '150' },
+								{ name : 'order', index : 'order', align : 'center', search : true, width : '60',
+									editable : true,
+									editoptions: { dataInit: function (elem) {
+											setTimeout( function() {
+												$(elem).numeric();
+											}, 100);
+										}
+									}
+								},
+								{ name : 'thumbnail', index : 'thumbnail', align : 'center', search : false, width : '100' },
+								{ name: "act", index: 'act', editable : false, search : false, width : '80', align : 'center' }
 					],
 					rownumbers : true,
 					rowNum : defaultNumRows,
@@ -3122,7 +1472,7 @@
 							var cl = ids[i];
 							var rowData = jQuery(idTableList).jqGrid ('getRowData', cl);
 							var fa = ""
-							var fa = formatButton(cl, rowData.status, 'btnStatus_', 'btnStatus', 'modalStatus', arrClassValue_Status, classTextColor_Status)
+							var fa = formatButton(cl, rowData.status, 'btnStatus_', 'btnStatus', 'modalStatus')
 							var th = ""
 							if (rowData.thumbnail != "") {
 								th = '<img src="' + rowData.thumbnail + '" class="thumbInTable" />'
@@ -3147,17 +1497,17 @@
 					loadBeforeSend: function () {
 						$(this).closest("div.ui-jqgrid-view").find("table.ui-jqgrid-htable>thead>tr>th").css({"text-align":"center"});
 					},
-					onSelectRow: function(id) { 
+					onSelectRow: function(id) {
 					}
 				});
 
 			// common
 				tableCommon();
-			/*
+
 			// delete inline
 				$('body').on('click','.btnDelete', function(e) {
 					e.preventDefault();
-
+					selectedRows = jQuery(idTableList).jqGrid('getGridParam','selarrrow');
 					href = $(this).attr('href');
 					showSmartAlert("Warning", "<p>Are you sure delete data ?</p>", '[NO][YES]', function() {
 						// click YES
@@ -3187,151 +1537,280 @@
 						});
 					}
 				});
-			*/
+
 			}
-		}
-	}
+		// common for add & edit
+			if ($('#frmAdd').length>0) {
 
-// CONTACT
-	function contactPage()
-	{
-		if ($('#contactPage').length>0) {
-			module = 'contact'
+			// tree view
+				treeView();
 
-		// list
-			if ($(idTableList).length>0) {
-				var statusStr = ":All;active:Active;inactive:Inactive";
-				var typeStr = ":All;popup:popup;contact:contact;booking:booking";
-				caption = captionButton(module, false, false)
-				caption += captionExport(module);
+			// show hide buttons
+				$('.tree li span').mouseenter( function() {
+					if (permissionsMember[module][2] == 1) {
+						$(this).children('a.addProductCategory').css('display','inline-block')
+					}
+					if (permissionsMember[module][3] == 1) {
+						$(this).children('a.editProductCategory').css('display','inline-block')
+					}
+					if (permissionsMember[module][4] == 1) {
+						$(this).children('a.deleteProductCategory').css('display','inline-block')
+					}
+				});
+				$('.tree li span').mouseleave( function() {
+					$(this).children('a.deleteProductCategory, a.addProductCategory, a.editProductCategory').css('display','none')
+				});
 
-			// jqGrid
-				jQuery(idTableList).jqGrid({
-					url: bUrl + module + '/ajax_list?q=2',
-					datatype: "json",
-					height : 'auto',
-					autowidth : true,
-					shrinkToFit: false,
-					gridResize: true,
-					autoResizeAllColumns: true,
-					iconSet: "fontAwesome",
-					colNames : ['Status', 'ID', 'Type', 'Title', 'Content', 'Service', 'Date', 'Thumbnail', 'Brand', 'Model','Fullname', 'Email', 'Phone', 'Address'/*, 'Action'*/],
-					colModel : [{ name : 'status', index : 'status', align : 'center', width : '80',
-									stype: 'select', searchoptions:{ sopt:['eq'], value: statusStr }
-								},
-								{ name : 'id', index : 'id', search : true, align : 'center', width : '60' }, 
-								{ name : 'type', index : 'type', align : 'center', width : '100',
-									stype: 'select', searchoptions:{ sopt:['eq'], value: typeStr }
-								},
-								{ name : 'title', index : 'title', align : 'left', search : true, width : '150' }, 
-								{ name : 'content', index : 'content', search : true, width : '200' },
-								{ name : 'service', index : 'service', search : true, width : '150' },
-								{ name : 'date', index : 'date', search : true, align : 'center', width : '150' },
-								{ name : 'thumbnail', index : 'thumbnail', align : 'center', search : false, width : '200' },
-								{ name : 'brandcar', index : 'brandcar', search : true, width : '150' },
-								{ name : 'modelcar', index : 'modelcar', search : true, width : '150' },
-								{ name : 'fullname', index : 'fullname', search : true, width : '150' },
-								{ name : 'email', index : 'email', search : true, width : '150' },
-								{ name : 'phone', index : 'phone', search : true, align : 'center', width : '150' },
-								{ name : 'address', index : 'address', search : true, width : '200' },
-								// { name: "act", index: 'act', editable : false, search : false, width : '80', align : 'center' }
-					],
-					rownumbers : true,
-					rowNum : defaultNumRows,
-					rowList : [10, 20, defaultNumRows],
-					pager : idPager,
-					sortname : 'id',
-					sortorder : "desc",
-					toolbarfilter : true,
-					viewrecords : true,
-					gridComplete : function() {
-						var ids = jQuery(idTableList).jqGrid('getDataIDs');
-						for (var i = 0; i < ids.length; i++) {
-							var cl = ids[i];
-							var rowData = jQuery(idTableList).jqGrid ('getRowData', cl);
-							var fa = ""
-							var fa = formatButton(cl, rowData.status, 'btnStatus_', 'btnStatus', 'modalStatus', arrClassValue_Status, classTextColor_Status)
-							var th = ""
-							thumbnailObj = rowData.thumbnail
-							if (thumbnailObj.length > 0) {
-								if (thumbnailObj.indexOf(',')!=-1) {
-									arr = thumbnailObj.split(',')
-
-									lsth = ""
-									for(j=0; j < arr.length; j++) {
-										lsth += '<a class="groupFancyBox" rel="group'+i+'" href="' + uploadDir + 'user/booking/' + arr[j] + '"><img src="' + uploadDir + 'user/booking/' + arr[j] + '" class="thumbInTable" style="border: solid 1px black; float: left; clear: none; margin: 5px" /></a>'
-									}
-									th = lsth
-								}
-								else {
-									th = '<a class="groupFancyBox" rel="group'+i+'" href="' + uploadDir + 'user/booking/' + arr[j] + '"><img src="' + uploadDir + 'user/booking/' + thumbnailObj + '" class="thumbInTable" style="border: solid 1px black; margin: 5px" /></a>'
-								}
+			// click Add category
+				$('a.addProductCategory').click( function() {
+					$('#productCategoryModal').find('.modal-title').html('Add Category')
+					$('#productCategoryModal').find('#frmProductCategory').find('input[name="parent_id"]').val($(this).parent('span').attr('data-id'))
+					// set default active status
+					$('#statusCategoryModal').find('input[name=status][value=active]').attr('checked','checked').parent('label').addClass('active').addClass(arrStatus['active'][0]).addClass(arrStatus['active'][1])
+				});
+			// click Edit category
+				$('a.editProductCategory').click( function() {
+					$('#productCategoryModal').find('.modal-title').html('Edit Category')
+					$('#productCategoryModal').find('#frmProductCategory').find('input[name="parent_id"]').val($(this).parent('span').parent('li').parent('ul').prev('span').attr('data-id'))
+					// get category
+					var id = $(this).parent('span').attr('data-id')
+					$.ajax({
+						url: apiUrl + 'category',
+						type: 'GET',
+						cache: false,
+						dataType: 'json',
+						data: { //'csrf_hash' : $.cookie('csrf_cookie_ci'),
+								'id': id
+							  },
+						success: function(data) {
+							if (data.err==1) {
+								showSmartAlert("Error", data.msg, '[YES]')
 							}
 							else {
-								th = ""
+								$('input[name="csrf_hash"]').val($.cookie('csrf_cookie_ci'))
+								var category = data.category
+								$('#productCategoryModal input[name="id"]').val(category.id)
+								$('#productCategoryModal input[name="nameCategory"]').val(category.name)
+								$('#productCategoryModal input[name="urlCategory"]').val(category.url)
+								$('#productCategoryModal input[name="order"]').val(category.order)
+								$('#productCategoryModal textarea[name="descCategory"]').val(category.desc)
+
+								$('#statusCategoryModal').find('input[name=status][value=' + category.status + ']').attr('checked','checked').parent('label').addClass('active').addClass(arrStatus[category.status][0]).addClass(arrStatus[category.status][1])
 							}
-
-							var	btnInline = btnEditInline(module, cl, true) + bntDeleteInline(module, false, cl, true)
-							jQuery(idTableList).jqGrid('setRowData', ids[i], {
-								status : fa,
-								thumbnail : th,
-								act : btnInline
-							});
-
+						},
+						error: function() {
+							showSmartAlert("Error", "Can send data. Please contact to admin.", '[YES]')
 						}
-					// btnStatus
-						click_btnInGrid('btnStatus', 'modalStatus', bUrl+module+'/ajax_status', arrClassValue_Status, function() {
-							location.reload();
-						});
-					},
-					ajaxRowOptions: { async: true },
-					caption : caption,
-					multiselect : true,
-					// editurl : bUrl + module + '/edit_inline',
-					loadBeforeSend: function () {
-						$(this).closest("div.ui-jqgrid-view").find("table.ui-jqgrid-htable>thead>tr>th").css({"text-align":"center"});
-					},
-					onSelectRow: function(id) { 
-					}
-				});
-
-			// common
-				tableCommon();
-			/*
-			// delete inline
-				$('body').on('click','.btnDelete', function(e) {
-					e.preventDefault();
-
-					href = $(this).attr('href');
-					showSmartAlert("Warning", "<p>Are you sure delete data ?</p>", '[NO][YES]', function() {
-						// click YES
-						$('#ids').val(selectedRows)
-						$('#frmTopButtons').submit();
-					}, function() {
-						// click NO
 					});
 				});
-
-			// multi-delete
-				$('body').on('click', '#btnMultiDelete', function(e) {
-					e.preventDefault();
-					href = $(this).attr('href');
-
-					selectedRows = jQuery(idTableList).jqGrid('getGridParam','selarrrow');
-					if (selectedRows.length==0) {
-						showSmartAlert("Error", "Please select data.", '[YES]');
-					}
-					else {
-						showSmartAlert("Warning", "<p>Are you sure delete data ?</p>", '[NO][YES]', function() {
+			// click Delete category
+				$('a.deleteProductCategory').click( function() {
+					var id = $(this).parent('span').attr('data-id')
+					if (permissionsMember[module][4] == 1) {
+						showSmartAlert("Warning", "<p>Delete a category maybe effect to another data.</p><p>[YES] : Delete all children.<br/>[NO] : Just delete this category.<br/>[CANCEL] : Cancel delete action.</p><p>Are you sure delete this data ?</p>", '[YES][NO][CANCEL]', function() {
 							// click YES
-							$('#ids').val(selectedRows)
-							$('#frmTopButtons').submit();
+							$.ajax({
+								url: apiUrl + 'category',
+								type: 'DELETE',
+								cache: false,
+								dataType: 'json',
+								data: { //'csrf_hash' : $.cookie('csrf_cookie_ci'),
+										'id': id,
+										'dc':1
+									  },
+								success: function(data) {
+									console.log(data);
+									// if (data.err==1) {
+									// 	showSmartAlert("Error", data.msg, '[YES]')
+									// }
+									// else {
+									// 	$('input[name="csrf_hash"]').val($.cookie('csrf_cookie_ci'))
+									// 	var category = data.category
+									// 	$('#productCategoryModal input[name="id"]').val(category.id)
+									// 	$('#productCategoryModal input[name="name"]').val(category.name)
+									// 	$('#productCategoryModal input[name="url"]').val(category.url)
+									// 	$('#productCategoryModal input[name="order"]').val(category.order)
+									// 	$('#productCategoryModal textarea[name="desc"]').val(category.desc)
+									//
+									// 	$('#statusCategoryModal').find('input[name=status][value=' + category.status + ']').attr('checked','checked').parent('label').addClass('active').addClass(arrStatus[category.status][0]).addClass(arrStatus[category.status][1])
+									// }
+								},
+								error: function() {
+									showSmartAlert("Error", "Can send data. Please contact to admin.", '[YES]')
+								}
+							});
 						}, function() {
 							// click NO
+							$.ajax({
+								url: apiUrl + 'category/delete_category',
+								type: 'POST',
+								cache: false,
+								dataType: 'json',
+								data: { 'csrf_hash' : $.cookie('csrf_cookie_ci'),
+										'id': id,
+										'dc':1
+									  },
+								success: function(data) {
+									console.log(data);
+									// if (data.err==1) {
+									// 	showSmartAlert("Error", data.msg, '[YES]')
+									// }
+									// else {
+									// 	$('input[name="csrf_hash"]').val($.cookie('csrf_cookie_ci'))
+									// 	var category = data.category
+									// 	$('#productCategoryModal input[name="id"]').val(category.id)
+									// 	$('#productCategoryModal input[name="name"]').val(category.name)
+									// 	$('#productCategoryModal input[name="url"]').val(category.url)
+									// 	$('#productCategoryModal input[name="order"]').val(category.order)
+									// 	$('#productCategoryModal textarea[name="desc"]').val(category.desc)
+									//
+									// 	$('#statusCategoryModal').find('input[name=status][value=' + category.status + ']').attr('checked','checked').parent('label').addClass('active').addClass(arrStatus[category.status][0]).addClass(arrStatus[category.status][1])
+									// }
+								},
+								error: function() {
+									showSmartAlert("Error", "Can send data. Please contact to admin.", '[YES]')
+								}
+							});
+						}, function() {
+							// click CANCEL
 						});
 					}
+				})
+
+			// on show modal
+				$('#productCategoryModal').on('show.bs.modal', function (e) {
+					var form  = $(this).find('#frmProductCategory')
+					parent_id = form.find('input[name="parent_id"]').val()
+					form.find('.tree').children('ul').find('li span[data-id='+parent_id+']').addClass('label-success')
+				})
+			// on hide modal
+				$('#productCategoryModal').on('hidden.bs.modal', function() {
+
+					$('#productCategoryModal input[name="id"]').val(0)
+					$('#productCategoryModal input[name="name"]').val('')
+					$('#productCategoryModal input[name="url"]').val('')
+					$('#productCategoryModal input[name="order"]').val(0)
+					$('#productCategoryModal textarea[name="desc"]').val('')
+
+					$('#statusCategoryModal').find('input[name=status][value=active]').removeAttr('checked').parent('label').removeClass('active').removeClass(arrStatus['active'][0]).removeClass(arrStatus['active'][1])
+					$('#statusCategoryModal').find('input[name=status][value=inactive]').removeAttr('checked').parent('label').removeClass('active').removeClass(arrStatus['inactive'][0]).removeClass(arrStatus['inactive'][1])
+					$('#statusCategoryModal').find('input[name=status][value=block]').removeAttr('checked').parent('label').removeClass('active').removeClass(arrStatus['block'][0]).removeClass(arrStatus['block'][1])
 				});
-			*/
+
+			// generate URL
+				gen_url($('#productCategoryModal input[name="nameCategory"]'), $('#productCategoryModal input[name="url"]'));
+			// limit character
+				$('#frmProductCategory input[name="nameCategory"]').limit('200','#nameCategoryLimit');
+				$('#frmProductCategory input[name="urlCategory"]').limit('200','#urlCategoryLimit');
+				$('#frmProductCategory textarea[name="descCategory"]').limit('1000','#descCategoryLimit');
+
+			// validation
+				var $validator = $("#frmProductCategory").validate({
+				    rules: {
+				    	nameCategory: {
+							required : true,
+							maxlength : 200
+						},
+						urlCategory: {
+							required: true,
+							maxlength : 200
+						},
+						descCategory: {
+							maxlength : 1000,
+						}
+				    },
+				    messages: {
+				    	nameCategory: {
+				    		required : "Name is required",
+				    		maxlength : "Maximum is 200 characters"
+				    	},
+				      	urlCategory: {
+				      		required : "URL is required",
+				      		maxlength : "Maximum is 200 characters",
+				      	},
+				        descCategory: {
+				        	maxlength : "Maximum is 1000 characters"
+				        }
+				    },
+				    highlight: function (element) {
+				      	$(element).closest('.form-group').removeClass('has-success').addClass('has-error');
+				    },
+				    unhighlight: function (element) {
+				      	$(element).closest('.form-group').removeClass('has-error').addClass('has-success');
+				    },
+				    errorElement: 'span',
+				    errorClass: 'help-block',
+				    errorPlacement: function (error, element) {
+				      	if (element.parent('.input-group').length) {
+				        	error.insertAfter(element.parent());
+				      	} else {
+				        	error.insertAfter(element);
+				      	}
+				    },
+				    submitHandler: function(form) {
+						var id = $('input[name=id]').val()
+						if (id == 0) {
+				    		$.ajax({
+								url: apiUrl + 'category',
+					            type: 'POST',
+				                cache: false,
+				                dataType: 'json',
+				                data: { 'csrf_hash' : $.cookie('csrf_cookie_ci'),
+				                		'name': $('input[name="nameCategory"]').val(),
+				                		'url' : $('input[name="urlCategory"]').val(),
+										'desc': $('textarea[name="descCategory"]').val(),
+				                		'parent_id': $('input[name="parent_id"]').val(),
+										'status' : $('input[name="status"]').val(),
+										'order' : $('input[name="order"]').val(),
+										'action' : 'add',
+										'id' : id
+				                	  },
+				                success: function(data) {
+				                	if (data.err==1) {
+				                		showSmartAlert("Error", data.msg, '[YES]')
+				                	}
+				                	else {
+				                		$('input[name="csrf_hash"]').val($.cookie('csrf_cookie_ci'));
+										location.reload();
+					                }
+				                },
+				                error: function() {
+				                    showSmartAlert("Error", "Can send data. Please contact to admin.", '[YES]')
+				                }
+					    	});
+						}
+						else {
+							$.ajax({
+								url: apiUrl + 'category',
+					            type: 'POST',
+				                cache: false,
+				                dataType: 'json',
+				                data: { 'csrf_hash' : $.cookie('csrf_cookie_ci'),
+				                		'name': $('input[name="nameCategory"]').val(),
+				                		'url' : $('input[name=urlCategory]').val(),
+										'desc': $('textarea[name=descCategory]').val(),
+				                		'parent_id': $('#frmProductCategory input[name=parent_id]').val(),
+										'status' : $('#frmProductCategory input[name=status]').val(),
+										'order' : $('#frmProductCategory input[name=order]').val(),
+										'action' : 'edit',
+										'id' : id
+				                	  },
+				                success: function(data) {
+				                	if (data.err==1) {
+				                		showSmartAlert("Error", data.msg, '[YES]')
+				                	}
+				                	else {
+				                		$('input[name="csrf_hash"]').val($.cookie('csrf_cookie_ci'));
+										// location.reload();
+					                }
+				                },
+				                error: function() {
+				                    showSmartAlert("Error", "Can send data. Please contact to admin.", '[YES]')
+				                }
+					    	});
+						}
+					}
+				});
 			}
 		}
 	}
@@ -3345,6 +1824,8 @@
 				window.history.back();
 			});
 		}
+	// status
+		init_Radio()
 	// replyError
 		if ($('#login_form').length==0) {
 			if (replyErrorContent != null && replyErrorContent != undefined && replyErrorContent != "") {
@@ -3353,7 +1834,6 @@
 		}
 	// import & export
 		if ($('#frmImport').length>0) {
-
 			$('body').on('click', 'a#btnImport', function(e) {
 				e.preventDefault()
 				$('input[name="importFile"]').click();
@@ -3363,13 +1843,13 @@
 			});
 		}
 	// fancy box
+	if ($("a.groupFancyBox").length>0) {
 		$("a.groupFancyBox").fancybox();
+	}
 
 		pageSetUp()
 		positiveInteger();
 	    setOrder();
-	    statusAdd()
-	    statusEdit()
 	// auth
 		if ($('#login_form').length>0) {
 			valid_login();
@@ -3377,16 +1857,12 @@
     	}
 
    	// pages
-		dashboardPage()
-		categoryPage()
-		modulePage()
-		memberPage()
+		dashboardPage();
+		// categoryPage();
+		// modulePage();
+		memberPage();
+		settingPage();
 
-		servicePage()
-		newsPage()
-		galleryPage()
-		bannerPage()
-		userPage()
-		contactPage()
+		userPage();
+		productPage();
 	});
-

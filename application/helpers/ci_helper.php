@@ -1,18 +1,73 @@
 <?php if (!defined('BASEPATH')) exit('No direct script access allowed');
 
-// URL 
-    function assetsUrl($whatModule,$folder,$filename) { 
-        return F_URL . 'assets/'.$whatModule.'/'.$folder.'/'.$filename; 
+if (file_exists(APPPATH . 'libraries/PHPMailer/PHPMailerAutoload.php')) {
+    require_once(APPPATH . 'libraries/PHPMailer/PHPMailerAutoload.php');
+}
+
+// get SEO
+    function getSeo($lang, $page)
+    {
+        $CI = & get_instance();
+        $result = array();
+        $setting = $CI->Base_model->get_db('setting',NULL,array('type'=>$page));
+        $metaKeyVN = $metaKeyEN = "";
+        if ($setting == FALSE || count($setting)==0) {
+            // have not yet
+            $pageTitleVN = $pageTitleEN = "";
+            $metaDescriptionVN = $metaDescriptionEN = "";
+        }
+        else {
+            foreach ($setting as $item) {
+                if ($item['name']=='page-title-vn') {
+                    $pageTitleVN = $item['value'];
+                }
+                else if ($item['name']=='page-title-en') {
+                    $pageTitleEN = $item['value'];
+                }
+                else if ($item['name']=='meta-description-vn') {
+                    $metaDescriptionVN = $item['value'];
+                }
+                else if ($item['name']=='meta-description-en') {
+                    $metaDescriptionEN = $item['value'];
+                }
+                else if ($item['name']=='meta-key-vn') {
+                    $metaKeyVN .= $item['value'].',';
+                }
+                else if ($item['name']=='meta-key-en') {
+                    $metaKeyEN .= $item['value'].',';
+                }
+            }
+            $metaKeyVN = substr($metaKeyVN, 0, -1);
+            $metaKeyEN = substr($metaKeyEN, 0, -1);
+        }
+
+        if ($lang == "vn") {
+            $result['pageTitle'] = $pageTitleVN;
+            $result['metaDescription'] = $metaDescriptionVN;
+            $result['metaKey'] = $metaKeyVN;
+        }
+        else {
+            $result['pageTitle'] = $pageTitleEN;
+            $result['metaDescription'] = $metaDescriptionEN;
+            $result['metaKey'] = $metaKeyEN;
+        }
+
+        return $result;
     }
-    function libsUrl($whatLibrary,$folder,$filename) { 
-        return F_URL . 'library/'.$whatLibrary.'/'.$folder.'/'.$filename; 
+
+// URL
+    function assetsUrl($whatModule,$folder,$filename) {
+        return F_URL . 'assets/'.$whatModule.'/'.$folder.'/'.$filename;
+    }
+    function libsUrl($whatLibrary,$folder,$filename) {
+        return F_URL . 'library/'.$whatLibrary.'/'.$folder.'/'.$filename;
     }
     function uploadUrl($type, $filename, $thumbnail=FALSE)
     {
         if ($thumbnail != FALSE) {
-            return F_URL . 'upload/.thumbs/'.$type.'/'.$filename; 
+            return F_URL . 'upload/.thumbs/'.$type.'/'.$filename;
         }
-        return F_URL . 'upload/'.$type.'/'.$filename; 
+        return F_URL . 'upload/'.$type.'/'.$filename;
     }
     function currentPageURL() {
         $pageURL = 'http';
@@ -20,7 +75,7 @@
         $pageURL .= "://";
         if ( $_SERVER["SERVER_PORT"] != "80" ) {
             $pageURL .= $_SERVER["SERVER_NAME"].":".$_SERVER["SERVER_PORT"].$_SERVER["REQUEST_URI"];
-        } 
+        }
         else {
             $pageURL .= $_SERVER["SERVER_NAME"].$_SERVER["REQUEST_URI"];
         }
@@ -50,11 +105,11 @@
     {
         $CI = & get_instance();
         $reply = array();
-        if ($CI->session->userdata('valid') !== FALSE) {
+        if ($CI->session->userdata('valid') !== FALSE && $CI->session->userdata('valid') !== "") {
             $reply['valid'] = $CI->session->userdata('valid');
             $CI->session->unset_userdata('valid');
         }
-        else if ($CI->session->userdata('invalid') !== FALSE) {
+        if ($CI->session->userdata('invalid') !== FALSE) {
             $reply['invalid'] = $CI->session->userdata('invalid');
             $CI->session->unset_userdata('invalid');
             if ($CI->session->userdata('invalid_data') !== FALSE) {
@@ -65,24 +120,24 @@
         return $reply;
     }
 
-// AUTO LOAD 
+// AUTO LOAD
     function loadProvinces()
     {
         $CI = & get_instance();
-        $provinces = $CI->Base_model->getDB('db','province',NULL,NULL,NULL,'name','asc');
+        $provinces = $CI->Base_model->get_db('province',NULL,NULL,NULL,'name','asc');
 
         return $provinces;
-    } 
+    }
     function loadDistricts($id_province)
     {
         $CI = & get_instance();
-        $districts = $CI->Base_model->getDB('db','district',array('id','name','type'),array('id_province' => $id_province),NULL,'name','asc');
+        $districts = $CI->Base_model->get_db('district',array('id','name','type'),array('id_province' => $id_province),NULL,'name','asc');
 
         return $districts;
-    }     
+    }
 
 // FORM
-    // create form 
+    // create form
     function frm($action, $attrArr, $hasUpload, $hiddenArr=NULL)
     {
         $form = array();
@@ -97,10 +152,10 @@
         }
         else {
             if (isset($hiddenArr) && count($hiddenArr)>0) {
-                $form['open'] = form_open_multipart($action, $attrArr, $hiddenArr);    
+                $form['open'] = form_open_multipart($action, $attrArr, $hiddenArr);
             }
             else {
-                $form['open'] = form_open_multipart($action, $attrArr); 
+                $form['open'] = form_open_multipart($action, $attrArr);
             }
         }
         $form['close'] = form_close();
@@ -128,7 +183,7 @@
                         'word' => $cap['word'],
                         'security_code' => $cap['security_code']
                         );
-        if ( $CI->Base_model->insertDB('db', 'captcha', $data) == FALSE ) {
+        if ( $CI->Base_model->insert_db('captcha', $data) == FALSE ) {
             return FALSE;
         }
         return $cap;
@@ -168,7 +223,7 @@
         foreach($unicode as $nonUnicode=>$uni){
             $str = preg_replace("/($uni)/i", $nonUnicode, $str);
         }
-        $str = str_replace(".","",$str); 
+        $str = str_replace(".","",$str);
         return strtolower($str);
     }
 
@@ -206,8 +261,8 @@
        }
         return strtolower($str);
     }
-    
-// trim add space    
+
+// trim add space
     function trim_odd_space($str)
     {
         return trim(preg_replace("/ {2,}/", " ", $str));
@@ -224,15 +279,15 @@
         }
         return $hash;
     }
-    
-/*    
-// encode_pass    
+
+/*
+// encode_pass
     function encode_pass($str)
     {
         $CI = & get_instance();
         $CI->load->library('encrypt');
         $hash = $str;
-        
+
         $hash = $CI->encrypt->encode($str);
 
         return $hash;
@@ -244,12 +299,43 @@
         $CI = & get_instance();
         $CI->load->library('encrypt');
         $hash = $str;
-        
+
         $hash = $CI->encrypt->decode($str);
 
         return $hash;
     }
 */
+
+/* ------------------------------------------- XML */
+    function xml2Array($filename)
+    {
+        try{
+            $xml = simplexml_load_file($filename, "SimpleXMLElement", LIBXML_NOCDATA);
+            // $get = file_get_contents($filename);
+            // $xml = simplexml_load_string($get);
+        }
+        catch(Exception $e) {
+        }
+        $json = json_encode($xml);
+        return json_decode($json,TRUE);
+    }
+
+    function array2XML($obj, $array)
+    {
+        foreach ($array as $key => $value)
+        {
+            if(is_numeric($key)) $key = 'item' . $key;
+            if (is_array($value))
+            {
+                $node = $obj->addChild($key);
+                array2XML($node, $value);
+            }
+            else
+            {
+                $obj->addChild($key, htmlspecialchars($value,ENT_QUOTES,'UTF-8'));
+            }
+        }
+    }
 
 /* ------------------------------------------- SECURITY */
 
@@ -307,7 +393,7 @@
         }
     }
     */
-    function send_gmail($fromEmail, $passEmail, $toEmail, $titleEmail, $contentEmail, $cc, $bcc, $attachs)
+    function send_gmail($fromEmail, $passEmail, $toEmail, $titleFrom, $titleEmail, $contentEmail, $cc, $bcc, $attachs)
     {
         // send_gmail(EMAIL, EMAILPASS, 'ryantran.vn@gmail.com', EMAIL_TITLE_1, 'Tiêu đề', NULL, NULL, NULL);
         //Create a new PHPMailer instance
@@ -315,13 +401,13 @@
 
         $mail->CharSet = "UTF-8";
         //Tell PHPMailer to use SMTP
-        // $mail->isSMTP();
+        $mail->isSMTP();
 
         //Enable SMTP debugging
         // 0 = off (for production use)
         // 1 = client messages
         // 2 = client and server messages
-        $mail->SMTPDebug = 2;
+        $mail->SMTPDebug = 0;
 
         //Ask for HTML-friendly debug output
         $mail->Debugoutput = 'html';
@@ -348,7 +434,7 @@
         $mail->Password = $passEmail;
 
         //Set who the message is to be sent from
-        $mail->setFrom($fromEmail, $titleEmail);
+        $mail->setFrom($fromEmail, $titleFrom);
 
         //Set an alternative reply-to address
         // $mail->addReplyTo('replyto@example.com', 'First Last');
@@ -377,7 +463,7 @@
         //Attach an image file
         if (isset($attachs) && is_array($attachs)) {
             foreach ($attachs as $attach) {
-                $mail->addAttachment(ATTACH_FOLDER.$attach);        
+                $mail->addAttachment(ATTACH_FOLDER.$attach);
             }
         }
 
@@ -390,6 +476,125 @@
             return TRUE;
         }
     }
+
+    function send_email($fromEmail, $passEmail, $toEmail, $titleFrom, $titleEmail, $contentEmail, $cc, $bcc, $attachs)
+    {
+        //Create a new PHPMailer instance
+        $mail = new PHPMailer;
+        //Tell PHPMailer to use SMTP
+        $mail->isSMTP();
+
+        $mail->CharSet = "UTF-8";
+
+        //Enable SMTP debugging
+        // 0 = off (for production use)
+        // 1 = client messages
+        // 2 = client and server messages
+        $mail->SMTPDebug = 0;
+        //Ask for HTML-friendly debug output
+        $mail->Debugoutput = 'html';
+
+        //Set the hostname of the mail server
+        $mail->Host = MAIL_SERVER;
+        //Set the SMTP port number - likely to be 25, 465 or 587
+        $mail->Port = 775;
+        //Set the encryption system to use - ssl (deprecated) or tls
+        $mail->SMTPSecure = '';
+        //Whether to use SMTP authentication
+        $mail->SMTPAuth = false;
+        //Username to use for SMTP authentication
+        $mail->Username = $fromEmail;
+        //Password to use for SMTP authentication
+        $mail->Password = $passEmail;
+        //Set who the message is to be sent from
+        $mail->setFrom($fromEmail, $titleFrom);
+        // Set an alternative reply-to address
+        // $mail->addReplyTo($fromEmail, 'Body and Paint Center');
+        //Set who the message is to be sent to
+        $mail->addAddress($toEmail);
+        //Set the subject line
+        $mail->Subject = $titleEmail;
+        //Read an HTML message body from an external file, convert referenced images to embedded,
+        //convert HTML into a basic plain-text alternative body
+        $mail->msgHTML($contentEmail);
+        //Replace the plain text body with one created manually
+        // $mail->AltBody = $contentEmail;
+        //Attach an image file
+        if (isset($attachs) && is_array($attachs)) {
+            foreach ($attachs as $attach) {
+                $mail->addAttachment(ATTACH_FOLDER.$attach);
+            }
+        }
+        $mail->send();
+        // //send the message, check for errors
+        // if (!$mail->send()) {
+        //     // echo "Mailer Error: " . $mail->ErrorInfo;
+        //     return false;
+        // } else {
+        //     // echo "Message sent!";
+        //     return true;
+        // }
+    }
+
+    function send_CIMail($fromEmail, $passEmail, $toEmail, $titleEmail, $contentEmail, $cc, $bcc, $attachs)
+    {
+        //Create a new PHPMailer instance
+        $mail = new PHPMailer;
+        //Tell PHPMailer to use SMTP
+        $mail->isSMTP();
+
+        $mail->CharSet = "UTF-8";
+
+        //Enable SMTP debugging
+        // 0 = off (for production use)
+        // 1 = client messages
+        // 2 = client and server messages
+        $mail->SMTPDebug = 2;
+        //Ask for HTML-friendly debug output
+        $mail->Debugoutput = 'html';
+
+        //Set the hostname of the mail server
+        $mail->Host = 'mail.icore.net.vn';
+        //Set the SMTP port number - likely to be 25, 465 or 587
+        $mail->Port = 587;
+        //Set the encryption system to use - ssl (deprecated) or tls
+        $mail->SMTPSecure = 'tls';
+        //Whether to use SMTP authentication
+        $mail->SMTPAuth = false;
+        //Username to use for SMTP authentication
+        $mail->Username = $fromEmail;
+        //Password to use for SMTP authentication
+        $mail->Password = $passEmail;
+        //Set who the message is to be sent from
+        $mail->setFrom($fromEmail, 'Test');
+        // Set an alternative reply-to address
+        // $mail->addReplyTo($fromEmail, 'Body and Paint Center');
+        //Set who the message is to be sent to
+        $mail->addAddress($toEmail);
+        //Set the subject line
+        $mail->Subject = $titleEmail;
+        //Read an HTML message body from an external file, convert referenced images to embedded,
+        //convert HTML into a basic plain-text alternative body
+        $mail->msgHTML($contentEmail);
+        //Replace the plain text body with one created manually
+        // $mail->AltBody = $contentEmail;
+        //Attach an image file
+        if (isset($attachs) && is_array($attachs)) {
+            foreach ($attachs as $attach) {
+                $mail->addAttachment(ATTACH_FOLDER.$attach);
+            }
+        }
+        $mail->send();
+        // //send the message, check for errors
+        if (!$mail->send()) {
+            // echo "Mailer Error: " . $mail->ErrorInfo;
+            return false;
+        } else {
+            // echo "Message sent!";
+            return true;
+        }
+    }
+
 /* ------------------------------------------- VALID FILE */
 // valid TYPE
     function valid_filetype($file_type, $arr_type)
@@ -406,7 +611,7 @@
         if ( $max_size == 0 || $max_size == NULL ) {
             return TRUE;
         }
-        if ( $file_size/1024 <= $max_size ) 
+        if ( $file_size/1024 <= $max_size )
             return TRUE;
         return FALSE;
     }
@@ -499,7 +704,7 @@
     }
 
 // arrange upload file array
-    function reArrayFiles($file_post) 
+    function reArrayFiles($file_post)
     {
         $file_array = array();
         $file_count = count($file_post['name']);
@@ -514,7 +719,7 @@
         return $file_array;
     }
 
-// VALID 
+// VALID
     function valid_upload_file($file, $upload_config, $fileType="image")
     {
         // $errorCode = 0;
@@ -550,7 +755,7 @@
         if ($file["error"] != 0) {
             return 99;
         }
-        
+
         return 0;
     }
 
@@ -559,9 +764,9 @@
 // backup db ($table can be an array)
     function backup($tables='*')
     {
-        $db_host = DB_HOST; 
+        $db_host = DB_HOST;
         $db_user = DB_USER;
-        $db_pass = DB_PASS; 
+        $db_pass = DB_PASS;
         $db_name = DB_NAME;
 
         $day_of_backup = 'Monday'; //possible values: `Monday` `Tuesday` `Wednesday` `Thursday` `Friday` `Saturday` `Sunday`
@@ -570,7 +775,7 @@
         //set the correct date for filename
         if (date('l') == $day_of_backup) {
             $date = date("Y-m-d");
-        } 
+        }
         else {
             //set $date to the date when last backup had to occur
             $datetime1 = date_create($day_of_backup);
@@ -585,7 +790,7 @@
             mysqli_select_db($link,$db_name);
 
             //get all of the tables
-            
+
             if($tables == '*')
             {
                 $all = TRUE;
@@ -617,26 +822,26 @@
                 $num_rows = mysqli_num_rows($result);
                 $i_row = 0;
 
-                //$return.= 'DROP TABLE '.$table.';'; 
+                //$return.= 'DROP TABLE '.$table.';';
                 $row2 = mysqli_fetch_row(mysqli_query($link,'SHOW CREATE TABLE '.$table));
-                $return.= "\n\n".$row2[1].";\n\n"; 
+                $return.= "\n\n".$row2[1].";\n\n";
 
                 if ($num_rows !== 0) {
                     $row3 = mysqli_fetch_fields($result);
                     $return.= 'INSERT INTO '.$table.'( ';
-                    foreach ($row3 as $th) 
-                    { 
-                        $return.= '`'.$th->name.'`, '; 
+                    foreach ($row3 as $th)
+                    {
+                        $return.= '`'.$th->name.'`, ';
                     }
                     $return = substr($return, 0, -2);
                     $return.= ' ) VALUES';
 
-                    for ($i = 0; $i < $num_fields; $i++) 
+                    for ($i = 0; $i < $num_fields; $i++)
                     {
                         while($row = mysqli_fetch_row($result))
                         {
                             $return.="\n(";
-                            for($j=0; $j<$num_fields; $j++) 
+                            for($j=0; $j<$num_fields; $j++)
                             {
                                 $row[$j] = addslashes($row[$j]);
                                 $row[$j] = preg_replace("#\n#","\\n",$row[$j]);
@@ -647,7 +852,7 @@
                                 $return.= ");"; // last row
                             } else {
                                 $return.= "),"; // not last row
-                            }   
+                            }
                         }
                     }
                 }
@@ -669,7 +874,7 @@
             // if (file_exists($old_file)) unlink($old_file);
 
             //save file
-            if($all) { 
+            if($all) {
                 $handle = fopen($backup_path.'backup-'.time().'.sql','w+');
             }
             else {
@@ -686,22 +891,22 @@
         $table_name = "question";
         $backup_name  = "/DB/".$table_name."-".time().".sql";
 
-        $mysqli = new mysqli($host,$user,$pass,$name); 
-        $mysqli->select_db($name); 
+        $mysqli = new mysqli($host,$user,$pass,$name);
+        $mysqli->select_db($name);
         $mysqli->query("SET NAMES 'utf8'");
-        $queryTables = $mysqli->query('SHOW TABLES'); 
-        while($row = $queryTables->fetch_row()) { 
-            $target_tables[] = $row[0]; 
-        }   
-        if($tables !== false) { 
-            $target_tables = array_intersect( $target_tables, $tables); 
+        $queryTables = $mysqli->query('SHOW TABLES');
+        while($row = $queryTables->fetch_row()) {
+            $target_tables[] = $row[0];
+        }
+        if($tables !== false) {
+            $target_tables = array_intersect( $target_tables, $tables);
         }
         $content = "SET SQL_MODE = \"NO_AUTO_VALUE_ON_ZERO\";\r\nSET time_zone = \"+00:00\";\r\n\r\n\r\n/*!40101 SET @OLD_CHARACTER_SET_CLIENT=@@CHARACTER_SET_CLIENT */;\r\n/*!40101 SET @OLD_CHARACTER_SET_RESULTS=@@CHARACTER_SET_RESULTS */;\r\n/*!40101 SET @OLD_COLLATION_CONNECTION=@@COLLATION_CONNECTION */;\r\n/*!40101 SET NAMES utf8 */;\r\n--Database: `".$name."`\r\n\r\n\r\n";
         foreach($target_tables as $table) {
-            $result = $mysqli->query('SELECT * FROM '.$table);  
-            $fields_amount=$result->field_count;  
-            $rows_num=$mysqli->affected_rows;     
-            $res = $mysqli->query('SHOW CREATE TABLE '.$table); 
+            $result = $mysqli->query('SELECT * FROM '.$table);
+            $fields_amount=$result->field_count;
+            $rows_num=$mysqli->affected_rows;
+            $res = $mysqli->query('SHOW CREATE TABLE '.$table);
             $TableMLine=$res->fetch_row();
             $content .= "\n\n".$TableMLine[1].";\n\n";
             for ($i = 0, $st_counter = 0; $i < $fields_amount;   $i++, $st_counter=0) {
@@ -715,14 +920,36 @@
                     //every after 100 command cycle [or at last line] ....p.s. but should be inserted 1 cycle eariler
                     if ( (($st_counter+1)%100==0 && $st_counter!=0) || $st_counter+1==$rows_num) {$content .= ";";} else {$content .= ",";} $st_counter=$st_counter+1;
                 }
-            } 
+            }
             $content .="\n\n\n";
         }
         $content .= "\r\n\r\n/*!40101 SET CHARACTER_SET_CLIENT=@OLD_CHARACTER_SET_CLIENT */;\r\n/*!40101 SET CHARACTER_SET_RESULTS=@OLD_CHARACTER_SET_RESULTS */;\r\n/*!40101 SET COLLATION_CONNECTION=@OLD_COLLATION_CONNECTION */;";
         //$backup_name = $backup_name ? $backup_name : $name."___(".date('H-i-s')."_".date('d-m-Y').")__rand".rand(1,11111111).".sql";
-        header('Content-Type: application/octet-stream');   
-        header("Content-Transfer-Encoding: Binary"); 
-        header("Content-disposition: attachment; filename=\"".$backup_name."\"");  
-        echo $content; 
+        header('Content-Type: application/octet-stream');
+        header("Content-Transfer-Encoding: Binary");
+        header("Content-disposition: attachment; filename=\"".$backup_name."\"");
+        echo $content;
         exit;
+    }
+
+// call url background
+    function run_background($url)
+    {
+        $ch = curl_init();
+        curl_setopt($ch, CURLOPT_URL, $url);
+        curl_exec($ch);
+
+        // if (curl_errno($ch)) {
+        //     $arrJSON['curl'] = curl_error($ch);
+        // } else {
+        //     // check the HTTP status code of the request
+        //     $resultStatus = curl_getinfo($ch, CURLINFO_HTTP_CODE);
+        //     if ($resultStatus == 200) {
+        //         $arrJSON['curl'] = 'good';
+        //     } else {
+        //         $arrJSON['curl'] = $resultStatus;
+        //     }
+        // }
+
+        curl_close($ch);
     }

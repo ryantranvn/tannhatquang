@@ -1,6 +1,10 @@
 <?php
 defined('BASEPATH') OR exit('No direct script access allowed');
 
+if (file_exists(APPPATH . 'libraries/OAuth2/Autoloader.php')) {
+    require_once(APPPATH . 'libraries/OAuth2/Autoloader.php');
+}
+
 class Auth extends CI_Controller {
 
 	private $data = array();
@@ -17,6 +21,7 @@ class Auth extends CI_Controller {
 // index - login
     public function index()
     {
+		// print_r(encrypt_pass('*123#'));
 
     // reply invalid
     	if ( $this->session->userdata('invalidAuthMember') != FALSE ) {
@@ -35,7 +40,7 @@ class Auth extends CI_Controller {
         $this->load->view('backend/auth/login', $this->data);
     }
 
-// auth member 
+// auth member
     function submit()
     {
         $this->form_validation->set_rules('username', 'Username', 'trim|required|max_length[255]|alpha_dash|xss_clean');
@@ -57,7 +62,7 @@ class Auth extends CI_Controller {
                          'captcha' => $captcha,
                          'ip_address' => $_SERVER['REMOTE_ADDR']
                         );
-            if( $this->Auth_model->auth_member('db',$arr)==TRUE) {
+            if( $this->Auth_model->auth_member($arr)==TRUE) {
                 redirect(B_URL . 'dashboard');
             }
             else {
@@ -66,14 +71,14 @@ class Auth extends CI_Controller {
         }
     }
 
-// logout    
+// logout
     function logout()
     {
         $this->session->sess_destroy();
-        
+
         redirect(B_URL . 'auth');
     }
-    
+
 // refesh captcha
     function ajax_captcha()
     {

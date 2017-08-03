@@ -7,418 +7,359 @@ if (file_exists(APPPATH . 'controllers/backend/Root.php')) {
 
 class Category extends Root {
 
-	private $module = 'category';
-    private $childModule ='';
-
     public function __construct()
     {
         parent::__construct();
 
-    // load
-        $this->load->model($this->module.'_model', 'model');
+            $this->currentModule = $this->data['modules'][ucfirst($this->router->fetch_class())];
+            $this->data['varJS']['currentModule'] = $this->currentModule;
+        // load
+            $this->load->model($this->currentModule['control_name'].'_model', 'model');
 
-        $this->data['activeModule'] = $this->module;
-        $this->data['activeNav'] = $this->module;
-        $this->data['breadcrumb'][0] = array('name'=>ucfirst($this->module), 'url' => B_URL . $this->module);
+            $this->data['activeModule'] = $this->currentModule['control_name'];
+            $this->data['activeNav'] = $this->currentModule['control_name'];
+            $this->data['breadcrumb'][0] = array('name'=>$this->currentModule['control_name'], 'url' => B_URL . $this->currentModule['url']);
 
-        if ($this->session->userdata('childModule') !== FALSE) {
-            $this->childModule = $this->session->userdata('childModule');
-        }
+        // block js and css
+            // array_push($this->data['cssBlock'], '<link rel="stylesheet" type="text/css" href="'. ASSETS_URL . 'backend/css/category.min.css" />');
+        	array_push($this->data['jsBlock'], '<script language="javascript" type="text/javascript" src="'. ASSETS_URL . 'backend/js/category.min.js"></script>');
+        // status array
+            $this->data['statusArr'] = array(
+                 'active' => '<button class="btn bg-color-green txt-color-white" data-value="active">Active</button>'
+                ,'inactive' => '<button class="btn bg-color-blueDark txt-color-white" data-value="inactive">Inactive</button>'
+                // ,'block' => '<button class="btn bg-color-red txt-color-white" data-value="block">Block</button>'
+            );
     }
 // index
     public function index()
     {
-    // check not access
-        $this->noAccess($this->data['permissionsMember'], $this->module, 1);
+        // check not access
+            $this->noAccess($this->data['permissionsMember'], $this->currentModule['control_name'], 1);
 
-        if ($this->session->userdata('childModule') !== FALSE) {
-            $this->session->unset_userdata('childModule');
-            $this->childModule = "";
-        }
+        // breadcrumb
+            $this->data['breadcrumb'][1] = array('name'=>'List', 'url' => B_URL . $this->currentModule['url']);
 
-        $this->data['breadcrumb'][1] = array('name'=>'List', 'url' => B_URL . $this->router->fetch_method());
-        
-        // frm
-            $this->data['frmTopButtons'] = frm(B_URL.$this->module.'/multi_delete', array('id' => "frmTopButtons"), FALSE);
-            // $this->data['frmImport'] = frm(B_URL.$this->module.'/import_db', array('id' => "frmImport"), TRUE);
+        // create frm
+            $this->data['frmTopButtons'] = frm(B_URL.$this->currentModule['url'].'/multi_delete', array('id' => "frmTopButtons"), FALSE);
+            // $this->data['frmImport'] = frm(B_URL.$this->currentModule['url'].'/import_db', array('id' => "frmImport"), TRUE);
 
-        $this->template->load('backend/template', 'backend/category/list', $this->data);
+            $this->template->load('backend/template', 'backend/list', $this->data);
     }
 
 //  Ajax List
     public function ajax_list()
     {
-        $arrJSON = array();
-        $page = $_GET['page']; // get the requested page
-        $limit = $_GET['rows']; // get how many rows we want to have into the grid
-        $sidx = $_GET['sidx']; // get index row - i.e. user click to sort
-        $sord = $_GET['sord']; // get the direction
-        //if(!$sidx) $sidx=1;
-        if ( $sidx == "parent") {
-            $sidx = "c2.name";
-        }
-        else {
-            $sidx = "c1.".$sidx;
-        }
-        // add where in string
-            // $where = array('name <>' => 'default');
-            $where = "";
-        // get filter if have
-            $like = "";
-            if (isset($_GET['filters'])) {
-                $filters = $_GET['filters'];
-                $filters = json_decode($filters);
-                if (count($filters->rules)>0) {
+        // get params
+            $params = array(
+                 'page'     => $_GET['page']
+                ,'limit'    => $_GET['rows']
+                ,'sidx'     => $_GET['sidx']
+                ,'sord'     => $_GET['sord']
+            );
 
-                    foreach($filters->rules as $rule) { // filter is active
+            $sql = " SELECT
+                         c1.id
+                        , c1.name
+                        , c1.url
+                        , c1.desc
+                        , c1.thumbnail
+                        , c1.order
+                        , c1.status
+                        , IF (c1.parent_id=0, 'ROOT', c2.name) AS parent
+                    FROM category c1
+                    LEFT JOIN category c2 ON c1.parent_id=c2.id
+                ";
+            if ( $params['sidx'] !== "parent") {
+                $params['sidx'] = "c1." . $params['sidx'];
+            }
+            $where = "";
+            if (isset($_GET['filters'])) {
+                $params['filters'] = json_decode($_GET['filters']);
+                if (count($params['filters']->rules)>0) {
+                    foreach($params['filters']->rules as $rule) {
+                        if ($where == "") {$where .= "WHERE"; } else { $where .= " AND"; }
                         $field = $rule->field;
-                        $value = $rule->data;
+                        $value = $this->db->escape_like_str($rule->data);
                         if ($field == "status") {
-                            $where .= "c1.status='".$value."'";
+                            $where .= " c1.status='" . $value . "'";
                         }
                         else {
                             if ($field == "parent") {
-                                $field = "c2.name";
+                                $where .= " c2.name LIKE '%" . $value . "%'";
                             }
                             else {
-                                $field = "c1.".$field;
+                                $where .= " c1." . $field . " LIKE '%" . $value . "%'";
                             }
-                            $like .= $field." LIKE '%".$value."%'";
                         }
                     }
                 }
             }
+            $sql .= $where;
 
-            
-        // get total row => total page
-            $count = $this->model->total_Rows('db', $where, $like);
-            if( $count>0 ) {
-                $total_pages = ceil($count/$limit);
-            } else {
-                $total_pages = 0;
-            }
-            if ($page > $total_pages) $page=$total_pages;
-            $start = $limit*$page - $limit;
-            if ($start <= 0) $start=0;
-        // query database
-            $list = $this->model->get_List('db', $where, $like, $sidx, $sord, $start, $limit);
-
-        // arrange result
-            $arrJSON['sidx'] = $sidx;
-            $arrJSON['page'] = $page;
-            $arrJSON['total'] = $total_pages;
-            $arrJSON['records'] = $count;
-            $arrJSON['rows'] = $list;
-
-        // return json 
-            echo json_encode($arrJSON);
+        // return json
+            echo json_encode($this->Base_model->table_list_in_page($sql, $params));
     }
-
 // ajax_status
     public function ajax_status()
     {
         // check permission
-            $this->noAccess($this->data['permissionsMember'], $this->module, 3);
-            
-        $id = $this->input->post('id',TRUE);
-        $value = $this->input->post('value',TRUE);
-
-        if ( $this->model->update_status('db', $id, $value) === FALSE ) {
-            echo "false";
-        }
-        else {
-            echo "true";
-        }
+            $this->noAccess($this->data['permissionsMember'], $this->currentModule['control_name'], 3);
+        // get data
+            $id = $this->input->post('id',TRUE);
+            $value = $this->input->post('value',TRUE);
+        // update
+            if ( $this->model->update_status($id, $value) === FALSE ) {
+                echo "false";
+            }
+            else {
+                echo "true";
+            }
     }
-
 // Add
     public function add()
     {
         // check permission
-            if (isset($this->childModule) && $this->childModule != '') {
-                $this->noAccess($this->data['permissionsMember'], $this->childModule, 2);
-            }
-            else {
-                $this->noAccess($this->data['permissionsMember'], $this->module, 2);    
-            }
-        
-        $this->data['breadcrumb'][1] = array('name'=>'Add', 'url' => B_URL . $this->router->fetch_method());
+            $this->noAccess($this->data['permissionsMember'], $this->currentModule['control_name'], 2);
 
-        $arrCategory = $this->Base_model->getDB('db', 'category', NULL, NULL, NULL, array('path','order','name', 'name_en'), array('asc','asc','asc','asc'));
+        // breadcrumb
+            $this->data['breadcrumb'][1] = array('name'=>'Add', 'url' => '');
+
+        $arrCategory = $this->Base_model->get_db('category', NULL, NULL, NULL, array('path','order','name'), array('asc','asc','asc'));
         foreach ($arrCategory as $key => $category) {
             $indent = count(explode('-', $category['path']));
             $arrCategory[$key]['indent'] = $indent-1;
         }
         $this->data['categories'] = $arrCategory;
-        // print_r("<pre>");print_r($arrCategory); die();
+        $this->data['is_sub_category'] = 0;
+        $this->data['default_parent_id'] = 0;
         // create form
-            $this->data['frmAdd'] = frm(B_URL.$this->module.'/add_db', array('id' => 'frmAdd'), TRUE);
+            $this->data['frmCategory'] = frm('', array('id' => 'frmCategory'), TRUE, array('action'=>'add'));
 
         $this->template->load('backend/template', 'backend/category/add', $this->data);
     }
-    public function add_db()
-    {
-        // check permission
-            if (isset($this->childModule) && $this->childModule != '') {
-                $this->noAccess($this->data['permissionsMember'], $this->childModule, 2);
-            }
-            else {
-                $this->noAccess($this->data['permissionsMember'], $this->module, 2);    
-            }
-        // valid form
-            $this->form_validation->set_rules('name', 'Name VN', 'trim|required|max_length[255]|xss_clean');
-            $this->form_validation->set_rules('url', 'URL VN', 'trim|required|max_length[255]|alpha_dash|xss_clean');
-            $this->form_validation->set_rules('desc', 'Description VN', 'trim|max_length[1025]|xss_clean');
-            $this->form_validation->set_rules('nameEN', 'Name EN', 'trim|required|max_length[255]|xss_clean');
-            $this->form_validation->set_rules('urlEN', 'URL EN', 'trim|required|max_length[255]|alpha_dash|xss_clean');
-            $this->form_validation->set_rules('descEN', 'Description EN', 'trim|max_length[1025]|xss_clean');
-            $this->form_validation->set_message('required', '%s is not empty');
-            $this->form_validation->set_message('max_length', '%s is maximum 255 characters');
-            $this->form_validation->set_message('alpha_dash', '%s just contains alpha-numeric characters or dashes');
-            if ( $this->form_validation->run() == FALSE) {
-                if ( validation_errors() != "" ) {
-                    $this->session->set_userdata('invalid', validation_errors());
-                    redirect($_SERVER['HTTP_REFERER']);
-                }
-            }
-        // valid default
-            if ( $this->input->post('url', TRUE) == 'default' ) {
-                $this->session->set_userdata('invalid', 'Sorry! You can not name "default"');
-                redirect($_SERVER['HTTP_REFERER']);
-            }
-            if ( $this->input->post('urlEN', TRUE) == 'default' ) {
-                $this->session->set_userdata('invalid', 'Sorry! You can not name "default"');
-                redirect($_SERVER['HTTP_REFERER']);
-            }
-
-        // check existed
-            $name = $this->input->post('name', TRUE);
-            $url = $this->input->post('url', TRUE);
-            $parent_id = $this->input->post('parent_id', TRUE);
-
-            if ($this->_existed('add', $parent_id, $url, NULL)) {
-                $this->session->set_userdata('invalid', "This category name existed.");
-                redirect($_SERVER['HTTP_REFERER']);
-            }
-            $nameEN = $this->input->post('nameEN', TRUE);
-            $urlEN = $this->input->post('urlEN', TRUE);
-            if ($this->_existed('add', $parent_id, $urlEN, NULL, 'en')) {
-                $this->session->set_userdata('invalid', "This category name existed.");
-                redirect($_SERVER['HTTP_REFERER']);
-            }
-            
-        // make path
-            $path = "";
-            
-            if ($parent_id == 0) {
-                $path = "0-";
-            }
-            else {
-                // get path of parent
-                $parentPath = $this->model->get_category_haveID('db', $parent_id);
-                if ($parentPath === FALSE || count($parentPath)==0) {
-                    $this->session->set_userdata('invalid', "Error insert new data. (Can not find path of parent)");
-                    redirect($_SERVER['HTTP_REFERER']);
-                }
-                $path .= $parentPath[0]['path'];
-            }
-
-        // get param having add a child name "other" 
-            $other = $this->input->post('other', TRUE);
-            if ($other == NULL || $other == "") {
-                $other = NULL;
-            }
-
-        // insert database
-            $categoryAdd = array('name' => $name,
-                                 'url' => $url,
-                                 'desc' => $this->input->post('desc', TRUE),
-                                 'name_en' => $nameEN,
-                                 'url_en' => $urlEN,
-                                 'desc_en' => $this->input->post('descEN', TRUE),
-                                  'order' => $this->input->post('order', TRUE),
-                                  'status' => $this->input->post('status', TRUE),
-                                  'parent_id' => $parent_id,
-                                  'path' => $path,
-                                  'thumbnail' => $this->input->post('thumbnail', TRUE),
-                                  'created_datetime' => date('Y-m-d H:i:s'),
-                                  'created_by' => $this->data['authMember']['username']
-                                 );
-            if ( $this->model->insertCategory('db', $categoryAdd, $path, $other) === FALSE ) {
-                $this->session->set_userdata('invalid', "Error insert new data.");
-                redirect($_SERVER['HTTP_REFERER']);
-            }
-            $this->session->set_userdata('valid', "Insert new data successful.");
-            
-            if ($this->childModule != "") {
-                redirect(B_URL.$this->childModule);
-            }
-            redirect(B_URL.$this->router->fetch_class());
-    }
-
 // Edit
     public function edit($id)
     {
         // check permission
-        if (isset($this->childModule) && $this->childModule != '') {
-            $this->noAccess($this->data['permissionsMember'], $this->childModule, 3);
-        }
-        else {
-            $this->noAccess($this->data['permissionsMember'], $this->module, 3);    
-        }
+        $this->noAccess($this->data['permissionsMember'], $this->currentModule['control_name'], 3);
 
-        $this->data['breadcrumb'][1] = array('name'=>'Edit', 'url' => B_URL . $this->router->fetch_method());
+        $this->data['breadcrumb'][1] = array('name'=>'Edit', 'url' => '');
 
         // get list of category for tree
-        $arrCategory = $this->Base_model->getDB('db', 'category', NULL, NULL, NULL, array('path','order','name', 'name_en'), array('asc','asc','asc','asc'));
+        $arrCategory = $this->Base_model->get_db('category', NULL, NULL, NULL, array('path','order','name'), array('asc','asc','asc'));
         foreach ($arrCategory as $key => $category) {
             $indent = count(explode('-', $category['path']));
             $arrCategory[$key]['indent'] = $indent-1;
         }
         $this->data['categories'] = $arrCategory;
-        
+        $this->data['is_sub_category'] = 0;
+        $this->data['default_parent_id'] = 0;
         // get edit category
         if ($id === FALSE) {
             $this->session->set_userdata('invalid', "Data does not exist.");
             redirect($_SERVER['HTTP_REFERER']);
         }
-        $arrEditCategory = $this->Base_model->getDB('db','category',NULL,array('id'=>$id));
+        $arrEditCategory = $this->Base_model->get_db('category',NULL,array('id'=>$id));
         if ($arrEditCategory === FALSE || count($arrEditCategory) == 0) {
             $this->session->set_userdata('invalid', "Can not find category with this ID.");
             redirect($_SERVER['HTTP_REFERER']);
         }
-        $this->data['editCategory'] = $arrEditCategory[0];
+        $this->data['frmData'] = $arrEditCategory[0];
 
         // create form
-            $this->data['frmEdit'] = frm(B_URL.$this->module.'/edit_db', array('id' => 'frmEdit'), TRUE, array('id'=>$id));
+            $this->data['frmCategory'] = frm('', array('id' => 'frmCategory'), TRUE, array('action'=>'edit', 'id'=>$id));
 
         $this->template->load('backend/template', 'backend/category/edit', $this->data);
     }
-    public function edit_db()
+// Update
+    public function update()
     {
-        // check permission
-        if (isset($this->childModule) && $this->childModule != '') {
-            $this->noAccess($this->data['permissionsMember'], $this->childModule, 3);
-        }
-        else {
-            $this->noAccess($this->data['permissionsMember'], $this->module, 3);    
-        }
-
+        $action = $this->input->post('action',TRUE);
+        $name = $this->input->post('name',TRUE);
+        $url = $this->input->post('url',TRUE);
+        $desc = $this->input->post('desc',TRUE);
+        $thumbnail = $this->input->post('thumbnail',TRUE);
+        $parent_id = $this->input->post('parent_id',TRUE);
         $id = $this->input->post('id',TRUE);
-        if ($id === FALSE) {
-            $this->session->set_userdata('invalid', "Can not find category with this ID.");
-            redirect(B_URL.$this->router->fetch_class());
-        }
+        // check permission
+            if ($action == 'add') {
+                $this->noAccess($this->data['permissionsMember'], $this->currentModule['control_name'], 2);
+            }
+            else {
+                $this->noAccess($this->data['permissionsMember'], $this->currentModule['control_name'], 3);
+            }
         // valid form
-            $this->form_validation->set_rules('name', 'Name VN', 'trim|required|max_length[255]|xss_clean');
-            $this->form_validation->set_rules('url', 'URL VN', 'trim|required|max_length[255]|alpha_dash|xss_clean');
-            $this->form_validation->set_rules('desc', 'Description VN', 'trim|max_length[1025]|xss_clean');
-            $this->form_validation->set_rules('nameEN', 'Name EN', 'trim|required|max_length[255]|xss_clean');
-            $this->form_validation->set_rules('urlEN', 'URL EN', 'trim|required|max_length[255]|alpha_dash|xss_clean');
-            $this->form_validation->set_rules('descEN', 'Description EN', 'trim|max_length[1025]|xss_clean');
+            $this->form_validation->set_rules('name', 'Name', 'trim|required|max_length[255]|xss_clean');
+            $this->form_validation->set_rules('url', 'URL', 'trim|required|max_length[255]|alpha_dash|xss_clean');
+            $this->form_validation->set_rules('desc', 'Description', 'trim|max_length[1025]|xss_clean');
             $this->form_validation->set_message('required', '%s is not empty');
             $this->form_validation->set_message('max_length', '%s is maximum 255 characters');
             $this->form_validation->set_message('alpha_dash', '%s just contains alpha-numeric characters or dashes');
-            if ( $this->form_validation->run() == FALSE) {
-                if ( validation_errors() != "" ) {
-                    $this->session->set_userdata('invalid', validation_errors());
-                    redirect($_SERVER['HTTP_REFERER']);
-                }
+            if ( $this->form_validation->run() == FALSE && validation_errors() != "") {
+                $msg['err'] = 1;
+                $msg['msg'] = validation_errors();
             }
         // valid default
-            if ( $this->input->post('url', TRUE) == 'default' ) {
-                $this->session->set_userdata('invalid', 'Sorry! You can not name "default"');
-                redirect($_SERVER['HTTP_REFERER']);
+            else if ($this->is_default($url)) {
+                $msg['err'] = 1;
+                $msg['msg'] = 'Category name is not "default".';
             }
-            if ( $this->input->post('urlEN', TRUE) == 'default' ) {
-                $this->session->set_userdata('invalid', 'Sorry! You can not name "default"');
-                redirect($_SERVER['HTTP_REFERER']);
-            }
-
-        // check existed
-            $name = $this->input->post('name', TRUE);
-            $url = $this->input->post('url', TRUE);
-            $parent_id = $this->input->post('parent_id', TRUE);
-            if ($this->_existed('edit', $parent_id, $url, $id)) {
-                $this->session->set_userdata('invalid', "This category name existed. edit");
-                redirect($_SERVER['HTTP_REFERER']);
-            }
-            $nameEN = $this->input->post('nameEN', TRUE);
-            $urlEN = $this->input->post('urlEN', TRUE);
-            if ($this->_existed('edit', $parent_id, $urlEN, $id, 'en')) {
-                $this->session->set_userdata('invalid', "This category name existed.");
-                redirect($_SERVER['HTTP_REFERER']);
-            }
-
-        // make path
-            $path = "";
-            
-            if ($parent_id == 0) {
-                $path = "0-";
+        // valid existed
+            else if ($this->is_existed($url, $parent_id, $action, $id)) {
+                $msg['err'] = 1;
+                $msg['msg'] = 'This category name existed.';
             }
             else {
-                // get path of parent
-                $parentPath = $this->model->get_category_haveID('db', $parent_id);
-                if ($parentPath === FALSE || count($parentPath)==0) {
-                    $this->session->set_userdata('invalid', "Error edit data. (Can not find path of parent)");
-                    redirect($_SERVER['HTTP_REFERER']);
+                // make path
+                $path = $this->make_path($parent_id);
+                if ($action == "edit") {
+                    $path .= $id . '-';
                 }
-                $path .= $parentPath[0]['path'];
+                if ($path===FALSE) {
+                    $msg['err'] = 1;
+                    $msg['msg'] = 'Can not find path of parent';
+                }
+                else {
+                    if ( $this->session->userdata('authMember') !== FALSE) {
+                        $authMember = $this->session->userdata('authMember');
+                        $created_by = $authMember['username'];
+                    }
+                    else {
+                        $created_by = '';
+                    }
+                    if ($action == 'add') {
+                        // insert database
+                        $categoryAdd = array('name' => $name,
+                                             'url' => strtolower($url),
+                                             'desc' => $desc,
+                                             'thumbnail' => $thumbnail,
+                                              'order' => $this->input->post('order', TRUE),
+                                              'status' => $this->input->post('status', TRUE),
+                                              'parent_id' => $parent_id,
+                                              'path' => $path,
+                                              'created_datetime' => date('Y-m-d H:i:s'),
+                                              'created_by' => $created_by
+                                             );
+                        if ( $this->model->insert_category($categoryAdd, $path) === FALSE ) {
+                            $msg['err'] = 1;
+                            $msg['msg'] = 'Error insert new data.';
+                        }
+                        else {
+                            $msg['err'] = 0;
+                            $this->session->set_userdata('valid', "Insert new data successful.");
+                        }
+                    }
+                    else {
+                        // update database
+                        $categoryEdit = array('name' => $name,
+                                              'url' => $url,
+                                              'desc' => $desc,
+                                              'thumbnail' => $thumbnail,
+                                              'order' => $this->input->post('order', TRUE),
+                                              'status' => $this->input->post('status', TRUE),
+                                              'parent_id' => $parent_id,
+                                              'path' => $path,
+                                              'modified_datetime' => date('Y-m-d H:i:s'),
+                                              'modified_by' => $created_by
+                                             );
+                        if ( $this->model->update_category($categoryEdit, $id) === FALSE ) {
+                            $msg['err'] = 1;
+                            $msg['msg'] = 'Error update data.';
+                        }
+                        else {
+                            $msg['err'] = 0;
+                            $this->session->set_userdata('valid', "Update data successful.");
+                        }
+                    }
+                }
             }
-        // update database
-            $path .= $id."-";
-            $categoryEdit = array('name' => $name,
-                                  'url' => $url,
-                                  'desc' => $this->input->post('desc', TRUE),
-                                  'name_en' => $nameEN,
-                                  'url_en' => $urlEN,
-                                  'desc_en' => $this->input->post('descEN', TRUE),
-                                  'order' => $this->input->post('order', TRUE),
-                                  'status' => $this->input->post('status', TRUE),
-                                  'parent_id' => $parent_id,
-                                  'path' => $path,
-                                  'thumbnail' => $this->input->post('thumbnail', TRUE),
-                                  'modified_datetime' => date('Y-m-d H:i:s'),
-                                  'modified_by' => $this->data['authMember']['username']
-                                 );
-            if ( $this->model->updateCategory('db', $categoryEdit, $id) === FALSE ) {
-                $this->session->set_userdata('invalid', "Error update data.");
-                redirect($_SERVER['HTTP_REFERER']);
-            }
-            $this->session->set_userdata('valid', "Update data successful.");
-            
-            if ($this->childModule != "") {
-                redirect(B_URL.$this->childModule);
-            }
-            redirect(B_URL.$this->router->fetch_class());
+
+        echo json_encode($msg);
     }
 
 // Delete
     public function delete($id)
     {
         // check permission
-        if (isset($this->childModule) && $this->childModule != "") {
-            $this->noAccess($this->data['permissionsMember'], $this->childModule, 4);
-        }
-        else {
-            $this->noAccess($this->data['permissionsMember'], $this->module, 4);    
-        }
+            $this->noAccess($this->data['permissionsMember'], $this->currentModule['control_name'], 4);
+        // get data
+            $_GET['dc'] == 1 ? $deleteChildren = TRUE : $deleteChildren = FALSE;
 
-        $_GET['dc'] == 1 ? $deleteChildren = TRUE : $deleteChildren = FALSE;
-
-        if ($id === FALSE) {
-            $this->session->set_userdata('invalid', 'This ID is not existing.');
-            redirect($_SERVER['HTTP_REFERER']);
-        }
-        if ($this->model->deleteCategory('db', $id, $deleteChildren) === FALSE) {
-            $this->session->set_userdata('invalid', "Error delete data");
-        }
-        else {
-            $this->session->set_userdata('valid', "Delete data successful.");
-        }
+        // exclude  default categories
+            if ($id===FALSE || $id=="" || $id<=3) { // not equal 1,2,3
+                $this->session->set_userdata('invalid', 'This ID is not existing.');
+                redirect($_SERVER['HTTP_REFERER']);
+            }
+        // delete db
+            if ($this->model->delete_category($id, $deleteChildren) === FALSE) {
+                $this->session->set_userdata('invalid', "Error delete data");
+            }
+            else {
+                $this->session->set_userdata('valid', "Delete data successful.");
+            }
         redirect($_SERVER['HTTP_REFERER']);
     }
+// Multi Delete
+    public function multi_delete()
+    {
+        // check permission
+            $this->noAccess($this->data['permissionsMember'], $this->currentModule['control_name'], 4);
+        // get data
+            $ids = $this->input->post('ids', TRUE);
+            $arrID = explode(",", $ids[0]);
+            $dc = $this->input->post('dc', TRUE);
+            $dc == 1 ? $deleteChildren = TRUE : $deleteChildren = FALSE;
 
+
+    }
+
+/* MORE */
+    /* is_default */
+        private function is_default($url)
+        {
+            if ( $url == 'default' ) {
+                return TRUE; // is default
+            }
+            return FALSE;
+        }
+
+    /* is_existed */
+        private function is_existed($url, $parent_id, $action, $id=NULL)
+        {
+            if ($action == "add") { // add
+                $where = array('parent_id' => $parent_id, 'url' => $url);
+            }
+            else if ($action == "edit") { // edit
+                $where = array('id <>' => $id, 'parent_id' => $parent_id, 'url' => $url);
+            }
+            $existed_url = $this->Base_model->get_db('category',array('id'), $where);
+            if ($existed_url !== FALSE && count($existed_url) > 0) {
+                return TRUE;    // existed
+            }
+            else {
+                return FALSE;
+            }
+        }
+
+    /* make path */
+        //return path or FALSE
+        private function make_path($parent_id)
+        {
+            $path = "";
+            if ($parent_id == 0) {
+                $path = "0-";
+            }
+            else {
+                // get path of parent
+                $parentPath = $this->model->get_category_haveID($parent_id);
+                if ($parentPath === FALSE || count($parentPath)==0) {
+                    return FALSE;
+                }
+                $path .= $parentPath[0]['path'];
+            }
+            return $path;
+        }
+/*
 // Multi Delete
     public function multi_delete()
     {
@@ -427,7 +368,7 @@ class Category extends Root {
             $this->noAccess($this->data['permissionsMember'], $this->childModule, 4);
         }
         else {
-            $this->noAccess($this->data['permissionsMember'], $this->module, 4);    
+            $this->noAccess($this->data['permissionsMember'], $this->currentModule['control_name'], 4);
         }
 
         $ids = $this->input->post('ids', TRUE);
@@ -449,20 +390,20 @@ class Category extends Root {
         }
 
         redirect($_SERVER['HTTP_REFERER']);
-    }    
+    }
 
 // ********************************
 // check existed
-    private function _existed($oper, $parent_id, $url, $id=NULL, $lang="")
+/*
+    private function _existed($oper, $parent_id, $url, $id=NULL)
     {
-        $lang = $lang == "" ? "" : "_".$lang;
         if ($oper == "add") { // add
-            $where = array('parent_id' => $parent_id, 'url'.$lang => $url);
+            $where = array('parent_id' => $parent_id, 'url' => $url);
         }
         else if ($oper == "edit") { // edit
-            $where = array('id <>' => $id, 'parent_id' => $parent_id, 'url'.$lang => $url);
+            $where = array('id <>' => $id, 'parent_id' => $parent_id, 'url' => $url);
         }
-        $existed_url = $this->Base_model->getDB('db','category',array('id'),$where);
+        $existed_url = $this->Base_model->get_db('category',array('id'), $where);
         if ($existed_url !== FALSE && count($existed_url) > 0) {
             return TRUE;    // existed
         }
@@ -475,11 +416,10 @@ class Category extends Root {
         $oper = $this->input->post('oper',TRUE);
         $parent_id = $this->input->post('parent_id',TRUE);
         $url = $this->input->post('url',TRUE);
-        $lang = $this->input->post('lang',TRUE) == 'vn' ? "" : $this->input->post('lang',TRUE);
         $id = $this->input->post('id',TRUE); // get id on edit
         if ($id===FALSE || $id == 0) { $id = NULL; }
 
-        if ($this->_existed($oper, $parent_id, $url, $id, $lang)) {
+        if ($this->_existed($oper, $parent_id, $url, $id)) {
             echo "false";   // // existed => return false for validation
         }
         else {
@@ -527,7 +467,7 @@ class Category extends Root {
         $arrJSON = array();
         $id = $this->input->post('id',TRUE);
 
-        $arrCategory = $this->model->getDB('db', 'category', NULL, array('id' => $id));
+        $arrCategory = $this->model->get_db('db', 'category', NULL, array('id' => $id));
         if ($arrCategory === FALSE || count($arrCategory) == 0) {
             $arrJSON['error'] = '1';
         }
@@ -544,7 +484,7 @@ class Category extends Root {
         $arrJSON = array();
         $parent_id = $this->input->post('parent_id',TRUE);
 
-        $arrCategory = $this->model->getDB('db', 'category', NULL, array('parent_id' => $parent_id));
+        $arrCategory = $this->model->get_db('db', 'category', NULL, array('parent_id' => $parent_id));
         if ($arrCategory === FALSE || count($arrCategory) == 0) {
             $arrJSON['error'] = '1';
         }
@@ -554,4 +494,5 @@ class Category extends Root {
         }
         echo json_encode($arrJSON);
     }
+    */
 }

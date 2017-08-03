@@ -1,97 +1,152 @@
-<?php 
+<?php
 if ( ! defined('BASEPATH')) exit('No direct script access allowed');
 
 class Base_model extends CI_model {
-    
-	protected $connection;
 
     public function __construct()
     {
         parent::__construct();
     }
 
-    function connect_to($connection)
-    {
-        if ($connection=="ge") {
-            $this->db_ge = $this->load->database('ge', TRUE);
-            $this->connection = $this->db_ge;
+// for table list
+    // TOTAL Rows
+        public function table_total_rows($sql)
+        {
+            $query = $this->db->query($sql);
+            $result = $query->result_array();
+
+            return count($result);
         }
-    	if ($connection=="db_ref") {
-            $this->db_ref = $this->load->database('ref', TRUE);
-            $this->connection = $this->db_ref;
+    // get list
+        public function table_get_list($sql)
+        {
+            $query = $this->db->query($sql);
+            $result = $query->result_array();
+
+            return $result;
         }
-        if ($connection=="db") {
-             $this->db = $this->load->database('default', TRUE);
-             $this->connection = $this->db;
+    // datatable
+        function table_list_in_page($sql, $params)
+        {
+            // json array
+                $arrJSON = array();
+            // get total row => total page
+                $count = $this->table_total_rows($sql);
+                if( $count>0 ) {
+                    $total_pages = ceil($count/$params['limit']);
+                } else {
+                    $total_pages = 0;
+                }
+                if ($params['page'] > $total_pages) $params['page']=$total_pages;
+                $start = $params['limit']*$params['page'] - $params['limit'];
+                if ($start <= 0) $start=0;
+            // query database
+                $sql .= " ORDER BY " . $params['sidx'] . " " . $params['sord'];
+                $sql .= " LIMIT " . $start . ", " . $params['limit'];
+                $list = $this->table_get_list($sql);
+                
+            // arrange result
+                $arrJSON['sidx'] = $params['sidx'];
+                $arrJSON['page'] = $params['page'];
+                $arrJSON['total'] = $total_pages;
+                $arrJSON['records'] = $count;
+                $arrJSON['rows'] = $list;
+
+            return $arrJSON;
         }
-    }
 
 // SELECT
-    function getDB($connection, $table, $fields=NULL, $where=NULL, $like=NULL, $order=NULL, $by=NULL, $limit=NULL, $start=NULL, $group=NULL)
+    function get_db($table, $fields=NULL, $where=NULL, $like=NULL, $order=NULL, $by=NULL, $limit=NULL, $start=NULL, $group=NULL)
     {
-    	// set connection
-        $this->connect_to($connection);
-
         if ( isset($fields) && $fields != NULL ) {
             $fields_str = implode(",", $fields);
-            $this->connection->select($fields_str);
+            $this->db->select($fields_str);
         }
         else {
-            $this->connection->select('*');
+            $this->db->select('*');
         }
-        $this->$connection->from($table);
+        $this->db->from($table);
 
         if ( $where != NULL ) {
-            $this->connection->where($where);
+            $this->db->where($where);
         }
 
         if ( $like != NULL ) {
-            $this->connection->like($like);
+            $this->db->like($like);
         }
 
         if ( $order != NULL ) {
             if (is_array($order)) {
                 for ($i=0; $i<count($order); $i++) {
-                    $this->connection->order_by($order[$i], $by[$i]);
+                    $this->db->order_by($order[$i], $by[$i]);
                 }
             }
             else {
-                $this->connection->order_by($order, $by);
+                $this->db->order_by($order, $by);
             }
-        }    
-        
+        }
+
         if ( $limit != NULL ) {
             if ( $start != NULL ) {
-                $this->connection->limit($limit, $start);
+                $this->db->limit($limit, $start);
             }
             else {
-                $this->connection->limit($limit);
+                $this->db->limit($limit);
             }
         }
         if ( $group != NULL ) {
-            $this->connection->group_by($group);
+            $this->db->group_by($group);
         }
-        
-        $query = $this->connection->get();
+
+        $query = $this->db->get();
         $result = $query->result_array();
-        
+
         return $result;
     }
-
-// INSERT
-    function insertDB($connection, $table, $data)
+// UPDATE
+    function update_db($table, $data, $where=NULL)
     {
-    	// set connection
-        $this->connect_to($connection);
-
-        $this->connection->insert($table, $data);
-        if ( $this->connection->affected_rows() > 0 ) {
+        if ( $where != NULL ) {
+            $this->db->where($where);
+        }
+        $this->db->update($table, $data);
+        if ( $this->db->affected_rows() > 0 ) {
             return TRUE;
         }
         else {
             return FALSE;
         }
     }
+
+// INSERT
+    function insert_db($table, $data)
+    {
+        $this->db->insert($table, $data);
+        if ( $this->db->affected_rows() > 0 ) {
+            return TRUE;
+        }
+        else {
+            return FALSE;
+        }
+    }
+// DELETE
+    function delete_db($table, $field_name, $list_value)
+    {
+        $this->db->where_in($field_name, $list_value);
+        $this->db->delete($table);
+        if ( $this->db->affected_rows() > 0 ) {
+            return TRUE;
+        }
+        else {
+            return FALSE;
+        }
+    }
+
+
+
+
+/*
+
     function insertDB_multi($connection, $table, $data)
     {
         // set connection
@@ -106,23 +161,7 @@ class Base_model extends CI_model {
         }
     }
 
-// UPDATE
-    function updateDB($connection, $table, $data, $where=NULL)
-    {
-        // set connection
-        $this->connect_to($connection);
 
-        if ( $where != NULL ) {
-            $this->connection->where($where);
-        }
-        $this->connection->update($table, $data);
-        if ( $this->connection->affected_rows() > 0 ) {
-            return TRUE;
-        }
-        else {
-            return FALSE;
-        }
-    }
 
 // UPDATE INCREASE ONE FIELD
     function updateDB_Increase($connection, $table, $field, $increase, $whereStr="")
@@ -326,42 +365,22 @@ class Base_model extends CI_model {
     {
         // set connection
         $this->connect_to($connection);
-        
+
         $this->connection->where_in($field_name, $list_value);
         $this->connection->delete($table);
         if ( $this->connection->affected_rows() > 0 ) {
             return TRUE;
-        }   
+        }
         else {
             return FALSE;
         }
     }
 
-// TOTAL ROWS IN TABLE
-    /*
-    function total_rows($connection, $table, $where=NULL, $like=NULL)
-    {
-        $this->connect_to($connection);
-        $this->connection->select('*');
-        $this->$connection->from($table);
-        if ( $where !== NULL ) {
-            $this->connection->where($where);
-        }
-        if ( $like !== NULL ) {
-            $this->connection->like($like);
-        }
-        $query = $this->connection->get();
-        $result = $query->num_rows();
-        
-        return $result;
-    }
-    */
-
 // RUN QUERY BIND
     function queryBind($connection, $sql, $arr=NULL)
     {
         if ($arr!==NULL) {
-            $query = $this->connection->query($sql, $arr);    
+            $query = $this->connection->query($sql, $arr);
         }
         else {
             $query = $this->connection->query($sql);
@@ -379,4 +398,5 @@ class Base_model extends CI_model {
         $sql = "OPTIMIZE TABLE $table";
         $this->connection->query($sql);
     }
+*/
 }

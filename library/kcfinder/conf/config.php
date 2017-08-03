@@ -35,19 +35,20 @@ $_CONFIG = array(
        'misc'      => "! pdf doc docx xls xlsx",
        'images'    => "*img",
        'mimages'   => "*mime image/gif image/png image/jpeg",
-       'notimages' => "*mime ! image/gif image/png image/jpeg"
+       'notimages' => "*mime ! image/gif image/png image/jpeg",
     // (F)CKEditor types
         // 'files'   =>  "",
         // 'flash'   =>  "swf",
+        // 'media'     => "swf flv avi mpg mpeg qt mov wmv asf rm mp4 ogg",
         // 'images'  =>  "*img",
 
     // TinyMCE types
         // 'file'    =>  "",
-        // 'media'   =>  "swf flv avi mpg mpeg qt mov wmv asf rm",
+        // 'media'   =>  "swf flv avi mpg mpeg qt mov wmv asf rm mp4 ogg",
         // 'image'   =>  "*img",
     ),
 
-    'maxFileSize' => 100*1024*1024, // =byte
+    'maxFileSize' => 100*1024*1024*1024, // =byte
 // IMAGE SETTINGS
 
     'imageDriversPriority' => "imagick gmagick gd",
