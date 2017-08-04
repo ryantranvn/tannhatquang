@@ -117,12 +117,6 @@ class Product_category extends Root {
         $this->data['is_sub_category'] = 1;
         $this->data['default_parent_id'] = 2;
 
-        /*
-        print_r('<pre>');
-        print_r($arrCategory);
-        exit();
-        */
-
         // create form
             $this->data['frmCategory'] = frm('', array('id' => 'frmCategory'), TRUE, array('action'=>'add'));
 

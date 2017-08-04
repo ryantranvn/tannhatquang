@@ -2,14 +2,13 @@
 defined('BASEPATH') OR exit('No direct script access allowed');
 
 // is testing ?
-    if (ENVIRONMENT == 'understruction') {
-    	$route['default_controller'] = "frontend/maintain";
-        $route['(:any)'] = "frontend/maintain";
+    if (ENVIRONMENT == 'commingsoon' || ENVIRONMENT == 'understruction') {
+        $route['default_controller'] = "frontend/Maintain";
+        $route['(:any)'] = "frontend/Maintain";
     }
     else {
 		$route['default_controller'] = 'frontend/Home';
     }
-
 /* FRONTEND */
     $route['bang-gia'] = 'frontend/Home/banggia';
     $route['lien-he'] = 'frontend/Home/lienhe';
@@ -37,7 +36,6 @@ defined('BASEPATH') OR exit('No direct script access allowed');
 	$route['backend/(:any)/(:any)'] 	= "backend/$1/$2";
 	$route['backend/(:any)'] 	= "backend/$1";
 	$route['backend'] = "backend/dashboard";
-
 
 
 $route['404_override'] = '';

@@ -1419,6 +1419,7 @@
 	}
 
 // PRODUCT
+/*
 	function productPage()
 	{
 		if ($('#productPage').length>0) {
@@ -1814,7 +1815,7 @@
 			}
 		}
 	}
-
+*/
 // DOCUMENT ready
 	$(document).ready( function() {
 
@@ -1858,11 +1859,9 @@
 
    	// pages
 		dashboardPage();
-		// categoryPage();
 		// modulePage();
 		memberPage();
 		settingPage();
 
 		userPage();
-		productPage();
 	});

@@ -359,6 +359,7 @@ class Category extends Root {
             }
             return $path;
         }
+
 /*
 // Multi Delete
     public function multi_delete()

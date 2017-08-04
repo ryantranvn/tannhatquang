@@ -1,6 +1,6 @@
 <?php
 	define('ENVIRONMENT', isset($_SERVER['CI_ENV']) ? $_SERVER['CI_ENV'] : 'development');
-
+	// understruction
 /*
  *---------------------------------------------------------------
  * ERROR REPORTING
@@ -15,7 +15,9 @@ switch (ENVIRONMENT)
 		error_reporting(-1);
 		ini_set('display_errors', 1);
 		ini_set('memory_limit', '-1');
-	break;
+		break;
+	case 'commingsoon':
+		break;
 	case 'understruction':
 		break;
 	case 'testing':
@@ -316,7 +318,6 @@ else {
 
 // set local time
     date_default_timezone_set('Asia/Ho_Chi_Minh');
-    define('P', 300);
 
 // EMAIL
     define('MAIL_SERVER', '');
@@ -324,13 +325,7 @@ else {
     define('EMAILPASS', '');
     define('ATTACH_FOLDER', '');
 // PUSHER
-    // define('PUSHER_ID', 241601);
-    // define('PUSHER_KEY', "4128d1cd76ddabfdafc2");
-    // define('PUSHER_SECRET', "ceb00c785566477d8607");
 
-    define('PUSHER_ID', 273291);
-    define('PUSHER_KEY', "8ec694ef306b343095c8");
-    define('PUSHER_SECRET', "b1e6eac06b196d07e57d");
 // FILE
     define('MAXUPLOAD', 10);
     define('THUMB_SIZE', 1024);     define('THUMB_WIDTH', 1024);        define('THUMB_HEIGHT', 1024);
