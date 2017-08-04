@@ -370,8 +370,6 @@
 	{
 	    window.KCFinder = {
 	        callBack: function(url) {
-	        	// var pathname = url.split("/");
-				// var filename = pathname[pathname.length-1];
 	            field.val(url);
 	            window.KCFinder = null;
 	            if(typeof fnCallback == "function"){
@@ -402,34 +400,36 @@
 	    window.KCFinder = {
 	        callBackMultiple: function(files) {
 	            window.KCFinder = null;
-	            wrapper = field.parent().next()	// gallery wrapper
-	            currentArr = new Array()
-	            if (field.val()!="") {
-	            	currentArr = JSON.parse(field.val())
-	            }
-	            if (currentArr.length>0) {
-	            	arr = currentArr
-	            }
-	            else {
-	            	arr = new Array()
-	            }
-	            img = ""
-	            nameLinkInput = field.attr('name').substr(0,14)
+	            // wrapper = field.parent().next()	// gallery wrapper
+	            // currentArr = new Array()
+	            // if (field.val()!="") {
+	            // 	currentArr = JSON.parse(field.val())
+	            // }
+	            // if (currentArr.length>0) {
+	            // 	arr = currentArr
+	            // }
+	            // else {
+	            // 	arr = new Array()
+	            // }
+	            // img = ""
+	            // nameLinkInput = field.attr('name').substr(0,14)
+				arr = new Array();
 	            for (var i = 0; i < files.length; i++) {
 	                arr.push(files[i])
-	                img += '<div class="imgWrapper">'
-	                	img += '<img src="' + files[i] + '" class="thumbnail" />'
-	                	img += '<i class="fa fa-trash-o"></i>'/*data="' + files[i] + '"*/
-	                	if (hasLink==true) {
-		                	img += '<div class="row">'
-			                	img += '<label style="float: left; clear: both;">Link</label>'
-			                	img += '<input type="text" name="'+nameLinkInput+'_link[]" class="inputThumbnail form-control" style="float: left; clear: both" />'
-			                img += '</div>'
-		            	}
-	                img += '</div>'
+	            //     img += '<div class="imgWrapper">'
+	            //     	img += '<img src="' + files[i] + '" class="thumbnail" />'
+	            //     	img += '<i class="fa fa-trash-o"></i>'
+				// 		//data="' + files[i] + '"
+	            //     	if (hasLink==true) {
+		        //         	img += '<div class="row">'
+			    //             	img += '<label style="float: left; clear: both;">Link</label>'
+			    //             	img += '<input type="text" name="'+nameLinkInput+'_link[]" class="inputThumbnail form-control" style="float: left; clear: both" />'
+			    //             img += '</div>'
+		        //     	}
+	            //     img += '</div>'
 	            }
-	            wrapper.append(img)
-
+	            // wrapper.append(img)
+				//
 	            field.val(JSON.stringify(arr))
 	            if(typeof fnCallback == "function"){
 		            fnCallback();
@@ -475,9 +475,7 @@
 			                	htmlLink += '<input type="text" name="'+nameLinkInput+'_link" class="inputThumbnail form-control" style="float: left; clear: both" />'
 			                htmlLink += '</div>'
 			            }
-
 		                thumbnailWrapper.html('').html(htmlImg+htmlDel+htmlLink)
-
 		            }
 		            else if (typeFile == 'media') {
 		            	htmlStr = '<video id="video" width="320" controls="true">'
@@ -491,18 +489,33 @@
 				})
 			}
 			else {
-				inputField = $(this).parent().next()
+				inputField = $(this).parent().prev('.inputThumbnail')
 				openKCFinderMulti(inputField, typeFile, hasLink, function() {
-					$('body').on('click', '.imgWrapper .fa-trash-o', function() {
-		            	wrapper = $(this).parent()
-						wrapper.remove()
+					if (typeFile == 'images') {
+						typeDir = 'images/'
 						var obj = JSON.parse(inputField.val());
-						filtered = obj.filter(function(item) {
-						   return item !== wrapper.children('img').attr('src');
-						})
-						inputField.val('').val(JSON.stringify(filtered))
-		            })
-				})
+						htmlImgList = "";
+						$.each(obj, function(index, value) {
+							htmlImg = '<img src="' + value + '" class="thumbnail" />';
+			                htmlDel = '<a class="thumbnailDel"><i class="fa fa-trash-o"></i></a>';
+							htmlImgList += '<div class="thumbnailItem">' + htmlImg + htmlDel + '</div>';
+						});
+						thumbnailWrapper.html('').html(htmlImgList);
+					}
+
+
+
+
+					// $('body').on('click', '.imgWrapper .fa-trash-o', function() {
+		            // 	wrapper = $(this).parent()
+					// 	wrapper.remove()
+					// 	var obj = JSON.parse(inputField.val());
+					// 	filtered = obj.filter(function(item) {
+					// 	   return item !== wrapper.children('img').attr('src');
+					// 	})
+					// 	inputField.val('').val(JSON.stringify(filtered))
+		            // })
+				});
 			}
 		});
 	}
@@ -1847,7 +1860,7 @@
 	if ($("a.groupFancyBox").length>0) {
 		$("a.groupFancyBox").fancybox();
 	}
-
+	// some init
 		pageSetUp()
 		positiveInteger();
 	    setOrder();

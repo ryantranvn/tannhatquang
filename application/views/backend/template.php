@@ -35,7 +35,7 @@
 		<script language="javascript" type="text/javascript" src="<?=libsUrl('fancybox','js','jquery.fancybox.pack.js') ?>"></script>
 		<script language="javascript" type="text/javascript" src="<?=libsUrl('ckeditor','','ckeditor.js')?>"></script>
 		<script language="javascript" type="text/javascript" src="<?=libsUrl('ckeditor','','config.js')?>"></script>
-		<script language="javascript" type="text/javascript" src="<?=assetsUrl('common','js','script.min.js')?>"></script>
+		<script language="javascript" type="text/javascript" src="<?=assetsUrl('common','js','script.js?')?>"></script>
 		<script language="javascript" type="text/javascript" src="<?=assetsUrl('common','js','jquery.cookie.js') ?>"></script>
 		<script language="javascript" type="text/javascript" src="<?=assetsUrl('common','js','jquery.numeric.js') ?>"></script>
 		<script language="javascript" type="text/javascript" src="<?=assetsUrl('common','js','jquery.limit.js') ?>"></script>

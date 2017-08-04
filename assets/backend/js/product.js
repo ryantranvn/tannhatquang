@@ -129,4 +129,128 @@
         // tree view
             treeView();
 
+        // generate URL
+            gen_url($('input[name="name_product"]'), $('input[name="url_product"]'));
+
+            preventBeginWith('input[name=price_product]', 48);
+            preventBeginWith('input[name=price_product_sale]', 48);
+            preventBeginWith('input[name=price_product_sale_percent]', 48);
+        // limit character
+            $('input[name="code_product"]').limit('20','#code_product_limit');
+            $('input[name="manufacturer_product"]').limit('200','#manufacturer_product_limit');
+            $('input[name="name_product"]').limit('200','#name_product_limit');
+            $('input[name="url_product"]').limit('200','#url_product_limit');
+            $('textarea[name="desc_product"]').limit('1000','#desc_product_limit');
+
+        // have_sale
+            $('label[for=have_sale]').click( function() {
+                if (!$('#have_sale').is(":checked")) {
+                    $('#sale_wrap').show();
+                    $('input[name="have_sale"]').val(1);
+                    $('input[name=price_product]').addClass('strikethrough');
+                }
+                else {
+                    $('#sale_wrap').hide();
+                    $('input[name="have_sale"]').val(0);
+                    $('input[name=price_product]').removeClass('strikethrough');
+                    $('input[name=price_product_sale]').val('');
+                    $('input[name=price_product_sale_percent]').val('');
+                }
+            });
+            preventLongMore_Number('input[name=price_product_sale_percent]', 2);
+        // file
+            selectFile('.btnSelectThumbnail', 'images', true)
+            // delele file
+            $('body').on('click', '.thumbnailDel', function(e) {
+                e.preventDefault();
+                thumbnailWrapper = $(this).parent('.thumbnailWrapper')
+                inputThumbnail = thumbnailWrapper.prev().children('.inputThumbnail')
+
+                inputThumbnail.val('')
+                thumbnailWrapper.html('').html(defaultIMG)
+            });
+        // editor
+			CKEDITOR.replace( 'content_product', {
+	            entities_latin: false,
+	            entities_greek: false,
+	            toolbar: 'Full'
+	        })
+            // validation
+            // var $validator = $("#frmProduct").validate({
+            //     rules: {
+            //         name_product: {
+            //             required : true,
+            //             maxlength : 200
+            //         },
+            //         url_product: {
+            //             required: true,
+            //             maxlength : 200
+            //         },
+            //         desc_product: {
+            //             maxlength : 1000,
+            //         }
+            //     },
+            //     messages: {
+            //         name_product: {
+            //             required : "Name is required",
+            //             maxlength : "Maximum is 200 characters"
+            //         },
+            //         url_product: {
+            //             required : "URL is required",
+            //             maxlength : "Maximum is 200 characters"
+            //         },
+            //         desc_product: {
+            //             maxlength : "Maximum is 1000 characters"
+            //         }
+            //     },
+            //     highlight: function (element) {
+            //         $(element).closest('.form-group').removeClass('has-success').addClass('has-error');
+            //     },
+            //     unhighlight: function (element) {
+            //         $(element).closest('.form-group').removeClass('has-error').addClass('has-success');
+            //     },
+            //     errorElement: 'span',
+            //     errorClass: 'help-block',
+            //     errorPlacement: function (error, element) {
+            //         if (element.parent('.input-group').length) {
+            //             error.insertAfter(element.parent());
+            //         } else {
+            //             error.insertAfter(element);
+            //         }
+            //     },
+            //     submitHandler: function(form) {
+            //         /*
+            //         $.ajax({
+            //             // url: apiUrl + 'API_category/post_category',
+            //             url: bUrl + 'category/update',
+            //             type: 'POST',
+            //             cache: false,
+            //             dataType: 'json',
+            //             data: { 'csrf_hash' : $.cookie('csrf_cookie_ci'),
+            //                     'action': $('input[name=action]').val(),
+            //                     // 'id': $('input[name=id]').val(),
+            //                     // 'name': $('input[name=name]').val(),
+            //                     // 'url' : $('input[name=url]').val(),
+            //                     // 'desc': $('textarea[name=desc]').val(),
+            //                     // 'thumbnail': $('input[name=thumbnail]').val(),
+            //                     // 'order': $('input[name=order]').val(),
+            //                     // 'status': $('input[name=status]:checked').val(),
+            //                     // 'parent_id': $('input[name=parent_id]').val()
+            //                   },
+            //             success: function(data) {
+            //                 if (data.err=="1") {
+            //                     showSmartAlert("Error", data.msg, '[YES]')
+            //                 }
+            //                 else {
+            //                     window.location.href = bUrl + currentModule['url'];
+            //                 }
+            //             },
+            //             error: function() {
+            //                 showSmartAlert("Error", "Can send data. Please contact to admin.", '[YES]')
+            //             }
+            //         });
+            //         */
+            //         return false;
+            //     }
+            // });
     }

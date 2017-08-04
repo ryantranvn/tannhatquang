@@ -195,7 +195,36 @@
         //str= str.replace(/^\-+|\-+$/g,"");//cắt bỏ ký tự - ở đầu và cuối chuỗi
         fieldInput.val(str);// xuất kết quả xữ lý ra
     }
-
+    function preventBeginWith(element, keycode)
+    {
+        $('body').on('keypress', element, function(e) {
+            if ($.trim($(element).val()).length==0) {
+                if (e.keyCode==keycode) {
+                    e.preventDefault();
+                }
+            }
+        });
+    }
+    function preventLongMore_Number(element, max_length)
+    {
+        $('body').on('keypress', element, function(e) {
+            if ($.trim($(element).val()).length>0) {
+                if ($.trim($(element).val()).length >= max_length) {
+                    e.preventDefault();
+                }
+            }
+        });
+    }
+    function preventLongMore(className, classCompare)
+    {
+        $('body').on('keypress', '.'+className, function(e) {
+            if ($.trim($('.'+className).val()).length>0) {
+                if ($.trim($('.'+className).val()).length >= $.trim($('.'+classCompare).val()).length) {
+                    e.preventDefault();
+                }
+            }
+        });
+    }
 // Validate
     // notEqualValue
         jQuery.validator.addMethod("notEqualValue", function(value, element, param) {
@@ -203,21 +232,21 @@
         }, "Please specify a different (non-default) value");
 
     // valid domain in email
-        function isPruEmail(email)
-        {
-            var re = /^\s*[\w\-\+_]+(\.[\w\-\+_]+)*\@[\w\-\+_]+\.[\w\-\+_]+(\.[\w\-\+_]+)*\s*$/
-            if (email.indexOf('@prudential.com.vn', email.length - '@prudential.com.vn'.length) !== -1) {
-                return true
-            } else {
-                return false
-            }
-        }
-        jQuery.validator.addMethod("pruEmail", function(value, element) {
-        // allow any non-whitespace characters as the host part
-            if (isPruEmail(value)) {
-                return true
-            }
-        }, 'Vui lòng nhập email của prudential.');
+        // function isPruEmail(email)
+        // {
+        //     var re = /^\s*[\w\-\+_]+(\.[\w\-\+_]+)*\@[\w\-\+_]+\.[\w\-\+_]+(\.[\w\-\+_]+)*\s*$/
+        //     if (email.indexOf('@prudential.com.vn', email.length - '@prudential.com.vn'.length) !== -1) {
+        //         return true
+        //     } else {
+        //         return false
+        //     }
+        // }
+        // jQuery.validator.addMethod("pruEmail", function(value, element) {
+        // // allow any non-whitespace characters as the host part
+        //     if (isPruEmail(value)) {
+        //         return true
+        //     }
+        // }, 'Vui lòng nhập email của prudential.');
 
 
     function isUrl(url) {
@@ -358,24 +387,24 @@
 
 // YOUTUBE
     /* get ID from URL */
-        function getYouTubeIDFromURL(url)
-        {
-            if (url.indexOf('www.youtube.com/')==-1) {
-                var regExp = /^.*((youtu.be\/)|(v\/)|(\/u\/\w\/)|(embed\/)|(watch\?))\??v?=?([^#\&\?]*).*/;
-                var match = url.match(regExp);
-                if (match&&match[7].length==11){
-                    console.log(match[7])
-                    return match[7];
-                }else{
-                    alert("Url incorrecta");
-                }
-            }
-            else {
-                console.log(url.match(/\?v=([^&]*)/)[1])
-                return url.match(/\?v=([^&]*)/)[1];
-
+    function getYouTubeIDFromURL(url)
+    {
+        if (url.indexOf('www.youtube.com/')==-1) {
+            var regExp = /^.*((youtu.be\/)|(v\/)|(\/u\/\w\/)|(embed\/)|(watch\?))\??v?=?([^#\&\?]*).*/;
+            var match = url.match(regExp);
+            if (match&&match[7].length==11){
+                console.log(match[7])
+                return match[7];
+            }else{
+                alert("Url incorrecta");
             }
         }
+        else {
+            console.log(url.match(/\?v=([^&]*)/)[1])
+            return url.match(/\?v=([^&]*)/)[1];
+
+        }
+    }
 
 // add link on copy content
     function addLink()

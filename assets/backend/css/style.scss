@@ -382,6 +382,9 @@ html#extr-page {
 		font-style: italic;
 		color: red;
 	}
+	.strikethrough {
+		text-decoration: line-through;
+	}
 	.borderRedInput {
 		border: solid 1px red !important;
 	}
@@ -402,22 +405,28 @@ html#extr-page {
 	}
 	.thumbnailWrapper {
 		position: relative;
-		float: left; clear: both;
 
 		img {
 			max-width: 150px;
 			max-height: 150px;
-			float: left; clear: none;
 			border: solid 1px #999;
+			margin-right: 2px;
+			float: left; clear: none;
 		}
 		a.thumbnailDel {
-			position: absolute;
-			z-index: 10;
-			right: 0px; top: 0px;
+			display: block;
+			float: left; clear: none;
+			position: relative;
 			color: white;
 			font-size: 20px;
 			padding: 5px;
 			background-color: red;
+			border-radius: 5px;
+		}
+		.thumbnailItem {
+			position: relative;
+			float: left; clear: none;
+			margin: 10px;
 		}
 	}
 	#imageUploadWrapper {
