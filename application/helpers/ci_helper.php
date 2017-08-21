@@ -4,57 +4,6 @@ if (file_exists(APPPATH . 'libraries/PHPMailer/PHPMailerAutoload.php')) {
     require_once(APPPATH . 'libraries/PHPMailer/PHPMailerAutoload.php');
 }
 
-// get SEO
-    function getSeo($lang, $page)
-    {
-        $CI = & get_instance();
-        $result = array();
-        $setting = $CI->Base_model->get_db('setting',NULL,array('type'=>$page));
-        $metaKeyVN = $metaKeyEN = "";
-        if ($setting == FALSE || count($setting)==0) {
-            // have not yet
-            $pageTitleVN = $pageTitleEN = "";
-            $metaDescriptionVN = $metaDescriptionEN = "";
-        }
-        else {
-            foreach ($setting as $item) {
-                if ($item['name']=='page-title-vn') {
-                    $pageTitleVN = $item['value'];
-                }
-                else if ($item['name']=='page-title-en') {
-                    $pageTitleEN = $item['value'];
-                }
-                else if ($item['name']=='meta-description-vn') {
-                    $metaDescriptionVN = $item['value'];
-                }
-                else if ($item['name']=='meta-description-en') {
-                    $metaDescriptionEN = $item['value'];
-                }
-                else if ($item['name']=='meta-key-vn') {
-                    $metaKeyVN .= $item['value'].',';
-                }
-                else if ($item['name']=='meta-key-en') {
-                    $metaKeyEN .= $item['value'].',';
-                }
-            }
-            $metaKeyVN = substr($metaKeyVN, 0, -1);
-            $metaKeyEN = substr($metaKeyEN, 0, -1);
-        }
-
-        if ($lang == "vn") {
-            $result['pageTitle'] = $pageTitleVN;
-            $result['metaDescription'] = $metaDescriptionVN;
-            $result['metaKey'] = $metaKeyVN;
-        }
-        else {
-            $result['pageTitle'] = $pageTitleEN;
-            $result['metaDescription'] = $metaDescriptionEN;
-            $result['metaKey'] = $metaKeyEN;
-        }
-
-        return $result;
-    }
-
 // URL
     function assetsUrl($whatModule,$folder,$filename) {
         return F_URL . 'assets/'.$whatModule.'/'.$folder.'/'.$filename;
@@ -62,8 +11,7 @@ if (file_exists(APPPATH . 'libraries/PHPMailer/PHPMailerAutoload.php')) {
     function libsUrl($whatLibrary,$folder,$filename) {
         return F_URL . 'library/'.$whatLibrary.'/'.$folder.'/'.$filename;
     }
-    function uploadUrl($type, $filename, $thumbnail=FALSE)
-    {
+    function uploadUrl($type, $filename, $thumbnail=FALSE) {
         if ($thumbnail != FALSE) {
             return F_URL . 'upload/.thumbs/'.$type.'/'.$filename;
         }

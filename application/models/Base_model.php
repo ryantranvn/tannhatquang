@@ -44,7 +44,7 @@ class Base_model extends CI_model {
                 $sql .= " ORDER BY " . $params['sidx'] . " " . $params['sord'];
                 $sql .= " LIMIT " . $start . ", " . $params['limit'];
                 $list = $this->table_get_list($sql);
-                
+
             // arrange result
                 $arrJSON['sidx'] = $params['sidx'];
                 $arrJSON['page'] = $params['page'];
@@ -141,8 +141,79 @@ class Base_model extends CI_model {
             return FALSE;
         }
     }
+// INSERT POST
+    function insert_post($arrPost)
+    {
+        $sql = "INSERT INTO post (`category_id`, `type`, `status`, `created_datetime`, `created_by`) VALUES (?, ?, ?, ?, ?)";
+        $result = $this->db->query($sql, array($arrPost['category_id'], $arrPost['type'], $arrPost['status'], $arrPost['created_datetime'], $arrPost['created_by']));
+        if ($result == FALSE) {
+            return FALSE;
+        }
+        $id = $this->db->insert_id();
+        return $id;
+    }
+// GET POST
+    function get_post($type, $id, $deleted=NULL)
+    {
+        if ($type=="product") {
+            $sql = "SELECT
+                        post.id
+                        ,post.category_id
+                        ,post.status
+                        ,product.code
+                        ,product.name
+                        ,product.url
+                        ,product.description
+                        ,product.unit
+                        ,product.manufacturer
+                        ,product.quantity
+                        ,product.stock_in_trade
+                        ,product.price
+                        ,product.price_sale
+                        ,product.price_sale_percent
+                        ,product.order
+                        ,product.detail
+                    FROM post
+                    INNER JOIN product ON product.post_id = post.id
+                    -- LEFT JOIN post_picture ON post.id = post_picture.post_id
+            ";
+        }
+        $where = " WHERE post.type = '".$type."' AND post.id = ".$id;
+        if ($deleted !== NULl) {
+            $where .= " AND deleted=".$deleted;
+        }
+        $sql .= $where;
+        $query = $this->db->query($sql);
+        $result = $query->result_array();
 
+        return $result;
+    }
+// DELETE POST
+    function delete_post($type, $id)
+    {
+        $this->db->trans_begin();
 
+        // delete picture
+            $sql = "DELETE FROM post_picture WHERE `post_id`=?";
+            $this->db->query($sql, array($id));
+        // delete product
+            $sql_product = "DELETE FROM product WHERE `post_id`=?";
+            $this->db->query($sql_product, array($id));
+        // delete post
+            $sql_post = "DELETE FROM post WHERE `id`=?";
+            $this->db->query($sql_post, array($id));
+
+        if ($this->db->trans_status() === FALSE)
+        {
+            $this->db->trans_rollback();
+            return FALSE;
+        }
+        else
+        {
+            $this->db->trans_commit();
+            return TRUE;
+        }
+    }
 
 
 /*

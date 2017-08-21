@@ -91,10 +91,11 @@ class Category_model extends Base_model {
         $updateSql = "UPDATE category SET `path`=? WHERE id=?";
 
         $this->db->trans_begin();
-        $this->db->query($insertSql,array($insertArr['name'],$insertArr['url'],$insertArr['desc'],$insertArr['thumbnail'],$insertArr['order'],$insertArr['status'],$insertArr['parent_id'],$insertArr['created_datetime'],$insertArr['created_by']));
-        $id = $this->db->insert_id();
-        $path .= $id."-";
-        $this->db->query($updateSql,array($path,$id));
+
+            $this->db->query($insertSql,array($insertArr['name'],$insertArr['url'],$insertArr['desc'],$insertArr['thumbnail'],$insertArr['order'],$insertArr['status'],$insertArr['parent_id'],$insertArr['created_datetime'],$insertArr['created_by']));
+            $id = $this->db->insert_id();
+            $path .= $id."-";
+            $this->db->query($updateSql,array($path, $id));
 
         if ($this->db->trans_status() === FALSE)
         {
@@ -135,59 +136,29 @@ class Category_model extends Base_model {
     }
 
 // delete
-    // 1. move all post (if have) to default
-    // 2. move all children category (with post - if have) to default
+    // 1. move all post (if have) to default parent and set deleted=1
+    // 2. delete all children category
     // 3. delete this category
-    function delete_category($id, $deleteChildren)
+    function delete_category($id)
     {
         $this->db->trans_begin();
 
+        // get category need delete and find root parent
             $categories = $this->get_db('category', NULL, array('id'=>$id));
             if ($categories == FALSE || count($categories)==0) {
                 return FALSE;
             }
             $category = $categories[0];
-            $tbl_store = '';
             $root_parent_id = explode('-', $category['path'])[1];
-            if ($root_parent_id=='2') {
-                $tbl_store = "product";
-            } else {
-                $tbl_store = "post";
-            }
-            // delete flag to combine to url when moving
-            $delete_flg = "-deleted-".date('Ymt-his');
-        // 1. move all post (if have) of itself to default parent category or delete
-            // get all children of itself
-            $posts = $this->get_db($tbl_store, array('id'), array('category_id' => $id));
-            if ($posts !== FALSE && count($posts)>0) {
-                foreach ($posts as $post) {
-                    if ($deleteChildren) {
-                        $this->deleteDB($tbl_store, 'category_id', array($post['id']));
-                    }
-                    else {
-                        $this->updateDB($tbl_store, array('category_id' => $root_parent_id, 'url' => $post['url'].$delete_flg), array('category_id' => $post['id']));
-                    }
-                }
-            }
 
-        // 2. move all children category (if have) to default parent category or delete
-            // get all children
-            $children = $this->Base_model->get_db('category', array('id', 'path'), array('path <>' => $category['path']), array('path' => $category['path']));
-            if ($children !== FALSE && count($children)>0) {
-                foreach ($children as $child) {
-                    if ($deleteChildren) {
-                        $this->deleteDB($tbl_store, 'category_id', array($child['id']));
-                        $this->deleteDB('category', 'id', array($child['id']));
-                    }
-                    else {
-                        $new_path = str_replace('-'.$id.'-', '-'.$root_parent_id.'-', $child['path']);
-                        $this->updateDB('category', array('parent_id' => $root_parent_id, 'path' => $new_path, 'url' => $child['url'].$delete_flg), array('id' => $child['id']));
-                    }
-                }
+        // get all children
+            $children = $this->Base_model->get_db('category', array('id', 'path'), NULL, array('path' => $category['path']));
+            foreach ($children as $child) {
+                // move all post
+                $this->update_db('post', array('category_id' => $root_parent_id, 'deleted' => 1), array('category_id'=>$child['id']));
+                // delete category
+                $this->delete_db('category', 'id', $child['id']);
             }
-
-        // 3. delete this category
-            $this->delete_db('category', 'id', array($id));
 
         if ($this->db->trans_status() === FALSE)
         {

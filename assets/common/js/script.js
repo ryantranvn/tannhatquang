@@ -4,6 +4,15 @@
     var apiUrl = fUrl + "api/"
     var libsUrl = fUrl + "library/"
     var uploadDir = fUrl + 'upload/'
+// processing
+    function processing_on()
+    {
+        $('.processing').fadeIn(800);
+    }
+    function processing_off()
+    {
+        $('.processing').fadeOut(500);
+    }
 
 // URL
     function lastUrl()
@@ -225,6 +234,7 @@
             }
         });
     }
+
 // Validate
     // notEqualValue
         jQuery.validator.addMethod("notEqualValue", function(value, element, param) {

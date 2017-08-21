@@ -58,6 +58,28 @@
 		"outputStyle": 1,
 		"syntaxCheckerStyle": 1
 		},
+	"\/backend\/js\/init_height.js": {
+		"fileType": 64,
+		"ignore": 0,
+		"ignoreWasSetByUser": 0,
+		"inputAbbreviatedPath": "\/backend\/js\/init_height.js",
+		"outputAbbreviatedPath": "\/backend\/js\/init_height.min.js",
+		"outputPathIsOutsideProject": 0,
+		"outputPathIsSetByUser": 0,
+		"outputStyle": 1,
+		"syntaxCheckerStyle": 1
+		},
+	"\/backend\/js\/init_height.min.js": {
+		"fileType": 64,
+		"ignore": 1,
+		"ignoreWasSetByUser": 0,
+		"inputAbbreviatedPath": "\/backend\/js\/init_height.min.js",
+		"outputAbbreviatedPath": "\/backend\/js\/init_height.min.min.js",
+		"outputPathIsOutsideProject": 0,
+		"outputPathIsSetByUser": 0,
+		"outputStyle": 1,
+		"syntaxCheckerStyle": 1
+		},
 	"\/backend\/js\/jquery.wheelmenu.min.js": {
 		"fileType": 64,
 		"ignore": 0,
@@ -157,6 +179,28 @@
 		"outputStyle": 1,
 		"syntaxCheckerStyle": 1
 		},
+	"\/backend\/js\/tree.js": {
+		"fileType": 64,
+		"ignore": 0,
+		"ignoreWasSetByUser": 0,
+		"inputAbbreviatedPath": "\/backend\/js\/tree.js",
+		"outputAbbreviatedPath": "\/backend\/js\/tree.min.js",
+		"outputPathIsOutsideProject": 0,
+		"outputPathIsSetByUser": 0,
+		"outputStyle": 1,
+		"syntaxCheckerStyle": 1
+		},
+	"\/backend\/js\/tree.min.js": {
+		"fileType": 64,
+		"ignore": 1,
+		"ignoreWasSetByUser": 0,
+		"inputAbbreviatedPath": "\/backend\/js\/tree.min.js",
+		"outputAbbreviatedPath": "\/backend\/js\/tree.min.min.js",
+		"outputPathIsOutsideProject": 0,
+		"outputPathIsSetByUser": 0,
+		"outputStyle": 1,
+		"syntaxCheckerStyle": 1
+		},
 	"\/common\/css\/font-awesome.min.css": {
 		"fileType": 16,
 		"ignore": 0,
@@ -220,6 +264,17 @@
 		"initialSize": 1319,
 		"inputAbbreviatedPath": "\/common\/images\/default.jpg",
 		"outputAbbreviatedPath": "\/common\/images\/default.jpg",
+		"outputPathIsOutsideProject": 0,
+		"outputPathIsSetByUser": 0,
+		"processed": 0
+		},
+	"\/common\/images\/error.png": {
+		"fileType": 32768,
+		"ignore": 0,
+		"ignoreWasSetByUser": 0,
+		"initialSize": 44239,
+		"inputAbbreviatedPath": "\/common\/images\/error.png",
+		"outputAbbreviatedPath": "\/common\/images\/error.png",
 		"outputPathIsOutsideProject": 0,
 		"outputPathIsSetByUser": 0,
 		"processed": 0
@@ -461,6 +516,17 @@
 		"ignoreWasSetByUser": 0,
 		"inputAbbreviatedPath": "\/common\/js\/jquery.numeric.min.js",
 		"outputAbbreviatedPath": "\/common\/js\/jquery.numeric.min.min.js",
+		"outputPathIsOutsideProject": 0,
+		"outputPathIsSetByUser": 0,
+		"outputStyle": 1,
+		"syntaxCheckerStyle": 1
+		},
+	"\/common\/js\/jquery.priceformat.min.js": {
+		"fileType": 64,
+		"ignore": 0,
+		"ignoreWasSetByUser": 0,
+		"inputAbbreviatedPath": "\/common\/js\/jquery.priceformat.min.js",
+		"outputAbbreviatedPath": "\/common\/js\/jquery.priceformat.min.min.js",
 		"outputPathIsOutsideProject": 0,
 		"outputPathIsSetByUser": 0,
 		"outputStyle": 1,

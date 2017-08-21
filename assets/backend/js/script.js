@@ -4,9 +4,17 @@
 	var defaultNumRows = 50
 	var defaultIMG = '<img class="thumbnail" src="'+fUrl+'assets/common/images/default.jpg" />'
 
-	$( document ).ajaxStart(function() {
-		$( "#loading" ).show();
+/*
+	$(document).on({
+	    ajaxStart: function() {
+	        processing_on();
+	    },
+	    ajaxStop: function() {
+	       processing_off();
+	    }
 	});
+*/
+
 /* alert */
 	function showSmartAlert(title, content, buttons, fnCallbackYES, fnCallbackNO, fnCallbackCANCEL)
 	{
@@ -160,11 +168,11 @@
 	}
 	function captionExport(module)
 	{
-		return '<a id="btnExport" href="'+bUrl+module+'/export_db" class="btnTop pull-right btn btn-primary"><i class="fa fa-cloud-download"></i> Export</a>';
+		return '<a id="btnExport" href="'+bUrl+module+'/export_db" class="btnTop btn btn-primary"><i class="fa fa-cloud-download"></i> Export</a>';
 	}
 	function captionImport(module)
 	{
-		return '<a id="btnImport" href="#" class="btnTop pull-right btn btn-default"><i class="fa fa-cloud-upload"></i> Import</a>'
+		return '<a id="btnImport" href="#" class="btnTop btn btn-default"><i class="fa fa-cloud-upload"></i> Import</a>'
 	}
 
 // action buttons inline
@@ -309,7 +317,6 @@
 				}
 			});
 	}
-
 // tree view
 	function treeView()
 	{
@@ -320,7 +327,8 @@
 
 				$(this).addClass('label-success');
 			// set data
-				$(this).closest('form').find('input[name=parent_id]').val($(this).attr('data-id'))
+				$(this).closest('.wrap_tree').find('input[name=selected_category_id]').val($(this).attr('data-id'))
+				$(this).closest('.wrap_tree').find('input[name=parent_id]').val($(this).closest('ul').prev('span').attr('data-id'));
 			});
 
 			// collapse all
@@ -354,7 +362,6 @@
 				});
 		}
 	}
-
 // positive-integer
 	function positiveInteger()
 	{
@@ -400,37 +407,14 @@
 	    window.KCFinder = {
 	        callBackMultiple: function(files) {
 	            window.KCFinder = null;
-	            // wrapper = field.parent().next()	// gallery wrapper
-	            // currentArr = new Array()
-	            // if (field.val()!="") {
-	            // 	currentArr = JSON.parse(field.val())
-	            // }
-	            // if (currentArr.length>0) {
-	            // 	arr = currentArr
-	            // }
-	            // else {
-	            // 	arr = new Array()
-	            // }
-	            // img = ""
-	            // nameLinkInput = field.attr('name').substr(0,14)
-				arr = new Array();
+				var arr = new Array();
+				if (field.val()!="") {
+					arr = JSON.parse(field.val())
+				}
 	            for (var i = 0; i < files.length; i++) {
 	                arr.push(files[i])
-	            //     img += '<div class="imgWrapper">'
-	            //     	img += '<img src="' + files[i] + '" class="thumbnail" />'
-	            //     	img += '<i class="fa fa-trash-o"></i>'
-				// 		//data="' + files[i] + '"
-	            //     	if (hasLink==true) {
-		        //         	img += '<div class="row">'
-			    //             	img += '<label style="float: left; clear: both;">Link</label>'
-			    //             	img += '<input type="text" name="'+nameLinkInput+'_link[]" class="inputThumbnail form-control" style="float: left; clear: both" />'
-			    //             img += '</div>'
-		        //     	}
-	            //     img += '</div>'
 	            }
-	            // wrapper.append(img)
-				//
-	            field.val(JSON.stringify(arr))
+				field.val(JSON.stringify(arr))
 	            if(typeof fnCallback == "function"){
 		            fnCallback();
 		        }
@@ -475,7 +459,7 @@
 			                	htmlLink += '<input type="text" name="'+nameLinkInput+'_link" class="inputThumbnail form-control" style="float: left; clear: both" />'
 			                htmlLink += '</div>'
 			            }
-		                thumbnailWrapper.html('').html(htmlImg+htmlDel+htmlLink)
+		                thumbnailWrapper.html('').html('<div class="thumbnailItem">' + htmlImg+htmlDel+htmlLink + '</div>')
 		            }
 		            else if (typeFile == 'media') {
 		            	htmlStr = '<video id="video" width="320" controls="true">'
@@ -498,23 +482,25 @@
 						$.each(obj, function(index, value) {
 							htmlImg = '<img src="' + value + '" class="thumbnail" />';
 			                htmlDel = '<a class="thumbnailDel"><i class="fa fa-trash-o"></i></a>';
-							htmlImgList += '<div class="thumbnailItem">' + htmlImg + htmlDel + '</div>';
+							if (hasLink==undefined || hasLink=="") {
+		                		htmlLink = ''
+		                	}
+							else {
+								htmlLink = '<div class="">'
+				                	htmlLink += '<label style="float: left; clear: both;">Link</label>'
+				                	htmlLink += '<input type="text" name="thumbnail_links[]" class="form-control" style="float: left; clear: both" />'
+				                htmlLink += '</div>'
+							}
+							htmlImgList += '<div class="thumbnailItem">' + htmlImg + htmlDel + htmlLink + '</div>';
 						});
 						thumbnailWrapper.html('').html(htmlImgList);
+						// if (thumbnailWrapper.find('.thumbnailItem').length==0) {
+						// 	thumbnailWrapper.html('').html(htmlImgList);
+						// }
+						// else {
+						// 	thumbnailWrapper.append(htmlImgList);
+						// }
 					}
-
-
-
-
-					// $('body').on('click', '.imgWrapper .fa-trash-o', function() {
-		            // 	wrapper = $(this).parent()
-					// 	wrapper.remove()
-					// 	var obj = JSON.parse(inputField.val());
-					// 	filtered = obj.filter(function(item) {
-					// 	   return item !== wrapper.children('img').attr('src');
-					// 	})
-					// 	inputField.val('').val(JSON.stringify(filtered))
-		            // })
 				});
 			}
 		});
@@ -1431,407 +1417,11 @@
 		}
 	}
 
-// PRODUCT
-/*
-	function productPage()
-	{
-		if ($('#productPage').length>0) {
-			module = 'product'
-
-		// list
-			if ($(idTableList).length>0) {
-				var statusStr = ":All;active:Active;inactive:Inactive";
-				caption = captionButton(module, true, true)
-
-			// jqGrid
-				jQuery(idTableList).jqGrid({
-					url: bUrl + module + '/ajax_list?q=2',
-					datatype: "json",
-					height : 'auto',
-					autowidth : true,
-					shrinkToFit: false,
-					gridResize: true,
-					autoResizeAllColumns: true,
-					iconSet: "fontAwesome",
-					colNames : ['Status', 'ID', 'Title', 'Category','Order', 'Thumbnail', 'Action'],
-					colModel : [{ name : 'status', index : 'status', align : 'center', width : '80',
-									stype: 'select', searchoptions:{ sopt:['eq'], value: statusStr }
-								},
-								{ name : 'id', index : 'id', search : true, align : 'center', width : '60' },
-								{ name : 'title', index : 'title', align : 'left', search : true, width : '150' },
-								{ name : 'categoryName', index : 'categoryName', search : true, width : '150' },
-								{ name : 'order', index : 'order', align : 'center', search : true, width : '60',
-									editable : true,
-									editoptions: { dataInit: function (elem) {
-											setTimeout( function() {
-												$(elem).numeric();
-											}, 100);
-										}
-									}
-								},
-								{ name : 'thumbnail', index : 'thumbnail', align : 'center', search : false, width : '100' },
-								{ name: "act", index: 'act', editable : false, search : false, width : '80', align : 'center' }
-					],
-					rownumbers : true,
-					rowNum : defaultNumRows,
-					rowList : [10, 20, defaultNumRows],
-					pager : idPager,
-					sortname : 'id',
-					sortorder : "desc",
-					toolbarfilter : true,
-					viewrecords : true,
-					gridComplete : function() {
-						var ids = jQuery(idTableList).jqGrid('getDataIDs');
-						for (var i = 0; i < ids.length; i++) {
-							var cl = ids[i];
-							var rowData = jQuery(idTableList).jqGrid ('getRowData', cl);
-							var fa = ""
-							var fa = formatButton(cl, rowData.status, 'btnStatus_', 'btnStatus', 'modalStatus')
-							var th = ""
-							if (rowData.thumbnail != "") {
-								th = '<img src="' + rowData.thumbnail + '" class="thumbInTable" />'
-							}
-							var	btnInline = btnEditInline(module, cl, true) + bntDeleteInline(module, false, cl, true)
-							jQuery(idTableList).jqGrid('setRowData', ids[i], {
-								status : fa,
-								thumbnail : th,
-								act : btnInline
-							});
-
-						}
-					// btnStatus
-						click_btnInGrid('btnStatus', 'modalStatus', bUrl+module+'/ajax_status', arrClassValue_Status, function() {
-							location.reload();
-						});
-					},
-					ajaxRowOptions: { async: true },
-					caption : caption,
-					multiselect : true,
-					// editurl : bUrl + module + '/edit_inline',
-					loadBeforeSend: function () {
-						$(this).closest("div.ui-jqgrid-view").find("table.ui-jqgrid-htable>thead>tr>th").css({"text-align":"center"});
-					},
-					onSelectRow: function(id) {
-					}
-				});
-
-			// common
-				tableCommon();
-
-			// delete inline
-				$('body').on('click','.btnDelete', function(e) {
-					e.preventDefault();
-					selectedRows = jQuery(idTableList).jqGrid('getGridParam','selarrrow');
-					href = $(this).attr('href');
-					showSmartAlert("Warning", "<p>Are you sure delete data ?</p>", '[NO][YES]', function() {
-						// click YES
-						$('#ids').val(selectedRows)
-						$('#frmTopButtons').submit();
-					}, function() {
-						// click NO
-					});
-				});
-
-			// multi-delete
-				$('body').on('click', '#btnMultiDelete', function(e) {
-					e.preventDefault();
-					href = $(this).attr('href');
-
-					selectedRows = jQuery(idTableList).jqGrid('getGridParam','selarrrow');
-					if (selectedRows.length==0) {
-						showSmartAlert("Error", "Please select data.", '[YES]');
-					}
-					else {
-						showSmartAlert("Warning", "<p>Are you sure delete data ?</p>", '[NO][YES]', function() {
-							// click YES
-							$('#ids').val(selectedRows)
-							$('#frmTopButtons').submit();
-						}, function() {
-							// click NO
-						});
-					}
-				});
-
-			}
-		// common for add & edit
-			if ($('#frmAdd').length>0) {
-
-			// tree view
-				treeView();
-
-			// show hide buttons
-				$('.tree li span').mouseenter( function() {
-					if (permissionsMember[module][2] == 1) {
-						$(this).children('a.addProductCategory').css('display','inline-block')
-					}
-					if (permissionsMember[module][3] == 1) {
-						$(this).children('a.editProductCategory').css('display','inline-block')
-					}
-					if (permissionsMember[module][4] == 1) {
-						$(this).children('a.deleteProductCategory').css('display','inline-block')
-					}
-				});
-				$('.tree li span').mouseleave( function() {
-					$(this).children('a.deleteProductCategory, a.addProductCategory, a.editProductCategory').css('display','none')
-				});
-
-			// click Add category
-				$('a.addProductCategory').click( function() {
-					$('#productCategoryModal').find('.modal-title').html('Add Category')
-					$('#productCategoryModal').find('#frmProductCategory').find('input[name="parent_id"]').val($(this).parent('span').attr('data-id'))
-					// set default active status
-					$('#statusCategoryModal').find('input[name=status][value=active]').attr('checked','checked').parent('label').addClass('active').addClass(arrStatus['active'][0]).addClass(arrStatus['active'][1])
-				});
-			// click Edit category
-				$('a.editProductCategory').click( function() {
-					$('#productCategoryModal').find('.modal-title').html('Edit Category')
-					$('#productCategoryModal').find('#frmProductCategory').find('input[name="parent_id"]').val($(this).parent('span').parent('li').parent('ul').prev('span').attr('data-id'))
-					// get category
-					var id = $(this).parent('span').attr('data-id')
-					$.ajax({
-						url: apiUrl + 'category',
-						type: 'GET',
-						cache: false,
-						dataType: 'json',
-						data: { //'csrf_hash' : $.cookie('csrf_cookie_ci'),
-								'id': id
-							  },
-						success: function(data) {
-							if (data.err==1) {
-								showSmartAlert("Error", data.msg, '[YES]')
-							}
-							else {
-								$('input[name="csrf_hash"]').val($.cookie('csrf_cookie_ci'))
-								var category = data.category
-								$('#productCategoryModal input[name="id"]').val(category.id)
-								$('#productCategoryModal input[name="nameCategory"]').val(category.name)
-								$('#productCategoryModal input[name="urlCategory"]').val(category.url)
-								$('#productCategoryModal input[name="order"]').val(category.order)
-								$('#productCategoryModal textarea[name="descCategory"]').val(category.desc)
-
-								$('#statusCategoryModal').find('input[name=status][value=' + category.status + ']').attr('checked','checked').parent('label').addClass('active').addClass(arrStatus[category.status][0]).addClass(arrStatus[category.status][1])
-							}
-						},
-						error: function() {
-							showSmartAlert("Error", "Can send data. Please contact to admin.", '[YES]')
-						}
-					});
-				});
-			// click Delete category
-				$('a.deleteProductCategory').click( function() {
-					var id = $(this).parent('span').attr('data-id')
-					if (permissionsMember[module][4] == 1) {
-						showSmartAlert("Warning", "<p>Delete a category maybe effect to another data.</p><p>[YES] : Delete all children.<br/>[NO] : Just delete this category.<br/>[CANCEL] : Cancel delete action.</p><p>Are you sure delete this data ?</p>", '[YES][NO][CANCEL]', function() {
-							// click YES
-							$.ajax({
-								url: apiUrl + 'category',
-								type: 'DELETE',
-								cache: false,
-								dataType: 'json',
-								data: { //'csrf_hash' : $.cookie('csrf_cookie_ci'),
-										'id': id,
-										'dc':1
-									  },
-								success: function(data) {
-									console.log(data);
-									// if (data.err==1) {
-									// 	showSmartAlert("Error", data.msg, '[YES]')
-									// }
-									// else {
-									// 	$('input[name="csrf_hash"]').val($.cookie('csrf_cookie_ci'))
-									// 	var category = data.category
-									// 	$('#productCategoryModal input[name="id"]').val(category.id)
-									// 	$('#productCategoryModal input[name="name"]').val(category.name)
-									// 	$('#productCategoryModal input[name="url"]').val(category.url)
-									// 	$('#productCategoryModal input[name="order"]').val(category.order)
-									// 	$('#productCategoryModal textarea[name="desc"]').val(category.desc)
-									//
-									// 	$('#statusCategoryModal').find('input[name=status][value=' + category.status + ']').attr('checked','checked').parent('label').addClass('active').addClass(arrStatus[category.status][0]).addClass(arrStatus[category.status][1])
-									// }
-								},
-								error: function() {
-									showSmartAlert("Error", "Can send data. Please contact to admin.", '[YES]')
-								}
-							});
-						}, function() {
-							// click NO
-							$.ajax({
-								url: apiUrl + 'category/delete_category',
-								type: 'POST',
-								cache: false,
-								dataType: 'json',
-								data: { 'csrf_hash' : $.cookie('csrf_cookie_ci'),
-										'id': id,
-										'dc':1
-									  },
-								success: function(data) {
-									console.log(data);
-									// if (data.err==1) {
-									// 	showSmartAlert("Error", data.msg, '[YES]')
-									// }
-									// else {
-									// 	$('input[name="csrf_hash"]').val($.cookie('csrf_cookie_ci'))
-									// 	var category = data.category
-									// 	$('#productCategoryModal input[name="id"]').val(category.id)
-									// 	$('#productCategoryModal input[name="name"]').val(category.name)
-									// 	$('#productCategoryModal input[name="url"]').val(category.url)
-									// 	$('#productCategoryModal input[name="order"]').val(category.order)
-									// 	$('#productCategoryModal textarea[name="desc"]').val(category.desc)
-									//
-									// 	$('#statusCategoryModal').find('input[name=status][value=' + category.status + ']').attr('checked','checked').parent('label').addClass('active').addClass(arrStatus[category.status][0]).addClass(arrStatus[category.status][1])
-									// }
-								},
-								error: function() {
-									showSmartAlert("Error", "Can send data. Please contact to admin.", '[YES]')
-								}
-							});
-						}, function() {
-							// click CANCEL
-						});
-					}
-				})
-
-			// on show modal
-				$('#productCategoryModal').on('show.bs.modal', function (e) {
-					var form  = $(this).find('#frmProductCategory')
-					parent_id = form.find('input[name="parent_id"]').val()
-					form.find('.tree').children('ul').find('li span[data-id='+parent_id+']').addClass('label-success')
-				})
-			// on hide modal
-				$('#productCategoryModal').on('hidden.bs.modal', function() {
-
-					$('#productCategoryModal input[name="id"]').val(0)
-					$('#productCategoryModal input[name="name"]').val('')
-					$('#productCategoryModal input[name="url"]').val('')
-					$('#productCategoryModal input[name="order"]').val(0)
-					$('#productCategoryModal textarea[name="desc"]').val('')
-
-					$('#statusCategoryModal').find('input[name=status][value=active]').removeAttr('checked').parent('label').removeClass('active').removeClass(arrStatus['active'][0]).removeClass(arrStatus['active'][1])
-					$('#statusCategoryModal').find('input[name=status][value=inactive]').removeAttr('checked').parent('label').removeClass('active').removeClass(arrStatus['inactive'][0]).removeClass(arrStatus['inactive'][1])
-					$('#statusCategoryModal').find('input[name=status][value=block]').removeAttr('checked').parent('label').removeClass('active').removeClass(arrStatus['block'][0]).removeClass(arrStatus['block'][1])
-				});
-
-			// generate URL
-				gen_url($('#productCategoryModal input[name="nameCategory"]'), $('#productCategoryModal input[name="url"]'));
-			// limit character
-				$('#frmProductCategory input[name="nameCategory"]').limit('200','#nameCategoryLimit');
-				$('#frmProductCategory input[name="urlCategory"]').limit('200','#urlCategoryLimit');
-				$('#frmProductCategory textarea[name="descCategory"]').limit('1000','#descCategoryLimit');
-
-			// validation
-				var $validator = $("#frmProductCategory").validate({
-				    rules: {
-				    	nameCategory: {
-							required : true,
-							maxlength : 200
-						},
-						urlCategory: {
-							required: true,
-							maxlength : 200
-						},
-						descCategory: {
-							maxlength : 1000,
-						}
-				    },
-				    messages: {
-				    	nameCategory: {
-				    		required : "Name is required",
-				    		maxlength : "Maximum is 200 characters"
-				    	},
-				      	urlCategory: {
-				      		required : "URL is required",
-				      		maxlength : "Maximum is 200 characters",
-				      	},
-				        descCategory: {
-				        	maxlength : "Maximum is 1000 characters"
-				        }
-				    },
-				    highlight: function (element) {
-				      	$(element).closest('.form-group').removeClass('has-success').addClass('has-error');
-				    },
-				    unhighlight: function (element) {
-				      	$(element).closest('.form-group').removeClass('has-error').addClass('has-success');
-				    },
-				    errorElement: 'span',
-				    errorClass: 'help-block',
-				    errorPlacement: function (error, element) {
-				      	if (element.parent('.input-group').length) {
-				        	error.insertAfter(element.parent());
-				      	} else {
-				        	error.insertAfter(element);
-				      	}
-				    },
-				    submitHandler: function(form) {
-						var id = $('input[name=id]').val()
-						if (id == 0) {
-				    		$.ajax({
-								url: apiUrl + 'category',
-					            type: 'POST',
-				                cache: false,
-				                dataType: 'json',
-				                data: { 'csrf_hash' : $.cookie('csrf_cookie_ci'),
-				                		'name': $('input[name="nameCategory"]').val(),
-				                		'url' : $('input[name="urlCategory"]').val(),
-										'desc': $('textarea[name="descCategory"]').val(),
-				                		'parent_id': $('input[name="parent_id"]').val(),
-										'status' : $('input[name="status"]').val(),
-										'order' : $('input[name="order"]').val(),
-										'action' : 'add',
-										'id' : id
-				                	  },
-				                success: function(data) {
-				                	if (data.err==1) {
-				                		showSmartAlert("Error", data.msg, '[YES]')
-				                	}
-				                	else {
-				                		$('input[name="csrf_hash"]').val($.cookie('csrf_cookie_ci'));
-										location.reload();
-					                }
-				                },
-				                error: function() {
-				                    showSmartAlert("Error", "Can send data. Please contact to admin.", '[YES]')
-				                }
-					    	});
-						}
-						else {
-							$.ajax({
-								url: apiUrl + 'category',
-					            type: 'POST',
-				                cache: false,
-				                dataType: 'json',
-				                data: { 'csrf_hash' : $.cookie('csrf_cookie_ci'),
-				                		'name': $('input[name="nameCategory"]').val(),
-				                		'url' : $('input[name=urlCategory]').val(),
-										'desc': $('textarea[name=descCategory]').val(),
-				                		'parent_id': $('#frmProductCategory input[name=parent_id]').val(),
-										'status' : $('#frmProductCategory input[name=status]').val(),
-										'order' : $('#frmProductCategory input[name=order]').val(),
-										'action' : 'edit',
-										'id' : id
-				                	  },
-				                success: function(data) {
-				                	if (data.err==1) {
-				                		showSmartAlert("Error", data.msg, '[YES]')
-				                	}
-				                	else {
-				                		$('input[name="csrf_hash"]').val($.cookie('csrf_cookie_ci'));
-										// location.reload();
-					                }
-				                },
-				                error: function() {
-				                    showSmartAlert("Error", "Can send data. Please contact to admin.", '[YES]')
-				                }
-					    	});
-						}
-					}
-				});
-			}
-		}
-	}
-*/
-// DOCUMENT ready
 	$(document).ready( function() {
-
+		$('body').on('click', 'a.jarviswidget-fullscreen-btn', function() {
+			var parent = $(this).closest('.jarviswidget');
+			parent.find('.ui-jqgrid-view, .ui-jqgrid-hdiv, .ui-jqgrid-bdiv').css({'width':'100%'});
+		});
 	// btnCancel
 		if ($('.btnCancel').length>0) {
 			$('.btnCancel').click( function() {
@@ -1842,8 +1432,10 @@
 		init_Radio()
 	// replyError
 		if ($('#login_form').length==0) {
-			if (replyErrorContent != null && replyErrorContent != undefined && replyErrorContent != "") {
-				showSmartAlert("Error", replyErrorContent, '[YES]')
+			if (typeof replyErrorContent !== 'undefined') {
+				if (replyErrorContent !== null && replyErrorContent !== "") {
+					showSmartAlert("Error", replyErrorContent, '[YES]')
+				}
 			}
 		}
 	// import & export
@@ -1853,15 +1445,13 @@
 				$('input[name="importFile"]').click();
 			});
 			$('body').on('change', 'input[name="importFile"]', function(e) {
+				processing_on();
 				$('#frmImport').submit();
 			});
 		}
-	// fancy box
-	if ($("a.groupFancyBox").length>0) {
-		$("a.groupFancyBox").fancybox();
-	}
+
 	// some init
-		pageSetUp()
+		pageSetUp(); // init smartadmin
 		positiveInteger();
 	    setOrder();
 	// auth

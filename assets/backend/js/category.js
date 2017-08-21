@@ -1,6 +1,7 @@
 // list
     if ($(idTableList).length>0) {
         var statusStr = ":All;active:Active;inactive:Inactive";
+        // if (permissionsMember[]
         caption = captionButton(true, true)
 
     // jqGrid
@@ -41,19 +42,22 @@
             toolbarfilter : true,
             viewrecords : true,
             rowattr: function (rd) {
-                if (rd.name=='default' || rd.name=='product' || rd.name=='news') {
+                if (rd.name=='Product' || rd.name=='News') {
                     return {
                         "class": "ui-state-disabled ui-jqgrid-disablePointerEvents"
                     };
                 }
             },
             gridComplete : function() {
+                jQuery(idTableList).find('tr.ui-state-disabled').each( function() {
+                    $(this).find('td[aria-describedby="jqgrid_cb"]').children('.cbox').remove();
+                });
                 var ids = jQuery(idTableList).jqGrid('getDataIDs');
                 for (var i = 0; i < ids.length; i++) {
                     var cl = ids[i];
                     var rowData = jQuery(idTableList).jqGrid ('getRowData', cl);
                     var fa = ""
-                    if (cl > 3) {
+                    if (cl > 2) {
                         var fa = formatButton(cl, rowData.status, 'btnStatus_', 'btnStatus', 'modalStatus')
                     }
                     var th = ""
@@ -61,7 +65,7 @@
                         th = '<img src="' + rowData.thumbnail + '" class="thumbInTable" />'
                     }
                     var btnInline = ""
-                    if (cl > 3) {
+                    if (cl > 2) {
                         btnInline = btnEditInline(cl) + bntDeleteInline(cl)
                     }
                     jQuery(idTableList).jqGrid('setRowData', ids[i], {
@@ -72,14 +76,13 @@
 
                 }
             // btnStatus
-                click_btnInGrid('btnStatus', 'modalStatus', bUrl+currentModule['url']+'/ajax_status', function() {
+                click_btnInGrid('btnStatus', 'modalStatus', bUrl+'category/ajax_status', function() {
                     location.reload();
                 });
             },
             ajaxRowOptions: { async: true },
             caption : caption,
             multiselect : true,
-            // editurl : bUrl + module + '/edit_inline',
             loadBeforeSend: function () {
                 $(this).closest("div.ui-jqgrid-view").find("table.ui-jqgrid-htable>thead>tr>th").css({"text-align":"center"});
             },
@@ -91,18 +94,14 @@
         tableCommon();
 
     // delete inline
-        $('body').on('click','.btnDelete', function(e) {
+        $('body').on('click','.btnDelete, .iconDelete_inTree', function(e) {
             e.preventDefault();
 
             href = $(this).attr('href');
-            showSmartAlert("Warning", "<p>Delete a category may be effect to another data.</p><p>[YES] : Delete all children.<br/>[NO] : Just delete this category.<br/>[CANCEL] : Cancel delete action.</p><p>Are you sure delete this data ?</p>", '[YES][NO][CANCEL]', function() {
+            showSmartAlert("Warning", "<p>Delete a category may be effect to another data.</p><p>Are you sure delete this data ?</p>", '[YES][NO]', function() {
                 // click YES
-                window.location.href = href + '?dc=1'
-            }, function() {
-                // click NO
-                window.location.href = href + '?dc=0'
-            }, function() {
-                // click CANCEL
+                window.location.href = href
+            }, function() {// click CANCEL
             });
         });
 
@@ -116,134 +115,124 @@
                 showSmartAlert("Error", "Please select data.", '[YES]');
             }
             else {
-                showSmartAlert("Warning", "<p>Delete categories maybe effect to another data.</p><p>[YES] : Delete all children.<br/>[NO] : Just delete selected categories.<br/>[CANCEL] : Cancel delete action.</p><p>Are you sure delete data ?</p>", '[CANCEL][NO][YES]', function() {
+                showSmartAlert("Warning", "<p>Delete a category may be effect to another data.</p><p>Are you sure delete this data ?</p>", '[YES][NO]', function() {
                     // click YES
-                    $('#ids').val(selectedRows)
-                }, function() {
-                    // click NO
                     $('#ids').val(selectedRows);
                     $('#frmTopButtons').submit();
-                }, function() {
-                    // click CANCEL
+                }, function() {// click CANCEL
                 });
             }
         });
 
-    }
-
-// common of add & edit
-    if ($('#add').length>0 || $('#edit').length>0) {
-        // tree view
-            treeView();
-            // disabled root on sub category page
-            if ($('#is_sub_category').val()!=0) {
-                $('#root').addClass('btn bg-color-blueDark txt-color-white disabled');
-            }
-
-        // generate URL
-            gen_url($('input[name="name"]'), $('input[name="url"]'));
-
-        // limit character
-            $('input[name="name"]').limit('200','#nameLimit');
-            $('input[name="url"]').limit('200','#urlLimit');
-            $('textarea[name="desc"]').limit('1000','#descLimit');
-
-        // file
-            selectFile('.btnSelectThumbnail', 'images')
-            // delele file
-            $('body').on('click', '.thumbnailDel', function(e) {
-                e.preventDefault();
-                thumbnailWrapper = $(this).parent('.thumbnailWrapper')
-                inputThumbnail = thumbnailWrapper.prev().children('.inputThumbnail')
-
-                inputThumbnail.val('')
-                thumbnailWrapper.html('').html(defaultIMG)
-            });
-        // validation
-        var $validator = $("#frmCategory").validate({
-            rules: {
-                name: {
-                    required : true,
-                    maxlength : 200
-                },
-                url: {
-                    required: true,
-                    maxlength : 200
-                },
-                desc: {
-                    maxlength : 1000,
-                },
-            },
-            messages: {
-                name: {
-                    required : "Name is required",
-                    maxlength : "Maximum is 200 characters"
-                },
-                url: {
-                    required : "URL is required",
-                    maxlength : "Maximum is 200 characters"
-                },
-                desc: {
-                    maxlength : "Maximum is 1000 characters"
-                },
-            },
-            highlight: function (element) {
-                $(element).closest('.form-group').removeClass('has-success').addClass('has-error');
-            },
-            unhighlight: function (element) {
-                $(element).closest('.form-group').removeClass('has-error').addClass('has-success');
-            },
-            errorElement: 'span',
-            errorClass: 'help-block',
-            errorPlacement: function (error, element) {
-                if (element.parent('.input-group').length) {
-                    error.insertAfter(element.parent());
-                } else {
-                    error.insertAfter(element);
+    // reload list on click tree item
+        $('.tree').find('span').each( function() {
+            $(this).click( function() {
+                if ($(this).attr('data-id')>2) {
+                    var path = $(this).attr('data-path');
+                    var filters = '{"groupOp":"AND", "rules":[{"field":"path","op":"cn","data": "'+path+'"}]}';
+                    jQuery(idTableList).jqGrid('setGridParam',{
+                        datatype: 'json',
+                        postData: {filters:filters},
+                        search: true
+                    }).trigger('reloadGrid');
                 }
-            },
-            submitHandler: function(form) {
-                $.ajax({
-                    // url: apiUrl + 'API_category/post_category',
-                    url: bUrl + 'category/update',
-                    type: 'POST',
-                    cache: false,
-                    dataType: 'json',
-                    data: { 'csrf_hash' : $.cookie('csrf_cookie_ci'),
-                            'action': $('input[name=action]').val(),
-                            'id': $('input[name=id]').val(),
-                            'name': $('input[name=name]').val(),
-                            'url' : $('input[name=url]').val(),
-                            'desc': $('textarea[name=desc]').val(),
-                            'thumbnail': $('input[name=thumbnail]').val(),
-                            'order': $('input[name=order]').val(),
-                            'status': $('input[name=status]:checked').val(),
-                            'parent_id': $('input[name=parent_id]').val()
-                          },
-                    success: function(data) {
-                        if (data.err=="1") {
-                            showSmartAlert("Error", data.msg, '[YES]')
-                        }
-                        else {
-                            window.location.href = bUrl + currentModule['url'];
-                        }
-                    },
-                    error: function() {
-                        showSmartAlert("Error", "Can send data. Please contact to admin.", '[YES]')
-                    }
-                });
-                return false;
-            }
+            });
         });
     }
 
-// edit
-    if ($('#edit').length>0) {
-        // tree view
-        selectedItem = $('.tree').find('li > span[data-id=' + $('input[name=id]').val() + ']');
-        selectedItem.parent('li').children('span').addClass('btn btn-danger disabled')
-        selectedItem.parent('li').find('ul').children('li').children('span').addClass('btn btn-danger disabled')
-        // invisible itself
-        selectedItem.addClass('btn btn-danger disabled')
+// frmCategory
+    if ($('#frmCategory').length>0) {
+    // generate URL
+        gen_url($('input[name="name_category"]'), $('input[name="url_category"]'));
 
+    // limit character
+        $('input[name="name_category"]').limit('200','#name_category_limit');
+        $('input[name="url_category"]').limit('200','#url_category_limit');
+        $('textarea[name="desc_category"]').limit('1000','#desc_category_limit');
+
+    // file
+        selectFile('.btnSelectThumbnail', 'images')
+        // delele single file
+        $('body').on('click', '.thumbnailDel', function(e) {
+            e.preventDefault();
+            thumbnailWrapper = $(this).parent('.thumbnailItem').parent('.thumbnailWrapper');
+            inputThumbnail = thumbnailWrapper.prev().children('.inputThumbnail');
+            inputThumbnail.val('');
+            thumbnailWrapper.html('').html(defaultIMG);
+        });
+    // validation
+        var $validator = $("#frmCategory").validate({
+                        rules: {
+                            name_category: {
+                                required : true,
+                                maxlength : 200
+                            },
+                            url_category: {
+                                required: true,
+                                maxlength : 200
+                            },
+                            desc_category: {
+                                maxlength : 1000,
+                            },
+                        },
+                        messages: {
+                            name_category: {
+                                required : "Name bắt buộc nhập",
+                                maxlength : "Tối đa 200 ký tự"
+                            },
+                            url_category: {
+                                required : "URL bắt buộc nhập",
+                                maxlength : "Tối đa 200 ký tự"
+                            },
+                            desc_category: {
+                                maxlength : "Tối đa 1000 ký tự"
+                            },
+                        },
+                        highlight: function (element) {
+                            $(element).closest('.form-group').removeClass('has-success').addClass('has-error');
+                        },
+                        unhighlight: function (element) {
+                            $(element).closest('.form-group').removeClass('has-error').addClass('has-success');
+                        },
+                        errorElement: 'span',
+                        errorClass: 'help-block',
+                        errorPlacement: function (error, element) {
+                            if (element.parent('.input-group').length) {
+                                error.insertAfter(element.parent());
+                            } else {
+                                error.insertAfter(element);
+                            }
+                        },
+                        submitHandler: function(form) {
+                            $.ajax({
+                                url: bUrl + 'category/update',
+                                type: 'POST',
+                                cache: false,
+                                dataType: 'json',
+                                data: { 'csrf_hash' : $.cookie('csrf_cookie_ci'),
+                                        'id': $('input[name=id_category]').val(),
+                                        'name': $('input[name=name_category]').val(),
+                                        'url' : $('input[name=url_category]').val(),
+                                        'desc': $('textarea[name=desc_category]').html(),
+                                        'thumbnail': $('input[name=thumbnail]').val(),
+                                        'order': $('input[name=order]').val(),
+                                        'status': $('input[name=status]:checked').val(),
+                                        'selected_category_id': $('input[name=selected_category_id]').val(),
+                                        'parent_id': $('input[name=parent_id]').val()
+                                      },
+                                success: function(data) {
+                                    if (data.err=="1") {
+                                        showSmartAlert("Error", data.msg, '[YES]')
+                                    }
+                                    else {
+                                        window.location.href = bUrl + currentModule['url'];
+                                    }
+                                },
+                                error: function() {
+                                    showSmartAlert("Error", "Can send data. Please contact to admin.", '[YES]')
+                                }
+                            });
+                            return false;
+                        }
+                    });
     }

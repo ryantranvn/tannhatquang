@@ -40,7 +40,7 @@ class Auth_model extends Base_model {
         $authMember = $auth_arr[0];
         // print_r("<pre>"); print_r($permission_arr); die();
 
-        $this->session->set_userdata('authMember',$authMember);
+        $this->session->set_userdata('authMember',array('id'=>$authMember['id'], 'username'=>$authMember['username'], 'thumbnail'=>$authMember['thumbnail']));
         return TRUE;
     }
 

@@ -207,7 +207,6 @@ html#extr-page {
 		}
 		#frmImport {
 			float: right; clear: none;
-
 		}
 
 /* JQGrid */
@@ -264,12 +263,32 @@ html#extr-page {
 
 /* TREE VIEW */
 	.tree li.parent_li>span {
+		position: relative;
 		cursor: default;
 		padding: 5px;
 		font-size: 11px;
 
 		i {
 			cursor: pointer;
+		}
+		a.iconEdit_inTree {
+			position: absolute;
+			right: -23px; top: 7px;
+			z-index: 10;
+			display: block;
+
+			i {
+				font-size: 18px;
+			}
+		}
+		a.iconDelete_inTree {
+			position: absolute;
+			right: -48px; top: 7px;
+			z-index: 10;
+			display: block;
+			i {
+				font-size: 18px;
+			}
 		}
 	}
 	.tree li.parent_li>span.label-success {
@@ -376,6 +395,7 @@ html#extr-page {
 	.smalThumbInTable {
 		max-width: 80px !important;
 		max-height: 50px !important;
+		margin: 3px !important;
 	}
 	.errorText {
 		font-size: 13px;
@@ -406,6 +426,12 @@ html#extr-page {
 	.thumbnailWrapper {
 		position: relative;
 
+		.thumbnailItem {
+			position: relative;
+			float: left; clear: none;
+			margin: 10px;
+		}
+
 		img {
 			max-width: 150px;
 			max-height: 150px;
@@ -423,10 +449,8 @@ html#extr-page {
 			background-color: red;
 			border-radius: 5px;
 		}
-		.thumbnailItem {
-			position: relative;
-			float: left; clear: none;
-			margin: 10px;
+		a.thumbnailDel:hover {
+			cursor: pointer;
 		}
 	}
 	#imageUploadWrapper {
@@ -505,4 +529,34 @@ html#extr-page {
 }
 .uploadWrapper.active, .frmWrapper.active {
 	display: block;
+}
+.processing {
+	width: 100%;
+	height: 100%;
+	position: fixed;
+	left: 0;
+	top: 0;
+	z-index: 10000;
+	text-align: center;
+	background: rgba(0,0,0,0.6);
+	display: none;
+
+	img {
+		position: absolute;
+		left: 0; right: 0;
+		top: 0; bottom: 0;
+		margin: auto;
+	}
+}
+
+.wrap_left, .wrap_right {
+	// overflow: hidden !important;
+	// overflow-y: scroll;
+}
+.wrap_right:after {
+}
+.page-footer {
+	position: fixed;
+	left: 0; bottom: 0;
+	z-index: 10000;
 }

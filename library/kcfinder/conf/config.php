@@ -71,7 +71,7 @@ $_CONFIG = array(
 
     'denyZipDownload' => false,
     'denyUpdateCheck' => true,
-    'denyExtensionRename' => false,
+    'denyExtensionRename' => true,
 
 
 // PERMISSION SETTINGS
@@ -85,14 +85,14 @@ $_CONFIG = array(
             'upload' => true,
             'delete' => true,
             'copy'   => true,
-            'move'   => true,
-            'rename' => true
+            'move'   => false,
+            'rename' => false
         ),
 
         'dirs' => array(
             'create' => true,
-            'delete' => true,
-            'rename' => true
+            'delete' => false,
+            'rename' => false
         )
     ),
 

@@ -10,7 +10,7 @@
         <?php if (!isset($frmData['status'])) { ?>
             <input type="radio" name="status" value="inactive" />
         <?php } else {?>
-            <input type="radio" name="status" value="inactive" <?php if ($frmData['status'] == "inactive") { ?> checked="checked"<?php } ?>/>
+            <input id="inactive" type="radio" name="status" value="inactive" <?php if ($frmData['status'] == "inactive") { ?> checked="checked"<?php } ?>/>
         <?php }?>
         Inactive <i class="fa fa-eye-slash"></i></label>
 </div>

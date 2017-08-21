@@ -1,5 +1,5 @@
 <!-- PACE LOADER - turn this on if you want ajax loading to show (caution: uses lots of memory on iDevices)-->
-	<!--<script src="<?php echo libsUrl('smartadmin','js/plugin/pace','pace.min.js'); ?>"></script>-->
+	<!-- <script src="<?php echo libsUrl('smartadmin','js/plugin/pace','pace.min.js'); ?>"></script> -->
 
 <!-- Link to Google CDN's jQuery + jQueryUI; fall back to local -->
     <script src="<?php echo libsUrl('smartadmin','js','jquery.min.js'); ?>"></script>
@@ -51,10 +51,10 @@
 	<script src="<?php echo libsUrl('smartadmin','js/plugin/fastclick','fastclick.min.js'); ?>"></script>
 
 <!-- SmartChat UI : plugin -->
-
+<!--
 	<script src="<?php echo libsUrl('smartadmin','js/smart-chat-ui','smart.chat.ui.min.js'); ?>"></script>
 	<script src="<?php echo libsUrl('smartadmin','js/smart-chat-ui','smart.chat.manager.min.js'); ?>"></script>
-
+-->
 <!--[if IE 8]>
 	<h1>Your browser is out of date, please update your browser by going to www.microsoft.com/download</h1>
 <![endif]-->

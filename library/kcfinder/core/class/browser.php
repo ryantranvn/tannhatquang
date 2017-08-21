@@ -348,6 +348,7 @@ class browser extends uploader {
             $this->errorMsg("You cannot rename the extension of files!");
 
         $newName = $this->normalizeFilename(trim($_POST['newName']));
+
         if (!strlen($newName))
             $this->errorMsg("Please enter new file name.");
         if (preg_match('/[\/\\\\]/s', $newName))
@@ -361,13 +362,14 @@ class browser extends uploader {
         if (!$this->validateExtension($ext, $this->type))
             $this->errorMsg("Denied file extension.");
         if (!@rename($file, $newName))
-            $this->errorMsg("Unknown error.");
+            $this->errorMsg("Unknown error 1.");
 
         $thumbDir = "{$this->thumbsTypeDir}/{$_POST['dir']}";
         $thumbFile = "$thumbDir/{$_POST['file']}";
 
-        if (file_exists($thumbFile))
+        if (file_exists($thumbFile)) {
             @rename($thumbFile, "$thumbDir/" . basename($newName));
+        }
         return true;
     }
 
@@ -700,7 +702,7 @@ class browser extends uploader {
     }
 
     protected function moveUploadFile($file, $dir) {
-        
+
         $message = $this->checkUploadedFile($file);
 
         if ($message !== true) {
@@ -710,7 +712,9 @@ class browser extends uploader {
         }
 
         $filename = $this->normalizeFilename($file['name']);
-        $target = "$dir/" . file::getInexistantFilename($filename, $dir);
+        // $target = "$dir/" . file::getInexistantFilename($filename, $dir);
+        $ext = pathinfo($filename, PATHINFO_EXTENSION);
+        $target = "$dir/" . uniqid().'_'.time() . "." . $ext;
 
         if (!@move_uploaded_file($file['tmp_name'], $target) &&
             !@rename($file['tmp_name'], $target) &&
@@ -923,6 +927,12 @@ class browser extends uploader {
     protected function htmlData($str) {
         return htmlentities($str, null, strtoupper($this->charset));
     }
+
+    protected function update_rename_db($new_name) {
+
+
+    }
+
 }
 
 ?>

@@ -23,7 +23,9 @@ defined('BASEPATH') OR exit('No direct script access allowed');
 
 
 // 404
+
     $route['404'] = 'frontend/maintain/page404';
+    $route['backend/error_csrf'] = 'backend/maintain/error_csrf';
     $route['backend/404'] = 'backend/maintain/page404';
 
 /* ALL DASHBOARD */

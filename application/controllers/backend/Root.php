@@ -46,6 +46,7 @@ class Root extends CI_Controller {
         // pass data to JS
         	$this->data['varJS']['authMember'] = $this->data['authMember'];
         	$this->data['varJS']['permissionsMember'] = $this->data['permissionsMember'];
+            $this->data['varJS']['url'] = array('view_backend'=>APPPATH.'views/backend/');
 	        if ($this->session->userdata('replyError') !== FALSE) {
 	            $this->data['varJS']['replyErrorContent'] = $this->session->userdata('replyError');
 	            $this->session->unset_userdata('replyError');
@@ -53,6 +54,9 @@ class Root extends CI_Controller {
         // block js & css
             $this->data['cssBlock'] = array();
             $this->data['jsBlock'] = array();
+
+            $this->data['css_version'] = time();
+            $this->data['js_version'] = time();
 	}
 
 // index

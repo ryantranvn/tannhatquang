@@ -18,17 +18,20 @@ class Category extends Root {
 
             $this->data['activeModule'] = $this->currentModule['control_name'];
             $this->data['activeNav'] = $this->currentModule['control_name'];
-            $this->data['breadcrumb'][0] = array('name'=>$this->currentModule['control_name'], 'url' => B_URL . $this->currentModule['url']);
+            $this->data['breadcrumb'][0] = array('name'=>$this->currentModule['name'], 'url' => B_URL . $this->currentModule['url']);
 
         // block js and css
             // array_push($this->data['cssBlock'], '<link rel="stylesheet" type="text/css" href="'. ASSETS_URL . 'backend/css/category.min.css" />');
-        	array_push($this->data['jsBlock'], '<script language="javascript" type="text/javascript" src="'. ASSETS_URL . 'backend/js/category.min.js"></script>');
+            array_push($this->data['jsBlock'], '<script language="javascript" type="text/javascript" src="'. ASSETS_URL . 'backend/js/init_height.js"></script>');
+        	array_push($this->data['jsBlock'], '<script language="javascript" type="text/javascript" src="'. ASSETS_URL . 'backend/js/category.js"></script>');
+            array_push($this->data['jsBlock'], '<script language="javascript" type="text/javascript" src="'. ASSETS_URL . 'backend/js/tree.js"></script>');
         // status array
             $this->data['statusArr'] = array(
                  'active' => '<button class="btn bg-color-green txt-color-white" data-value="active">Active</button>'
                 ,'inactive' => '<button class="btn bg-color-blueDark txt-color-white" data-value="inactive">Inactive</button>'
                 // ,'block' => '<button class="btn bg-color-red txt-color-white" data-value="block">Block</button>'
             );
+            $this->data['is_sub_category'] = 0;
     }
 // index
     public function index()
@@ -39,13 +42,23 @@ class Category extends Root {
         // breadcrumb
             $this->data['breadcrumb'][1] = array('name'=>'List', 'url' => B_URL . $this->currentModule['url']);
 
+        // for tree
+            $arrCategory = $this->Base_model->get_db('category', NULL, NULL, NULL, array('path','order','name'), array('asc','asc','asc'));
+            foreach ($arrCategory as $key => $category) {
+                $indent = count(explode('-', $category['path']));
+                $arrCategory[$key]['indent'] = $indent-1;
+            }
+            $this->data['categories'] = $arrCategory;
+
+            $this->data['parent_id'] = 0;
+            $this->data['selected_category_id'] = 0;
+
         // create frm
             $this->data['frmTopButtons'] = frm(B_URL.$this->currentModule['url'].'/multi_delete', array('id' => "frmTopButtons"), FALSE);
-            // $this->data['frmImport'] = frm(B_URL.$this->currentModule['url'].'/import_db', array('id' => "frmImport"), TRUE);
+            $this->data['frmCategory'] = frm('', array('id' => 'frmCategory'), TRUE);
 
-            $this->template->load('backend/template', 'backend/list', $this->data);
+            $this->template->load('backend/template', 'backend/category', $this->data);
     }
-
 //  Ajax List
     public function ajax_list()
     {
@@ -86,6 +99,9 @@ class Category extends Root {
                         else {
                             if ($field == "parent") {
                                 $where .= " c2.name LIKE '%" . $value . "%'";
+                            }
+                            else if ($field == "path") {
+                                $where .= " c1.path LIKE '%" . $value . "%'";
                             }
                             else {
                                 $where .= " c1." . $field . " LIKE '%" . $value . "%'";
@@ -130,12 +146,13 @@ class Category extends Root {
             $arrCategory[$key]['indent'] = $indent-1;
         }
         $this->data['categories'] = $arrCategory;
-        $this->data['is_sub_category'] = 0;
-        $this->data['default_parent_id'] = 0;
-        // create form
-            $this->data['frmCategory'] = frm('', array('id' => 'frmCategory'), TRUE, array('action'=>'add'));
+        $this->data['selected_category_id'] = 0;
+        $this->data['parent_id'] = 0;
 
-        $this->template->load('backend/template', 'backend/category/add', $this->data);
+        // create form
+            $this->data['frmCategory'] = frm('', array('id' => 'frmCategory'), TRUE);
+
+        $this->template->load('backend/template', 'backend/category/form', $this->data);
     }
 // Edit
     public function edit($id)
@@ -152,41 +169,50 @@ class Category extends Root {
             $arrCategory[$key]['indent'] = $indent-1;
         }
         $this->data['categories'] = $arrCategory;
-        $this->data['is_sub_category'] = 0;
-        $this->data['default_parent_id'] = 0;
+
         // get edit category
-        if ($id === FALSE) {
-            $this->session->set_userdata('invalid', "Data does not exist.");
-            redirect($_SERVER['HTTP_REFERER']);
+        if ($id === FALSE || $id<3) {
+            $this->session->set_userdata('invalid', "Data does not exist or this is default category.");
+            redirect(B_URL . $this->currentModule['url']);
         }
         $arrEditCategory = $this->Base_model->get_db('category',NULL,array('id'=>$id));
         if ($arrEditCategory === FALSE || count($arrEditCategory) == 0) {
             $this->session->set_userdata('invalid', "Can not find category with this ID.");
-            redirect($_SERVER['HTTP_REFERER']);
+            redirect(B_URL . $this->currentModule['url']);
         }
         $this->data['frmData'] = $arrEditCategory[0];
 
-        // create form
-            $this->data['frmCategory'] = frm('', array('id' => 'frmCategory'), TRUE, array('action'=>'edit', 'id'=>$id));
+        $this->data['parent_id'] = $arrEditCategory[0]['parent_id'];
+        $this->data['selected_category_id'] = $id;
 
-        $this->template->load('backend/template', 'backend/category/edit', $this->data);
+        // create form
+            $this->data['frmCategory'] = frm('', array('id' => 'frmCategory'), TRUE);
+
+        $this->template->load('backend/template', 'backend/category/form', $this->data);
     }
 // Update
     public function update()
     {
-        $action = $this->input->post('action',TRUE);
+        // $action = $this->input->post('action',TRUE);
         $name = $this->input->post('name',TRUE);
         $url = $this->input->post('url',TRUE);
         $desc = $this->input->post('desc',TRUE);
         $thumbnail = $this->input->post('thumbnail',TRUE);
-        $parent_id = $this->input->post('parent_id',TRUE);
         $id = $this->input->post('id',TRUE);
         // check permission
-            if ($action == 'add') {
+            if ($id == NULL) { // add
                 $this->noAccess($this->data['permissionsMember'], $this->currentModule['control_name'], 2);
+                $parent_id = $this->input->post('selected_category_id',TRUE);
             }
-            else {
+            else { // edit
                 $this->noAccess($this->data['permissionsMember'], $this->currentModule['control_name'], 3);
+                $selected_category_id = $this->input->post('selected_category_id',TRUE);
+                if ($selected_category_id == $id) {
+                    $parent_id = $this->input->post('parent_id',TRUE);
+                }
+                else {
+                    $parent_id = $selected_category_id;
+                }
             }
         // valid form
             $this->form_validation->set_rules('name', 'Name', 'trim|required|max_length[255]|xss_clean');
@@ -199,20 +225,15 @@ class Category extends Root {
                 $msg['err'] = 1;
                 $msg['msg'] = validation_errors();
             }
-        // valid default
-            else if ($this->is_default($url)) {
-                $msg['err'] = 1;
-                $msg['msg'] = 'Category name is not "default".';
-            }
         // valid existed
-            else if ($this->is_existed($url, $parent_id, $action, $id)) {
+            else if ($this->is_existed($url, $parent_id, $id)) {
                 $msg['err'] = 1;
                 $msg['msg'] = 'This category name existed.';
             }
             else {
                 // make path
                 $path = $this->make_path($parent_id);
-                if ($action == "edit") {
+                if ($id != NULL) { // edit
                     $path .= $id . '-';
                 }
                 if ($path===FALSE) {
@@ -220,14 +241,7 @@ class Category extends Root {
                     $msg['msg'] = 'Can not find path of parent';
                 }
                 else {
-                    if ( $this->session->userdata('authMember') !== FALSE) {
-                        $authMember = $this->session->userdata('authMember');
-                        $created_by = $authMember['username'];
-                    }
-                    else {
-                        $created_by = '';
-                    }
-                    if ($action == 'add') {
+                    if ($id == NULL || $id == "") { // add
                         // insert database
                         $categoryAdd = array('name' => $name,
                                              'url' => strtolower($url),
@@ -238,7 +252,7 @@ class Category extends Root {
                                               'parent_id' => $parent_id,
                                               'path' => $path,
                                               'created_datetime' => date('Y-m-d H:i:s'),
-                                              'created_by' => $created_by
+                                              'created_by' => $this->data['authMember']['username']
                                              );
                         if ( $this->model->insert_category($categoryAdd, $path) === FALSE ) {
                             $msg['err'] = 1;
@@ -260,7 +274,7 @@ class Category extends Root {
                                               'parent_id' => $parent_id,
                                               'path' => $path,
                                               'modified_datetime' => date('Y-m-d H:i:s'),
-                                              'modified_by' => $created_by
+                                              'modified_by' => $this->data['authMember']['username']
                                              );
                         if ( $this->model->update_category($categoryEdit, $id) === FALSE ) {
                             $msg['err'] = 1;
@@ -276,22 +290,23 @@ class Category extends Root {
 
         echo json_encode($msg);
     }
-
 // Delete
     public function delete($id)
     {
         // check permission
             $this->noAccess($this->data['permissionsMember'], $this->currentModule['control_name'], 4);
-        // get data
-            $_GET['dc'] == 1 ? $deleteChildren = TRUE : $deleteChildren = FALSE;
 
         // exclude  default categories
-            if ($id===FALSE || $id=="" || $id<=3) { // not equal 1,2,3
+            if ($id===FALSE || $id=="" || $id==0) {
                 $this->session->set_userdata('invalid', 'This ID is not existing.');
                 redirect($_SERVER['HTTP_REFERER']);
             }
+            else if ($id===1 || $id==2) { // not equal 1,2
+                $this->session->set_userdata('invalid', 'This is default category.');
+                redirect($_SERVER['HTTP_REFERER']);
+            }
         // delete db
-            if ($this->model->delete_category($id, $deleteChildren) === FALSE) {
+            if ($this->model->delete_category($id) === FALSE) {
                 $this->session->set_userdata('invalid', "Error delete data");
             }
             else {
@@ -307,10 +322,30 @@ class Category extends Root {
         // get data
             $ids = $this->input->post('ids', TRUE);
             $arrID = explode(",", $ids[0]);
-            $dc = $this->input->post('dc', TRUE);
-            $dc == 1 ? $deleteChildren = TRUE : $deleteChildren = FALSE;
 
-
+            $deleted = 0;
+            foreach ($arrID as $id) {
+            // exclude  default categories
+                if ($id===FALSE || $id=="" || $id==0) {
+                    $this->session->set_userdata('invalid', 'This ID is not existing.');
+                    redirect($_SERVER['HTTP_REFERER']);
+                }
+                else if ($id===1 || $id==2) { // not equal 1,2
+                    $this->session->set_userdata('invalid', 'This is default category.');
+                    redirect($_SERVER['HTTP_REFERER']);
+                }
+            // delete db
+                if ($this->model->delete_category($id) !== FALSE) {
+                    $deleted++;
+                }
+            }
+            if ($deleted==count($arrID)) {
+                $this->session->set_userdata('valid', "Delete data successful.");
+            }
+            else {
+                $this->session->set_userdata('invalid', "Error delete data");
+            }
+        redirect($_SERVER['HTTP_REFERER']);
     }
 
 /* MORE */
@@ -324,12 +359,12 @@ class Category extends Root {
         }
 
     /* is_existed */
-        private function is_existed($url, $parent_id, $action, $id=NULL)
+        private function is_existed($url, $parent_id, $id=NULL)
         {
-            if ($action == "add") { // add
+            if ($id == NULL) { // add
                 $where = array('parent_id' => $parent_id, 'url' => $url);
             }
-            else if ($action == "edit") { // edit
+            else { // edit
                 $where = array('id <>' => $id, 'parent_id' => $parent_id, 'url' => $url);
             }
             $existed_url = $this->Base_model->get_db('category',array('id'), $where);

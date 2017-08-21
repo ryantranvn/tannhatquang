@@ -10,7 +10,7 @@ class Maintain extends Root {
     public function __construct()
     {
         parent::__construct();
-        
+
     }
 // Understruction
     public function index()
@@ -23,5 +23,11 @@ class Maintain extends Root {
     public function page404()
     {
         $this->template->load('backend/template', 'backend/maintain/page404', $this->data);
+    }
+
+// Understruction
+    public function error_csrf()
+    {
+        $this->template->load('backend/template', 'backend/maintain/error_csrf', $this->data);
     }
 }
