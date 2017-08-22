@@ -41,6 +41,7 @@
 		<script language="javascript" type="text/javascript" src="<?=assetsUrl('common','js','jquery.numeric.js') ?>"></script>
 		<script language="javascript" type="text/javascript" src="<?=assetsUrl('common','js','jquery.limit.js') ?>"></script>
 		<script language="javascript" type="text/javascript" src="<?=assetsUrl('backend','js','jquery.wheelmenu.min.js') ?>"></script>
+		<script language="javascript" type="text/javascript" src="<?=assetsUrl('backend','js','init_height.js')?>?ver=<?=$js_version?>"></script>
 		<script language="javascript" type="text/javascript" src="<?=assetsUrl('backend','js','script.js')?>?ver=<?=$js_version?>"></script>
 		<!-- js block -->
         <?php

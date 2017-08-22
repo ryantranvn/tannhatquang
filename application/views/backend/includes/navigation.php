@@ -35,6 +35,14 @@
 						<li><a href="<?=B_URL.$modules['Product']['url']?>">Product</a></li>
 					</ul>
 				</li>
+			<!-- News -->
+				<li class="<?php if (isset($activeNav) && $activeNav == 'News') { ?>active<? } ?>">
+					<a href="<?=B_URL.$modules['News']['url']?>">
+						<i class="<?=$modules['News']['icon']?>"></i>
+						<?=$modules['News']['name']?>
+					</a>
+				</li>
+
 			<!-- User -->
 				<li class="<?php if (isset($activeNav) && $activeNav == 'User') { ?>active<? } ?>">
 					<a href="<?=B_URL.$modules['User']['url']?>">

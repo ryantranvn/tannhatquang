@@ -19,8 +19,8 @@ class Module extends Root {
         $this->data['activeNav'] = $this->currentModule['control_name'];
         $this->data['breadcrumb'][0] = array('name'=>$this->currentModule['control_name'], 'url' => B_URL . $this->currentModule['url']);
     // block js and css
-        // array_push($this->data['cssBlock'], '<link rel="stylesheet" type="text/css" href="'. ASSETS_URL . 'backend/css//module.min.css" />');
-        array_push($this->data['jsBlock'], '<script language="javascript" type="text/javascript" src="'. ASSETS_URL . 'backend/js/module.min.js"></script>');
+        // array_push($this->data['cssBlock'], '<link rel="stylesheet" type="text/css" href="'. ASSETS_URL . 'backend/css/module.min.css" />');
+        array_push($this->data['jsBlock'], '<script language="javascript" type="text/javascript" src="'. ASSETS_URL . 'backend/js/module.min.js?ver='.$this->data['js_version'].'"></script>');
     // status array
         $this->data['statusArr'] = array(
              'active' => '<button class="btn bg-color-green txt-color-white" data-value="active">Active</button>'
@@ -37,14 +37,10 @@ class Module extends Root {
         $this->noAccess($this->data['permissionsMember'], $this->currentModule['control_name'], 3);
         $this->noAccess($this->data['permissionsMember'], $this->currentModule['control_name'], 4);
 
-    	// $this->data['breadcrumb'][1] = array('name'=>'List', 'url' => B_URL . $this->router->fetch_method());
-
         // frm
-        	$this->data['frmModule'] = frm(B_URL . $this->currentModule['url'] . '/submit_db', array('id' => "frmModule"), FALSE);
-            $this->data['frmTopButtons'] = frm(B_URL . $this->currentModule['url'] . '/multi_delete', array('id' => "frmTopButtons"), FALSE);
-            // $this->data['frmImport'] = frm(B_URL.$this->module.'/import_db', array('id' => "frmImport"), TRUE);
+        	$this->data['frmModule'] = frm('', array('id' => "frmModule"), FALSE);
 
-        $this->template->load('backend/template', 'backend/module/list', $this->data);
+        $this->template->load('backend/template', 'backend/module', $this->data);
     }
 //  Ajax List
     public function ajax_list()
@@ -79,72 +75,113 @@ class Module extends Root {
         // return json
             echo json_encode($this->Base_model->table_list_in_page($sql, $params));
     }
-
-/*
-//  Ajax List
-    public function ajax_list()
+// submit
+    public function submit()
     {
-        $arrJSON = array();
-        $page = $_GET['page']; // get the requested page
-        $limit = $_GET['rows']; // get how many rows we want to have into the grid
-        $sidx = $_GET['sidx']; // get index row - i.e. user click to sort
-        $sord = $_GET['sord']; // get the direction
-        if(!$sidx) $sidx=1;
-        // add where in string
-            $where = array();
-        // get filter if have
-            // $search = $_GET['_search'];
-            $like = array();
-            if (isset($_GET['filters'])) {
-                $filters = $_GET['filters'];
-                $filters = json_decode($filters);
+        $id = $this->input->post('id', TRUE);
+        // check permission
+            if ($id == NULL) { // add
+                $this->noAccess($this->data['permissionsMember'], $this->currentModule['control_name'], 2);
+            }
+            else {
+                $this->noAccess($this->data['permissionsMember'], $this->currentModule['control_name'], 3);
+            }
+        // valid data
+            $this->form_validation->set_rules('name', 'Name', 'trim|required|max_length[255]|xss_clean');
+            $this->form_validation->set_rules('url', 'URL', 'trim|required|max_length[255]|alpha_dash|xss_clean');
+            $this->form_validation->set_message('required', '%s is not empty');
+            $this->form_validation->set_message('max_length', '%s is maximum 255 characters');
+            $this->form_validation->set_message('alpha_dash', '%s just contains alpha-numeric characters, underscores or dashes');
+            if ( $this->form_validation->run() == FALSE && validation_errors() != "") {
+                $msg['err'] = 1;
+                $msg['msg'] = validation_errors();
+            }
+            else {
+                $name = $this->input->post('name', TRUE);
+                $url = $this->input->post('url', TRUE);
 
-                foreach($filters->rules as $rule) { // filter is active
-                    $field = $rule->field;
-                    $value = $rule->data;
-                    if ($field == "status") {
-                        $where['status'] = $value;
-                    }
-                    else {
-                        if ($field == "categoryName") {
-                            $field = 'category.name';
+            // valid existed
+                if ($this->_existed($url, $id)) {
+                    $msg['err'] = 1;
+                    $msg['msg'] = "This module name existed.";
+                }
+                else {
+                    $control_name = ucfirst(url_str_with(strtolower($name), "_"));
+                    $module_data = array('name' => $name,
+                                         'control_name' => $control_name,
+                                         'url' => $url,
+                                         'icon' => $this->input->post('icon', TRUE),
+                                         'desc' => $this->input->post('desc', TRUE),
+                                         'order' => $this->input->post('order', TRUE)
+                                         );
+                    if ($id == NULL) { // add
+                        if ( $this->Base_model->insert_db('module', $module_data) === FALSE ) {
+                            $msg['err'] = 1;
+                            $msg['msg'] = "Error insert new data.";
                         }
                         else {
-                            $field = 'post.'.$field;
+                            $msg['err'] = 0;
+                            $this->session->set_userdata('valid', "Insert new data successful.");
                         }
-                        $like[$field] = $value;
+                    }
+                    else { // edit
+                        if ( $this->Base_model->update_db('module', $module_data, array('id'=>$id)) === FALSE ) {
+                            $msg['err'] = 1;
+                            $msg['msg'] = "Error update data.";
+                        }
+                        else {
+                            $msg['err'] = 0;
+                            $this->session->set_userdata('valid', "Update data successful.");
+                        }
                     }
                 }
             }
-
-        // get total row => total page
-            $count = $this->model->total_Rows('db', $where, $like);
-            if( $count>0 ) {
-                $total_pages = ceil($count/$limit);
-            } else {
-                $total_pages = 0;
-            }
-            if ($page > $total_pages) $page=$total_pages;
-            $start = $limit*$page - $limit;
-            if ($start <= 0) $start=0;
-        // query database
-            $list = $this->model->get_List('db', $where, $like, $sidx, $sord, $start, $limit);
-
-        // arrange result
-            $arrJSON['sidx'] = $sidx;
-            $arrJSON['page'] = $page;
-            $arrJSON['total'] = $total_pages;
-            $arrJSON['records'] = $count;
-            $arrJSON['rows'] = $list;
-
-
-            // foreach ($list as $key => $item) {
-            // }
-
-
-        // return json
-            echo json_encode($arrJSON);
+        echo json_encode($msg);
     }
+// ajax_get_module
+    public function ajax_get_module()
+    {
+        // check permission
+            $this->noAccess($this->data['permissionsMember'], $this->currentModule['control_name'], 3);
+
+        $arrJSON = array();
+        $id = $this->input->post('id', TRUE);
+        if ($id == FALSE) {
+            $msg['err'] = 1;
+            $msg['msg'] = "Error data";
+        }
+        else {
+            $arr_module = $this->Base_model->get_db('module', NULL, array('id' => $id));
+            if ($arr_module==FALSE || count($arr_module)==0) {
+                $msg['err'] = 1;
+                $msg['msg'] = "Error data";
+            }
+            else {
+                $msg['err'] = 0;
+                $msg['module'] = $arr_module[0];
+            }
+        }
+        echo json_encode($msg);
+    }
+
+// ********************************
+// check existed
+    private function _existed($url, $id=NULL)
+    {
+        if ($id == NULL) { // add
+            $module = $this->Base_model->get_db('module', array('id'), array('url' => $url));
+        }
+        else { // edit
+            $module = $this->Base_model->get_db('module', array('id'), array('id <>' => $id, 'url =' => $url));
+        }
+        if ($module !== FALSE && count($module) > 0) {
+            return TRUE;    // existed
+        }
+        else {
+            return FALSE;
+        }
+    }
+/*
 
 // ajax_getModule
     public function ajax_getModule()

@@ -1,6 +1,9 @@
 html#extr-page {
 	background-color: #EFEFEF !important;
 }
+body {
+	overflow-x: hidden;
+}
 #page404 {
 	text-align: center;
 	position: relative;
@@ -159,53 +162,53 @@ html#extr-page {
 
 /* FORM */
 		/* label error */
-		em.invalid {
-			color: red;
-			font-size: 11px;
-			font-style: italic;
+	em.invalid {
+		color: red;
+		font-size: 11px;
+		font-style: italic;
+	}
+	form .row {
+		min-height: 70px;
+	}
+	/* onoffswitch */
+	.input-group-addon {
+		text-align: left;
+	}
+	.onoffswitch {
+		width: 80px;
+		.onoffswitch-switch  {
+			right: 65px;
 		}
-		form .row {
-			min-height: 70px;
-		}
-		/* onoffswitch */
-		.input-group-addon {
-			text-align: left;
-		}
-		.onoffswitch {
-			width: 80px;
-			.onoffswitch-switch  {
-				right: 65px;
-			}
-		}
-		label sup {
-			color: red;
-			font-size: 110%;
-		}
+	}
+	label sup {
+		color: red;
+		font-size: 110%;
+	}
 
-		form .btnWrapper {
-			padding-top: 20px;
-		}
-		.form-actions {
-			padding-top: 0;
-			padding-bottom: 0;
-			margin-left: -26px;
-			margin-right: -26px;
-		}
-		input[name="order"].spinner-both {
-			text-align: center;
-		}
-		.has-error .help-block {
-			color: red;
-			font-style: italic;
-			font-size: 90%;
-			background-color: yellow;
-			display: inline-block;
-		}
-		.iconDocument {
-			max-width: 80px;
-			max-height: 80px;
-		}
-		#frmImport {
+	form .btnWrapper {
+		padding-top: 20px;
+	}
+	.form-actions {
+		padding-top: 0;
+		padding-bottom: 0;
+		margin-left: -26px;
+		margin-right: -26px;
+	}
+	input[name="order"].spinner-both {
+		text-align: center;
+	}
+	.has-error .help-block {
+		color: red;
+		font-style: italic;
+		font-size: 90%;
+		background-color: yellow;
+		display: inline-block;
+	}
+	.iconDocument {
+		max-width: 80px;
+		max-height: 80px;
+	}
+	#frmImport {
 			float: right; clear: none;
 		}
 

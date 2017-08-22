@@ -13,46 +13,58 @@ class Setting extends Root {
     {
         parent::__construct();
 
+        $this->currentModule = $this->data['modules'][ucfirst($this->router->fetch_class())];
+        $this->data['varJS']['currentModule'] = $this->currentModule;
     // load
-        $this->load->model($this->module.'_model', 'model');
+        $this->load->model($this->currentModule['control_name'].'_model', 'model');
 
-        $this->data['activeModule'] = $this->module;
-        $this->data['activeNav'] = $this->module;
-        $this->data['breadcrumb'][0] = array('name'=>ucfirst($this->module), 'url' => B_URL . $this->module);
+        $this->data['activeModule'] = $this->currentModule['control_name'];
+        $this->data['activeNav'] = $this->currentModule['control_name'];
+        $this->data['breadcrumb'][0] = array('name'=>$this->currentModule['name'], 'url' => B_URL . $this->currentModule['url']);
+
+    // block js and css
+        // array_push($this->data['cssBlock'], '<link rel="stylesheet" type="text/css" href="'. ASSETS_URL . 'backend/css/category.min.css" />');
+        array_push($this->data['jsBlock'], '<script language="javascript" type="text/javascript" src="'. ASSETS_URL . 'backend/js/setting.js"></script>');
+    // status array
+        $this->data['statusArr'] = array(
+             'active' => '<button class="btn bg-color-green txt-color-white" data-value="active">Active</button>'
+            ,'inactive' => '<button class="btn bg-color-blueDark txt-color-white" data-value="inactive">Inactive</button>'
+            // ,'block' => '<button class="btn bg-color-red txt-color-white" data-value="block">Block</button>'
+        );
     }
 // index
     public function index()
     {
     // check not access
-        $this->noAccess($this->data['permissionsMember'], $this->module, 1);
-        $this->noAccess($this->data['permissionsMember'], $this->module, 2);
-        $this->noAccess($this->data['permissionsMember'], $this->module, 3);
-        $this->noAccess($this->data['permissionsMember'], $this->module, 4);
-
-        $this->data['breadcrumb'][1] = array('name'=>'List', 'url' => B_URL . $this->router->fetch_method());
+        $this->noAccess($this->data['permissionsMember'], $this->currentModule['control_name'], 1);
+        $this->noAccess($this->data['permissionsMember'], $this->currentModule['control_name'], 2);
+        $this->noAccess($this->data['permissionsMember'], $this->currentModule['control_name'], 3);
+        $this->noAccess($this->data['permissionsMember'], $this->currentModule['control_name'], 4);
 
     // meta
-        $pageTitle = $this->Base_model->getDB('db','setting', array('value'),array('name'=>'page_title'));
-        $pageTitle != false ? $this->data['pageTitle'] = $pageTitle[0]['value'] : $this->data['pageTitle'] = "";
+        $page_title = $this->Base_model->get_db('setting', array('value'),array('name'=>'page_title'));
+        $page_title != false ? $this->data['page_title'] = $page_title[0]['value'] : $this->data['page_title'] = "";
 
-        $metaKey = $this->Base_model->getDB('db','setting', array('value'),array('name'=>'meta_key'));
-        $metaKey != false ? $this->data['metaKey'] = $metaKey[0]['value'] : $this->data['metaKey'] = "";
+        $meta_key = $this->Base_model->get_db('setting', array('value'),array('name'=>'meta_key'));
+        $meta_key != false ? $this->data['meta_key'] = $meta_key[0]['value'] : $this->data['meta_key'] = "";
 
-        $metaDesc = $this->Base_model->getDB('db','setting', array('value'),array('name'=>'meta_desc'));
-        $metaDesc != false ? $this->data['metaDesc'] = $metaDesc[0]['value'] : $this->data['metaDesc'] = "";
+        $meta_desc = $this->Base_model->get_db('setting', array('value'),array('name'=>'meta_description'));
+        $meta_desc != false ? $this->data['meta_desc'] = $meta_desc[0]['value'] : $this->data['meta_desc'] = "";
 
-        $this->data['frmEditMeta'] = frm(B_URL.$this->module.'/edit_meta_db', array('id' => 'frmEditMeta'), TRUE);
+    // create frm
+        // $this->data['frmTopButtons'] = frm(B_URL.$this->currentModule['url'].'/multi_delete', array('id' => "frmTopButtons"), FALSE);
+        $this->data['frmEditMeta'] = frm(B_URL.$this->currentModule['url'].'/update_meta', array('id' => 'frmEditMeta'), FALSE);
 
-        $this->template->load('backend/template', 'backend/'.$this->module.'/setting', $this->data);
+        $this->template->load('backend/template', 'backend/setting', $this->data);
     }
-
-    public function edit_meta_db()
+// update_meta
+    public function update_meta()
     {
-        $pageTitle = $this->input->post('pageTitle',TRUE);
-        $metaKey = $this->input->post('metaKey',TRUE);
-        $metaDesc = $this->input->post('metaDesc',TRUE);
+        $page_title = $this->input->post('page_title',TRUE);
+        $meta_key = $this->input->post('meta_key',TRUE);
+        $meta_desc = $this->input->post('meta_desc',TRUE);
 
-        if ( $this->model->updateMeta('db', $pageTitle, $metaKey, $metaDesc) === FALSE ) {
+        if ( $this->model->update_meta($page_title, $meta_key, $meta_desc) === FALSE ) {
             $this->session->set_userdata('invalid', "Error update data.");
             redirect($_SERVER['HTTP_REFERER']);
         }

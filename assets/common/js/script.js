@@ -241,6 +241,9 @@
             return this.optional(element) || value != param;
         }, "Please specify a different (non-default) value");
 
+        jQuery.validator.addMethod("lettersonly", function(value, element) {
+            return this.optional(element) || /^[a-z\s]+$/i.test(value);
+        }, "Only alphabetical characters");
     // valid domain in email
         // function isPruEmail(email)
         // {

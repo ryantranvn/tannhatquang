@@ -1192,59 +1192,6 @@
 		}
 	}
 
-// SETTING
-	function settingPage()
-	{
-		if ($('#frmEditMeta').length>0) {
-			var $validator = $("#frmEditMeta").validate({
-					rules: {
-						pageTitle: {
-							required: true,
-							maxlength : 255
-						},
-						metaKey: {
-							required: true
-						},
-						metaDesc: {
-							required : true,
-							maxlength : 255
-						}
-					},
-					messages: {
-						pageTitle: {
-							required : "Page Title is required",
-							maxlength : "Maximum is 255 characters"
-						},
-						metaKey: {
-							required : "Meta Keyword is required"
-						},
-						metaDesc: {
-							required : "Meta Description is required",
-							maxlength : "Maximum is 255 characters",
-						}
-					},
-					highlight: function (element) {
-						$(element).closest('.form-group').removeClass('has-success').addClass('has-error');
-					},
-					unhighlight: function (element) {
-						$(element).closest('.form-group').removeClass('has-error').addClass('has-success');
-					},
-					errorElement: 'span',
-					errorClass: 'help-block',
-					errorPlacement: function (error, element) {
-						if (element.parent('.input-group').length) {
-							error.insertAfter(element.parent());
-						} else {
-							error.insertAfter(element);
-						}
-					}
-				});
-
-			$('input[name="pageTitle"]').limit('255','#pageTitleLimit');
-			$('input[name="metaDesc"]').limit('255','#metaDescLimit');
-		}
-	}
-
 // USER
 	function userPage()
 	{
@@ -1462,9 +1409,7 @@
 
    	// pages
 		dashboardPage();
-		// modulePage();
 		memberPage();
-		settingPage();
 
 		userPage();
 	});

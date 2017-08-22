@@ -9,28 +9,22 @@ class Setting_model extends Base_model {
         parent::__construct();
     }
 
-    function updateMeta($connection, $pageTitle, $metaKey, $metaDesc)
+    function update_meta($page_title, $meta_key, $meta_desc)
     {
-        // set connection
-        if ($connection===NULL) {
-            $connection = 'db';
-        }
-        $this->connect_to($connection);
+        $this->db->trans_begin();
 
-        $this->connection->trans_begin();
+            $this->update_db('setting', array('value'=>$page_title,), array('name'=>'page_title'));
+            $this->update_db('setting', array('value'=>$meta_key), array('name'=>'meta_key'));
+            $this->update_db('setting', array('value'=>$meta_desc), array('name'=>'meta_description'));
 
-            $this->updateDB($connection,'setting', array('value'=>$pageTitle), array('name'=>'page_title'));
-            $this->updateDB($connection,'setting', array('value'=>$metaKey), array('name'=>'meta_key'));
-            $this->updateDB($connection,'setting', array('value'=>$metaDesc), array('name'=>'meta_description'));
-
-        if ($this->connection->trans_status() === FALSE)
+        if ($this->db->trans_status() === FALSE)
         {
-            $this->connection->trans_rollback();
+            $this->db->trans_rollback();
             return FALSE;
         }
         else
         {
-            $this->connection->trans_commit();
+            $this->db->trans_commit();
             return TRUE;
         }
     }

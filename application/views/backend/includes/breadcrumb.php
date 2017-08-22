@@ -7,8 +7,10 @@
 				<!-- PAGE HEADER -->
 				<i class="<?=$modules[$activeModule]['icon']?>"></i>
 				<a href="<?=$breadcrumb[0]['url']?>"><?=$breadcrumb[0]['name']?></a>
+				<?if (isset($breadcrumb[1])) {?>
 				<i class="fa fa-angle-right"></i>
 				<a href="<?=$breadcrumb[1]['url']?>"><?=$breadcrumb[1]['name']?></a>
+				<? } ?>
 			</h1>
 		</div>
 		<!-- end col -->

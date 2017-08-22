@@ -1,6 +1,6 @@
 // list
     // var activeStr = ":All;1:Active;0:Lock";
-    caption = captionButton(true, false)
+    caption = captionButton(false, false)
 
     // set column
         jQuery("#jqgrid").jqGrid({
@@ -60,10 +60,13 @@
     // common
         tableCommon();
 
-    // add
-        $('body').on('click', '#btnAdd', function(e) {
+    // clear
+        $('body').on('click', '.btnClear', function(e) {
             e.preventDefault();
-            location.reload();
+            $('input[name="name_module"], input[name="url"], input[name="icon"], input[name="id"]').val('');
+            $('textarea[name="desc"]').val('');
+            $('input[name="order"]').val(0);
+            $('#frmModule').find('input[name="name_module"]').focus();
         });
 
     // edit
@@ -73,29 +76,28 @@
             oper = 'edit'
             id = $(this).attr('data-id')
             $.ajax({
-                url: bUrl + module + '/ajax_getModule',
+                url: bUrl + 'module/ajax_get_module',
                 type: 'POST',
                 cache: false,
                 dataType: 'json',
-                data: { 'id': id, 'csrf_hash' : $.cookie('csrf_cookie_ci') },
+                data: {
+                    'id': id,
+                    'csrf_hash' : $.cookie('csrf_cookie_ci')
+                },
                 success: function(data) {
-                    if (data.error==0) {
-                        $('input[name="csrf_hash"]').val($.cookie('csrf_cookie_ci'));
-                        var module = data.module
-                        $('#frmModule input[name="name"]').val(module.name).attr('disabled','disabled')
-                        $('#frmModule input[name="url"]').val(module.url).attr('disabled','disabled')
-                        $('#frmModule input[name="icon"]').val(module.icon)
-                        $('#frmModule textarea[name="desc"]').val(module.desc)
-                        $('#frmModule input[name="order"]').val(module.order)
-
-                        $('#frmModule input[name="name"]').focus();
-                        $('#frmModule input[name="oper"]').val('edit');
-                        $('#frmModule input[name="id"]').val(id);
-
-                        $('#frmModule button[type="submit"]').html('').html('<i class="fa fa-lg fa-save"></i> Save')
+                    if (data.err==1) {
+                        showSmartAlert("Error", data.msg, '[YES]');
                     }
                     else {
-                        showSmartAlert("Error", "Can get data. Please contact to admin.", '[YES]')
+                        $('input[name="csrf_hash"]').val($.cookie('csrf_cookie_ci'));
+                        var module = data.module;
+                        $('#frmModule input[name="name_module"]').val(module.name).attr('disabled','disabled');
+                        $('#frmModule input[name="url"]').val(module.url).attr('disabled','disabled');
+                        $('#frmModule input[name="icon"]').val(module.icon);
+                        $('#frmModule textarea[name="desc"]').val(module.desc);
+                        $('#frmModule input[name="order"]').val(module.order);
+
+                        $('#frmModule input[name="id"]').val(id);
                     }
                 },
                 error: function() {
@@ -118,84 +120,74 @@
         });
 
     // generate URL
-        gen_url($('input[name="name"]'), $('#frmModule input[name="url"]'));
+        gen_url($('input[name="name_module"]'), $('#frmModule input[name="url"]'));
 
     // limit character
-        $('input[name="name"]').limit('255','#nameLimit');
-        $('textarea[name="desc"]').limit('1000','#descLimit');
+        $('input[name="name_module"]').limit('255','#name_module_limit');
+        $('textarea[name="desc"]').limit('1000','#desc_limit');
 
-    // validation
-        var $validator = $("#frmModule").validate({
-            rules: {
-                name: {
-                    required: true,
-                    lettersonly: true,
-                    remote: {
-                        url: bUrl + module + '/ajax_existed',
-                        type: 'post',
-                        data: {
-                            csrf_hash : function(){ return $.cookie('csrf_cookie_ci') },
-                            oper : function(){ return oper },
-                            name : function(){ return $('input[name=name]').val(); }
-                        }
-                    }
-                },
-                url: { required: true },
+// validation
+    var validator = $("#frmModule").validate({
+        rules: {
+            name_module: {
+                required: true,
+                lettersonly: true
             },
-            messages: {
-                name: {
-                    required : "Name is required",
-                    lettersonly : "Name only contains letters",
-                    remote: jQuery.validator.format("Name \"{0}\" is already taken")
-                },
-                url: "Url is required"
+            url: { required: true }
+        },
+        messages: {
+            name_module: {
+                required : "Name is required",
+                lettersonly : "Name only contains letters"
             },
-            highlight: function (element) {
-                $(element).closest('.form-group').removeClass('has-success').addClass('has-error');
-            },
-            unhighlight: function (element) {
-                $(element).closest('.form-group').removeClass('has-error').addClass('has-success');
-            },
-            errorElement: 'span',
-            errorClass: 'help-block',
-            errorPlacement: function (error, element) {
-                if (element.parent('.input-group').length) {
-                    error.insertAfter(element.parent());
-                } else {
-                    error.insertAfter(element);
-                }
-            },
-            submitHandler: function(form) {
-                // check exist in category
-                $.ajax({
-                    url: bUrl + module + '/ajax_existed',
-                    type: 'POST',
-                    cache: false,
-                    dataType: 'text',
-                    data: { 'oper': oper,
-                            'name':$('input[name=name]').val(),
-                            'csrf_hash' : $.cookie('csrf_cookie_ci')
-                          },
-                    success: function(data) {
-                        if (data=="false") {
-                            errorContent = '<span for="name" class="help-block">Name "'+$('input[name=name]').val()+'" is already taken</span>';
-                            $('input[name=name]').closest('.form-group').removeClass('has-success').addClass('has-error');
-                            $('input[name=name]').after(errorContent)
-                        }
-                        else {
-                            $('input[name="csrf_hash"]').val($.cookie('csrf_cookie_ci'));
-                            form.submit();
-                        }
-                    },
-                    error: function() {
-                        showSmartAlert("Error", "Can send data. Please contact to admin.", '[YES]')
-                    }
-                });
+            url: "Url is required"
+        },
+        highlight: function (element) {
+            $(element).closest('.form-group').removeClass('has-success').addClass('has-error');
+        },
+        unhighlight: function (element) {
+            $(element).closest('.form-group').removeClass('has-error').addClass('has-success');
+        },
+        errorElement: 'span',
+        errorClass: 'help-block',
+        errorPlacement: function (error, element) {
+            if (element.parent('.input-group').length) {
+                error.insertAfter(element.parent());
+            } else {
+                error.insertAfter(element);
             }
-        });
-
-    // show icon wrapper
-        $('input[name="icon"]').click( function() {
+        },
+        submitHandler: function(form) {
+            $.ajax({
+                url: bUrl + 'module/submit',
+                type: 'POST',
+                cache: false,
+                dataType: 'json',
+                data: {
+                        'csrf_hash' : $.cookie('csrf_cookie_ci'),
+                        'id' : $('input[name="id"]').val(),
+                        'name' : $('input[name="name_module"]').val(),
+                        'url' : $('input[name="url"]').val(),
+                        'icon' : $('input[name="icon"]').val(),
+                        'desc': $('textarea[name="desc"]').val(),
+                        'order' : $('input[name="order"]').val()
+                      },
+                success: function(data) {
+                    if (data.err=="1") {
+                        showSmartAlert("Error", data.msg, '[YES]');
+                    }
+                    else {
+                        window.location.href = bUrl + currentModule['url'];
+                    }
+                },
+                error: function() {
+                    showSmartAlert("Error", "Can send data. Please contact to admin.", '[YES]')
+                }
+            });
+        }
+    });
+// show icon wrapper
+    $('input[name="icon"]').click( function() {
 
         selectedIcon = ''
         showSmartAlert("Choose icon for module <span class='selectedIcon'>your choose</span>", $(this).next('.iconWrapper').html(), '[NO][YES]', function() {

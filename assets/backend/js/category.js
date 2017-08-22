@@ -161,7 +161,7 @@
             thumbnailWrapper.html('').html(defaultIMG);
         });
     // validation
-        var $validator = $("#frmCategory").validate({
+        var validator = $("#frmCategory").validate({
                         rules: {
                             name_category: {
                                 required : true,
