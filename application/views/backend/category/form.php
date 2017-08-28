@@ -90,32 +90,31 @@
                             <!-- Thumbnail -->
                             <div class="col-xs-12 col-sm-12 col-md-4 col-lg-4">
                                 <fieldset>
-                                    <!-- Thumbnail -->
-                                        <div class="form-group">
-                                            <label class="control-label">Thumbnail</label>
-                                            <p>
-                                                <span class="label label-warning">
-                                                NOTE</span> &nbsp; Accept file *.png, *.jpg &amp; size <=5MBs.
-                                            </p>
-                                            <div class="input-group">
-                                                <input type="text" name="thumbnail" class="inputThumbnail form-control" <? if (isset($frmData)) { ?> value="<?=$frmData['thumbnail']?>" <? } ?> readonly>
-                                                <div class="input-group-btn">
-                                                    <button class="btn btn-default btnSelectThumbnail" type="button">
-                                                        Select File
-                                                    </button>
-                                                </div>
-                                            </div>
-                                            <div class="thumbnailWrapper" style="margin-top: 10px">
-                                                <?php if (!isset($frmData) || $frmData['thumbnail'] == "") { ?>
-                                                    <img class="thumbnail" src="<?php echo assetsUrl('common','images','default.jpg'); ?>" />
-                                                <?php } else { ?>
-                                                    <div class="thumbnailItem">
-                                                        <img class="thumbnail" src="<?=$frmData['thumbnail']?>" />
-                                                        <a class="thumbnailDel"><i class="fa fa-trash-o"></i></a>
-                                                    </div>
-                                                <?php } ?>
+                                    <div class="form-group">
+                                        <label class="control-label">Thumbnail</label>
+                                        <p>
+                                            <span class="label label-warning">
+                                            NOTE</span> &nbsp; Accept file *.png, *.jpg &amp; size <=5MBs.
+                                        </p>
+                                        <div class="input-group">
+                                            <input type="text" name="thumbnail" class="inputThumbnail form-control" <? if (isset($frmData)) { ?> value="<?=$frmData['thumbnail']?>" <? } ?> readonly>
+                                            <div class="input-group-btn">
+                                                <button class="btn btn-default btnSelectThumbnail" type="button">
+                                                    Select File
+                                                </button>
                                             </div>
                                         </div>
+                                        <div class="thumbnailWrapper" style="margin-top: 10px">
+                                            <?php if (!isset($frmData) || $frmData['thumbnail'] == "") { ?>
+                                                <img class="thumbnail" src="<?php echo assetsUrl('common','images','default.jpg'); ?>" />
+                                            <?php } else { ?>
+                                                <div class="thumbnailItem">
+                                                    <img class="thumbnail" src="<?=$frmData['thumbnail']?>" />
+                                                    <a class="thumbnailDel"><i class="fa fa-trash-o"></i></a>
+                                                </div>
+                                            <?php } ?>
+                                        </div>
+                                    </div>
                                 </fieldset>
                             </div>
                         </div>

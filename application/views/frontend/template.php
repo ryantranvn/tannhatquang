@@ -1,5 +1,4 @@
 <!DOCTYPE html>
-<!--[if IE 9]><html class="lt-ie10" lang="en" > <![endif]-->
 <html class="no-js">
     <head>
         <?=$this->load->view('frontend/includes/pageTop','',TRUE)?>
@@ -13,7 +12,8 @@
         <? foreach ($cssBlock as $css) {
             echo $css;
         } ?>
-        <link rel="stylesheet" type="text/css" href="<?=assetsUrl('frontend','css','owl.carousel.css') ?>" />
+        <!-- <link rel="stylesheet" type="text/css" href="<?=libsUrl('owl-carousel','css','owl.carousel.css') ?>" /> -->
+        <!-- <link rel="stylesheet" type="text/css" href="<?=libsUrl('owl-carousel','css','owl.theme.default.css') ?>" /> -->
         <link rel="stylesheet" type="text/css" href="<?=assetsUrl('frontend','css','style.min.css') ?>" />
 
         <!--[if lt IE 9]>
@@ -68,21 +68,16 @@
                 <?=$this->load->view('frontend/includes/top','',TRUE)?>
                 <?=$this->load->view('frontend/includes/navigation','',TRUE)?>
                 <?=$this->load->view('frontend/includes/banner','',TRUE)?>
+                <? /*
                 <?=$this->load->view('frontend/includes/hotline','',TRUE)?>
                 <?=$content?>
                 <div id="gotoTop"></div>
                 <?=$this->load->view('frontend/includes/footer','',TRUE)?>
                 <?=$this->load->view('frontend/includes/popup','',TRUE)?>
+                */ ?>
                 <div class="processing"><img src="<?=assetsUrl('frontend','images','processing.gif');?>" /></div>
             <!--================================================== -->
         </div>
-
-    <!-- Pass to script -->
-        <script language="javascript">
-            var authUser = <?=json_encode($varJS['authUser']); ?>;
-            var invalidUser = <?=json_encode($varJS['invalidUser']); ?>;
-		</script>
-
     <!-- SCRIPT -->
         <script language="javascript" type="text/javascript" src="<?=assetsUrl('common','js','jquery.validate.min.js') ?>"></script>
 		<script language="javascript" type="text/javascript" src="<?=assetsUrl('common','js','jquery.cookie.min.js') ?>"></script>
@@ -98,7 +93,7 @@
         <? foreach ($jsBlock as $js) {
             echo $js;
         } ?>
-        <script language="javascript" type="text/javascript" src="<?=assetsUrl('frontend','js','owl.carousel.min.js')?>"></script>
+        <!-- <script language="javascript" type="text/javascript" src="<?=libsUrl('owl-carousel','js','owl.carousel.js')?>"></script> -->
         <script language="javascript" type="text/javascript" src="<?=assetsUrl('frontend','js','sly.min.js')?>"></script>
         <script language="javascript" type="text/javascript" src="<?=assetsUrl('frontend','js','script.js')?>"></script>
 

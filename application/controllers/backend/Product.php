@@ -1,29 +1,23 @@
 <?php
 defined('BASEPATH') OR exit('No direct script access allowed');
-
 if (file_exists(APPPATH . 'controllers/backend/Root.php')) {
     require_once(APPPATH . 'controllers/backend/Root.php');
 }
-
 class Product extends Root {
-
     private $path = '0-1-';
-
     public function __construct()
     {
         parent::__construct();
-
         $this->currentModule = $this->data['modules'][ucfirst($this->router->fetch_class())];
         $this->data['varJS']['currentModule'] = $this->currentModule;
         // load
         $this->load->model($this->currentModule['control_name'].'_model', 'model');
-
         $this->data['activeModule'] = $this->currentModule['control_name'];
         $this->data['activeNav'] = $this->currentModule['control_name'];
         $this->data['breadcrumb'][0] = array('name'=>$this->currentModule['name'], 'url' => B_URL . $this->currentModule['url']);
-
         // block js and css
             // array_push($this->data['cssBlock'], '<link rel="stylesheet" type="text/css" href="'. ASSETS_URL . 'backend/css/category.min.css" />');
+            array_push($this->data['jsBlock'], '<script language="javascript" type="text/javascript" src="'. ASSETS_URL . 'backend/js/init_height.js"></script>');
         	array_push($this->data['jsBlock'], '<script language="javascript" type="text/javascript" src="'. ASSETS_URL . 'backend/js/product.js"></script>');
             array_push($this->data['jsBlock'], '<script language="javascript" type="text/javascript" src="'. ASSETS_URL . 'backend/js/tree.js"></script>');
         // status array
@@ -40,10 +34,8 @@ class Product extends Root {
     {
         // check not access
             $this->noAccess($this->data['permissionsMember'], $this->currentModule['control_name'], 1);
-
         // breadcrumb
             $this->data['breadcrumb'][1] = array('name'=>'List', 'url' => B_URL . $this->currentModule['url']);
-
         // for tree
             $arrCategory = $this->Base_model->get_db('category', NULL, NULL, array('path'=>$this->path), array('path','order','name'), array('asc','asc','asc'));
             foreach ($arrCategory as $key => $category) {
@@ -51,15 +43,12 @@ class Product extends Root {
                 $arrCategory[$key]['indent'] = $indent-1;
             }
             $this->data['categories'] = $arrCategory;
-
             $this->data['parent_id'] = 0;
             $this->data['selected_category_id'] = 1;
-
         // create frm
             $this->data['frmTopButtons'] = frm(B_URL.$this->currentModule['url'].'/multi_delete', array('id' => "frmTopButtons"), FALSE);
             $this->data['frmImport'] = frm(B_URL.$this->currentModule['url'].'/import', array('id' => "frmImport"), TRUE);
             $this->data['frmProduct'] = frm('', array('id' => 'frmProduct'), TRUE);
-
         $this->template->load('backend/template', 'backend/product', $this->data);
     }
 //  Ajax List
@@ -72,7 +61,6 @@ class Product extends Root {
                 ,'sidx'     => $_GET['sidx']
                 ,'sord'     => $_GET['sord']
             );
-
             $sql = "SELECT
                          post.id
                         ,post.type
@@ -107,7 +95,6 @@ class Product extends Root {
                         if ($where == "") {$where .= "WHERE"; } else { $where .= " AND"; }
                         $field = $rule->field;
                         $value = $this->db->escape_like_str($rule->data);
-
                         if ($field == "status") {
                             $where .= " post.status='" . $value . "'";
                         }
@@ -129,7 +116,6 @@ class Product extends Root {
                 }
             }
             $sql .= $where;
-
             $list = $this->Base_model->table_list_in_page($sql, $params);
             // get pictures
             foreach ($list['rows'] as $key => $item) {
@@ -163,10 +149,8 @@ class Product extends Root {
     {
         // check permission
             $this->noAccess($this->data['permissionsMember'], $this->currentModule['control_name'], 2);
-
         // breadcrumb
             $this->data['breadcrumb'][1] = array('name'=>'Add', 'url' => '');
-
             $arrCategory = $this->Base_model->get_db('category', NULL, NULL, array('path'=>$this->path), array('path','order','name'), array('asc','asc','asc'));
             foreach ($arrCategory as $key => $category) {
                 $indent = count(explode('-', $category['path']));
@@ -175,10 +159,8 @@ class Product extends Root {
             $this->data['categories'] = $arrCategory;
             $this->data['selected_category_id'] = 1;
             $this->data['parent_id'] = 0;
-
         // creare form
             $this->data['frmProduct'] = frm(NULL, array('id' => 'frmProduct'), TRUE);
-
         $this->template->load('backend/template', 'backend/product/form', $this->data);
     }
 // edit
@@ -186,10 +168,8 @@ class Product extends Root {
     {
         // check permission
             $this->noAccess($this->data['permissionsMember'], $this->currentModule['control_name'], 3);
-
         // breadcrumb
             $this->data['breadcrumb'][1] = array('name'=>'Edit', 'url' => '');
-
         // get post
             $posts = $this->Base_model->get_post('product', $id);
             if ($posts === FALSE && count($posts)==0) {
@@ -210,8 +190,6 @@ class Product extends Root {
                 $str .= "]";
                 $this->data['picture_input'] = $str;
             }
-
-
         // get category tree
             $arrCategory = $this->Base_model->get_db('category', NULL, NULL, array('path'=>$this->path), array('path','order','name'), array('asc','asc','asc'));
             foreach ($arrCategory as $key => $category) {
@@ -223,7 +201,6 @@ class Product extends Root {
             $this->data['parent_id'] = $post['category_id'];
         // creare form
             $this->data['frmProduct'] = frm(NULL, array('id' => 'frmProduct'), TRUE);
-
         $this->template->load('backend/template', 'backend/product/form', $this->data);
     }
 // update
@@ -265,7 +242,6 @@ class Product extends Root {
             // array for picture
                 $thumbnail = $this->input->post('thumbnail', TRUE);
                 $arrPicture = explode(",", str_replace('"', '', substr($thumbnail, 1, strlen($thumbnail)-2)));
-
                 $productData = array(
                      'id' => $id_post
                     ,'code' => $code
@@ -312,7 +288,6 @@ class Product extends Root {
                             array_push($arr_new, $pic);
                         }
                     }
-
                     if ( $this->model->update_product($productData, $arr_del, $arr_new) === FALSE ) {
                         $msg['err'] = 1;
                         $msg['msg'] = 'Error update data.';
@@ -330,7 +305,6 @@ class Product extends Root {
     {
         // check permission
             $this->noAccess($this->data['permissionsMember'], $this->currentModule['control_name'], 4);
-
         // exclude  default categories
             if ($id===FALSE || $id=="" || $id==0) {
                 $this->session->set_userdata('invalid', 'This ID is not existing.');
@@ -353,7 +327,6 @@ class Product extends Root {
         // get data
             $ids = $this->input->post('ids', TRUE);
             $arrID = explode(",", $ids[0]);
-
             $deleted = 0;
             foreach ($arrID as $id) {
             // delete db
@@ -438,5 +411,4 @@ class Product extends Root {
         }
         return TRUE;
     }
-
 }

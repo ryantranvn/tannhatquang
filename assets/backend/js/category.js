@@ -221,7 +221,7 @@
                                         'parent_id': $('input[name=parent_id]').val()
                                       },
                                 success: function(data) {
-                                    if (data.err=="1") {
+                                    if (data.err==1) {
                                         showSmartAlert("Error", data.msg, '[YES]')
                                     }
                                     else {

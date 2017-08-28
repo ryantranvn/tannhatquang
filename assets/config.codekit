@@ -91,6 +91,28 @@
 		"outputStyle": 1,
 		"syntaxCheckerStyle": 1
 		},
+	"\/backend\/js\/member.js": {
+		"fileType": 64,
+		"ignore": 0,
+		"ignoreWasSetByUser": 0,
+		"inputAbbreviatedPath": "\/backend\/js\/member.js",
+		"outputAbbreviatedPath": "\/backend\/js\/member.min.js",
+		"outputPathIsOutsideProject": 0,
+		"outputPathIsSetByUser": 0,
+		"outputStyle": 1,
+		"syntaxCheckerStyle": 1
+		},
+	"\/backend\/js\/member.min.js": {
+		"fileType": 64,
+		"ignore": 1,
+		"ignoreWasSetByUser": 0,
+		"inputAbbreviatedPath": "\/backend\/js\/member.min.js",
+		"outputAbbreviatedPath": "\/backend\/js\/member.min.min.js",
+		"outputPathIsOutsideProject": 0,
+		"outputPathIsSetByUser": 0,
+		"outputStyle": 1,
+		"syntaxCheckerStyle": 1
+		},
 	"\/backend\/js\/module.js": {
 		"fileType": 64,
 		"ignore": 0,
@@ -763,6 +785,17 @@
 		"outputPathIsSetByUser": 0,
 		"processed": 0
 		},
+	"\/frontend\/images\/icon.png": {
+		"fileType": 32768,
+		"ignore": 0,
+		"ignoreWasSetByUser": 0,
+		"initialSize": 2186,
+		"inputAbbreviatedPath": "\/frontend\/images\/icon.png",
+		"outputAbbreviatedPath": "\/frontend\/images\/icon.png",
+		"outputPathIsOutsideProject": 0,
+		"outputPathIsSetByUser": 0,
+		"processed": 0
+		},
 	"\/frontend\/images\/light.png": {
 		"fileType": 32768,
 		"ignore": 0,
@@ -1000,17 +1033,6 @@
 		"ignoreWasSetByUser": 0,
 		"inputAbbreviatedPath": "\/frontend\/js\/pusher.min.js",
 		"outputAbbreviatedPath": "\/frontend\/js\/pusher.min.min.js",
-		"outputPathIsOutsideProject": 0,
-		"outputPathIsSetByUser": 0,
-		"outputStyle": 1,
-		"syntaxCheckerStyle": 1
-		},
-	"\/frontend\/js\/script-min.js": {
-		"fileType": 64,
-		"ignore": 0,
-		"ignoreWasSetByUser": 0,
-		"inputAbbreviatedPath": "\/frontend\/js\/script-min.js",
-		"outputAbbreviatedPath": "\/frontend\/js\/script-min.min.js",
 		"outputPathIsOutsideProject": 0,
 		"outputPathIsSetByUser": 0,
 		"outputStyle": 1,

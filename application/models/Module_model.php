@@ -59,49 +59,34 @@ class Module_model extends Base_model {
     }
 
 // insert
-    public function insertModule($connection, $moduleAdd)
+    public function insert_module($module_data)
     {
-        // set connection
-        if ($connection===NULL) {
-            $connection = 'db';
-        }
-        $this->connect_to($connection);
+        $this->db->trans_begin();
 
-        $this->connection->trans_begin();
-
-        // create module folder
-        /*
-            $path = APPPATH.'modules/b_'.$moduleAdd['url'];
-            if (!file_exists($path.'/controllers')) { mkdir($path.'/controllers', 0775, true); }
-            if (!file_exists($path.'/models')) { mkdir($path.'/models', 0775, true); }
-            if (!file_exists($path.'/views')) { mkdir($path.'/views', 0775, true); }
-        */
         // insert module
-            $this->insertDB($connection, 'module', $moduleAdd);
-            $id = $this->connection->insert_id();
+            $this->insert_db('module', $module_data);
+            $module_id = $this->db->insert_id();
         // insert permission
-            $members = $this->getDB($connection, 'member', array('id'));
-            $permissions = $this->getDB($connection, 'permission', array('id'));
+            $members = $this->get_db('member', array('id'));
+            $permissions = $this->get_db('permission', array('id'));
             foreach ($members as $member) {
                 foreach ($permissions as $permission) {
                     if ($member['id'] == 1) { // for admin
-                        $this->insertDB($connection, 'member_permission', array('id_member'=>$member['id'], 'id_permission'=>$permission['id'], 'id_module'=>$id, 'active' => 1));
+                        $this->insert_db('member_permission', array('id_member'=>$member['id'], 'id_permission'=>$permission['id'], 'id_module'=>$module_id, 'active' => 1));
                     }
                     else { // for all
-                        $this->insertDB($connection, 'member_permission', array('id_member'=>$member['id'], 'id_permission'=>$permission['id'], 'id_module'=>$id));
+                        $this->insert_db('member_permission', array('id_member'=>$member['id'], 'id_permission'=>$permission['id'], 'id_module'=>$module_id));
                     }
                 }
             }
 
-        if ($this->connection->trans_status() === FALSE)
-        {
-            $this->connection->trans_rollback();
+        if ($this->db->trans_status() === FALSE) {
+            $this->db->trans_rollback();
             return FALSE;
         }
-        else
-        {
-            $this->connection->trans_commit();
-            return $id;
+		else {
+            $this->db->trans_commit();
+            return TRUE;
         }
     }
 

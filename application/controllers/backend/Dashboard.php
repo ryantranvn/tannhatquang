@@ -32,7 +32,6 @@ class Dashboard extends Root {
 // index
     public function index()
     {
-
         $this->template->load('backend/template', 'backend/dashboard', $this->data);
         // $this->load->view('backend/dashboard',$this->data);
     }

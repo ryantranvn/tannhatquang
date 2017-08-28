@@ -30,7 +30,7 @@ class Root extends CI_Controller {
 	            redirect(B_URL.'auth');
 	        }
             $this->data['authMember'] = $this->session->userdata('authMember');
-            $this->data['permissionsMember'] = $this->Permission_model->get_memberPermissions($this->data['authMember']['id']);
+            $this->data['permissionsMember'] = $this->Permission_model->get_member_permissions($this->data['authMember']['id']);
 	    // Menu
 	        $modules = $this->Base_model->get_db('module',NULL, NULL ,NULL,'order','asc');
 	        $arrModules  = array();
@@ -39,7 +39,6 @@ class Root extends CI_Controller {
 	        }
             $this->data['modules'] = $arrModules;
 
-        	// print_r("<pre>"); print_r($arrModules); exit();
         // Reply Template
         	$this->data['reply'] = reply();
 

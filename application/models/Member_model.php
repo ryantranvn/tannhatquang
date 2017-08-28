@@ -1,7 +1,7 @@
 <?php if ( ! defined('BASEPATH')) exit('No direct script access allowed');
 
 class Member_model extends Base_model {
-    
+
 	protected $connection;
 
     public function __construct()
@@ -33,7 +33,7 @@ class Member_model extends Base_model {
         }
         $query = $this->db->query($sql);
         $result = $query->result_array();
-        
+
         return count($result);
     }
 
@@ -45,7 +45,7 @@ class Member_model extends Base_model {
             $connection = 'db';
         }
         $this->connect_to($connection);
-        
+
         $sql = "SELECT * FROM member";
         if ($where != NULL && $where != "") {
             $sql .= " WHERE ".$where;
@@ -65,6 +65,53 @@ class Member_model extends Base_model {
         return $result;
     }
 
+// udpate member (both add & edit)
+    public function update_member($member_data, $permissions, $id_member)
+    {
+        $this->db->trans_begin();
+
+            if ($id_member == NULL) { // add
+            // insert member
+                $sql_member = "INSERT INTO member (`username`, `password`, `thumbnail`, `status`, `created_datetime`) VALUES (?, ?, ?, ?, ?)";
+                $this->db->query($sql_member, array($member_data['username'], $member_data['password'], $member_data['thumbnail'], $member_data['status'], $member_data['datetime']));
+                $id_member = $this->db->insert_id();
+            // insert permission
+                $sql_permission = "INSERT INTO member_permission (`id_member`,`id_module`, `id_permission`, `active`) VALUES (?, ?, ?, ?)";
+                foreach ($permissions as $permission) {
+                    $this->db->query($sql_permission, array($id_member, $permission['id_module'], $permission['id_permission'], $permission['active']));
+                }
+            }
+            else { // edit
+            // update permission
+                $sql_permission = "UPDATE member_permission SET `active`=? WHERE `id_member`=? AND `id_module`=? AND `id_permission`=? ";
+                foreach ($permissions as $permission) {
+                    $this->db->query($sql_permission, array($permission['active'], $id_member, $permission['id_module'], $permission['id_permission']));
+                }
+            // update member
+                if (isset($member_data['password'])) {
+                    $sql_member = "UPDATE member SET (`password`=?, `thumbnail`=?, `status`=?, `modified_datetime`=?) WHERE `id`=?";
+                    $this->db->query($sql_member, array($member_data['password'], $member_data['thumbnail'], $member_data['status'], $member_data['datetime'], $id_member));
+                }
+                else {
+                    $sql_member = "UPDATE member SET `thumbnail`=?, `status`=?, `modified_datetime`=? WHERE `id`=?";
+                    $this->db->query($sql_member, array($member_data['thumbnail'], $member_data['status'], $member_data['datetime'], $id_member));
+                }
+            }
+            if ($this->db->trans_status() === FALSE)
+            {
+                $this->db->trans_rollback();
+                return FALSE;
+            }
+            else
+            {
+                $this->db->trans_commit();
+                return TRUE;
+            }
+    }
+
+// get permission of member
+
+/*
 // insertMember
     public function insertMember($connection, $arrInsert, $arrPermission)
     {
@@ -79,7 +126,7 @@ class Member_model extends Base_model {
         // insert new member
             $this->insertDB($connection, 'member', $arrInsert);
             $idMember = $this->connection->insert_id();
-        // update permission array 
+        // update permission array
             foreach ($arrPermission as $arrSub) {
                 foreach ($arrSub as $item) {
                     $item['id_member'] = $idMember;
@@ -100,7 +147,7 @@ class Member_model extends Base_model {
     }
 
 // updateMemberModule
-    public function updateMemberModule($connection, $arrPermission, $id) 
+    public function updateMemberModule($connection, $arrPermission, $id)
     {
     // set connection
         if ($connection===NULL) {
@@ -153,4 +200,5 @@ class Member_model extends Base_model {
             return TRUE;
         }
     }
+*/
 }

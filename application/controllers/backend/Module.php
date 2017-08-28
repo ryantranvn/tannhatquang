@@ -37,8 +37,8 @@ class Module extends Root {
         $this->noAccess($this->data['permissionsMember'], $this->currentModule['control_name'], 3);
         $this->noAccess($this->data['permissionsMember'], $this->currentModule['control_name'], 4);
 
-        // frm
-        	$this->data['frmModule'] = frm('', array('id' => "frmModule"), FALSE);
+    // frm
+    	$this->data['frmModule'] = frm('', array('id' => "frmModule"), FALSE);
 
         $this->template->load('backend/template', 'backend/module', $this->data);
     }
@@ -57,21 +57,16 @@ class Module extends Root {
             if (isset($_GET['filters'])) {
                 $params['filters'] = json_decode($_GET['filters']);
                 if (count($params['filters']->rules)>0) {
-                    if ($where == "") {$where .= "WHERE"; } else { $where .= " AND"; }
+                    if ($where == "") {$where .= " WHERE"; } else { $where .= " AND"; }
                     foreach($params['filters']->rules as $rule) {
-                        $field = $this->db->escape($rule->field);
+                        $field = $rule->field;
                         $value = $this->db->escape_like_str($rule->data);
-                        if ($field == "status") {
-                            $where .= " status='" . $value . "'";
-                        }
-                        else {
-                            $where .= $field . " LIKE '%" . $value . "%'";
-                        }
+
+                        $where .= " $field LIKE '%$value%'";
                     }
                 }
             }
             $sql .= $where;
-
         // return json
             echo json_encode($this->Base_model->table_list_in_page($sql, $params));
     }
@@ -115,13 +110,17 @@ class Module extends Root {
                                          'order' => $this->input->post('order', TRUE)
                                          );
                     if ($id == NULL) { // add
-                        if ( $this->Base_model->insert_db('module', $module_data) === FALSE ) {
+                        if ( $this->model->insert_module($module_data) === FALSE ) {
                             $msg['err'] = 1;
                             $msg['msg'] = "Error insert new data.";
                         }
                         else {
                             $msg['err'] = 0;
                             $this->session->set_userdata('valid', "Insert new data successful.");
+                            // update session for admin
+                            // if ($this->data['authMember']['username']=='admin') {
+                            //     array_push()
+                            // }
                         }
                     }
                     else { // edit

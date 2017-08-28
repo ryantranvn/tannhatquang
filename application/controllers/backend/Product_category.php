@@ -130,7 +130,7 @@ class Product_category extends Root {
         $this->data['parent_id'] = 0;
 
         // create form
-            $this->data['frmCategory'] = frm('', array('id' => 'frmCategory'), TRUE);
+            $this->data['frmCategory'] = frm('', array('id' => 'frmCategory'), FALSE);
 
         $this->template->load('backend/template', 'backend/category/form', $this->data);
     }
@@ -166,7 +166,7 @@ class Product_category extends Root {
         $this->data['selected_category_id'] = $id;
 
         // create form
-            $this->data['frmCategory'] = frm('', array('id' => 'frmCategory'), TRUE);
+            $this->data['frmCategory'] = frm('', array('id' => 'frmCategory'), FALSE);
 
         $this->template->load('backend/template', 'backend/category/form', $this->data);
     }

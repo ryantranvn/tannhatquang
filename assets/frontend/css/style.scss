@@ -606,15 +606,17 @@
 // banner
     #banner {
         .owl-item {
-            -webkit-backface-visibility: hidden;
-            -webkit-transform: translateZ(0) scale(1.0, 1.0);
-            
+            // -webkit-backface-visibility: hidden;
+            // -webkit-transform: translateZ(0) scale(1.0, 1.0);
+
             .item {
+
                 img {
                     width: 100%;
                 }
             }
         }
+        /*
         .owl-pagination {
             width: 100%;
             position: absolute;
@@ -636,12 +638,14 @@
         .owl-buttons {
             display: none;
         }
+        */
     }
 
 // hotline
     #hotline {
         top: -40px;
         height: 80px;
+        z-index: 100;
 
         .centerContainer {
             height: 100%;
