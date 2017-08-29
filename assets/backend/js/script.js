@@ -834,10 +834,7 @@
 	}
 
 	$(document).ready( function() {
-		$('body').on('click', 'a.jarviswidget-fullscreen-btn', function() {
-			var parent = $(this).closest('.jarviswidget');
-			parent.find('.ui-jqgrid-view, .ui-jqgrid-hdiv, .ui-jqgrid-bdiv').css({'width':'100%'});
-		});
+	
 	// btnCancel
 		if ($('.btnCancel').length>0) {
 			$('.btnCancel').click( function() {

@@ -120,8 +120,8 @@
     // reload list on click tree item
         $('.tree').find('span').each( function() {
             $(this).click( function() {
-                var category_id = $(this).attr('data-id');
-                var filters = '{"groupOp":"AND", "rules":[{"field":"category_id","op":"cn","data": "'+category_id+'"}]}';
+                var path = $(this).attr('data-path');
+                var filters = '{"groupOp":"AND", "rules":[{"field":"path","op":"cn","data": "'+path+'"}]}';
                 jQuery(idTableList).jqGrid('setGridParam',{
                     datatype: 'json',
                     postData: {filters:filters},

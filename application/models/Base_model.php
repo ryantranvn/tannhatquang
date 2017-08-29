@@ -117,7 +117,6 @@ class Base_model extends CI_model {
             return FALSE;
         }
     }
-
 // INSERT
     function insert_db($table, $data)
     {
@@ -141,7 +140,99 @@ class Base_model extends CI_model {
             return FALSE;
         }
     }
+// GET POST
+    function get_post($type, $id, $deleted=NULL)
+    {
+        if ($type=="product") {
+            $sql = "SELECT
+                        post.id
+                        ,post.category_id
+                        ,post.status
+                        ,product.code
+                        ,product.name
+                        ,product.url
+                        ,product.description
+                        ,product.unit
+                        ,product.manufacturer
+                        ,product.quantity
+                        ,product.stock_in_trade
+                        ,product.price
+                        ,product.price_sale
+                        ,product.price_sale_percent
+                        ,product.order
+                        ,product.detail
+                    FROM post
+                    INNER JOIN product ON product.post_id = post.id
+            ";
+        }
+        else if ($type=="news") {
+            $sql = "SELECT
+                        post.id
+                        ,post.category_id
+                        ,post.status
+                        ,news.title
+                        ,news.url
+                        ,news.thumbnail
+                        ,news.description
+                        ,news.order
+                        ,news.detail
+                    FROM post
+                    INNER JOIN news ON news.post_id = post.id
+            ";
+        }
+        $where = " WHERE post.type = '".$type."' AND post.id = ".$id;
+        if ($deleted !== NULl) {
+            $where .= " AND deleted=".$deleted;
+        }
+        $sql .= $where;
+        $query = $this->db->query($sql);
+        $result = $query->result_array();
+        return $result;
+    }
+// INSERT POST
+    function insert_post($arrPost)
+    {
+        $sql = "INSERT INTO post (`category_id`, `type`, `status`, `created_datetime`, `created_by`) VALUES (?, ?, ?, ?, ?)";
+        $result = $this->db->query($sql, array($arrPost['category_id'], $arrPost['type'], $arrPost['status'], $arrPost['created_datetime'], $arrPost['created_by']));
+        if ($result == FALSE) {
+            return FALSE;
+        }
+        $id = $this->db->insert_id();
+        return $id;
+    }
+// DELETE POST
+    function delete_post($type, $id)
+    {
+        $this->db->trans_begin();
 
+        if ($type=="product") {
+        // delete product
+            $sql_product = "DELETE FROM product WHERE `post_id`=?";
+            $this->db->query($sql_product, array($id));
+        }
+        else if ($type=="news") {
+        // delete news
+            $sql_news = "DELETE FROM news WHERE `post_id`=?";
+            $this->db->query($sql_news, array($id));
+        }
+        // delete picture
+            $sql = "DELETE FROM post_picture WHERE `post_id`=?";
+            $this->db->query($sql, array($id));
+
+        // delete post
+            $sql_post = "DELETE FROM post WHERE `id`=?";
+            $this->db->query($sql_post, array($id));
+        if ($this->db->trans_status() === FALSE)
+        {
+            $this->db->trans_rollback();
+            return FALSE;
+        }
+        else
+        {
+            $this->db->trans_commit();
+            return TRUE;
+        }
+    }
 
 
 

@@ -1,10 +1,10 @@
 // tree view
     var selected_category_id = $('input[name="selected_category_id"]').val();
     treeView();
-    // default_category_id
-    $('.tree').find('span[data-id='+selected_category_id+']').addClass('label-success');
-    // show icons on tree
-    if (permissionsMember[currentModule['control_name']][3] == 1 && $('#is_post').length==0) { // has permission and not post page
+// default_category_id
+$('.tree').find('span[data-id='+selected_category_id+']').addClass('label-success');
+// show icons on tree
+if (permissionsMember[currentModule['control_name']][3] == 1 && $('#is_post').length==0) { // has permission and not post page
         if ($('#frmCategory').length==0) { // only edit in category or sub-category page
             $('.tree').find('span').each( function() {
                 $(this).click( function() {
@@ -20,10 +20,7 @@
         }
     }
 
-    // disabled root on sub category page
-    if ($('#is_sub_category').val()!=0) {
-        $('#root').addClass('btn bg-color-blueDark txt-color-white disabled');
-    }
+
 // disabled root on sub category page
     if ($('#is_sub_category').length>0 && $('#is_sub_category').val()!=0) {
         $('#root').addClass('btn bg-color-blueDark txt-color-white disabled');

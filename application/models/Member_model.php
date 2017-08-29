@@ -89,7 +89,7 @@ class Member_model extends Base_model {
                 }
             // update member
                 if (isset($member_data['password'])) {
-                    $sql_member = "UPDATE member SET (`password`=?, `thumbnail`=?, `status`=?, `modified_datetime`=?) WHERE `id`=?";
+                    $sql_member = "UPDATE member SET `password`=?, `thumbnail`=?, `status`=?, `modified_datetime`=? WHERE `id`=?";
                     $this->db->query($sql_member, array($member_data['password'], $member_data['thumbnail'], $member_data['status'], $member_data['datetime'], $id_member));
                 }
                 else {
@@ -109,7 +109,27 @@ class Member_model extends Base_model {
             }
     }
 
-// get permission of member
+// delete member
+	public function delete_member($id)
+	{
+		$this->db->trans_begin();
+
+		// delete member_permission
+			$this->delete_db('member_permission', 'id_member', array($id));
+		// delete member
+			$this->delete_db('member', 'id	', array($id));
+
+		if ($this->db->trans_status() === FALSE)
+		{
+			$this->db->trans_rollback();
+			return FALSE;
+		}
+		else
+		{
+			$this->db->trans_commit();
+			return TRUE;
+		}
+	}
 
 /*
 // insertMember

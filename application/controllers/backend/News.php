@@ -3,9 +3,9 @@ defined('BASEPATH') OR exit('No direct script access allowed');
 if (file_exists(APPPATH . 'controllers/backend/Root.php')) {
     require_once(APPPATH . 'controllers/backend/Root.php');
 }
-class Product extends Root {
+class News extends Root {
 
-    private $path = '0-1-';
+    private $path = '0-2-';
 
     public function __construct()
     {
@@ -18,9 +18,9 @@ class Product extends Root {
         $this->data['activeNav'] = $this->currentModule['control_name'];
         $this->data['breadcrumb'][0] = array('name'=>$this->currentModule['name'], 'url' => B_URL . $this->currentModule['url']);
         // block js and css
-            // array_push($this->data['cssBlock'], '<link rel="stylesheet" type="text/css" href="'. ASSETS_URL . 'backend/css/category.min.css" />');
+            // array_push($this->data['cssBlock'], '<link rel="stylesheet" type="text/css" href="'. ASSETS_URL . 'backend/css/.css" />');
             array_push($this->data['jsBlock'], '<script language="javascript" type="text/javascript" src="'. ASSETS_URL . 'backend/js/init_height.js"></script>');
-        	array_push($this->data['jsBlock'], '<script language="javascript" type="text/javascript" src="'. ASSETS_URL . 'backend/js/product.js"></script>');
+        	array_push($this->data['jsBlock'], '<script language="javascript" type="text/javascript" src="'. ASSETS_URL . 'backend/js/news.js"></script>');
             array_push($this->data['jsBlock'], '<script language="javascript" type="text/javascript" src="'. ASSETS_URL . 'backend/js/tree.js"></script>');
         // status array
             $this->data['statusArr'] = array(
@@ -28,9 +28,10 @@ class Product extends Root {
                 ,'inactive' => '<button class="btn bg-color-blueDark txt-color-white" data-value="inactive">Inactive</button>'
                 // ,'block' => '<button class="btn bg-color-red txt-color-white" data-value="block">Block</button>'
             );
-        $this->data['is_sub_category'] = 1;
+        $this->data['is_sub_category'] = 2;
         $this->data['is_post'] = 1;
     }
+
 // index
     public function index()
     {
@@ -46,12 +47,12 @@ class Product extends Root {
             }
             $this->data['categories'] = $arrCategory;
             $this->data['parent_id'] = 0;
-            $this->data['selected_category_id'] = 1;
+            $this->data['selected_category_id'] = 2;
         // create frm
             $this->data['frmTopButtons'] = frm(B_URL.$this->currentModule['url'].'/multi_delete', array('id' => "frmTopButtons"), FALSE);
             $this->data['frmImport'] = frm(B_URL.$this->currentModule['url'].'/import', array('id' => "frmImport"), TRUE);
-            $this->data['frmProduct'] = frm('', array('id' => 'frmProduct'), TRUE);
-        $this->template->load('backend/template', 'backend/product', $this->data);
+
+        $this->template->load('backend/template', 'backend/news', $this->data);
     }
 //  Ajax List
     public function ajax_list()
@@ -68,16 +69,12 @@ class Product extends Root {
                         ,post.type
                         ,post.deleted
                         ,post.status
-                        ,product.code
-                        ,product.name
-                        ,product.unit
-                        ,product.order
-                        ,product.quantity
-                        ,product.stock_in_trade
-                        ,product.price
+                        ,news.title
+                        ,news.thumbnail
+                        ,news.order
                         ,category.name AS category
                     FROM post
-                    INNER JOIN product ON product.post_id = post.id
+                    INNER JOIN news ON news.post_id = post.id
                     LEFT JOIN category ON category.id = post.category_id
                     ";
             if ( $params['sidx'] == "category_name") {
@@ -87,9 +84,9 @@ class Product extends Root {
                 $params['sidx'] = "post." . $params['sidx'];
             }
             else {
-                $params['sidx'] = "product." . $params['sidx'];
+                $params['sidx'] = "news." . $params['sidx'];
             }
-            $where = "WHERE post.type='product'";
+            $where = " WHERE post.type='news'";
             if (isset($_GET['filters'])) {
                 $params['filters'] = json_decode($_GET['filters']);
                 if (count($params['filters']->rules)>0) {
@@ -111,7 +108,7 @@ class Product extends Root {
                                 $where .= " post." . $field . " LIKE '%" . $value . "%'";
                             }
                             else {
-                                $where .= " product." . $field . " LIKE '%" . $value . "%'";
+                                $where .= " news." . $field . " LIKE '%" . $value . "%'";
                             }
                         }
                     }
@@ -119,14 +116,7 @@ class Product extends Root {
             }
             $sql .= $where;
             $list = $this->Base_model->table_list_in_page($sql, $params);
-            // get pictures
-            foreach ($list['rows'] as $key => $item) {
-                $pictures = $this->Base_model->get_db('post_picture', array('url'), array('post_id'=>$item['id']));
-                $list['rows'][$key]['pictures'] = array();
-                foreach ($pictures as $picture) {
-                    array_push($list['rows'][$key]['pictures'], $picture['url']);
-                }
-            }
+
         // return json
             echo json_encode($list);
     }
@@ -160,13 +150,13 @@ class Product extends Root {
                 $arrCategory[$key]['indent'] = $indent-1;
             }
             $this->data['categories'] = $arrCategory;
-            $this->data['selected_category_id'] = 1;
+            $this->data['selected_category_id'] = 2;
             $this->data['parent_id'] = 0;
         // creare form
-            $this->data['frmProduct'] = frm(NULL, array('id' => 'frmProduct'), TRUE);
-        $this->template->load('backend/template', 'backend/product/form', $this->data);
+            $this->data['frmNews'] = frm(NULL, array('id' => 'frmNews'), TRUE);
+        $this->template->load('backend/template', 'backend/news/form', $this->data);
     }
-// edit
+// Edit
     public function edit($id)
     {
         // check permission
@@ -174,25 +164,12 @@ class Product extends Root {
         // breadcrumb
             $this->data['breadcrumb'][1] = array('name'=>'Edit', 'url' => '');
         // get post
-            $posts = $this->Base_model->get_post('product', $id);
+            $posts = $this->Base_model->get_post('news', $id);
             if ($posts === FALSE && count($posts)==0) {
                 $this->session->set_userdata('invalid', "Không tìm thấy dữ liệu.");
                 redirect(B_URL . $this->currentModule['url']);
             }
             $this->data['frmData'] = $post = $posts[0];
-            $pictures = $this->Base_model->get_db('post_picture', NULL, array('post_id' => $id));
-            if ($pictures !== FALSE && count($pictures)>0) {
-                $this->data['pictures'] = $pictures;
-                $str = "[";
-                foreach ($pictures as $key => $picture) {
-                    if ($key!=0) {
-                        $str .= ",";
-                    }
-                    $str .= '"' . $picture['url']. '"';
-                }
-                $str .= "]";
-                $this->data['picture_input'] = $str;
-            }
         // get category tree
             $arrCategory = $this->Base_model->get_db('category', NULL, NULL, array('path'=>$this->path), array('path','order','name'), array('asc','asc','asc'));
             foreach ($arrCategory as $key => $category) {
@@ -203,10 +180,10 @@ class Product extends Root {
             $this->data['selected_category_id'] = $post['category_id'];
             $this->data['parent_id'] = $post['category_id'];
         // creare form
-            $this->data['frmProduct'] = frm(NULL, array('id' => 'frmProduct'), TRUE);
-        $this->template->load('backend/template', 'backend/product/form', $this->data);
+            $this->data['frmNews'] = frm(NULL, array('id' => 'frmNews'), TRUE);
+        $this->template->load('backend/template', 'backend/news/form', $this->data);
     }
-// update
+// Update
     public function update()
     {
         $id_post = $this->input->post('id', TRUE);
@@ -221,8 +198,7 @@ class Product extends Root {
                 $this->noAccess($this->data['permissionsMember'], $this->currentModule['control_name'], 3);
             }
         // valid form
-            $this->form_validation->set_rules('code', 'Mã sản phẩm', 'trim|required|max_length[20]|xss_clean');
-            $this->form_validation->set_rules('name', 'Tên sản phẩm', 'trim|required|max_length[255]|xss_clean');
+            $this->form_validation->set_rules('title', 'Tiêu đề', 'trim|required|max_length[255]|xss_clean');
             $this->form_validation->set_rules('url', 'URL', 'trim|required|max_length[255]|alpha_dash|xss_clean');
             $this->form_validation->set_rules('desc', 'Mổ tả', 'trim|max_length[1025]|xss_clean');
             $this->form_validation->set_message('required', '%s bắt buộc nhập');
@@ -233,32 +209,18 @@ class Product extends Root {
                 $msg['msg'] = validation_errors();
             }
         // valid existed
-            else if ($this->is_existed_code($code, $id_post)) {
-                $msg['err'] = 1;
-                $msg['msg'] = 'Mã sản phẩm đã tồn tại';
-            }
             else if ($this->is_existed($url, $category_id, $id_post)) {
                 $msg['err'] = 1;
                 $msg['msg'] = 'Sản phẩm đã tồn tại trong chuyên mục này.';
             }
             else {
-            // array for picture
-                $thumbnail = $this->input->post('thumbnail', TRUE);
-                $arrPicture = explode(",", str_replace('"', '', substr($thumbnail, 1, strlen($thumbnail)-2)));
-                $productData = array(
+                $arr_data = array(
                      'id' => $id_post
-                    ,'code' => $code
                     ,'category_id' => $category_id
-                    ,'name' => $this->input->post('name', TRUE)
+                    ,'title' => $this->input->post('title', TRUE)
                     ,'url' => $url
                     ,'description' => $this->input->post('desc', TRUE)
-                    ,'manufacturer' => $this->input->post('manufacturer', TRUE)
-                    ,'unit' => $this->input->post('unit', TRUE)
-                    ,'price' => $this->input->post('price', TRUE)
-                    ,'price_sale' => $this->input->post('price_sale', TRUE)
-                    ,'price_sale_percent' => $this->input->post('price_sale_percent', TRUE)
-                    ,'quantity' => $this->input->post('quantity', TRUE)
-                    ,'arrPicture' => $arrPicture
+                    ,'thumbnail' => $this->input->post('thumbnail', TRUE)
                     ,'order' => $this->input->post('order', TRUE)
                     ,'status' => $this->input->post('status', TRUE)
                     ,'detail' => $this->input->post('detail', TRUE)
@@ -266,7 +228,7 @@ class Product extends Root {
                     ,'by' => $this->data['authMember']['username']
                 );
                 if ($id_post == NULL) { // add
-                    if ( $this->model->insert_product($productData) === FALSE ) {
+                    if ( $this->model->insert_news($arr_data) === FALSE ) {
                         $msg['err'] = 1;
                         $msg['msg'] = 'Error insert new data.';
                     }
@@ -276,22 +238,7 @@ class Product extends Root {
                     }
                 }
                 else { // edit
-                    $pictures = $this->Base_model->get_db('post_picture', NULL, array('post_id' => $id_post));
-                    $arr_new = $arr_old = $arr_del = array();
-                    // find picture need delete
-                    foreach ($pictures as $picture) {
-                        array_push($arr_old, $picture['url']);
-                        if (in_array($picture['url'], $arrPicture) === FALSE) {
-                            array_push($arr_del, $picture['url']);
-                        }
-                    }
-                    // find picture need insert
-                    foreach ($arrPicture as $key => $pic) {
-                        if (in_array($pic, $arr_old) === FALSE) {
-                            array_push($arr_new, $pic);
-                        }
-                    }
-                    if ( $this->model->update_product($productData, $arr_del, $arr_new) === FALSE ) {
+                    if ( $this->model->update_news($arr_data) === FALSE ) {
                         $msg['err'] = 1;
                         $msg['msg'] = 'Error update data.';
                     }
@@ -314,7 +261,7 @@ class Product extends Root {
                 redirect($_SERVER['HTTP_REFERER']);
             }
         // delete db
-            if ($this->Base_model->delete_post('product', $id) === FALSE) {
+            if ($this->Base_model->delete_post('news', $id) === FALSE) {
                 $this->session->set_userdata('invalid', "Error delete data");
             }
             else {
@@ -333,7 +280,7 @@ class Product extends Root {
             $deleted = 0;
             foreach ($arrID as $id) {
             // delete db
-                if ($this->Base_model->delete_post('product', $id) !== FALSE) {
+                if ($this->Base_model->delete_post('news', $id) !== FALSE) {
                     $deleted++;
                 }
             }
@@ -345,66 +292,17 @@ class Product extends Root {
             }
         redirect($_SERVER['HTTP_REFERER']);
     }
-// import
-    public function import()
-    {
-        if(isset($_POST) && $_SERVER['REQUEST_METHOD'] == "POST") {
-            $inputFileName = $_FILES['importFile']['tmp_name'];
-            $objPHPExcel = PHPExcel_IOFactory::load($inputFileName);
-            $sheetData = $objPHPExcel->getActiveSheet()->toArray(null,null,null,null,null);
-            $importData = array();
-            foreach ($sheetData as $key => $row) {
-                if ($key > 0 && $this->security->xss_clean($row[0]) != "") {
-                    $arr = array();
-                    $arr['code'] = strtoupper($this->security->xss_clean($row[1]));
-                    $arr['name'] = $this->security->xss_clean($row[2]);
-                    $arr['unit'] = $this->security->xss_clean($row[3]);
-                    $arr['quantity'] = $this->security->xss_clean($row[4]);
-                    $arr['price'] = $this->security->xss_clean($row[5]);
-                    $arr['category_id'] = $this->security->xss_clean($row[6]);
-                    $arr['manufacturer'] = $this->security->xss_clean($row[7]);
-                    $arr['url'] = url_str($arr['name']);
-                    array_push($importData, $arr);
-                }
-            }
-            if ( $this->model->import_db($importData) === FALSE ) {
-                $this->session->set_userdata('invalid', "Error import data.");
-            }
-            else {
-                $this->session->set_userdata('valid', "Import data successful.");
-            }
-        }
-        redirect(B_URL . $this->router->fetch_class());
-    }
-/* MORE */
-    private function is_existed_code($code, $id_post=NULL)
-    {
-        $sql = "SELECT id FROM product";
-        if ($id_post == NULL) { // add
-            $where = " WHERE code = '".$code."'";
-        }
-        else { // edit
-            $where = " WHERE code = '".$code."' AND post_id <> ".$id_post;
-        }
-        $sql .= $where;
-        $query = $this->db->query($sql);
-        $result = $query->result_array();
-        if ($result==FALSE || count($result)==0) {
-            return FALSE; // not existed
-        }
-        return TRUE;
-    }
-    /* is_existed in category */
+/* is_existed in category */
     private function is_existed($url, $category_id, $id_post=NULL)
     {
-        $sql = "SELECT post.id FROM product
-                INNER JOIN post ON post.id = product.post_id
+        $sql = "SELECT post.id FROM news
+                INNER JOIN post ON post.id = news.post_id
                 ";
         if ($id_post == NULL) { // add
-            $where = " WHERE product.url = '".$url."' AND post.category_id = '".$category_id."'";
+            $where = " WHERE news.url = '".$url."' AND post.category_id = '".$category_id."'";
         }
         else { // edit
-            $where = " WHERE product.url = '".$url."' AND post.category_id = '".$category_id."' AND post.id <> ".$id_post;
+            $where = " WHERE news.url = '".$url."' AND post.category_id = '".$category_id."' AND post.id <> ".$id_post;
         }
         $sql .= $where;
         $query = $this->db->query($sql);

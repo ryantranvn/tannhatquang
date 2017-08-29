@@ -108,25 +108,6 @@
             });
         });
 
-    // multi-delete
-        $('body').on('click', '#btnMultiDelete', function(e) {
-            e.preventDefault();
-            href = $(this).attr('href');
-
-            selectedRows = jQuery(idTableList).jqGrid('getGridParam','selarrrow');
-            if (selectedRows.length==0) {
-                showSmartAlert("Error", "Please select data.", '[YES]');
-            }
-            else {
-                showSmartAlert("Warning", "<p>Are you sure delete data ?</p>", '[NO][YES]', function() {
-                    // click YES
-                    $('#ids').val(selectedRows)
-                    $('#frmTopButtons').submit();
-                }, function() {
-                    // click NO
-                });
-            }
-        });
     }
 
 // frmMember
@@ -387,14 +368,12 @@
                                 'csrf_hash' : $.cookie('csrf_cookie_ci')
                               },
                         success: function(data) {
-                            showSmartAlert("Error", data.msg, '[YES]')
-                            // console.log(data.err)
-                            // if (data.err==1) {
-                            //     showSmartAlert("Error", data.msg, '[YES]')
-                            // }
-                            // else {
-                            //     // window.location.href = bUrl + currentModule['url'];
-                            // }
+                            if (data.err==1) {
+                                showSmartAlert("Error", data.msg, '[YES]')
+                            }
+                            else {
+                                window.location.href = bUrl + currentModule['url'];
+                            }
                         },
                         error: function() {
                             showSmartAlert("Error", "Can send data. Please contact to admin.", '[YES]')

@@ -11,7 +11,7 @@
                     <h2> </h2>
                 </header>
                 <!-- end header -->
-                <div id="wrap_form" class="row" style="position: relative; overflow-x: hidden; overflow-y: scroll">
+                <div id="wrap_form" class="custom-scroll table-responsive" class="row" style="position: relative; overflow-x: hidden; overflow-y: scroll">
                     <?=$frmProduct['open']?>
 	                    <div class="col-xs-12 col-sm-12 col-md-4 col-lg-4">
 	                        <label class="control-label">Chuyên mục <sup>*</sup></label>

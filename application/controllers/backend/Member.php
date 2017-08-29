@@ -81,20 +81,20 @@ class Member extends Root {
 // ajax_status
     public function ajax_status()
     {
-        // check permission
-            $this->noAccess($this->data['permissionsMember'], $this->module, 3);
+        // check not access
+            $this->noAccess($this->data['permissionsMember'], $this->currentModule['control_name'], 3);
 
         $id = $this->input->post('id',TRUE);
         $value = $this->input->post('value',TRUE);
 
-        if ( $this->Base_model->updateDB('db', 'member', array('status' => $value), array('id' => $id)) === FALSE ) {
-            echo "false";
-        }
-        else {
-            echo "true";
-        }
+        // update
+            if ($this->Base_model->update_db('member', array('status'=>$value), array('id' => $id)) === FALSE) {
+                echo "false";
+            }
+            else {
+                echo "true";
+            }
     }
-
 // Add
     public function add()
     {
@@ -242,7 +242,25 @@ class Member extends Root {
         }
         echo json_encode($msg);
     }
-
+// Delete
+    public function delete($id)
+    {
+        // check permission
+            $this->noAccess($this->data['permissionsMember'], $this->currentModule['control_name'], 4);
+        // exclude  default categories
+            if ($id===FALSE || $id=="" || $id==0) {
+                $this->session->set_userdata('invalid', 'This ID is not existing.');
+                redirect($_SERVER['HTTP_REFERER']);
+            }
+        // delete db
+            if ($this->model->delete_member($id) === FALSE) {
+                $this->session->set_userdata('invalid', "Error delete data");
+            }
+            else {
+                $this->session->set_userdata('valid', "Delete data successful.");
+            }
+        redirect($_SERVER['HTTP_REFERER']);
+    }
 // _existed
     private function _existed($username, $id=NULL)
     {
@@ -259,142 +277,9 @@ class Member extends Root {
             return FALSE;
         }
     }
+
+
 /*
-
-// Edit
-    public function edit($id)
-    {
-        // check not access
-            $this->noAccess($this->data['permissionsMember'], $this->module, 2);
-
-        if ($id===FALSE) {
-            $this->session->set_userdata('invalid', "Requested data is not exitesed");
-            redirect(B_URL.$this->router->fetch_class());
-        }
-        $this->data['breadcrumb'][1] = array('name'=>'Edit', 'url' => B_URL . $this->router->fetch_method());
-        // get member
-        $arrMember = $this->Base_model->getDB('db','member',array('id','username','thumbnail','status'),array('id'=>$id));
-        $this->data['member'] = $arrMember[0];
-
-        // create form
-            $this->data['frmEditInfo'] = frm(B_URL.$this->module.'/edit_info_db', array('id' => 'frmEditInfo'), TRUE, array('id'=>$id));
-            $this->data['frmEditPassword'] = frm(B_URL.$this->module.'/edit_password_db', array('id' => 'frmEditPassword'), FALSE, array('id'=>$id));
-            if ($this->data['permissionsMember']['module'][1] == 1) {
-                $this->data['frmEditPermission'] = frm(B_URL.$this->module.'/edit_permission_db', array('id' => 'frmEditPermission'), FALSE, array('id'=>$id));
-                // get member permission
-                foreach ($this->data['modules'] as $key => $item) {
-                    $permissions = $this->Base_model->getDB('db','member_permission', array('id AS id_member_permission', 'id_permission','active AS activePermission'), array('id_member'=>$id, 'id_module' => $item['id']), NULL, array('id_member','id_module','id_permission'), array('asc','asc','asc'));
-                    $this->data['modules'][$key]['permission_read'] = $permissions[0]['activePermission'];
-                    $this->data['modules'][$key]['permission_add'] = $permissions[1]['activePermission'];
-                    $this->data['modules'][$key]['permission_edit'] = $permissions[2]['activePermission'];
-                    $this->data['modules'][$key]['permission_delete'] = $permissions[3]['activePermission'];
-                }
-            }
-            else {
-                $this->data['noPermissionModule'] = TRUE;
-            }
-
-        $this->template->load('backend/template', 'backend/member/edit', $this->data);
-    }
-    public function edit_info_db()
-    {
-        // check not access
-            $this->noAccess($this->data['permissionsMember'], $this->module, 2);
-
-        $id = $this->input->post('id', TRUE);
-        // validate
-            $this->form_validation->set_rules('username', 'Username', 'trim|required|max_length[255]|xss_clean');
-            // set error message
-            $this->form_validation->set_message('required', '"%s" is required<br/>');
-            $this->form_validation->set_message('max_length', '"%s" is maximum with 255 characters<br/>');
-            if ( $this->form_validation->run() == FALSE) {
-                $this->session->set_userdata('invalid', validation_errors());
-                redirect(B_URL.$this->router->fetch_class().'/edit/'.$id);
-            }
-
-        // check existed
-            $arrUpdate = array('username' => $this->input->post('username', TRUE),
-                               'thumbnail' => $this->input->post('thumbnail', TRUE),
-                               'status' =>$this->input->post('status', TRUE)
-                               );
-            // print_r("<pre>"); print_r($arrUpdate); die();
-            // valid existed
-            if ($this->_existed('edit', $arrUpdate['username'], $id)) {
-                $this->session->set_userdata('invalid', "This username existed.");
-                redirect(B_URL.$this->router->fetch_class().'/edit/'.$id);
-            }
-
-        // update data
-            if ($this->Base_model->updateDB('db', 'member', $arrUpdate, array('id' => $id)) === FALSE) {
-                $this->session->set_userdata('invalid', "Error update data.");
-                redirect(B_URL.$this->router->fetch_class().'/edit/'.$id);
-            }
-            $this->session->set_userdata('valid', "Update data successful.");
-            redirect(B_URL.$this->router->fetch_class());
-    }
-    public function edit_password_db()
-    {
-        $id = $this->input->post('id', TRUE);
-        // validate
-            $this->form_validation->set_rules('old_password', 'Old Password', 'trim|required|min_length[3]|max_length[255]|xss_clean');
-            $this->form_validation->set_rules('password', 'New Password', 'trim|required|min_length[3]|max_length[255]|xss_clean');
-            $this->form_validation->set_rules('confirm_password', 'Confirm Password', 'trim|required|matches[password]|xss_clean');
-            // set error message
-            $this->form_validation->set_message('required', '"%s" is required<br/>');
-            $this->form_validation->set_message('min_length', '"%s" is minimum with 3 characters<br/>');
-            $this->form_validation->set_message('max_length', '"%s" is maximum with 255 characters<br/>');
-            $this->form_validation->set_message('matches', 'Confirm Password must match with New Password<br/>');
-            if ( $this->form_validation->run() == FALSE) {
-                $this->session->set_userdata('invalid', validation_errors());
-                redirect(B_URL.$this->router->fetch_class().'/edit/'.$id);
-            }
-
-        // check old password
-            $old_password = encrypt_pass($this->input->post('old_password', TRUE));
-            $arrOldPassword = $this->Base_model->getDB('db','member', array('password'), array('id' => $id));
-            if ($arrOldPassword !== FALSE && count($arrOldPassword)>0) {
-                if ($old_password != $arrOldPassword[0]['password']) {
-                    $this->session->set_userdata('invalid', "Invalid old password.");
-                    redirect(B_URL.$this->router->fetch_class().'/edit/'.$id);
-                }
-            }
-
-        // update password
-            $arrUpdate = array('password' => encrypt_pass($this->input->post('password', TRUE)));
-            if ($this->Base_model->updateDB('db', 'member', $arrUpdate, array('id' => $id)) === FALSE) {
-                $this->session->set_userdata('invalid', "Error update data.");
-                redirect(B_URL.$this->router->fetch_class().'/edit/'.$id);
-            }
-            $this->session->set_userdata('valid', "Update data successful.");
-            redirect(B_URL.$this->router->fetch_class());
-    }
-    public function edit_permission_db()
-    {
-        $id = $this->input->post('id',TRUE);
-        // get permissions
-            $arrPermission = array();
-            foreach ($this->data['modules'] as $module) {
-                $this->input->post($module['name'].'_read',TRUE) == "on" ? $read = 1 : $read = 0;
-                $this->input->post($module['name'].'_add',TRUE) == "on" ? $add = 1 : $add = 0;
-                $this->input->post($module['name'].'_edit',TRUE) == "on" ? $edit = 1 : $edit = 0;
-                $this->input->post($module['name'].'_delete',TRUE) == "on" ? $delete = 1 : $delete = 0;
-                $arrTemp = array();
-                $arrTemp[0] = array('id_module' => $module['id'], 'id_permission' => 1, 'active' => $read);
-                $arrTemp[1] = array('id_module' => $module['id'], 'id_permission' => 2, 'active' => $add);
-                $arrTemp[2] = array('id_module' => $module['id'], 'id_permission' => 3, 'active' => $edit);
-                $arrTemp[3] = array('id_module' => $module['id'], 'id_permission' => 4, 'active' => $delete);
-
-                array_push($arrPermission, $arrTemp);
-            }
-            // print_r("<pre>");print_r($arrPermission);die();
-        // update password
-            if ($this->model->updateMemberModule('db', $arrPermission, $id) === FALSE) {
-                $this->session->set_userdata('invalid', "Error update data.");
-                redirect(B_URL.$this->router->fetch_class().'/edit/'.$id);
-            }
-            $this->session->set_userdata('valid', "Update data successful.");
-            redirect(B_URL.$this->router->fetch_class());
-    }
 
 // Delete
     public function delete($id)
@@ -434,9 +319,5 @@ class Member extends Root {
         redirect(B_URL.$this->router->fetch_class());
     }
 */
-
-// ********************************
-// check existed
-
 
 }
