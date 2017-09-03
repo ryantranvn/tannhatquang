@@ -6,7 +6,15 @@ class Category_model extends Base_model {
     {
         parent::__construct();
     }
+// get categories
+    function get_categories($root_path)
+    {
+        $sql = "SELECT `name`, `url`, `path` FROM category WHERE `status` = 'active' AND `path` <> ? AND `path` LIKE ? ORDER BY `path` ASC";
+        $query = $this->db->query($sql, array($root_path, '%'.$root_path.'%'));
+        $result = $query->result_array();
 
+        return $result;
+    }
 // get category with ID
     function get_category_haveID($id)
     {

@@ -43,6 +43,7 @@ $whitelist = array(
     '127.0.0.1',
     '::1'
 );
+// set ONAIR to add GA
 if(!in_array($_SERVER['REMOTE_ADDR'], $whitelist)){
 	define('ONAIR', 1);
 }
@@ -282,15 +283,16 @@ else {
         define('F_URL',"http://".$_SERVER['HTTP_HOST'].str_replace(basename($_SERVER['SCRIPT_NAME']),"",$_SERVER['SCRIPT_NAME']));
     }
     define('B_URL', F_URL.'backend/');
-    define('M_URL', F_URL.'mobile/');
+    // define('M_URL', F_URL.'mobile/');
 	define('ASSETS_URL', F_URL.'assets/');
-	define('API_URL', F_URL.'api/');
+	define('LIB_URL', F_URL.'library/');
 
     // project name
     define("PROJECT_FOLDER","tannhatquang");
     define("PAGE_NAME", "tannhatquang");
-    define("LINK_TITLE", "Tân Nhật Quang");
+    define("PAGE_TITLE", "Tân Nhật Quang");
     define("LOGO_URL", F_URL."assets/frontend/images/logo.png");
+	define("IMG_ALT", PAGE_TITLE);
 
     // valid email
     // define('EMAIL_DOMAIN', '@prudential.com.vn');
@@ -327,17 +329,17 @@ else {
 // PUSHER
 
 // FILE
-    define('MAXUPLOAD', 10);
-    define('THUMB_SIZE', 1024);     define('THUMB_WIDTH', 1024);        define('THUMB_HEIGHT', 1024);
-    define('IMG_SIZE', 5120);       define('IMG_WIDTH', 4000);          define('IMG_HEIGHT', 4000);
-    define('IMG_MAX_WIDTH', 4000);          define('IMG_MAX_HEIGHT', 4000);
-    define('IMG_MIN_WIDTH', 300);          define('IMG_MIN_HEIGHT', 300);
-    define('VIDEO_SIZE', 112400);
-    define('DOCUMENT_SIZE', 2048);
-    $picture_extensions = array("image/gif", "image/jpeg", "image/pjpeg", "image/pjpeg", "image/png");
-    $video_extensions = array('video/mp4','video/ogg','video/x-flv');
-    $video_extensions = array('video/quicktime','video/mp4','video/mpeg','video/ogg','video/x-ms-wmv','video/x-msvideo','video/x-flv');
-    $document_extensions = array('application/msword','application/pdf');
+    // define('MAXUPLOAD', 10);
+    // define('THUMB_SIZE', 1024);     define('THUMB_WIDTH', 1024);        define('THUMB_HEIGHT', 1024);
+    // define('IMG_SIZE', 5120);       define('IMG_WIDTH', 4000);          define('IMG_HEIGHT', 4000);
+    // define('IMG_MAX_WIDTH', 4000);          define('IMG_MAX_HEIGHT', 4000);
+    // define('IMG_MIN_WIDTH', 300);          define('IMG_MIN_HEIGHT', 300);
+    // define('VIDEO_SIZE', 112400);
+    // define('DOCUMENT_SIZE', 2048);
+    // $picture_extensions = array("image/gif", "image/jpeg", "image/pjpeg", "image/pjpeg", "image/png");
+    // $video_extensions = array('video/mp4','video/ogg','video/x-flv');
+    // $video_extensions = array('video/quicktime','video/mp4','video/mpeg','video/ogg','video/x-ms-wmv','video/x-msvideo','video/x-flv');
+    // $document_extensions = array('application/msword','application/pdf');
 
 
 // FACEBOOK

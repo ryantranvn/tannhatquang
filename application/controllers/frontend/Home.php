@@ -18,7 +18,7 @@ class Home extends Root {
         // $cssBlock = array('<link rel="stylesheet" type="text/css" href="'.assetsUrl('frontend','css','jquery.simplyscroll.css').'">');
         // $this->data['cssBlock'] = $cssBlock;
 
-        // $jsBlock = array('<script language="javascript" type="text/javascript" src="'.assetsUrl('frontend','js','jquery.simplyscroll.min.js').'"></script>');
+        // $jsBlock = array('<script language="javascript" type="text/javascript" src="'.ASSETS_URL.'frontend/js/compressed/sly.min.js"></script>');
     	// $this->data['jsBlock'] = $jsBlock;
 
         $this->data['activeNav'] = "home";
