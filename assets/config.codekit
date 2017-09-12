@@ -1383,28 +1383,6 @@
 		"outputPathIsSetByUser": 0,
 		"processed": 0
 		},
-	"\/frontend\/js\/compressed\/compressed\/jquery.min.min.js": {
-		"fileType": 64,
-		"ignore": 1,
-		"ignoreWasSetByUser": 0,
-		"inputAbbreviatedPath": "\/frontend\/js\/compressed\/compressed\/jquery.min.min.js",
-		"outputAbbreviatedPath": "\/frontend\/js\/compressed\/compressed\/compressed\/jquery.min.min.min.js",
-		"outputPathIsOutsideProject": 0,
-		"outputPathIsSetByUser": 0,
-		"outputStyle": 1,
-		"syntaxCheckerStyle": 1
-		},
-	"\/frontend\/js\/compressed\/jquery-3.2.1.slim.min.js": {
-		"fileType": 64,
-		"ignore": 0,
-		"ignoreWasSetByUser": 0,
-		"inputAbbreviatedPath": "\/frontend\/js\/compressed\/jquery-3.2.1.slim.min.js",
-		"outputAbbreviatedPath": "\/frontend\/js\/compressed\/compressed\/jquery-3.2.1.slim.min.min.js",
-		"outputPathIsOutsideProject": 0,
-		"outputPathIsSetByUser": 0,
-		"outputStyle": 1,
-		"syntaxCheckerStyle": 1
-		},
 	"\/frontend\/js\/compressed\/jquery.min.js": {
 		"fileType": 64,
 		"ignore": 0,
@@ -1416,56 +1394,12 @@
 		"outputStyle": 1,
 		"syntaxCheckerStyle": 1
 		},
-	"\/frontend\/js\/compressed\/modernizr.min.js": {
-		"fileType": 64,
-		"ignore": 0,
-		"ignoreWasSetByUser": 0,
-		"inputAbbreviatedPath": "\/frontend\/js\/compressed\/modernizr.min.js",
-		"outputAbbreviatedPath": "\/frontend\/js\/compressed\/compressed\/modernizr.min.min.js",
-		"outputPathIsOutsideProject": 0,
-		"outputPathIsSetByUser": 0,
-		"outputStyle": 1,
-		"syntaxCheckerStyle": 1
-		},
-	"\/frontend\/js\/compressed\/plugin.min.js": {
-		"fileType": 64,
-		"ignore": 0,
-		"ignoreWasSetByUser": 0,
-		"inputAbbreviatedPath": "\/frontend\/js\/compressed\/plugin.min.js",
-		"outputAbbreviatedPath": "\/frontend\/js\/compressed\/compressed\/plugin.min.min.js",
-		"outputPathIsOutsideProject": 0,
-		"outputPathIsSetByUser": 0,
-		"outputStyle": 1,
-		"syntaxCheckerStyle": 1
-		},
-	"\/frontend\/js\/compressed\/popper.min.js": {
-		"fileType": 64,
-		"ignore": 0,
-		"ignoreWasSetByUser": 0,
-		"inputAbbreviatedPath": "\/frontend\/js\/compressed\/popper.min.js",
-		"outputAbbreviatedPath": "\/frontend\/js\/compressed\/compressed\/popper.min.min.js",
-		"outputPathIsOutsideProject": 0,
-		"outputPathIsSetByUser": 0,
-		"outputStyle": 1,
-		"syntaxCheckerStyle": 1
-		},
 	"\/frontend\/js\/compressed\/script.min.js": {
 		"fileType": 64,
 		"ignore": 1,
 		"ignoreWasSetByUser": 0,
 		"inputAbbreviatedPath": "\/frontend\/js\/compressed\/script.min.js",
 		"outputAbbreviatedPath": "\/frontend\/js\/compressed\/compressed\/script.min.min.js",
-		"outputPathIsOutsideProject": 0,
-		"outputPathIsSetByUser": 0,
-		"outputStyle": 1,
-		"syntaxCheckerStyle": 1
-		},
-	"\/frontend\/js\/compressed\/sly.min.js": {
-		"fileType": 64,
-		"ignore": 1,
-		"ignoreWasSetByUser": 0,
-		"inputAbbreviatedPath": "\/frontend\/js\/compressed\/sly.min.js",
-		"outputAbbreviatedPath": "\/frontend\/js\/compressed\/compressed\/sly.min.min.js",
 		"outputPathIsOutsideProject": 0,
 		"outputPathIsSetByUser": 0,
 		"outputStyle": 1,

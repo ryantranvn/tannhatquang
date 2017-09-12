@@ -34,32 +34,32 @@
         <? if (ONAIR==0) { ?>
             <?=$this->load->view('frontend/includes/ga','',TRUE)?>
         <? }?>
-  </head>
-  <body>
-      <?=$this->load->view('frontend/includes/wrap_top','',TRUE)?>
-      <?=$this->load->view('frontend/includes/wrap_search','',TRUE)?>
-      <?=$this->load->view('frontend/includes/wrap_navigation','',TRUE)?>
-      <?=$this->load->view('frontend/includes/wrap_banner','',TRUE)?>
-      <?=$this->load->view('frontend/includes/wrap_hotline','',TRUE)?>
-      <?=$content?>
-      <div id="gotoTop"></div>
-      <div id="pos"></div>
-      <?=$this->load->view('frontend/includes/wrap_footer','',TRUE)?>
-    <!-- JS -->
-    <script language="javascript" type="text/javascript" src="<?=ASSETS_URL?>frontend/js/compressed/jquery.min.js"></script>
-    <script language="javascript" type="text/javascript" src="<?=LIB_URL?>bootstrap/js/bootstrap.min.js"></script>
-    <!-- <script language="javascript" type="text/javascript" src="<?=LIB_URL?>bxslider/js/jquery.bxslider.min.js"></script> -->
-    <script type="text/javascript" src="<?=LIB_URL?>slick/slick.min.js"></script>
-    <script type="text/javascript" src="<?=LIB_URL?>popover/jquery.webui-popover.js"></script>
-    <script language="javascript" type="text/javascript" src="<?=LIB_URL?>jPages/js/jPages.min.js"></script>
-    <!-- js block -->
-    <? foreach ($jsBlock as $js) {
-        echo $js;
-    } ?>
-    <script language="javascript" type="text/javascript" src="<?=ASSETS_URL?>common/js/jquery.validate.min.js"></script>
-    <script language="javascript" type="text/javascript" src="<?=ASSETS_URL?>common/js/jquery.cookie.min.js"></script>
-    <script language="javascript" type="text/javascript" src="<?=ASSETS_URL?>common/js/script.min.js"></script>
-    <script language="javascript" type="text/javascript" src="<?=ASSETS_URL?>frontend/js/compressed/script.min.js"></script>
+    </head>
+    <body>
+        <?=$this->load->view('frontend/includes/wrap_top','',TRUE)?>
+        <?=$this->load->view('frontend/includes/wrap_search','',TRUE)?>
+        <?=$this->load->view('frontend/includes/wrap_navigation','',TRUE)?>
+        <?=$this->load->view('frontend/includes/wrap_banner','',TRUE)?>
+        <?=$this->load->view('frontend/includes/wrap_hotline','',TRUE)?>
+        <?=$content?>
+        <div id="gotoTop"></div>
+        <div id="pos"></div>
+        <?=$this->load->view('frontend/includes/wrap_footer','',TRUE)?>
+        <!-- JS -->
+        <script language="javascript" type="text/javascript" src="<?=ASSETS_URL?>frontend/js/compressed/jquery.min.js"></script>
+        <script language="javascript" type="text/javascript" src="<?=LIB_URL?>bootstrap/js/bootstrap.min.js"></script>
+        <!-- <script language="javascript" type="text/javascript" src="<?=LIB_URL?>bxslider/js/jquery.bxslider.min.js"></script> -->
+        <script type="text/javascript" src="<?=LIB_URL?>slick/slick.min.js"></script>
+        <script type="text/javascript" src="<?=LIB_URL?>popover/jquery.webui-popover.js"></script>
+        <script language="javascript" type="text/javascript" src="<?=LIB_URL?>jPages/js/jPages.min.js"></script>
+        <!-- js block -->
+        <? foreach ($jsBlock as $js) {
+            echo $js;
+        } ?>
+        <script language="javascript" type="text/javascript" src="<?=ASSETS_URL?>common/js/jquery.validate.min.js"></script>
+        <script language="javascript" type="text/javascript" src="<?=ASSETS_URL?>common/js/jquery.cookie.min.js"></script>
+        <script language="javascript" type="text/javascript" src="<?=ASSETS_URL?>common/js/script.min.js"></script>
+        <script language="javascript" type="text/javascript" src="<?=ASSETS_URL?>frontend/js/compressed/script.min.js"></script>
 
-  </body>
+    </body>
 </html>

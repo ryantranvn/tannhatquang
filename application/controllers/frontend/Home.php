@@ -21,26 +21,26 @@ class Home extends Root {
         // $jsBlock = array('<script language="javascript" type="text/javascript" src="'.ASSETS_URL.'frontend/js/compressed/sly.min.js"></script>');
     	// $this->data['jsBlock'] = $jsBlock;
 
-        $this->data['activeNav'] = "home";
+        $this->data['active_nav'] = "home";
         $this->template->load($this->gate.'/template', $this->gate.'/home', $this->data);
     }
 
 // gioithieu
     public function gioithieu()
     {
-        $this->data['activeNav'] = "gioithieu";
+        $this->data['active_nav'] = "gioithieu";
         $this->template->load($this->gate.'/template', $this->gate.'/gioithieu', $this->data);
     }
 // lienhe
     public function lienhe()
     {
-        $this->data['activeNav'] = "lienhe";
+        $this->data['active_nav'] = "lienhe";
         $this->template->load($this->gate.'/template', $this->gate.'/lienhe', $this->data);
     }
 // banggia
     public function banggia()
     {
-        $this->data['activeNav'] = "banggia";
+        $this->data['active_nav'] = "banggia";
         $this->template->load($this->gate.'/template', $this->gate.'/banggia', $this->data);
     }
 

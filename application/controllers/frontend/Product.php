@@ -22,11 +22,10 @@ class Product extends Root {
 
         // $jsBlock = array('<script language="javascript" type="text/javascript" src="'.ASSETS_URL.'frontend/js/compressed/sly.min.js"></script>');
     	// $this->data['jsBlock'] = $jsBlock;
-
-        $this->data['activeNav'] = "product";
+        $this->data['active_nav'] = "product";
         $this->template->load($this->gate.'/template', $this->gate.'/product', $this->data);
     }
-
+//
     public function ajax_product_categroies()
     {
         $arr_JSON = array();

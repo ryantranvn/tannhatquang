@@ -1,4 +1,4 @@
-<!DOCTYPE html>
+<!-- <!DOCTYPE html>
 <html>
 <head>
 <title>Page Title</title>
@@ -6,6 +6,9 @@
 </head>
 <body class="understruction">
 	<img src="<?php echo assetsUrl('common','images','404.png'); ?>" />
-	
+
 </body>
-</html>
+</html> -->
+<div class="row text_center" style="background: white">
+	<img src="<?=ASSETS_URL?>common/images/404.png" />
+</div>

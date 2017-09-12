@@ -16,6 +16,7 @@ class Root extends CI_Controller {
     public function __construct()
     {
         parent::__construct();
+
         $this->load->helper('form');
         $this->load->library('form_validation');
         $this->load->model('User_model');
@@ -55,14 +56,49 @@ class Root extends CI_Controller {
         $this->data['jsBlock'] = array();
     // frmSearch
         $this->data['frmSearch'] = frm('', array('id'=>'frmSearch'), FALSE);
-
+    // categories
+        $this->data['categories'] = $this->get_product_categroies();
+        // print_r('<pre>');
+        // print_r($this->data['categories']);
+        // exit();
     }
 
     public function index()
     {
         // Some example data
+
     }
-    
+    public function get_product_categroies()
+    {
+        $path = '0-1-';
+        $this->load->model('Category_model');
+        $categories = $this->Category_model->get_categories($path);
+        if ($categories != FALSE || count($categories)>0) {
+            $categories_nav_1 = $categories_nav_2 = array();
+            foreach ($categories as $key => $category) {
+                $indent = count(explode('-', $category['path']));
+                $categories[$key]['indent'] = $indent-1;
+
+                if ($categories[$key]['indent']==3) {
+                    $categories[$key]['sub'] = array();
+                    array_push($categories_nav_1, $categories[$key]);
+                }
+                else if ($categories[$key]['indent']==4) {
+                    array_push($categories_nav_2, $categories[$key]);
+                }
+
+            }
+            foreach ($categories_nav_1 as $key => $cat_1) {
+                foreach ($categories_nav_2 as $cat_2) {
+                    if (strpos($cat_2['path'], $cat_1['path'])!==FALSE) {
+                        array_push($categories_nav_1[$key]['sub'], $cat_2);
+                    }
+                }
+            }
+        }
+
+        return $categories_nav_1;
+    }
     /*
     public function is_authUser()
     {

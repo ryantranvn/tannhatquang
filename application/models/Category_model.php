@@ -9,7 +9,7 @@ class Category_model extends Base_model {
 // get categories
     function get_categories($root_path)
     {
-        $sql = "SELECT `name`, `url`, `path` FROM category WHERE `status` = 'active' AND `path` <> ? AND `path` LIKE ? ORDER BY `path` ASC";
+        $sql = "SELECT `name`, `url`, `path` FROM category WHERE `status` = 'active' AND `path` <> ? AND `path` LIKE ? ORDER BY `order` ASC";
         $query = $this->db->query($sql, array($root_path, '%'.$root_path.'%'));
         $result = $query->result_array();
 

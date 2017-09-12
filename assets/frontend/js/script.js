@@ -22,7 +22,6 @@ var footer_height = $('#wrap_footer').height();
 
 $(document).ready(function(){
 // navigation
-    /*
     $('[rel="popover"]').popover({
         container: 'body',
         placement: 'bottom',
@@ -34,9 +33,18 @@ $(document).ready(function(){
     });
     $('#nav_sanpham').webuiPopover({
         url : '#nav_sanpham_popover',
-        placement : 'bottom-right'
+        placement : 'bottom-right',
+        onShow: function($element) {
+            $('body').addClass('fixed');
+            $('#nav_sanpham_bg').fadeIn('fast');
+        },
+        onHide: function($element) {
+            $('body').removeClass('fixed');
+            $('#nav_sanpham_bg').fadeOut('fast');
+        }
     });
-    */
+
+    /*
     $.ajax({
         url : fUrl + 'get_product_categories',
         type: 'POST',
@@ -94,7 +102,9 @@ $(document).ready(function(){
         error: function() {
         }
     });
+    */
 // slick
+
     $('#slick_hotline').slick({
         infinite: true,
         lazyLoad: 'ondemand',

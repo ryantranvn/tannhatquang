@@ -7,35 +7,19 @@
 			</div>
             <div id="nav_others" class="col col-sm-7">
                 <ul class="nav navbar-nav">
-                    <li<?if (isset($nav_active) && $nav_active=="gioithieu") { ?> class="active"<? } ?>>
+                    <li<?if (isset($active_nav) && $active_nav=="gioithieu") { ?> class="active"<? } ?>>
                         <a href="<?=F_URL?>gioi-thieu">Giới thiệu</a>
                     </li>
-                    <li<?if (isset($nav_active) && $nav_active=="banggia") { ?> class="active"<? } ?>>
+                    <li<?if (isset($active_nav) && $active_nav=="banggia") { ?> class="active"<? } ?>>
                         <a href="<?=F_URL?>bang-gia">Bảng giá</a>
                     </li>
-                    <li<?if (isset($nav_active) && $nav_active=="tintuc") { ?> class="active"<? } ?>>
+                    <li<?if (isset($active_nav) && $active_nav=="tintuc") { ?> class="active"<? } ?>>
                         <a href="<?=F_URL?>tin-tuc">Tin tức</a>
                     </li>
-                    <li<?if (isset($nav_active) && $nav_active=="lienhe") { ?> class="active"<? } ?>>
+                    <li<?if (isset($active_nav) && $active_nav=="lienhe") { ?> class="active"<? } ?>>
                         <a href="<?=F_URL?>lien-he">Liên hệ</a>
                     </li>
                 </nav>
-                <!--
-                <ul class="nav">
-                    <li class="nav-item">
-                        <a class="nav-link <?if (isset($nav_active) && $nav_active=="gioithieu") { ?>active<? } ?>" href="<?=F_URL?>gioi-thieu">Giới thiệu</a>
-                    </li>
-                    <li class="nav-item">
-                        <a class="nav-link <?if (isset($nav_active) && $nav_active=="banggia") { ?>active<? } ?>" href="<?=F_URL?>bang-gia">Bảng giá</a>
-                    </li>
-                    <li class="nav-item">
-                        <a class="nav-link <?if (isset($nav_active) && $nav_active=="tintuc") { ?>active<? } ?>" href="<?=F_URL?>tin-tuc">Tin tức</a>
-                    </li>
-                    <li class="nav-item">
-                        <a class="nav-link <?if (isset($nav_active) && $nav_active=="lienhe") { ?>active<? } ?>" href="<?=F_URL?>lien-he">Liên hệ</a>
-                    </li>
-				</ul>
-            -->
             </div>
             <div id="wrap_cart" class="col col-sm-2 text-right">
                 Giỏ hàng
@@ -45,5 +29,20 @@
         </div>
     </div>
     <div id="nav_sanpham_popover">
+        <? foreach ($categories as $category) { ?>
+            <div class="item">
+                <p class="nav_parent">
+                    <a href="<?=$category['url']?>"><?=$category['name']?></a>
+                </p>
+                <? if (count($category['sub'])>0) { ?>
+                    <? foreach ($category['sub'] as $sub) { ?>
+                        <p class="nav_child">
+                            <a href="<?=$sub['url']?>"><?=$sub['name']?></a>
+                        </p>
+                    <? } ?>
+                <? } ?>
+            </div>
+        <? } ?>
     </div>
+    <div id="nav_sanpham_bg"></div>
 </div>
