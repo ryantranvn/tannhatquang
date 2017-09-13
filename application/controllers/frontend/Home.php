@@ -65,7 +65,7 @@ class Home extends Root {
         // $this->data['arrTop'] = $arrTopOut;
 
 
-        $this->data['activeNav'] = "tintuc";
+        $this->data['active_nav'] = "tintuc";
         $this->template->load($this->gate.'/template', $this->gate.'/tintuc', $this->data);
     }
 

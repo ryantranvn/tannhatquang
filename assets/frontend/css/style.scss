@@ -102,7 +102,7 @@
         left: 0; top: 0;
     }
     .fixed {
-        position: fixed;
+        overflow: hidden;
     }
 /* some class format */
     .text_left { text-align: left; }

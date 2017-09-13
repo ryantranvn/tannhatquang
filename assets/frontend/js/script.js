@@ -16,7 +16,7 @@ var footer_height = $('#wrap_footer').height();
     });
     $('body').on('click', '#gotoTop', function() {
         $("html, body").animate({ scrollTop: 0 }, 600, function() {
-            $('#gotoTop').fadeOut('fast')
+            $('#gotoTop').fadeOut('fast');
         });
     });
 
@@ -35,8 +35,10 @@ $(document).ready(function(){
         url : '#nav_sanpham_popover',
         placement : 'bottom-right',
         onShow: function($element) {
-            $('body').addClass('fixed');
-            $('#nav_sanpham_bg').fadeIn('fast');
+            $("html, body").animate({ scrollTop: 0 }, 600, function() {
+                $('body').addClass('fixed');
+                $('#nav_sanpham_bg').fadeIn('fast');
+            });
         },
         onHide: function($element) {
             $('body').removeClass('fixed');
