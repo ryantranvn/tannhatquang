@@ -1383,6 +1383,50 @@
 		"outputPathIsSetByUser": 0,
 		"processed": 0
 		},
+	"\/frontend\/images\/tintuc-01.jpg": {
+		"fileType": 16384,
+		"ignore": 0,
+		"ignoreWasSetByUser": 0,
+		"initialSize": 13385,
+		"inputAbbreviatedPath": "\/frontend\/images\/tintuc-01.jpg",
+		"outputAbbreviatedPath": "\/frontend\/images\/tintuc-01.jpg",
+		"outputPathIsOutsideProject": 0,
+		"outputPathIsSetByUser": 0,
+		"processed": 0
+		},
+	"\/frontend\/images\/tintuc-02.jpg": {
+		"fileType": 16384,
+		"ignore": 0,
+		"ignoreWasSetByUser": 0,
+		"initialSize": 17862,
+		"inputAbbreviatedPath": "\/frontend\/images\/tintuc-02.jpg",
+		"outputAbbreviatedPath": "\/frontend\/images\/tintuc-02.jpg",
+		"outputPathIsOutsideProject": 0,
+		"outputPathIsSetByUser": 0,
+		"processed": 0
+		},
+	"\/frontend\/images\/tintuc-03.jpg": {
+		"fileType": 16384,
+		"ignore": 0,
+		"ignoreWasSetByUser": 0,
+		"initialSize": 8676,
+		"inputAbbreviatedPath": "\/frontend\/images\/tintuc-03.jpg",
+		"outputAbbreviatedPath": "\/frontend\/images\/tintuc-03.jpg",
+		"outputPathIsOutsideProject": 0,
+		"outputPathIsSetByUser": 0,
+		"processed": 0
+		},
+	"\/frontend\/images\/tintuc-04.jpg": {
+		"fileType": 16384,
+		"ignore": 0,
+		"ignoreWasSetByUser": 0,
+		"initialSize": 7261,
+		"inputAbbreviatedPath": "\/frontend\/images\/tintuc-04.jpg",
+		"outputAbbreviatedPath": "\/frontend\/images\/tintuc-04.jpg",
+		"outputPathIsOutsideProject": 0,
+		"outputPathIsSetByUser": 0,
+		"processed": 0
+		},
 	"\/frontend\/js\/compressed\/jquery.min.js": {
 		"fileType": 64,
 		"ignore": 0,
