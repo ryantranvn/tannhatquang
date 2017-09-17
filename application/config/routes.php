@@ -15,16 +15,19 @@ defined('BASEPATH') OR exit('No direct script access allowed');
     $route['bang-gia'] = 'frontend/Home/banggia';
     $route['lien-he'] = 'frontend/Home/lienhe';
 	$route['gioi-thieu'] = 'frontend/Home/gioithieu';
-    $route['tin-tuc'] = 'frontend/Home/tintuc';
+
+    $route['tin-tuc'] = 'frontend/News';
+    $route['tin-tuc/page/(:num)'] = 'frontend/News';
+
     $route['san-pham/chi-tiet'] = 'frontend/Home/sanpham_chitiet';
     $route['san-pham'] = 'frontend/Home/sanpham';
     $route['gio-hang'] = 'frontend/Home/giohang';
 
 
 // 404
-    // $route['404'] = 'frontend/maintain/page404';
-    // $route['backend/error_csrf'] = 'backend/maintain/error_csrf';
-    // $route['backend/404'] = 'backend/maintain/page404';
+    $route['404'] = 'frontend/maintain/page404';
+    $route['backend/error_csrf'] = 'backend/maintain/error_csrf';
+    $route['backend/404'] = 'backend/maintain/page404';
 
 /* ALL DASHBOARD */
     $route['backend/product-category/delete/(:num)'] 	= "backend/category/delete/$1";

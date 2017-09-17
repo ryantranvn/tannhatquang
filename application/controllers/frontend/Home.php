@@ -24,7 +24,6 @@ class Home extends Root {
         $this->data['active_nav'] = "home";
         $this->template->load($this->gate.'/template', $this->gate.'/home', $this->data);
     }
-
 // gioithieu
     public function gioithieu()
     {
@@ -43,32 +42,6 @@ class Home extends Root {
         $this->data['active_nav'] = "banggia";
         $this->template->load($this->gate.'/template', $this->gate.'/banggia', $this->data);
     }
-
-// tintuc
-    public function tintuc()
-    {
-        // $cssBlock = array('<link rel="stylesheet" type="text/css" href="'.libsUrl('jScrollPane','css','jquery.jscrollpane.css').'">');
-        // $this->data['cssBlock'] = $cssBlock;
-        //
-        // $jsBlock[0] = '<script language="javascript" type="text/javascript" src="'.libsUrl('jScrollPane','js','jquery.jscrollpane.min.js').'"></script>';
-        // $jsBlock[1] = '<script language="javascript" type="text/javascript" src="'.assetsUrl('common','js','jquery.mousewheel.min.js').'"></script>';
-        // $this->data['jsBlock'] = $jsBlock;
-
-        // get list
-        // $arrTop = $this->Base_model->getDB('db','user', array('id','email','score','time'), array('status ='=>'active','id >'=>3), NULL, array('score','time','id'), array('desc','asc','asc'), 23);
-        // $arrTopOut = array();
-        // foreach ($arrTop as $item) {
-        //     if ($item['score']>0) {
-        //         array_push($arrTopOut, $item);
-        //     }
-        // }
-        // $this->data['arrTop'] = $arrTopOut;
-
-
-        $this->data['active_nav'] = "tintuc";
-        $this->template->load($this->gate.'/template', $this->gate.'/tintuc', $this->data);
-    }
-
 // sanpham
     public function sanpham()
     {
@@ -93,7 +66,6 @@ class Home extends Root {
         $this->data['activeNav'] = "sanpham";
         $this->template->load($this->gate.'/template', $this->gate.'/sanpham', $this->data);
     }
-
 // sanpham_chitiet
     public function sanpham_chitiet()
     {
@@ -118,7 +90,6 @@ class Home extends Root {
         $this->data['activeNav'] = "sanpham";
         $this->template->load($this->gate.'/template', $this->gate.'/sanpham_chitiet', $this->data);
     }
-
 // giohang
     public function giohang()
     {
