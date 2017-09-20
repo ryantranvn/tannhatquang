@@ -24,11 +24,15 @@ class News extends Root {
         $this->load->library('pagination');
 
         $config['base_url'] = F_URL.'tin-tuc/page/';
+        $config['first_url'] = '1';
         $config['uri_segment'] = 3;
         $config['total_rows'] = 1000;
         $config['per_page'] = 12;
         $config['use_page_numbers'] = TRUE;
         $config['num_links'] = 5;
+        $config['first_link'] = false;
+        $config['last_link'] = false;
+        
 
         $this->pagination->initialize($config);
 

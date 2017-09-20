@@ -597,11 +597,20 @@
                 text-align: center;
                 margin-top: 0px;
             }
-            .item_tintuc_sanpham {
-                margin: 20px 0;
+            .wrap_tintuc_sanpham {
+                .item_tintuc_sanpham {
+                    margin: 20px 0;
 
-                .title {
-                    font-family: $f_OpenSansBold;
+                    .title {
+                        font-family: $f_OpenSansBold;
+                    }
+                }
+                .wrap_paging {
+                    font-size: 24px;
+
+                    a {
+                        color: $color_content;
+                    }
                 }
             }
         }
