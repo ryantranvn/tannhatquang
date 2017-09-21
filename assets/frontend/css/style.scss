@@ -607,8 +607,35 @@
                 }
                 .wrap_paging {
                     font-size: 24px;
+                    text-align: center;
 
                     a {
+                        color: $color_content;
+                    }
+                    a:not(:first-child):not(:last-child)::after {
+                        content: ", ";
+                    }
+                    a:nth-last-child(2)::after {
+                        content: "" !important;
+                    }
+                    strong {
+                        color: $color_red;
+                    }
+                    strong::after {
+                        content: ", ";
+                        color: $color_content;
+                    }
+                    a:first-child {
+                        float: left;
+                    }
+                    a:last-child {
+                        float: right;
+                    }
+                    a:hover {
+                        color: $color_red;
+                        text-decoration: none;
+                    }
+                    a:hover::after {
                         color: $color_content;
                     }
                 }

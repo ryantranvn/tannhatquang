@@ -32,12 +32,12 @@
         <? foreach ($categories as $category) { ?>
             <div class="item">
                 <p class="nav_parent">
-                    <a href="<?=$category['url']?>"><?=$category['name']?></a>
+                    <a href="<?=F_URL?><?=$category['url']?>?cat=sp"><?=$category['name']?></a>
                 </p>
                 <? if (count($category['sub'])>0) { ?>
                     <? foreach ($category['sub'] as $sub) { ?>
                         <p class="nav_child">
-                            <a href="<?=$sub['url']?>"><?=$sub['name']?></a>
+                            <a href="<?=F_URL?><?=$sub['url']?>?cat=sp&sub=<?=$category['url']?>"><?=$sub['name']?></a>
                         </p>
                     <? } ?>
                 <? } ?>

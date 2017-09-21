@@ -7,6 +7,9 @@ if (file_exists(APPPATH . 'controllers/backend/Root.php')) {
 
 class Maintain extends Root {
 
+    /**
+     * Maintain constructor.
+     */
     public function __construct()
     {
         parent::__construct();
@@ -15,8 +18,9 @@ class Maintain extends Root {
 // Understruction
     public function index()
     {
+        echo 'here';
         // $this->load->view('backend/maintain');
-        $this->template->load('backend/template', 'backend/maintain/understruction', $this->data);
+//        $this->template->load('backend/template', 'backend/maintain/understruction', $this->data);
     }
 
 // page404

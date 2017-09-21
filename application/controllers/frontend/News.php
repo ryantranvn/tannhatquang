@@ -32,7 +32,7 @@ class News extends Root {
         $config['num_links'] = 5;
         $config['first_link'] = false;
         $config['last_link'] = false;
-        
+
 
         $this->pagination->initialize($config);
 
