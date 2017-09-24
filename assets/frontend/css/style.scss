@@ -198,6 +198,7 @@
                 color: $color-red;
             }
             a:hover {
+                color: $color_red;
                 text-decoration: none;
             }
         }
@@ -255,7 +256,7 @@
                 color: $color_content;
             }
             a:hover {
-                color: $color_blue;
+                color: $color_red;
                 text-decoration: none;
             }
         }

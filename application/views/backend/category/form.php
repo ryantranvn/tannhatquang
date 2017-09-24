@@ -41,7 +41,7 @@
                                             <div class="row">
                                                 <div class="col-sm-12 col-md-12 col-lg-12">
                                                     <label class="control-label">URL <sup>*</sup></label>
-                                                    <input type="text" class="form-control" name="url_category" <? if (isset($frmData)) { ?> value="<?=$frmData['url']?>" <? } ?>/>
+                                                    <input type="text" class="form-control" name="url_category" <? if (isset($frmData)) { ?> value="<?=$frmData['url']?>" <? } ?> disabled/>
                                                     <span class="charLimit" id="url_category_limit"></span>
                                                 </div>
                                             </div>

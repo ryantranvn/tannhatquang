@@ -1,15 +1,12 @@
 <?php
 defined('BASEPATH') OR exit('No direct script access allowed');
 
-if (file_exists(APPPATH . 'controllers/backend/Root.php')) {
-    require_once(APPPATH . 'controllers/backend/Root.php');
+if (file_exists(APPPATH . 'controllers/frontend/Root.php')) {
+    require_once(APPPATH . 'controllers/frontend/Root.php');
 }
 
 class Maintain extends Root {
 
-    /**
-     * Maintain constructor.
-     */
     public function __construct()
     {
         parent::__construct();
@@ -18,20 +15,23 @@ class Maintain extends Root {
 // Understruction
     public function index()
     {
-        echo 'here';
-        // $this->load->view('backend/maintain');
-//        $this->template->load('backend/template', 'backend/maintain/understruction', $this->data);
-    }
-
-// page404
-    public function page404()
-    {
-        $this->template->load('backend/template', 'backend/maintain/page404', $this->data);
+        switch (ENVIRONMENT) {
+            case 'commingsoon':
+                break;
+            case 'understruction':
+                $this->template->load('frontend/template', 'frontend/maintain/understruction', $this->data);
+                break;
+            case 'commingsoon':
+                break;
+            default;
+                $this->template->load('frontend/template', 'frontend/maintain/page404', $this->data);
+                break;
+        }
     }
 
 // Understruction
-    public function error_csrf()
-    {
-        $this->template->load('backend/template', 'backend/maintain/error_csrf', $this->data);
-    }
+//    public function error_csrf()
+//    {
+//        $this->template->load('frontend/template', 'frontend/maintain/error_csrf', $this->data);
+//    }
 }

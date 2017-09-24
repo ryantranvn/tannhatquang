@@ -15,12 +15,11 @@ class Maintain extends Root {
 // Understruction
     public function index()
     {
-        // $this->load->view('frontend/maintain');
         $this->template->load('frontend/template', 'frontend/maintain/understruction', $this->data);
     }
 
 // page404
-    public function page404()
+    public function page_404()
     {
         $this->template->load('frontend/template', 'frontend/maintain/page404', $this->data);
     }

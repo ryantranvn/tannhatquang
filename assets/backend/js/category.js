@@ -161,6 +161,9 @@
             thumbnailWrapper.html('').html(defaultIMG);
         });
     // validation
+        $('textarea[name="desc_category"]').mouseleave( function () {
+            console.log($(this).val())
+        })
         var validator = $("#frmCategory").validate({
                         rules: {
                             name_category: {
@@ -210,15 +213,15 @@
                                 cache: false,
                                 dataType: 'json',
                                 data: { 'csrf_hash' : $.cookie('csrf_cookie_ci'),
-                                        'id': $('input[name=id_category]').val(),
-                                        'name': $('input[name=name_category]').val(),
-                                        'url' : $('input[name=url_category]').val(),
-                                        'desc': $('textarea[name=desc_category]').html(),
-                                        'thumbnail': $('input[name=thumbnail]').val(),
-                                        'order': $('input[name=order]').val(),
-                                        'status': $('input[name=status]:checked').val(),
-                                        'selected_category_id': $('input[name=selected_category_id]').val(),
-                                        'parent_id': $('input[name=parent_id]').val()
+                                        'id': $('input[name="id_category"]').val(),
+                                        'name': $('input[name="name_category"]').val(),
+                                        'url' : $('input[name="url_category"]').val(),
+                                        'desc': $('textarea[name="desc_category"]').val(),
+                                        'thumbnail': $('input[name="thumbnail"]').val(),
+                                        'order': $('input[name="order"]').val(),
+                                        'status': $('input[name="status"]:checked').val(),
+                                        'selected_category_id': $('input[name="selected_category_id"]').val(),
+                                        'parent_id': $('input[name="parent_id"]').val()
                                       },
                                 success: function(data) {
                                     if (data.err==1) {

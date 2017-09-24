@@ -92,18 +92,25 @@ class Category_model extends Base_model {
 // insert
     // first    : insert new category
     // second   : get id recent add
-    // third    : update PATH with that ID recent add
+    // third    : update PATH and URL with that ID recent add
+    // fourth   : insert data into url_route table
     function insert_category($insertArr, $path)
     {
         $insertSql = "INSERT INTO category (`name`,`url`,`desc`,`thumbnail`,`order`,`status`,`parent_id`,`created_datetime`,`created_by`) VALUES (?,?,?,?,?,?,?,?,?)";
         $updateSql = "UPDATE category SET `path`=? WHERE id=?";
+        $insertSql_url = "INSERT INTO url_route (`url`,`category_id`,`created_by`) VALUES (?,?,?)";
 
         $this->db->trans_begin();
-
+        // insert new category
             $this->db->query($insertSql,array($insertArr['name'],$insertArr['url'],$insertArr['desc'],$insertArr['thumbnail'],$insertArr['order'],$insertArr['status'],$insertArr['parent_id'],$insertArr['created_datetime'],$insertArr['created_by']));
+        // get id recent add
             $id = $this->db->insert_id();
+        // update PATH and URL with that ID recent add
             $path .= $id."-";
             $this->db->query($updateSql,array($path, $id));
+        // insert data into url table
+            $url = $insertArr['url'].PREFIX_CODE_CAT.$id;
+        $this->db->query($insertSql_url,array($url, $id, $insertArr['created_by']));
 
         if ($this->db->trans_status() === FALSE)
         {
@@ -144,9 +151,9 @@ class Category_model extends Base_model {
     }
 
 // delete
-    // 1. move all post (if have) to default parent and set deleted=1
+    // 1. move all post (if have) to default parent and set del_flg=1
     // 2. delete all children category
-    // 3. delete this category
+    // 3. delete this category and url_route
     function delete_category($id)
     {
         $this->db->trans_begin();
@@ -160,12 +167,14 @@ class Category_model extends Base_model {
             $root_parent_id = explode('-', $category['path'])[1];
 
         // get all children
-            $children = $this->Base_model->get_db('category', array('id', 'path'), NULL, array('path' => $category['path']));
+            $children = $this->Base_model->get_db('category', array('id', 'path', 'url'), NULL, array('path' => $category['path']));
             foreach ($children as $child) {
                 // move all post
-                $this->update_db('post', array('category_id' => $root_parent_id, 'deleted' => 1), array('category_id'=>$child['id']));
+                $this->update_db('post', array('category_id' => $root_parent_id, 'del_flg' => 1), array('category_id'=>$child['id']));
                 // delete category
                 $this->delete_db('category', 'id', $child['id']);
+                // delete url_route
+                $this->update_db('url_route', array('del_flg' => 1), array('url' => $child['url'].PREFIX_CODE_CAT.$child['id']));
             }
 
         if ($this->db->trans_status() === FALSE)

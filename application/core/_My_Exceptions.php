@@ -3,32 +3,23 @@ defined('BASEPATH') OR exit('No direct script access allowed');
 
 class My_Exceptions extends CI_Exceptions {
 
-    // private $CI;
-    /**
-     * 404 Error Handler
-     *
-     * @uses    CI_Exceptions::show_error()
-     *
-     * @param   string  $page       Page URI
-     * @param   bool    $log_error  Whether to log the error
-     * @return  void
-     */
     public function __construct() {
         parent::__construct();
-        // $this->CI =& get_instance();
+
     }
 
     public function show_404($page = '', $log_error = TRUE)
     {
+        $CI =& get_instance();
         $request_uri = $_SERVER['REQUEST_URI'];
         $arr_uri = explode('/', $request_uri);
         $url_404 = "";
 
         if ($arr_uri[1] == 'backend') {
-            $this->load->view('backend/maintain');
+            $CI->load->view('backend/maintain');
         }
         else {
-            $this->load->view('frontend/maintain');
+            $CI->load->view('frontend/maintain');
         }
         /*
         if (count($arr_uri)==1) {

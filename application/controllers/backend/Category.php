@@ -61,7 +61,6 @@ class Category extends Root {
             $sql = " SELECT
                          c1.id
                         , c1.name
-                        , c1.url
                         , c1.desc
                         , c1.thumbnail
                         , c1.order
@@ -165,12 +164,12 @@ class Category extends Root {
         $this->data['selected_category_id'] = $id;
         // create form
             $this->data['frmCategory'] = frm('', array('id' => 'frmCategory'), TRUE);
+
         $this->template->load('backend/template', 'backend/category/form', $this->data);
     }
 // Update
     public function update()
     {
-        // $action = $this->input->post('action',TRUE);
         $name = $this->input->post('name',TRUE);
         $url = $this->input->post('url',TRUE);
         $desc = $this->input->post('desc',TRUE);
@@ -203,10 +202,12 @@ class Category extends Root {
                 $msg['msg'] = validation_errors();
             }
         // valid existed
+            /*
             else if ($this->is_existed($url, $parent_id, $id)) {
                 $msg['err'] = 1;
                 $msg['msg'] = 'This category name existed.';
             }
+            */
             else {
                 // make path
                 $path = $this->make_path($parent_id);
@@ -308,6 +309,7 @@ class Category extends Root {
                     $this->session->set_userdata('invalid', 'This is default category.');
                     redirect($_SERVER['HTTP_REFERER']);
                 }
+
             // delete db
                 if ($this->model->delete_category($id) !== FALSE) {
                     $deleted++;

@@ -357,6 +357,8 @@ else {
 	// define('GAPP_SECRET', '');
 	// define('GAPP_REDIRECT_URI', F_URL);
 	// define('GAPP_API_KEY', '');
+
+define('PREFIX_CODE_CAT', '-c');
 /*
  * --------------------------------------------------------------------
  * LOAD THE BOOTSTRAP FILE

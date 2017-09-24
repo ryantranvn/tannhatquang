@@ -37,7 +37,7 @@ $(document).ready(function(){
         onShow: function($element) {
             $("html, body").animate({ scrollTop: 0 }, 600, function() {
                 $('body').addClass('fixed');
-                $('#nav_sanpham_bg').fadeIn('fast');
+                $('#nav_sanpham_bg').fadeIn(100);
             });
         },
         onHide: function($element) {
@@ -106,7 +106,6 @@ $(document).ready(function(){
     });
     */
 // slick
-
     $('#slick_hotline').slick({
         infinite: true,
         lazyLoad: 'ondemand',

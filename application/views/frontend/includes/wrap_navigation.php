@@ -19,7 +19,7 @@
                     <li<?if (isset($active_nav) && $active_nav=="lienhe") { ?> class="active"<? } ?>>
                         <a href="<?=F_URL?>lien-he">Liên hệ</a>
                     </li>
-                </nav>
+                </ul>
             </div>
             <div id="wrap_cart" class="col col-sm-2 text-right">
                 Giỏ hàng
@@ -28,6 +28,7 @@
             </div>
         </div>
     </div>
+    <? if (isset($categories) && count($categories)>0) { ?>
     <div id="nav_sanpham_popover">
         <? foreach ($categories as $category) { ?>
             <div class="item">
@@ -45,4 +46,5 @@
         <? } ?>
     </div>
     <div id="nav_sanpham_bg"></div>
+<? } ?>
 </div>
