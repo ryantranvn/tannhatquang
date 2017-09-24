@@ -73,8 +73,8 @@ class Root extends CI_Controller {
         $path = '0-1-';
         $this->load->model('Category_model');
         $categories = $this->Category_model->get_categories($path);
+        $categories_nav_1 = $categories_nav_2 = array();
         if ($categories != FALSE || count($categories)>0) {
-            $categories_nav_1 = $categories_nav_2 = array();
             foreach ($categories as $key => $category) {
                 $indent = count(explode('-', $category['path']));
                 $categories[$key]['indent'] = $indent-1;

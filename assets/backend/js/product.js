@@ -49,10 +49,9 @@
                 for (var i = 0; i < ids.length; i++) {
                     var cl = ids[i];
                     var rowData = jQuery(idTableList).jqGrid ('getRowData', cl);
-                    var fa = ""
                     var fa = formatButton(cl, rowData.status, 'btnStatus_', 'btnStatus', 'modalStatus')
                     var th = ""
-                    arr = rowData.pictures.split(',');
+                    var arr = rowData.pictures.split(',');
                     if (arr != undefined && arr.length>0) {
                         $.each(arr, function( index, url ) {
                             th += '<a class="groupFancyBox" href="' + url + '" rel="image-'+i+'"><img src="' + url + '" class="smalThumbInTable" /></a>'
@@ -184,9 +183,9 @@
             $('body').on('click', '.thumbnailDel', function(e) {
                 e.preventDefault();
 
-                thumbnailItem = $(this).parent('.thumbnailItem');
-                thumbnailWrapper = thumbnailItem.parent('.thumbnailWrapper');
-                inputThumbnail = thumbnailWrapper.prev().children('.inputThumbnail');
+                var thumbnailItem = $(this).parent('.thumbnailItem');
+                var thumbnailWrapper = thumbnailItem.parent('.thumbnailWrapper');
+                var inputThumbnail = thumbnailWrapper.prev().children('.inputThumbnail');
                 //
                 var obj = JSON.parse(inputThumbnail.val());
 
@@ -194,8 +193,8 @@
                     inputThumbnail.val('')
                 }
                 else {
-                    imgSrc = thumbnailItem.find('img').attr('src');
-                    index = obj.indexOf(imgSrc);
+                    var imgSrc = thumbnailItem.find('img').attr('src');
+                    var index = obj.indexOf(imgSrc);
                     obj.splice(index, 1);
                     if (obj.length>0) {
                         inputThumbnail.val(JSON.stringify(obj))
@@ -270,21 +269,21 @@
                         cache: false,
                         dataType: 'json',
                         data: {'csrf_hash' : $.cookie('csrf_cookie_ci'),
-                            'id': $('input[name=id]').val(),
-                            'code': $('input[name=code_product]').val(),
-                            'manufacturer': $('input[name=manufacturer_product]').val(),
-                            'name': $('input[name=name_product]').val(),
-                            'url' : $('input[name=url_product]').val(),
+                            'post_id': $('input[name="post_id"]').val(),
+                            'code': $('input[name="code_product"]').val(),
+                            'manufacturer': $('input[name="manufacturer_product"]').val(),
+                            'name': $('input[name="name_product"]').val(),
+                            'url' : $('input[name="url_product"]').val(),
                             'desc': $('textarea[name="desc_product"]').val(),
-                            'price' : $('input[name=price_product]').val(),
-                            'price_sale' : $('input[name=price_product_sale]').val(),
-                            'price_sale_percent' : $('input[name=price_product_sale_percent]').val(),
-                            'quantity' : $('input[name=quantity_product]').val(),
-                            'unit' : $('input[name=unit_product]').val(),
-                            'thumbnail': $('input[name=thumbnail]').val(),
-                            'order': $('input[name=order]').val(),
-                            'status': $('input[name=status]:checked').val(),
-                            'category_id': $('input[name=selected_category_id]').val(),
+                            'price' : $('input[name="price_product"]').val(),
+                            'price_sale' : $('input[name="price_product_sale"]').val(),
+                            'price_sale_percent' : $('input[name="price_product_sale_percent"]').val(),
+                            'quantity' : $('input[name="quantity_product"]').val(),
+                            'unit' : $('input[name="unit_product"]').val(),
+                            'thumbnail': $('input[name="thumbnail"]').val(),
+                            'order': $('input[name="order"]').val(),
+                            'status': $('input[name="status"]:checked').val(),
+                            'category_id': $('input[name="selected_category_id"]').val(),
                             'detail': editor.getData()
                             },
                         success: function(data) {

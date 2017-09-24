@@ -64,10 +64,12 @@ class Product extends Root {
                 ,'sord'     => $_GET['sord']
             );
             $sql = "SELECT
-                         post.id
+                        post.id
                         ,post.type
-                        ,post.deleted
+                        ,post.del_flg
                         ,post.status
+                        ,product.id AS product_id
+                        ,product.post_id
                         ,product.code
                         ,product.name
                         ,product.unit
@@ -83,7 +85,7 @@ class Product extends Root {
             if ( $params['sidx'] == "category_name") {
                 $params['sidx'] = "category." . $params['sidx'];
             }
-            else if ( $params['sidx'] == "id" || $params['sidx'] == "type" || $params['sidx'] == "deleted") {
+            else if ( $params['sidx'] == "id" || $params['sidx'] == "type" || $params['sidx'] == "del_flg") {
                 $params['sidx'] = "post." . $params['sidx'];
             }
             else {
@@ -107,7 +109,7 @@ class Product extends Root {
                             else if ($field == "path") {
                                 $where .= " category.path LIKE '%" . $value . "%'";
                             }
-                            else if ($field == "id" || $field == "deleted" || $field == "type") {
+                            else if ($field == "id" || $field == "del_flg" || $field == "type") {
                                 $where .= " post." . $field . " LIKE '%" . $value . "%'";
                             }
                             else {
@@ -121,12 +123,13 @@ class Product extends Root {
             $list = $this->Base_model->table_list_in_page($sql, $params);
             // get pictures
             foreach ($list['rows'] as $key => $item) {
-                $pictures = $this->Base_model->get_db('post_picture', array('url'), array('post_id'=>$item['id']));
+                $pictures = $this->Base_model->get_db('post_picture', array('url'), array('post_id'=>$item['post_id']));
                 $list['rows'][$key]['pictures'] = array();
                 foreach ($pictures as $picture) {
                     array_push($list['rows'][$key]['pictures'], $picture['url']);
                 }
             }
+
         // return json
             echo json_encode($list);
     }
@@ -167,20 +170,20 @@ class Product extends Root {
         $this->template->load('backend/template', 'backend/product/form', $this->data);
     }
 // edit
-    public function edit($id)
+    public function edit($post_id)
     {
         // check permission
             $this->noAccess($this->data['permissionsMember'], $this->currentModule['control_name'], 3);
         // breadcrumb
             $this->data['breadcrumb'][1] = array('name'=>'Edit', 'url' => '');
         // get post
-            $posts = $this->Base_model->get_post('product', $id);
+            $posts = $this->Base_model->get_post('product', $post_id);
             if ($posts === FALSE && count($posts)==0) {
                 $this->session->set_userdata('invalid', "Không tìm thấy dữ liệu.");
                 redirect(B_URL . $this->currentModule['url']);
             }
             $this->data['frmData'] = $post = $posts[0];
-            $pictures = $this->Base_model->get_db('post_picture', NULL, array('post_id' => $id));
+            $pictures = $this->Base_model->get_db('post_picture', NULL, array('post_id' => $post_id));
             if ($pictures !== FALSE && count($pictures)>0) {
                 $this->data['pictures'] = $pictures;
                 $str = "[";
@@ -209,12 +212,12 @@ class Product extends Root {
 // update
     public function update()
     {
-        $id_post = $this->input->post('id', TRUE);
+        $post_id = $this->input->post('post_id', TRUE);
         $code = strtoupper($this->input->post('code', TRUE));
         $category_id = $this->input->post('category_id', TRUE);
         $url = strtolower($this->input->post('url', TRUE));
         // check permission
-            if ($id_post == NULL) { // add
+            if ($post_id == NULL) { // add
                 $this->noAccess($this->data['permissionsMember'], $this->currentModule['control_name'], 2);
             }
             else {
@@ -224,7 +227,7 @@ class Product extends Root {
             $this->form_validation->set_rules('code', 'Mã sản phẩm', 'trim|required|max_length[20]|xss_clean');
             $this->form_validation->set_rules('name', 'Tên sản phẩm', 'trim|required|max_length[255]|xss_clean');
             $this->form_validation->set_rules('url', 'URL', 'trim|required|max_length[255]|alpha_dash|xss_clean');
-            $this->form_validation->set_rules('desc', 'Mổ tả', 'trim|max_length[1025]|xss_clean');
+            $this->form_validation->set_rules('desc', 'Mô tả', 'trim|max_length[1025]|xss_clean');
             $this->form_validation->set_message('required', '%s bắt buộc nhập');
             $this->form_validation->set_message('max_length', '%s tối đa 255 ký tự');
             $this->form_validation->set_message('alpha_dash', '%s chỉ gồm [a-z][0-9] và dấu gạch ngang');
@@ -233,20 +236,21 @@ class Product extends Root {
                 $msg['msg'] = validation_errors();
             }
         // valid existed
-            else if ($this->is_existed_code($code, $id_post)) {
+            else if ($this->is_existed_code($code, $post_id)) {
                 $msg['err'] = 1;
                 $msg['msg'] = 'Mã sản phẩm đã tồn tại';
             }
-            else if ($this->is_existed($url, $category_id, $id_post)) {
+            /*
+            else if ($this->is_existed($url, $category_id, $post_id)) {
                 $msg['err'] = 1;
                 $msg['msg'] = 'Sản phẩm đã tồn tại trong chuyên mục này.';
-            }
+            }*/
             else {
             // array for picture
                 $thumbnail = $this->input->post('thumbnail', TRUE);
                 $arrPicture = explode(",", str_replace('"', '', substr($thumbnail, 1, strlen($thumbnail)-2)));
                 $productData = array(
-                     'id' => $id_post
+                     'post_id' => $post_id
                     ,'code' => $code
                     ,'category_id' => $category_id
                     ,'name' => $this->input->post('name', TRUE)
@@ -262,10 +266,9 @@ class Product extends Root {
                     ,'order' => $this->input->post('order', TRUE)
                     ,'status' => $this->input->post('status', TRUE)
                     ,'detail' => $this->input->post('detail', TRUE)
-                    ,'datetime' => date('Y-m-d H:i:s')
                     ,'by' => $this->data['authMember']['username']
                 );
-                if ($id_post == NULL) { // add
+                if ($post_id == NULL) { // add
                     if ( $this->model->insert_product($productData) === FALSE ) {
                         $msg['err'] = 1;
                         $msg['msg'] = 'Error insert new data.';
@@ -276,7 +279,7 @@ class Product extends Root {
                     }
                 }
                 else { // edit
-                    $pictures = $this->Base_model->get_db('post_picture', NULL, array('post_id' => $id_post));
+                    $pictures = $this->Base_model->get_db('post_picture', NULL, array('post_id' => $post_id));
                     $arr_new = $arr_old = $arr_del = array();
                     // find picture need delete
                     foreach ($pictures as $picture) {
@@ -377,14 +380,14 @@ class Product extends Root {
         redirect(B_URL . $this->router->fetch_class());
     }
 /* MORE */
-    private function is_existed_code($code, $id_post=NULL)
+    private function is_existed_code($code, $post_id=NULL)
     {
         $sql = "SELECT id FROM product";
-        if ($id_post == NULL) { // add
+        if ($post_id == NULL) { // add
             $where = " WHERE code = '".$code."'";
         }
         else { // edit
-            $where = " WHERE code = '".$code."' AND post_id <> ".$id_post;
+            $where = " WHERE code = '".$code."' AND post_id <> ".$post_id;
         }
         $sql .= $where;
         $query = $this->db->query($sql);

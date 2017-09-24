@@ -531,6 +531,17 @@
 		"outputStyle": 1,
 		"syntaxCheckerStyle": 1
 		},
+	"\/backend\/js\/compressed\/product.min.js": {
+		"fileType": 64,
+		"ignore": 1,
+		"ignoreWasSetByUser": 0,
+		"inputAbbreviatedPath": "\/backend\/js\/compressed\/product.min.js",
+		"outputAbbreviatedPath": "\/backend\/js\/compressed\/compressed\/product.min.min.js",
+		"outputPathIsOutsideProject": 0,
+		"outputPathIsSetByUser": 0,
+		"outputStyle": 1,
+		"syntaxCheckerStyle": 1
+		},
 	"\/backend\/js\/init_height.js": {
 		"fileType": 64,
 		"ignore": 0,

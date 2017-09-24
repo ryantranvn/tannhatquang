@@ -65,7 +65,7 @@
 	                                        <div class="row">
 	                                            <div class="col-sm-12 col-md-12 col-lg-12">
 	                                                <label class="control-label">URL <sup>*</sup></label>
-	                                                <input type="text" class="form-control" name="url_product" <? if (isset($frmData)) { ?> value="<?=$frmData['url']?>" <? } ?>/>
+	                                                <input type="text" class="form-control" name="url_product" <? if (isset($frmData)) { ?> value="<?=$frmData['url']?>" <? } ?> disabled/>
 	                                                <span class="charLimit" id="url_product_limit"></span>
 	                                            </div>
 	                                        </div>
@@ -261,7 +261,7 @@
 	                    <!-- Buttons -->
 	                    <div class="col-xs-12 col-sm-12 col-md-12 col-lg-12">
 	                        <div class="row">
-	                            <input type="text" name="id" class="hiddenInput" <? if (isset($frmData)) { ?> value="<?=$frmData['id']?>" <? } ?> />
+                                <input type="text" name="post_id" class="hiddenInput" <? if (isset($frmData)) { ?> value="<?=$frmData['id']?>" <? } ?> />
 	                            <button class="btn btn-sm btn-success pull-right" type="submit">
 	                                <i class="fa fa-lg fa-save"></i> Submit
 	                            </button>

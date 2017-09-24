@@ -359,6 +359,10 @@ else {
 	// define('GAPP_API_KEY', '');
 
 define('PREFIX_CODE_CAT', '-c');
+define('PREFIX_CODE_PRODUCT', '-p');
+
+define('TYPE_POST_PRODUCT', 'product');
+define('TYPE_POST_NEWS', 'news');
 /*
  * --------------------------------------------------------------------
  * LOAD THE BOOTSTRAP FILE
