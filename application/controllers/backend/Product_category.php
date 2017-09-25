@@ -8,6 +8,8 @@ if (file_exists(APPPATH . 'controllers/backend/Root.php')) {
 class Product_category extends Root {
 
     private $path = '0-1-';
+    private $id = '1';
+    private $name = 'Sản phẩm';
 
     public function __construct()
     {
@@ -51,7 +53,8 @@ class Product_category extends Root {
             $this->data['categories'] = $arrCategory;
 
             $this->data['parent_id'] = 0;
-            $this->data['selected_category_id'] = 1;
+            $this->data['selected_category_id'] = $this->id;
+            $this->data['selected_category_name'] = $this->name;
         // create frm
         $this->data['frmTopButtons'] = frm(B_URL.'category/multi_delete', array('id' => "frmTopButtons"), FALSE);
         $this->data['frmCategory'] = frm('', array('id' => 'frmCategory'), TRUE);
@@ -126,7 +129,8 @@ class Product_category extends Root {
             $arrCategory[$key]['indent'] = $indent-1;
         }
         $this->data['categories'] = $arrCategory;
-        $this->data['selected_category_id'] = 1;
+        $this->data['selected_category_id'] = $this->id;
+        $this->data['selected_category_name'] = $this->name;
         $this->data['parent_id'] = 0;
 
         // create form
@@ -164,6 +168,7 @@ class Product_category extends Root {
 
         $this->data['parent_id'] = $arrEditCategory[0]['parent_id'];
         $this->data['selected_category_id'] = $id;
+        $this->data['selected_category_name'] = $arrEditCategory[0]['name'];
 
         // create form
             $this->data['frmCategory'] = frm('', array('id' => 'frmCategory'), FALSE);

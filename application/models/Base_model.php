@@ -189,8 +189,8 @@ class Base_model extends CI_model {
 // INSERT POST
     function insert_post($arrPost)
     {
-        $sql = "INSERT INTO post (`category_id`, `type`, `status`, `created_datetime`, `created_by`) VALUES (?, ?, ?, ?, ?)";
-        $result = $this->db->query($sql, array($arrPost['category_id'], $arrPost['type'], $arrPost['status'], $arrPost['created_datetime'], $arrPost['created_by']));
+        $sql = "INSERT INTO post (`category_id`, `category_name`, `type`, `status`, `created_datetime`, `created_by`) VALUES (?, ?, ?, ?, ?, ?)";
+        $result = $this->db->query($sql, array($arrPost['category_id'], $arrPost['category_name'], $arrPost['type'], $arrPost['status'], $arrPost['created_datetime'], $arrPost['created_by']));
         if ($result == FALSE) {
             return FALSE;
         }

@@ -1,5 +1,6 @@
 // tree view
     var selected_category_id = $('input[name="selected_category_id"]').val();
+    var selected_category_name = $('input[name="selected_category_name"]').val();
     treeView();
 // default_category_id
 $('.tree').find('span[data-id='+selected_category_id+']').addClass('label-success');
@@ -19,7 +20,6 @@ if (permissionsMember[currentModule['control_name']][3] == 1 && $('#is_post').le
 
         }
     }
-
 
 // disabled root on sub category page
     if ($('#is_sub_category').length>0 && $('#is_sub_category').val()!=0) {

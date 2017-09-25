@@ -327,8 +327,9 @@
 
 				$(this).addClass('label-success');
 			// set data
-				$(this).closest('.wrap_tree').find('input[name=selected_category_id]').val($(this).attr('data-id'))
-				$(this).closest('.wrap_tree').find('input[name=parent_id]').val($(this).closest('ul').prev('span').attr('data-id'));
+				$(this).closest('.wrap_tree').find('input[name="selected_category_id"]').val($(this).attr('data-id'))
+                $(this).closest('.wrap_tree').find('input[name="selected_category_name"]').val($(this).attr('data-name'))
+				$(this).closest('.wrap_tree').find('input[name="parent_id"]').val($(this).closest('ul').prev('span').attr('data-id'));
 			});
 
 			// collapse all
@@ -341,7 +342,7 @@
 			// expantion + collapse
 				$('body').on('click', '.tree ul li span i', function() {
 
-					sub = $(this).parent('span').parent('li').children('ul');
+					var sub = $(this).parent('span').parent('li').children('ul');
 
 					if ($(this).attr('class').indexOf('fa-minus-circle') != -1) {
 						if (sub != 'undefined') {

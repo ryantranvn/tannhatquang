@@ -6,6 +6,8 @@ if (file_exists(APPPATH . 'controllers/backend/Root.php')) {
 class Product extends Root {
 
     private $path = '0-1-';
+    private $id = '1';
+    private $name = 'Sản phẩm';
 
     public function __construct()
     {
@@ -46,7 +48,8 @@ class Product extends Root {
             }
             $this->data['categories'] = $arrCategory;
             $this->data['parent_id'] = 0;
-            $this->data['selected_category_id'] = 1;
+            $this->data['selected_category_id'] = $this->id;
+            $this->data['selected_category_name'] = $this->name;
         // create frm
             $this->data['frmTopButtons'] = frm(B_URL.$this->currentModule['url'].'/multi_delete', array('id' => "frmTopButtons"), FALSE);
             $this->data['frmImport'] = frm(B_URL.$this->currentModule['url'].'/import', array('id' => "frmImport"), TRUE);
@@ -163,7 +166,8 @@ class Product extends Root {
                 $arrCategory[$key]['indent'] = $indent-1;
             }
             $this->data['categories'] = $arrCategory;
-            $this->data['selected_category_id'] = 1;
+            $this->data['selected_category_id'] = $this->id;
+            $this->data['selected_category_name'] = $this->name;
             $this->data['parent_id'] = 0;
         // creare form
             $this->data['frmProduct'] = frm(NULL, array('id' => 'frmProduct'), TRUE);
@@ -204,6 +208,7 @@ class Product extends Root {
             }
             $this->data['categories'] = $arrCategory;
             $this->data['selected_category_id'] = $post['category_id'];
+            $this->data['selected_category_name'] = $post['category_name'];
             $this->data['parent_id'] = $post['category_id'];
         // creare form
             $this->data['frmProduct'] = frm(NULL, array('id' => 'frmProduct'), TRUE);
@@ -253,6 +258,7 @@ class Product extends Root {
                      'post_id' => $post_id
                     ,'code' => $code
                     ,'category_id' => $category_id
+                    ,'category_name' => $category_name
                     ,'name' => $this->input->post('name', TRUE)
                     ,'url' => $url
                     ,'description' => $this->input->post('desc', TRUE)

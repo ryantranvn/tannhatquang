@@ -221,6 +221,7 @@
                                         'order': $('input[name="order"]').val(),
                                         'status': $('input[name="status"]:checked').val(),
                                         'selected_category_id': $('input[name="selected_category_id"]').val(),
+                                        'selected_category_name': $('input[name="selected_category_name"]').val(),
                                         'parent_id': $('input[name="parent_id"]').val()
                                       },
                                 success: function(data) {

@@ -43,6 +43,7 @@ class Category extends Root {
             $this->data['categories'] = $arrCategory;
             $this->data['parent_id'] = 0;
             $this->data['selected_category_id'] = 0;
+            $this->data['selected_category_name'] = 'Root';
         // create frm
             $this->data['frmTopButtons'] = frm(B_URL.$this->currentModule['url'].'/multi_delete', array('id' => "frmTopButtons"), FALSE);
             $this->data['frmCategory'] = frm('', array('id' => 'frmCategory'), TRUE);
@@ -131,6 +132,7 @@ class Category extends Root {
         }
         $this->data['categories'] = $arrCategory;
         $this->data['selected_category_id'] = 0;
+        $this->data['selected_category_name'] = 'Root';
         $this->data['parent_id'] = 0;
         // create form
             $this->data['frmCategory'] = frm('', array('id' => 'frmCategory'), TRUE);
@@ -162,6 +164,7 @@ class Category extends Root {
         $this->data['frmData'] = $arrEditCategory[0];
         $this->data['parent_id'] = $arrEditCategory[0]['parent_id'];
         $this->data['selected_category_id'] = $id;
+        $this->data['selected_category_name'] = 'Root';
         // create form
             $this->data['frmCategory'] = frm('', array('id' => 'frmCategory'), TRUE);
 
