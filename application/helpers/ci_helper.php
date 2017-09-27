@@ -739,6 +739,80 @@ if (file_exists(APPPATH . 'libraries/PHPMailer/PHPMailerAutoload.php')) {
         return 0;
     }
 
+// inport & export excel
+    function export_excel($arr_title, $arr_export, $number_col=TRUE)
+    {
+        $CI = & get_instance();
+        $CI->load->library('PHPExcel');
+        $objPHPExcel = new PHPExcel();
+        // Set document properties
+        $objPHPExcel->getProperties()->setCreator("Ryan")
+            ->setLastModifiedBy("Ryan")
+            ->setTitle("Office 2007 XLSX Document")
+            ->setSubject("Office 2007 XLSX Document")
+            ->setDescription("Document for Office 2007 XLSX, generated using PHP classes.")
+            ->setKeywords("office 2007 openxml php")
+            ->setCategory("Result file");
+        // Add title
+        $strAlpha = 'ABCDEFGHIJKLMNOPQRSTUVWXYZ';
+        foreach ($arr_title as $key => $title) {
+            $objPHPExcel->setActiveSheetIndex(0)->setCellValue($strAlpha[$key].'1', $title);
+        }
+        $i = 2;
+        if ($arr_export != FALSE && count($arr_export)>0) {
+            foreach ($arr_export as $row) {
+                foreach($row as $key => $item) {
+                    $objPHPExcel->setActiveSheetIndex(0)->setCellValue($strAlpha[$key] . $i, $item);
+                }
+                $i++;
+            }
+        }
+        // Rename worksheet
+        $objPHPExcel->getActiveSheet()->setTitle('Data');
+
+        // Set active sheet index to the first sheet, so Excel opens this as the first sheet
+        $objPHPExcel->setActiveSheetIndex(0);
+
+        $filename = "data_".time().".xls";
+        // Redirect output to a client’s web browser (Excel5)
+        header('Content-Type: application/vnd.ms-excel');
+        header('Content-Disposition: attachment;filename="'.$filename.'"');
+        header('Cache-Control: max-age=0');
+        // If you're serving to IE 9, then the following may be needed
+        header('Cache-Control: max-age=1');
+
+        // If you're serving to IE over SSL, then the following may be needed
+        header ('Expires: Mon, 26 Jul 1997 05:00:00 GMT'); // Date in the past
+        header ('Last-Modified: '.gmdate('D, d M Y H:i:s').' GMT'); // always modified
+        header ('Cache-Control: cache, must-revalidate'); // HTTP/1.1
+        header ('Pragma: public'); // HTTP/1.0
+
+        $objWriter = PHPExcel_IOFactory::createWriter($objPHPExcel, 'Excel5');
+        $objWriter->save('php://output');
+    }
+
+    /*
+     * $arr_number_columns : array contains numbers of columns want to get data
+     * $arr_key_name : array contains key names
+     * */
+    function import_excel($arr_number_columns, $arr_key_name)
+    {
+        $CI = & get_instance();
+        $CI->load->library('PHPExcel');
+        $objPHPExcel = PHPExcel_IOFactory::load($inputFileName);
+        $str_null = '';
+        foreach ($arr_number_columns as $item) {
+            $str_null .= 'null,';
+        }
+        $str_null = substr($str_null, 0, -1);
+        $sheetData = $objPHPExcel->getActiveSheet()->toArray($str_null);
+        $importData = array();
+        foreach ($sheetData as $key => $row) {
+            if ($key > 0 && $this->security->xss_clean($row[0]) != "") {
+                $arr = array();
+            }
+        }
+    }
 /* ------------------------------------------- DB */
 
 // backup db ($table can be an array)

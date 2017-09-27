@@ -36,6 +36,12 @@ class Product extends Root {
 // index
     public function index()
     {
+        $arr_title = array('Name','Email','Phone','Address','Gender');
+        $arr_export = array(['Ryan','ryan@gmail.com','090909090','123 Le Van Viet','Male'],
+                            ['Jame','jame@gmail.com','090909123','234 Le Van Viet','Female']
+                            );
+        export_excel($arr_title, $arr_export);
+        exit();
         // check not access
             $this->noAccess($this->data['permissionsMember'], $this->currentModule['control_name'], 1);
         // breadcrumb
@@ -378,6 +384,9 @@ class Product extends Root {
             }
             if ( $this->model->import_db($importData) === FALSE ) {
                 $this->session->set_userdata('invalid', "Error import data.");
+                // create excel file
+
+                $this->session->set_userdata('has_file', "Error import data.");
             }
             else {
                 $this->session->set_userdata('valid', "Import data successful.");

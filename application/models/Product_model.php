@@ -99,14 +99,17 @@ class Product_model extends Base_model {
 
 	public function import_db($data)
 	{
+	    $arr_return = array();
 		$this->db->trans_begin();
-//			$datetime = date('Y-m-d H:i:s');
 			$by = $this->data['authMember']['username'];
 
 			foreach ($data as $row) {
 			// find code
 				$products = $this->get_db('product', array('id','post_id'), array('code'=>$row['code']));
-				if ($products != FALSE && count($products)>0) { // update
+				if ($products != FALSE && count($products)>0) { // existed code => return
+                    array_push($arr_return, $row);
+                /*
+                // update
 					$post_id = $products[0]['post_id'];
 				// update post
 					$sql_post = "UPDATE post SET `category_id`=?, `updated_by`=? WHERE `id`=?";
@@ -117,7 +120,8 @@ class Product_model extends Base_model {
                 // update route_url
                     $sql_url = "UPDATE url_route SET `url`=?, `category_id`=?, `updated_by`=? WHERE `post_id`=?";
                     $this->db->query($sql_url, array($row['url'].'-'.$row['code'].PREFIX_CODE_PRODUCT.$post_id, $row['category_id'], $by, $post_id));
-				}
+				*/
+                }
 				else { // insert new
 				// insert post
 					$sql_post = "INSERT INTO post (`category_id`, `type`, `created_by`) VALUES (?, ?, ?)";
@@ -135,7 +139,7 @@ class Product_model extends Base_model {
 		if ($this->db->trans_status() === FALSE)
         {
             $this->db->trans_rollback();
-            return FALSE;
+            return $arr_return;
         }
         else
         {
