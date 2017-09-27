@@ -761,8 +761,10 @@ if (file_exists(APPPATH . 'libraries/PHPMailer/PHPMailerAutoload.php')) {
         $i = 2;
         if ($arr_export != FALSE && count($arr_export)>0) {
             foreach ($arr_export as $row) {
+                $j=0;
                 foreach($row as $key => $item) {
-                    $objPHPExcel->setActiveSheetIndex(0)->setCellValue($strAlpha[$key] . $i, $item);
+                    $objPHPExcel->setActiveSheetIndex(0)->setCellValue($strAlpha[$j] . $i, $item);
+                    $j++;
                 }
                 $i++;
             }
