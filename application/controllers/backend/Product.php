@@ -36,12 +36,6 @@ class Product extends Root {
 // index
     public function index()
     {
-        $arr_title = array('Name','Email','Phone','Address','Gender');
-        $arr_export = array(['Ryan','ryan@gmail.com','090909090','123 Le Van Viet','Male'],
-                            ['Jame','jame@gmail.com','090909123','234 Le Van Viet','Female']
-                            );
-        export_excel($arr_title, $arr_export);
-        exit();
         // check not access
             $this->noAccess($this->data['permissionsMember'], $this->currentModule['control_name'], 1);
         // breadcrumb
@@ -360,7 +354,10 @@ class Product extends Root {
             }
         redirect($_SERVER['HTTP_REFERER']);
     }
-// import
+/*
+ * import
+ * case category not existed or code existed => not insert => return download file contains error product
+ */
     public function import()
     {
         if(isset($_POST) && $_SERVER['REQUEST_METHOD'] == "POST") {
@@ -382,11 +379,13 @@ class Product extends Root {
                     array_push($importData, $arr);
                 }
             }
-            if ( $this->model->import_db($importData) === FALSE ) {
+            $import_result = $this->model->import_db($importData);
+            if (is_array($import_result) && count($import_result)>0) {
                 $this->session->set_userdata('invalid', "Error import data.");
                 // create excel file
-
-                $this->session->set_userdata('has_file', "Error import data.");
+                print_r($import_result);exit();
+//                export_excel(array('code','name','unit','quantity','price','category_id','manufacturer','url','error'), $import_result);
+                //$this->session->set_userdata('has_file', "Error import data.");
             }
             else {
                 $this->session->set_userdata('valid', "Import data successful.");
