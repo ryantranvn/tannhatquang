@@ -230,7 +230,16 @@ class Base_model extends CI_model {
             return TRUE;
         }
     }
-
+// GET ALL ONE FIELD IN TABLE
+    function get_field($table, $field)
+    {
+        $arr_return = array();
+        $categories = $this->get_db($table, array($field));
+        foreach ($categories as $category) {
+            array_push($arr_return, $category[$field]);
+        }
+        return $arr_return;
+    }
 /*
 // OPTIMIZE TABLE
     function optimizeDB($connection, $table)
