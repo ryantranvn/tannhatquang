@@ -99,52 +99,61 @@ class Product_model extends Base_model {
 
 	public function import_db($data)
 	{
-	    $arr_return = array();
 		$this->db->trans_begin();
 			$by = $this->data['authMember']['username'];
-
+            // get category id list
+            $categories = $this->get_field('category', 'id');
+            $arr_conflict = array();
 			foreach ($data as $row) {
-			// find code
-				$products = $this->get_db('product', array('id','post_id'), array('code'=>$row['code']));
-				if ($products != FALSE && count($products)>0) { // existed code => return
-                    array_push($arr_return, $row);
-                /*
-                // update
-					$post_id = $products[0]['post_id'];
-				// update post
-					$sql_post = "UPDATE post SET `category_id`=?, `updated_by`=? WHERE `id`=?";
-					$this->db->query($sql_post, array($row['category_id'], $by, $post_id));
-				// update product
-					$sql_product = "UPDATE product SET `name`=?, `url`=?, `unit`=?, `quantity`=?, `price`=?, `manufacturer`=? WHERE `code`=?";
-					$this->db->query($sql_product, array($row['name'], $row['url'], $row['unit'], $row['quantity'], $row['price'], $row['manufacturer'], $row['code']));
-                // update route_url
-                    $sql_url = "UPDATE url_route SET `url`=?, `category_id`=?, `updated_by`=? WHERE `post_id`=?";
-                    $this->db->query($sql_url, array($row['url'].'-'.$row['code'].PREFIX_CODE_PRODUCT.$post_id, $row['category_id'], $by, $post_id));
-				*/
+                $category_id = $row['category_id'];
+            // check existed of category_id
+                if (!in_array($category_id, $categories)) {
+                    $row['conflict'] = 'no category';
+                    array_push($arr_conflict, $row);
                 }
-				else { // insert new
-				// insert post
-					$sql_post = "INSERT INTO post (`category_id`, `type`, `created_by`) VALUES (?, ?, ?)";
-			        $this->db->query($sql_post, array($row['category_id'], TYPE_POST_PRODUCT, $by));
-					$post_id = $this->db->insert_id();
-				// insert product
-					$sql_product = "INSERT INTO product (`post_id`, `code`, `name`, `url`, `unit`, `quantity`, `price`, `manufacturer`) VALUES (?, ?, ?, ?, ?, ?, ?, ?)";
-					$this->db->query($sql_product, array($post_id, $row['code'], $row['name'], $row['url'], $row['unit'], $row['quantity'], $row['price'], $row['manufacturer']));
-                // insert route_url
-                    $sql_url = "INSERT INTO url_route (`url`, `category_id`, `post_id`, `created_by`) VALUES (?, ?, ?, ?)";
-                    $this->db->query($sql_url, array($row['url'].'-'.$row['code'].PREFIX_CODE_PRODUCT.$post_id, $row['category_id'], $post_id, $by));
-				}
+                else {
+                    // find code
+                    $products = $this->get_db('product', array('id', 'post_id'), array('code' => $row['code']));
+                    if ($products != FALSE && count($products) > 0) { // existed code => return
+                        $row['conflict'] = 'code existed';
+                        array_push($arr_conflict, $row);
+                        /*
+                        // update
+                            $post_id = $products[0]['post_id'];
+                        // update post
+                            $sql_post = "UPDATE post SET `category_id`=?, `updated_by`=? WHERE `id`=?";
+                            $this->db->query($sql_post, array($row['category_id'], $by, $post_id));
+                        // update product
+                            $sql_product = "UPDATE product SET `name`=?, `url`=?, `unit`=?, `quantity`=?, `price`=?, `manufacturer`=? WHERE `code`=?";
+                            $this->db->query($sql_product, array($row['name'], $row['url'], $row['unit'], $row['quantity'], $row['price'], $row['manufacturer'], $row['code']));
+                        // update route_url
+                            $sql_url = "UPDATE url_route SET `url`=?, `category_id`=?, `updated_by`=? WHERE `post_id`=?";
+                            $this->db->query($sql_url, array($row['url'].'-'.$row['code'].PREFIX_CODE_PRODUCT.$post_id, $row['category_id'], $by, $post_id));
+                        */
+                    } else { // insert new
+                        // insert post
+                        $sql_post = "INSERT INTO post (`category_id`, `type`, `created_by`) VALUES (?, ?, ?)";
+                        $this->db->query($sql_post, array($row['category_id'], TYPE_POST_PRODUCT, $by));
+                        $post_id = $this->db->insert_id();
+                        // insert product
+                        $sql_product = "INSERT INTO product (`post_id`, `code`, `name`, `url`, `unit`, `quantity`, `price`, `manufacturer`) VALUES (?, ?, ?, ?, ?, ?, ?, ?)";
+                        $this->db->query($sql_product, array($post_id, $row['code'], $row['name'], $row['url'], $row['unit'], $row['quantity'], $row['price'], $row['manufacturer']));
+                        // insert route_url
+                        $sql_url = "INSERT INTO url_route (`url`, `category_id`, `post_id`, `created_by`) VALUES (?, ?, ?, ?)";
+                        $this->db->query($sql_url, array($row['url'] . '-' . $row['code'] . PREFIX_CODE_PRODUCT . $post_id, $row['category_id'], $post_id, $by));
+                    }
+                }
 			}
 
 		if ($this->db->trans_status() === FALSE)
         {
             $this->db->trans_rollback();
-            return $arr_return;
+            return $arr_conflict;
         }
         else
         {
             $this->db->trans_commit();
-            return TRUE;
+            return $arr_conflict;
         }
 	}
 
