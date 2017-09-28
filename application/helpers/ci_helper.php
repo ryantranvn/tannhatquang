@@ -740,7 +740,7 @@ if (file_exists(APPPATH . 'libraries/PHPMailer/PHPMailerAutoload.php')) {
     }
 
 // inport & export excel
-    function export_excel($arr_title, $arr_export, $number_col=TRUE)
+    function export_excel($arr_title, $arr_export, $error_col=TRUE, $download=TRUE)
     {
         $CI = & get_instance();
         $CI->load->library('PHPExcel');
@@ -755,6 +755,9 @@ if (file_exists(APPPATH . 'libraries/PHPMailer/PHPMailerAutoload.php')) {
             ->setCategory("Result file");
         // Add title
         $strAlpha = 'ABCDEFGHIJKLMNOPQRSTUVWXYZ';
+        if ($error_col) {
+            array_push($arr_title, 'error');
+        }
         foreach ($arr_title as $key => $title) {
             $objPHPExcel->setActiveSheetIndex(0)->setCellValue($strAlpha[$key].'1', $title);
         }
@@ -776,21 +779,28 @@ if (file_exists(APPPATH . 'libraries/PHPMailer/PHPMailerAutoload.php')) {
         $objPHPExcel->setActiveSheetIndex(0);
 
         $filename = "data_".time().".xls";
-        // Redirect output to a client’s web browser (Excel5)
-        header('Content-Type: application/vnd.ms-excel');
-        header('Content-Disposition: attachment;filename="'.$filename.'"');
-        header('Cache-Control: max-age=0');
-        // If you're serving to IE 9, then the following may be needed
-        header('Cache-Control: max-age=1');
-
-        // If you're serving to IE over SSL, then the following may be needed
-        header ('Expires: Mon, 26 Jul 1997 05:00:00 GMT'); // Date in the past
-        header ('Last-Modified: '.gmdate('D, d M Y H:i:s').' GMT'); // always modified
-        header ('Cache-Control: cache, must-revalidate'); // HTTP/1.1
-        header ('Pragma: public'); // HTTP/1.0
-
         $objWriter = PHPExcel_IOFactory::createWriter($objPHPExcel, 'Excel5');
-        $objWriter->save('php://output');
+        if ($download) {
+            // Redirect output to a client’s web browser (Excel5)
+            header('Content-Type: application/vnd.ms-excel');
+            header('Content-Disposition: attachment;filename="' . $filename . '"');
+            header('Cache-Control: max-age=0');
+            // If you're serving to IE 9, then the following may be needed
+            header('Cache-Control: max-age=1');
+
+            // If you're serving to IE over SSL, then the following may be needed
+            header('Expires: Mon, 26 Jul 1997 05:00:00 GMT'); // Date in the past
+            header('Last-Modified: ' . gmdate('D, d M Y H:i:s') . ' GMT'); // always modified
+            header('Cache-Control: cache, must-revalidate'); // HTTP/1.1
+            header('Pragma: public'); // HTTP/1.0
+
+            $objWriter->save('php://output');
+            return;
+        }
+        else {
+            $objWriter->save(str_replace(__FILE__,'user_data/'.$filename,__FILE__));
+            return $filename;
+        }
     }
 
     /*

@@ -309,7 +309,7 @@ else {
 
 	    define('DB_NAME', 'tannhatquang_DB');
 	    define('DB_USER', 'root');
-	    define('DB_PASS', 'ruut');
+	    define('DB_PASS', 'root');
     // online
   //  		define('DB_HOST', 'localhost');
 	    // define('DB_PREFIX', '');
@@ -357,6 +357,7 @@ else {
 	// define('GAPP_SECRET', '');
 	// define('GAPP_REDIRECT_URI', F_URL);
 	// define('GAPP_API_KEY', '');
+
 
 define('PREFIX_CODE_CAT', '-c');
 define('PREFIX_CODE_PRODUCT', '-p');

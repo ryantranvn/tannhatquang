@@ -54,6 +54,12 @@ class Product extends Root {
             $this->data['frmTopButtons'] = frm(B_URL.$this->currentModule['url'].'/multi_delete', array('id' => "frmTopButtons"), FALSE);
             $this->data['frmImport'] = frm(B_URL.$this->currentModule['url'].'/import', array('id' => "frmImport"), TRUE);
             $this->data['frmProduct'] = frm('', array('id' => 'frmProduct'), TRUE);
+        // get error_file from import
+            if ($this->session->userdata('error_file') != FALSE) {
+                $this->data['error_file'] = $this->session->userdata('error_file');
+                $this->session->unset_userdata('error_file');
+            }
+
         $this->template->load('backend/template', 'backend/product', $this->data);
     }
 //  Ajax List
@@ -381,15 +387,12 @@ class Product extends Root {
             }
             $import_result = $this->model->import_db($importData);
             if (is_array($import_result) && count($import_result)>0) {
-                $this->session->set_userdata('invalid', "Error import data.");
                 // create excel file
-                print_r($import_result);exit();
-//                export_excel(array('code','name','unit','quantity','price','category_id','manufacturer','url','error'), $import_result);
-                //$this->session->set_userdata('has_file', "Error import data.");
+                $arr_title = array('code','name','unit','quantity','price','category_id','manufacturer','url');
+                $error_file = export_excel($arr_title, $import_result, TRUE, FALSE);
+                $this->session->set_userdata('error_file', $error_file);
             }
-            else {
-                $this->session->set_userdata('valid', "Import data successful.");
-            }
+            $this->session->set_userdata('valid', "Import data successful.");
         }
         redirect(B_URL . $this->router->fetch_class());
     }
