@@ -99,6 +99,13 @@ class Product extends Root {
 // detail
     private function  product_detail()
     {
+        $url = $this->uri->segment(1,0);
+        $products = $this->Product_model->get_one($url);
+        if ($products == FALSE || count($products)==0) {
+            $this->template->load('frontend/template', 'frontend/maintain/page404', $this->data);
+        }
+        $this->data['product'] = $products[0];
+
         $this->template->load($this->gate.'/template', $this->gate.'/sanpham_chitiet', $this->data);
     }
 /*
