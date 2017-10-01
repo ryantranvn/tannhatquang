@@ -606,40 +606,6 @@
                         font-family: $f_OpenSansBold;
                     }
                 }
-                .wrap_paging {
-                    font-size: 24px;
-                    text-align: center;
-
-                    a {
-                        color: $color_content;
-                    }
-                    a:not(:first-child):not(:last-child)::after {
-                        content: ", ";
-                    }
-                    a:nth-last-child(2)::after {
-                        content: "" !important;
-                    }
-                    strong {
-                        color: $color_red;
-                    }
-                    strong::after {
-                        content: ", ";
-                        color: $color_content;
-                    }
-                    a:first-child {
-                        float: left;
-                    }
-                    a:last-child {
-                        float: right;
-                    }
-                    a:hover {
-                        color: $color_red;
-                        text-decoration: none;
-                    }
-                    a:hover::after {
-                        color: $color_content;
-                    }
-                }
             }
         }
     }
@@ -729,4 +695,124 @@
         right: 20px; top: 20px;
         color: black;
         z-index: 1000;
+    }
+/* SANPHAM */
+    #wrap_sanpham {
+        #wrap_right {
+            padding: 0px 30px;
+
+            .wrap_sanpham_list {
+                .item_sanpham {
+                    margin: 20px 0;
+                    padding: 15px;
+                    text-align: center;
+                    border: solid 1px transparent;
+
+                    .wrap_thumbnail {
+                        margin: auto;
+                        width: 80%;
+                        height: 200px;
+                        overflow: hidden;
+                        position: relative;
+
+                        .thumbnail_product {
+                            position: absolute;
+                            top: 0; bottom: 0;
+                            left: 0; right: 0;
+                            margin: auto;
+                            max-width: 100%;
+                            max-height: 100%;
+
+                        }
+                    }
+                    p.product_desc {
+                        font-size: 14px;
+                        color: $color_content;
+                        margin-bottom: 10px;
+                        margin-top: 10px;
+                        padding: 0px 10px;
+                        white-space: nowrap;
+                        overflow: hidden;
+                        text-overflow: ellipsis;
+                    }
+                    p.product_prize {
+                        font-size: 24px;
+                        color: $color_red;
+                        margin-bottom: 0px;
+                    }
+                    p.product_prize_old {
+                        font-size: 14px;
+                        color: $color_title;
+
+                        span {
+                            text-decoration: line-through;
+                            padding-right: 10px;
+                        }
+                    }
+                    a.add_cart {
+                        display: block;
+                        position: relative;
+                        margin-top: 20px;
+                        color: white;
+                        background: $color_red;
+                        font-size: 14px;
+                        line-height: 42px;
+                        text-transform: uppercase;
+                    }
+                    a.add_cart:hover {
+                        text-decoration: none;
+                        color: $color_title;
+                        background: $color_yellow;
+                    }
+                }
+                .item_sanpham:hover {
+                    border: solid 1px $color_content;
+                }
+            }
+        }
+    }
+
+/* Pagination */
+    .wrap_paging {
+        font-size: 24px;
+        text-align: center;
+
+        a {
+            color: $color_content;
+        }
+        a:not(:first-child):not(:last-child)::after {
+            content: ", ";
+        }
+        a:nth-last-child(2)::after,
+        a[rel="prev"]::after {
+            content: "" !important;
+        }
+        strong {
+            color: $color_red;
+        }
+        strong::after {
+            content: ", ";
+            color: $color_content;
+        }
+        a:first-child {
+            float: left;
+        }
+        a[rel="prev"] {
+            float: left;
+            margin-left: 40px;
+        }
+        a[rel="next"] {
+            position: absolute;
+            right: 100px;
+        }
+        a:last-child {
+            float: right;
+        }
+        a:hover {
+            color: $color_red;
+            text-decoration: none;
+        }
+        a:hover::after {
+            color: $color_content;
+        }
     }

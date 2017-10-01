@@ -238,10 +238,20 @@
 
 	function formatButton(idRow, statusVal, preID_Btn, class_Btn, id_Modal) // button in grid list
 	{
-		activeClass = arrStatus[statusVal][0] + " " + arrStatus[statusVal][1]
-
+		var activeClass = arrStatus[statusVal][0] + " " + arrStatus[statusVal][1]
+		var fa = "";
 		fa = '<button id="'+preID_Btn+idRow+'" class="btn '+class_Btn+' '+activeClass+'" data-id="'+idRow+'" data-toggle="modal" data-target="#'+id_Modal+'">'
-			fa += statusVal
+			switch (statusVal)
+			{
+				case 'active':
+                    fa += 'Hiện';
+                    break;
+                case 'inactive':
+                    fa += 'Ẩn';
+                    break;
+				default:
+					break;
+            }
 		fa += '</button>'
 
 		return fa;
@@ -268,7 +278,7 @@
 			});
 		// in hide
 			$('#'+id_Modal+' .btn').click( function() {
-				var oldValue = $('#'+idBtn).html()
+				var oldValue = $('#'+idBtn).attr('data-value');
 				var newValue = $(this).attr('data-value');
 				$('#'+id_Modal).modal('hide');
 
@@ -286,16 +296,6 @@
 		                	  },
 		                success: function(data) {
 		                	if (data=="true") {
-							/*
-								removeClass = arrStatus[oldValue][0] + " " + arrStatus[oldValue][1]
-								activeClass = arrStatus[newValue][0] + " " + arrStatus[newValue][1]
-							// remove oldClass
-								$('#'+idBtn).removeClass(removeClass)
-							// add newClass
-								$('#'+idBtn).addClass(activeClass)
-							// set value
-								$('#'+idBtn).html(newValue)
-							*/
 							// callback
 								if(typeof fnCallback == "function"){
 									fnCallback();

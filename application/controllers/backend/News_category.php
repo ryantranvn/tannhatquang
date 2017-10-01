@@ -7,7 +7,10 @@ if (file_exists(APPPATH . 'controllers/backend/Root.php')) {
 
 class News_category extends Root {
 
+    private $parent_id = '0';
     private $path = '0-2-';
+    private $id = '2';
+    private $name = 'Tin tức';
 
     public function __construct()
     {
@@ -52,6 +55,7 @@ class News_category extends Root {
 
             $this->data['parent_id'] = 0;
             $this->data['selected_category_id'] = 1;
+            $this->data['selected_category_name'] = $this->name;
         // create frm
         $this->data['frmTopButtons'] = frm(B_URL.'category/multi_delete', array('id' => "frmTopButtons"), FALSE);
         $this->data['frmCategory'] = frm('', array('id' => 'frmCategory'), TRUE);
@@ -126,8 +130,9 @@ class News_category extends Root {
             $arrCategory[$key]['indent'] = $indent-1;
         }
         $this->data['categories'] = $arrCategory;
-        $this->data['selected_category_id'] = 2;
-        $this->data['parent_id'] = 0;
+        $this->data['selected_category_id'] = $this->id;
+        $this->data['selected_category_name'] = $this->name;
+        $this->data['parent_id'] = $this->parent_id;
 
         // create form
             $this->data['frmCategory'] = frm('', array('id' => 'frmCategory'), FALSE);

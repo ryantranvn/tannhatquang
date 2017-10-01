@@ -11,7 +11,7 @@
                     <h2> </h2>
                 </header>
                 <!-- end header -->
-                <div id="wrap_form" class="custom-scroll table-responsive" class="row" style="position: relative; overflow-x: hidden; overflow-y: scroll">
+                <div id="wrap_form" class="custom-scroll table-responsive" class="row" style="position: relative; overflow-x: hidden; overflow-y: scroll; padding-top: 20px;">
                     <?=$frmProduct['open']?>
 	                    <div class="col-xs-12 col-sm-12 col-md-4 col-lg-4">
 	                        <label class="control-label">Chuyên mục <sup>*</sup></label>
@@ -217,7 +217,7 @@
 	                                                        NOTE</span> &nbsp; Chỉ chấp nhận file *.png, *.jpg &amp; size <=5MBs.
 	                                                    </p>
 	                                                    <div class="input-group">
-	                                                        <input type="text" name="thumbnail" class="inputThumbnail form-control" readonly <? if (isset($picture_input)) { ?> value='<?=$picture_input?>' <? } ?>>
+	                                                        <input type="text" name="thumbnail" class="inputThumbnail form-control" readonly <? if (isset($picture_input) && strlen($picture_input)>4) { ?> value='<?=$picture_input?>' <? } ?>>
 	                                                        <div class="input-group-btn">
 	                                                            <button class="btn btn-default btnSelectThumbnail" type="button">
 	                                                                Select File
@@ -227,10 +227,12 @@
 	                                                    <div class="thumbnailWrapper" style="margin-top: 10px">
 	                                                        <? if (isset($pictures) && count($pictures)>0) {
 	                                                            foreach ($pictures as $picture) { ?>
+                                                                    <? if ($picture['url'] != "") { ?>
 	                                                                <div class="thumbnailItem">
 	                                                                    <img src="<?=$picture['url']?>" class="thumbnail" />
 	                                                                    <a class="thumbnailDel"><i class="fa fa-trash-o"></i></a>
 	                                                                </div>
+                                                                    <? } ?>
 	                                                            <? } ?>
 	                                                        <? } else  { ?>
 	                                                        <img class="thumbnail" src="<?php echo assetsUrl('common','images','default.jpg'); ?>" />

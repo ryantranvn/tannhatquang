@@ -13,8 +13,8 @@ class Product_model extends Base_model {
 	{
 		$this->db->trans_begin();
 		// insert post
-			$sql_post = "INSERT INTO post (`category_id`, `type`, `status`, `created_by`) VALUES (?, ?, ?, ?)";
-	        $this->db->query($sql_post, array($productData['category_id'], 'product', $productData['status'], $productData['by']));
+			$sql_post = "INSERT INTO post (`category_id`, `category_name`, `type`, `status`, `created_by`) VALUES (?, ?, ?, ?, ?)";
+	        $this->db->query($sql_post, array($productData['category_id'], $productData['category_name'], 'product', $productData['status'], $productData['by']));
 			$post_id = $this->db->insert_id();
 		// insert product
 			$sql_product = "INSERT INTO product (`post_id`, `code`, `name`, `url`, `description`, `manufacturer`, `unit`, `detail`, `quantity`, `price`, `price_sale`, `price_sale_percent`, `order`) VALUES (?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?)";
@@ -102,12 +102,18 @@ class Product_model extends Base_model {
 		$this->db->trans_begin();
 			$by = $this->data['authMember']['username'];
             // get category id list
-            $categories = $this->get_field('category', 'id');
+            $categories = $this->Base_model->get_db('category', array('id', 'name'));
+            $arr_category_id = $arr_category_name = array();
+            foreach ($categories as $category) {
+                array_push($arr_category_id, $category['id']);
+                array_push($arr_category_name, $category['name']);
+            }
             $arr_conflict = array();
 			foreach ($data as $row) {
                 $category_id = $row['category_id'];
             // check existed of category_id
-                if (!in_array($category_id, $categories)) {
+                $search_key = array_search($category_id, $arr_category_id);
+                if ($search_key===FALSE) {
                     $row['conflict'] = 'no category';
                     array_push($arr_conflict, $row);
                 }
@@ -132,8 +138,8 @@ class Product_model extends Base_model {
                         */
                     } else { // insert new
                         // insert post
-                        $sql_post = "INSERT INTO post (`category_id`, `type`, `created_by`) VALUES (?, ?, ?)";
-                        $this->db->query($sql_post, array($row['category_id'], TYPE_POST_PRODUCT, $by));
+                        $sql_post = "INSERT INTO post (`category_id`, `category_name`,`type`, `created_by`) VALUES (?, ?, ?, ?)";
+                        $this->db->query($sql_post, array($row['category_id'], $arr_category_name[$search_key],TYPE_POST_PRODUCT, $by));
                         $post_id = $this->db->insert_id();
                         // insert product
                         $sql_product = "INSERT INTO product (`post_id`, `code`, `name`, `url`, `unit`, `quantity`, `price`, `manufacturer`) VALUES (?, ?, ?, ?, ?, ?, ?, ?)";
@@ -157,6 +163,50 @@ class Product_model extends Base_model {
         }
 	}
 
+/*
+ * get product list
+ * */
+    public  function  get_list()
+    {
+        $this->db->trans_begin();
 
+        $sql = "SELECT
+                        post.id
+                        ,post.category_id
+                        ,post.category_name
+                        ,post.status
+                        ,product.code
+                        ,product.name
+                        ,product.url
+                        ,product.description
+                        ,product.unit
+                        ,product.manufacturer
+                        ,product.quantity
+                        ,product.price
+                        ,product.price_sale
+                        ,product.price_sale_percent
+                        ,product.order
+                        ,product.detail
+                        , (SELECT url FROM post_picture WHERE post_id=post.id LIMIT 1) as thumbnail
+                    FROM post
+                    INNER JOIN product ON product.post_id = post.id
+            ";
+        $where = " WHERE post.type = 'product' AND post.del_flg=0";
+        $sql .= $where;
+        $query = $this->db->query($sql);
+        $result = $query->result_array();
+        return $result;
+
+        if ($this->db->trans_status() === FALSE)
+        {
+            $this->db->trans_rollback();
+            return $arr_conflict;
+        }
+        else
+        {
+            $this->db->trans_commit();
+            return $arr_conflict;
+        }
+    }
 
 }

@@ -7,6 +7,7 @@ if (file_exists(APPPATH . 'controllers/backend/Root.php')) {
 
 class Product_category extends Root {
 
+    private $parent_id = '0';
     private $path = '0-1-';
     private $id = '1';
     private $name = 'Sản phẩm';
@@ -131,7 +132,7 @@ class Product_category extends Root {
         $this->data['categories'] = $arrCategory;
         $this->data['selected_category_id'] = $this->id;
         $this->data['selected_category_name'] = $this->name;
-        $this->data['parent_id'] = 0;
+        $this->data['parent_id'] = $this->parent_id;
 
         // create form
             $this->data['frmCategory'] = frm('', array('id' => 'frmCategory'), FALSE);

@@ -30,19 +30,24 @@
     </div>
     <? if (isset($categories) && count($categories)>0) { ?>
     <div id="nav_sanpham_popover">
+        <div class="item">
+            <p class="nav_parent">
+                <a href="<?=F_URL?>san-pham?cat=sp">Tất cả</a>
+            </p>
+        </div>
         <? foreach ($categories as $category) { ?>
-            <div class="item">
-                <p class="nav_parent">
-                    <a href="<?=F_URL?><?=$category['url']?>?cat=sp"><?=$category['name']?></a>
-                </p>
-                <? if (count($category['sub'])>0) { ?>
-                    <? foreach ($category['sub'] as $sub) { ?>
-                        <p class="nav_child">
-                            <a href="<?=F_URL?><?=$sub['url']?>?cat=sp&sub=<?=$category['url']?>"><?=$sub['name']?></a>
-                        </p>
-                    <? } ?>
+        <div class="item">
+            <p class="nav_parent">
+                <a href="<?=F_URL?><?=$category['url']?>?cat=sp"><?=$category['name']?></a>
+            </p>
+            <? if (count($category['sub'])>0) { ?>
+                <? foreach ($category['sub'] as $sub) { ?>
+                    <p class="nav_child">
+                        <a href="<?=F_URL?><?=$sub['url']?>?cat=sp&sub=<?=$category['url']?>"><?=$sub['name']?></a>
+                    </p>
                 <? } ?>
-            </div>
+            <? } ?>
+        </div>
         <? } ?>
     </div>
     <div id="nav_sanpham_bg"></div>

@@ -6,6 +6,8 @@ if (file_exists(APPPATH . 'controllers/backend/Root.php')) {
 class News extends Root {
 
     private $path = '0-2-';
+    private $id = '2';
+    private $name = 'Tin tức';
 
     public function __construct()
     {
@@ -24,8 +26,8 @@ class News extends Root {
             array_push($this->data['jsBlock'], '<script language="javascript" type="text/javascript" src="'. ASSETS_URL . 'backend/js/tree.js"></script>');
         // status array
             $this->data['statusArr'] = array(
-                 'active' => '<button class="btn bg-color-green txt-color-white" data-value="active">Active</button>'
-                ,'inactive' => '<button class="btn bg-color-blueDark txt-color-white" data-value="inactive">Inactive</button>'
+                 'active' => '<button class="btn bg-color-green txt-color-white" data-value="active">Hiện</button>'
+                ,'inactive' => '<button class="btn bg-color-blueDark txt-color-white" data-value="inactive">Ẩn</button>'
                 // ,'block' => '<button class="btn bg-color-red txt-color-white" data-value="block">Block</button>'
             );
         $this->data['is_sub_category'] = 2;
@@ -47,7 +49,8 @@ class News extends Root {
             }
             $this->data['categories'] = $arrCategory;
             $this->data['parent_id'] = 0;
-            $this->data['selected_category_id'] = 2;
+            $this->data['selected_category_id'] = $this->id;
+            $this->data['selected_category_name'] = $this->name;
         // create frm
             $this->data['frmTopButtons'] = frm(B_URL.$this->currentModule['url'].'/multi_delete', array('id' => "frmTopButtons"), FALSE);
             $this->data['frmImport'] = frm(B_URL.$this->currentModule['url'].'/import', array('id' => "frmImport"), TRUE);
@@ -67,7 +70,7 @@ class News extends Root {
             $sql = "SELECT
                          post.id
                         ,post.type
-                        ,post.deleted
+                        ,post.del_flg
                         ,post.status
                         ,news.title
                         ,news.thumbnail
@@ -150,8 +153,9 @@ class News extends Root {
                 $arrCategory[$key]['indent'] = $indent-1;
             }
             $this->data['categories'] = $arrCategory;
-            $this->data['selected_category_id'] = 2;
             $this->data['parent_id'] = 0;
+            $this->data['selected_category_id'] = $this->id;
+            $this->data['selected_category_name'] = $this->name;
         // creare form
             $this->data['frmNews'] = frm(NULL, array('id' => 'frmNews'), TRUE);
         $this->template->load('backend/template', 'backend/news/form', $this->data);
@@ -189,6 +193,7 @@ class News extends Root {
         $id_post = $this->input->post('id', TRUE);
         $code = strtoupper($this->input->post('code', TRUE));
         $category_id = $this->input->post('category_id', TRUE);
+        $category_name = $this->input->post('category_name', TRUE);
         $url = strtolower($this->input->post('url', TRUE));
         // check permission
             if ($id_post == NULL) { // add
@@ -209,22 +214,23 @@ class News extends Root {
                 $msg['msg'] = validation_errors();
             }
         // valid existed
+            /*
             else if ($this->is_existed($url, $category_id, $id_post)) {
                 $msg['err'] = 1;
-                $msg['msg'] = 'Sản phẩm đã tồn tại trong chuyên mục này.';
-            }
+                $msg['msg'] = 'Tin tức đã tồn tại trong chuyên mục này.';
+            }*/
             else {
                 $arr_data = array(
                      'id' => $id_post
                     ,'category_id' => $category_id
+                    ,'category_name' => $category_name
                     ,'title' => $this->input->post('title', TRUE)
                     ,'url' => $url
                     ,'description' => $this->input->post('desc', TRUE)
                     ,'thumbnail' => $this->input->post('thumbnail', TRUE)
                     ,'order' => $this->input->post('order', TRUE)
                     ,'status' => $this->input->post('status', TRUE)
-                    ,'detail' => $this->input->post('detail', TRUE)
-                    ,'datetime' => date('Y-m-d H:i:s')
+                    ,'detail' => $this->input->post('detail')
                     ,'by' => $this->data['authMember']['username']
                 );
                 if ($id_post == NULL) { // add

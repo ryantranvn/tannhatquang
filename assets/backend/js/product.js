@@ -284,6 +284,7 @@
                             'order': $('input[name="order"]').val(),
                             'status': $('input[name="status"]:checked').val(),
                             'category_id': $('input[name="selected_category_id"]').val(),
+                            'category_name': $('input[name="selected_category_name"]').val(),
                             'detail': editor.getData()
                             },
                         success: function(data) {

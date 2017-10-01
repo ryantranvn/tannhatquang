@@ -147,6 +147,7 @@ class Base_model extends CI_model {
             $sql = "SELECT
                         post.id
                         ,post.category_id
+                        ,post.category_name
                         ,post.status
                         ,product.code
                         ,product.name
@@ -180,7 +181,7 @@ class Base_model extends CI_model {
                     INNER JOIN news ON news.post_id = post.id
             ";
         }
-        $where = " WHERE post.type = '".$type."' AND post.id = ".$id." AND del_flg=".$del_flg;
+        $where = " WHERE post.type = '".$type."' AND post.id = ".$id." AND post.del_flg=".$del_flg;
         $sql .= $where;
         $query = $this->db->query($sql);
         $result = $query->result_array();
@@ -240,6 +241,9 @@ class Base_model extends CI_model {
         }
         return $arr_return;
     }
+// FIND POST
+
+
 /*
 // OPTIMIZE TABLE
     function optimizeDB($connection, $table)

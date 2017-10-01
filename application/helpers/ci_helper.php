@@ -27,7 +27,25 @@ if (file_exists(APPPATH . 'libraries/PHPMailer/PHPMailerAutoload.php')) {
         else {
             $pageURL .= $_SERVER["SERVER_NAME"].$_SERVER["REQUEST_URI"];
         }
-        return $pageURL . '/';
+        return $pageURL;
+    }
+
+    // get paging base url
+    function paging_base_url($params)
+    {
+        if (isset($params['page'])) {
+            unset($params['page']);
+        }
+        $params_str = "";
+        if (count($params)>0) {
+            foreach ($params as $key => $value) {
+                $params_str .= $key."=".$value;
+            }
+        }
+        if ($params_str == "") {
+            return current_url();
+        }
+        return current_url() . '?' . $params_str;
     }
 
 // BROWSER info
@@ -201,7 +219,9 @@ if (file_exists(APPPATH . 'libraries/PHPMailer/PHPMailerAutoload.php')) {
             ''=> '"',
             ''=>'%',
             '-'=>',',
-            '-'=>' '
+            '-'=>' ',
+            ''=>'/',
+            ''=>'\\'
         );
 
        foreach($unicode as $nonUnicode=>$uni){

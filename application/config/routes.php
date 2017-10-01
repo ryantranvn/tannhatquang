@@ -19,10 +19,12 @@ defined('BASEPATH') OR exit('No direct script access allowed');
     $route['tin-tuc'] = 'frontend/News';
     $route['tin-tuc/page/(:num)'] = 'frontend/News';
 
+    $route['(:any)'] = 'frontend/Product';
+    /*
     $route['san-pham/chi-tiet'] = 'frontend/Home/sanpham_chitiet';
     $route['san-pham/(:any)'] = 'frontend/Home/sanpham';
     $route['gio-hang'] = 'frontend/Home/giohang';
-
+    */
 
 /* BACKEND */
     $route['backend/product-category/delete/(:num)'] 	= "backend/category/delete/$1";

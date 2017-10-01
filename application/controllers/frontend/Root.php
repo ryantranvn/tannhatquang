@@ -58,9 +58,10 @@ class Root extends CI_Controller {
         $this->data['frmSearch'] = frm('', array('id'=>'frmSearch'), FALSE);
     // categories
         $this->data['categories'] = $this->get_product_categroies();
-        // print_r('<pre>');
-        // print_r($this->data['categories']);
-        // exit();
+
+//         print_r('<pre>');
+//         print_r($params);
+//         exit();
     }
 
     public function index()

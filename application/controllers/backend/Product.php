@@ -218,6 +218,7 @@ class Product extends Root {
             $this->data['parent_id'] = $post['category_id'];
         // creare form
             $this->data['frmProduct'] = frm(NULL, array('id' => 'frmProduct'), TRUE);
+
         $this->template->load('backend/template', 'backend/product/form', $this->data);
     }
 // update
@@ -226,6 +227,7 @@ class Product extends Root {
         $post_id = $this->input->post('post_id', TRUE);
         $code = strtoupper($this->input->post('code', TRUE));
         $category_id = $this->input->post('category_id', TRUE);
+        $category_name = $this->input->post('category_name', TRUE);
         $url = strtolower($this->input->post('url', TRUE));
         // check permission
             if ($post_id == NULL) { // add
@@ -277,7 +279,7 @@ class Product extends Root {
                     ,'arrPicture' => $arrPicture
                     ,'order' => $this->input->post('order', TRUE)
                     ,'status' => $this->input->post('status', TRUE)
-                    ,'detail' => $this->input->post('detail', TRUE)
+                    ,'detail' => $this->input->post('detail')
                     ,'by' => $this->data['authMember']['username']
                 );
                 if ($post_id == NULL) { // add

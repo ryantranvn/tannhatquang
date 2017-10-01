@@ -14,12 +14,12 @@ class News_model extends Base_model {
         $this->db->trans_begin();
 
         // insert post
-            $sql_post = "INSERT INTO post (`category_id`, `type`, `status`, `created_datetime`, `created_by`) VALUES (?, ?, ?, ?, ?)";
-            $this->db->query($sql_post, array($data['category_id'], 'news', $data['status'], $data['datetime'], $data['by']));
+            $sql_post = "INSERT INTO post (`category_id`, `category_name`, `type`, `status`, `created_by`) VALUES (?, ?, ?, ?, ?)";
+            $this->db->query($sql_post, array($data['category_id'], $data['category_name'], 'news', $data['status'], $data['by']));
             $post_id = $this->db->insert_id();
         // insert news
-			$sql_news = "INSERT INTO news (`post_id`,`title`, `url`, `description`, `order`) VALUES (?, ?, ?, ?, ?)";
-			$this->db->query($sql_news, array($post_id, $data['title'], $data['url'], $data['description'], $data['order']));
+			$sql_news = "INSERT INTO news (`post_id`,`title`, `url`, `description`, `detail`, `order`) VALUES (?, ?, ?, ?, ?, ?)";
+			$this->db->query($sql_news, array($post_id, $data['title'], $data['url'], $data['description'], $data['detail'], $data['order']));
 
         if ($this->db->trans_status() === FALSE)
         {
