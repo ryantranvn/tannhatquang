@@ -769,8 +769,69 @@
                     border: solid 1px $color_content;
                 }
             }
+
+            .wrap_sanpham_detail {
+
+                .wrap_product_picture {
+                    .wrap_thumbnail {
+                        float: left;
+
+                        ul {
+                            list-style: none;
+                            padding: 0;
+                            margin: 0;
+                            width: 65px;
+
+                            li {
+                                margin-bottom: 10px;
+
+                                img {
+                                    width: 65px;
+                                }
+                            }
+                        }
+                    }
+                    .elastislide-wrapper {
+                        box-shadow: none;
+                        background: transparent;
+                    }
+
+                    .wrap_large_picture {
+                        float: left;
+                        clear: none;
+                        width: 250px;
+                        margin-left: 20px;
+
+                        img {
+                            width: 100%;
+                        }
+                    }
+                }
+
+                .wrap_product_info {
+
+                    .product_name {
+                        font-size: 18px;
+                        margin-bottom: 20px;
+                        color: $color_title;
+                    }
+                    .attr_name {
+                        font-size: 14px;
+                        line-height: 18px;
+                        color: $color_content;
+                        margin-bottom: 5px;
+                        margin-top: 20px;
+                    }
+                    .attr_value {
+                        font-size: 14px;
+                        color: $color_blue;
+                    }
+                }
+            }
         }
     }
+
+
 
 /* Pagination */
     .wrap_paging {

@@ -8,7 +8,14 @@
             <div id="wrap_right" class="col col-sm-9">
                 <div class="row">
                     <div class="wrap_sanpham_detail container-fluid">
-                        <?=$this->load->view('frontend/includes/wrap_product_image','',TRUE)?>
+                        <div class="row">
+                            <div class="wrap_product_picture col col-sm-6 no_padding">
+                                <?=$this->load->view('frontend/includes/wrap_product_image','',TRUE)?>
+                            </div>
+                            <div class="wrap_product_info col col-sm-6">
+                                <?=$this->load->view('frontend/includes/wrap_product_info','',TRUE)?>
+                            </div>
+                        </div>
                     </div>
                 </div>
             </div>

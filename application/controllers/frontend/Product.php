@@ -99,6 +99,17 @@ class Product extends Root {
 // detail
     private function  product_detail()
     {
+         $cssBlock = array('<link rel="stylesheet" type="text/css" href="'.LIB_URL.'elastislide/css/elastislide.css">');
+         $this->data['cssBlock'] = $cssBlock;
+
+         $jsBlock = array(
+             '<script language="javascript" type="text/javascript" src="'.LIB_URL.'elastislide/js/modernizr.custom.17475.js"></script>',
+             '<script language="javascript" type="text/javascript" src="'.LIB_URL.'elastislide/js/jquerypp.custom.js"></script>',
+             '<script language="javascript" type="text/javascript" src="'.LIB_URL.'elastislide/js/jquery.elastislide.js"></script>',
+             '<script language="javascript" type="text/javascript" src="'.ASSETS_URL.'frontend/js/jquery.elevatezoom.js"></script>'
+         );
+         $this->data['jsBlock'] = $jsBlock;
+
         $url = $this->uri->segment(1,0);
         $products = $this->Product_model->get_one($url);
         if ($products == FALSE || count($products)==0) {

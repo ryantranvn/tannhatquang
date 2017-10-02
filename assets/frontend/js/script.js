@@ -125,6 +125,23 @@ $(document).ready(function(){
         slidesToScroll: 1
     });
 
+    if ($('.elastislide-list').length > 0) {
+        $( '#carousel' ).elastislide({
+            orientation : 'vertical',
+            autoplay : false,
+            minItems : 4
+        });
+    }
 
+    $('.wrap_thumbnail').find('a').each( function() {
+        $(this).click( function(e) {
+            e.preventDefault();
+            var img_src = $(this).attr('data-large');
+            $('.wrap_large_picture').find('img').attr('src', img_src).attr('data-zoom-image', img_src);
+        })
+    });
+    $('.product_zoom').elevateZoom({
+        lensSize : 100
+    });
 
 });
