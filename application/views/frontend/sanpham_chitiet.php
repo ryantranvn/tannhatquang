@@ -16,6 +16,11 @@
                                 <?=$this->load->view('frontend/includes/wrap_product_info','',TRUE)?>
                             </div>
                         </div>
+                        <div class="row wrap_price">
+                            <p class="product_prize">VND 120.000</p>
+                            <p class="product_prize_old"><span>VND 240.000 </span> 50%</p>
+                            <a class="add_cart" href="#">THÊM VÀO GIỎ HÀNG</a>
+                        </div>
                     </div>
                 </div>
             </div>

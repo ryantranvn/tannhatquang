@@ -126,22 +126,27 @@ $(document).ready(function(){
     });
 
     if ($('.elastislide-list').length > 0) {
-        $( '#carousel' ).elastislide({
+        $('#carousel').elastislide({
             orientation : 'vertical',
             autoplay : false,
-            minItems : 4
+            minItems : 5
         });
     }
-
-    $('.wrap_thumbnail').find('a').each( function() {
-        $(this).click( function(e) {
-            e.preventDefault();
-            var img_src = $(this).attr('data-large');
-            $('.wrap_large_picture').find('img').attr('src', img_src).attr('data-zoom-image', img_src);
-        })
-    });
     $('.product_zoom').elevateZoom({
         lensSize : 100
     });
+    $('.wrap_thumbnail').find('a').each( function() {
+        $(this).click( function(e) {
+            e.preventDefault();
+
+            var img_src = $(this).attr('data-large');
+            $('.wrap_large_picture').find('img').attr('src', img_src).attr('data-zoom-image', img_src);
+            var ez =   $('.product_zoom').data('elevateZoom');
+            var smallImage = img_src;
+            var largeImage = img_src;
+            ez.swaptheimage(smallImage, largeImage);
+        })
+    });
+
 
 });

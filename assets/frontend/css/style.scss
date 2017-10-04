@@ -827,6 +827,44 @@
                         color: $color_blue;
                     }
                 }
+
+                .wrap_price {
+                    border: solid 1px #999999;
+                    padding: 5px;
+                    margin-top: 20px;
+
+                    p {
+                        display: inline-block;
+                        padding: 0;
+                        margin-top: 10px;
+                    }
+                    .product_prize {
+                        font-size: 24px;
+                        color: $color_red;
+                        margin-left: 20px;
+                        margin-right: 40px;
+                    }
+                    .product_prize_old {
+                        font-size: 14px;
+                        color: $color_title;
+                        span {
+                            padding-right: 10px;
+                            text-decoration: line-through;
+                        }
+                    }
+                    a.add_cart {
+                        float: right;
+                        display: block;
+                        background: $color_red;
+                        color: white;
+                        padding: 15px;
+                    }
+                    a.add_cart:hover {
+                        text-decoration: none;
+                        background: $color_yellow;
+                        color: $color_title;
+                    }
+                }
             }
         }
     }
