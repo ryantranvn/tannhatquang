@@ -115,9 +115,10 @@ class Product extends Root {
         if ($products == FALSE || count($products)==0) {
             $this->template->load('frontend/template', 'frontend/maintain/page404', $this->data);
         }
-        $this->data['product'] = $products[0];
-
-        $this->template->load($this->gate.'/template', $this->gate.'/sanpham_chitiet', $this->data);
+        else {
+            $this->data['product'] = $products[0];
+            $this->template->load($this->gate.'/template', $this->gate.'/sanpham_chitiet', $this->data);
+        }
     }
 /*
     public function ajax_product_categroies()

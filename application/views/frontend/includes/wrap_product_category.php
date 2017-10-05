@@ -1,8 +1,21 @@
 <div class="product_category">
     <p class="title">Danh mục sản phẩm <i class="fa fa-caret-down"></i></p>
-    <ul>
-        <? for ($i=1; $i<15; $i++) { ?>
-        <li><a href="#">Dòng sản phẩm <?=$i?></a></li>
+    <? if (isset($categories) && count($categories)>0) { ?>
+    <ul class="parent">
+        <? foreach ($categories as $category) { ?>
+        <li>
+            <a href="#"><?=$category['name']?></a>
+            <? if (isset($category['sub']) && count($category['sub'])>0) { ?>
+            <ul class="child">
+                <? foreach ($category['sub'] as $sub) { ?>
+                <li>
+                    <a href="#"><?=$sub['name']?></a>
+                </li>
+                <? } ?>
+            </ul>
+            <? } ?>
+        </li>
         <? } ?>
     </ul>
+    <? } ?>
 </div>

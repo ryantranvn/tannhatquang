@@ -50,7 +50,6 @@ class Root extends CI_Controller {
                               'keywords'=>'',
                               'author'=>'Tân Nhật Quang'
                              );;
-
     // more blocks
         $this->data['cssBlock'] = array();
         $this->data['jsBlock'] = array();
@@ -60,7 +59,7 @@ class Root extends CI_Controller {
         $this->data['categories'] = $this->get_product_categroies();
 
 //         print_r('<pre>');
-//         print_r($params);
+//         print_r($this->data['categories']);
 //         exit();
     }
 

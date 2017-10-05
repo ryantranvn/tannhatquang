@@ -9,7 +9,7 @@
     <link rel="stylesheet" type="text/css" href="<?=LIB_URL?>font-awesome/css/font-awesome.min.css" />
     <!-- <link rel="stylesheet" type="text/css" href="<?=LIB_URL?>bxslider/css/jquery.bxslider.min.css" /> -->
     <link rel="stylesheet" type="text/css" href="<?=LIB_URL?>jPages/css/jPages.min.css" />
-    <link rel="stylesheet" type="text/css" href="<?=ASSETS_URL?>frontend/css/compressed/style.min.css" />
+    <link rel="stylesheet" type="text/css" href="<?=ASSETS_URL?>frontend/css/compressed/style.css" />
 
     <link rel="stylesheet" type="text/css" href="<?=LIB_URL?>slick/slick.css" />
     <link rel="stylesheet" type="text/css" href="<?=LIB_URL?>slick/slick-theme.css" />

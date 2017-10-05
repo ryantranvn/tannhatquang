@@ -7,6 +7,7 @@
             </div>
             <div id="wrap_right" class="col col-sm-9">
                 <div class="row">
+                    <? if (count($products)>0) { ?>
                     <div class="wrap_sanpham_list container-fluid">
                         <? foreach ($products as $key => $product) { ?>
                         <div class="col col-sm-4 item_sanpham">
@@ -37,6 +38,7 @@
                             <?=$paging?>
                         </div>
                     </div>
+                    <? } ?>
                 </div>
             </div>
         </div>

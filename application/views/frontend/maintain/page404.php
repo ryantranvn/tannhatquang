@@ -9,6 +9,6 @@
 
 </body>
 </html> -->
-<div class="row text_center" style="background: white">
+<div class="row text_center">
 	<img src="<?=ASSETS_URL?>common/images/404.png" />
 </div>
