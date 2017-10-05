@@ -155,6 +155,26 @@ if (file_exists(APPPATH . 'libraries/PHPMailer/PHPMailerAutoload.php')) {
         return $cap;
     }
 
+// PAGING
+    function paging_links($base_url, $total_rows, $per_page, $uri_segment)
+    {
+        $CI = & get_instance();
+        $CI->load->library('pagination');
+
+        $config['base_url'] = $base_url;
+        $config['first_url'] = '1';
+        $config['uri_segment'] = $uri_segment;
+        $config['total_rows'] = $total_rows;
+        $config['per_page'] = $per_page;
+        $config['use_page_numbers'] = TRUE;
+        $config['num_links'] = 5;
+        $config['first_link'] = false;
+        $config['last_link'] = false;
+
+        $CI->pagination->initialize($config);
+
+        return  $CI->pagination->create_links();
+    }
 /*  ------------------------------------------- STRING */
 
 // remove VN Character

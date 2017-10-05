@@ -1,5 +1,5 @@
 <?
-$max = 6;
+$max = 2;
 $arr_images = array(
     'http://images.triumphmotorcycles.co.uk/media-library/images/bikes/scaled-help-me-choose-images%20-%20do%20not%20use/rhs%20my15/mfv_my14_bonneville-t100-black_rhs.png?w=600',
     'https://auto.ndtvimg.com/bike-images/colors/triumph/bonneville-t100/triumph-bonneville-t100-new-england-white-intense-orange.png?v=27',

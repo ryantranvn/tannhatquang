@@ -132,20 +132,31 @@ $(document).ready(function(){
             minItems : 5
         });
     }
-    $('.product_zoom').elevateZoom({
-        lensSize : 100
-    });
-    $('.wrap_thumbnail').find('a').each( function() {
-        $(this).click( function(e) {
-            e.preventDefault();
+    if ($('.product_zoom').length>0) {
+        $('.product_zoom').elevateZoom({
+            lensSize: 100
+        });
+        $('.wrap_thumbnail').find('a').each( function() {
+            $(this).click( function(e) {
+                e.preventDefault();
 
-            var img_src = $(this).attr('data-large');
-            $('.wrap_large_picture').find('img').attr('src', img_src).attr('data-zoom-image', img_src);
-            var ez =   $('.product_zoom').data('elevateZoom');
-            var smallImage = img_src;
-            var largeImage = img_src;
-            ez.swaptheimage(smallImage, largeImage);
-        })
+                var img_src = $(this).attr('data-large');
+                $('.wrap_large_picture').find('img').attr('src', img_src).attr('data-zoom-image', img_src);
+                var ez =   $('.product_zoom').data('elevateZoom');
+                var smallImage = img_src;
+                var largeImage = img_src;
+                ez.swaptheimage(smallImage, largeImage);
+            })
+        });
+    }
+
+    $("div.wrap_paging").jPages({
+        containerID : "related_products",
+        perPage : 3,
+        // first       : "",
+        previous    : "",
+        next        : ""
+        // last        : ""
     });
 
 

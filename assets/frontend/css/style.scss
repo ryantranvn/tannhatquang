@@ -681,16 +681,17 @@
             li {
                 margin-bottom: 20px;
 
+                .media {
+                    position: relative;
+                }
                 .desc {
                     font-size: 13px;
-                    margin: 0;
-                    margin-top: 20px;
+                    margin: 20px 0px 0px 0px;
                 }
                 .prize {
                     font-size: 18px;
                     color: $color_red;
-                    margin: 0;
-                    margin-top: 5px;
+                    margin: 5px 0px 0px 0px;
                 }
                 .prize_old {
                     font-size: 14px;
@@ -925,6 +926,25 @@
         }
         a:hover::after {
             color: $color_content;
+        }
+
+
+
+    }
+    // format for jPages
+    .wrap_paging_jpages {
+        a.jp-current {
+            color: $color_red;
+        }
+        a.jp-previous::after {
+            content: '<';
+        }
+        a.jp-next::after {
+            content: '>';
+        }
+        a:hover {
+            cursor: pointer;
+            color: $color_red !important;
         }
     }
 

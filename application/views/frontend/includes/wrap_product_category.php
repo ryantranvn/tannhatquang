@@ -4,12 +4,12 @@
     <ul class="parent">
         <? foreach ($categories as $category) { ?>
         <li>
-            <a href="#"><?=$category['name']?></a>
+            <a href="<?=F_URL?><?=$category['url']?>?cat=sp"><?=$category['name']?></a>
             <? if (isset($category['sub']) && count($category['sub'])>0) { ?>
             <ul class="child">
                 <? foreach ($category['sub'] as $sub) { ?>
                 <li>
-                    <a href="#"><?=$sub['name']?></a>
+                    <a href="<?=F_URL?><?=$sub['url']?>?cat=sp"><?=$sub['name']?></a>
                 </li>
                 <? } ?>
             </ul>

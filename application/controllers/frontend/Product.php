@@ -117,6 +117,14 @@ class Product extends Root {
         }
         else {
             $this->data['product'] = $products[0];
+
+            // get related_products
+            $related_products = $this->Product_model->get_related($products[0]['id'], $products[0]['category_id']);
+            $this->data['related_products'] = array();
+            if ($related_products != FALSE && count($related_products)>0) {
+                $this->data['related_products'] = $related_products;
+            }
+
             $this->template->load($this->gate.'/template', $this->gate.'/sanpham_chitiet', $this->data);
         }
     }

@@ -205,12 +205,10 @@ class Category extends Root {
                 $msg['msg'] = validation_errors();
             }
         // valid existed
-            /*
             else if ($this->is_existed($url, $parent_id, $id)) {
                 $msg['err'] = 1;
                 $msg['msg'] = 'This category name existed.';
             }
-            */
             else {
                 // make path
                 $path = $this->make_path($parent_id);
