@@ -364,6 +364,8 @@ define('PREFIX_CODE_PRODUCT', '-p');
 
 define('TYPE_POST_PRODUCT', 'product');
 define('TYPE_POST_NEWS', 'news');
+
+define('PAGING_NUMBER_NOWS', 3);
 /*
  * --------------------------------------------------------------------
  * LOAD THE BOOTSTRAP FILE

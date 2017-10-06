@@ -9,7 +9,20 @@ class Category_model extends Base_model {
 // get categories
     function get_categories($root_path)
     {
-        $sql = "SELECT `name`, `url`, `path` FROM category WHERE `status` = 'active' AND `path` <> ? AND `path` LIKE ? ORDER BY `order` ASC";
+        $sql = "
+                SELECT
+                   `category`.`name`
+                  ,`category`.`url`
+                  ,`category`.`path`
+                  ,count(`post`.`id`) as number_post
+                FROM `category`
+                INNER JOIN `post` ON `post`.`category_id` = `category`.`id`
+                WHERE `category`.`status` = 'active' AND `category`.`path` <> ? AND `category`.`path` LIKE ?
+                GROUP BY
+                  `category`.`name`
+                  ,`category`.`url`
+                  ,`category`.`path`
+                ORDER BY `order` ASC";
         $query = $this->db->query($sql, array($root_path, '%'.$root_path.'%'));
         $result = $query->result_array();
 

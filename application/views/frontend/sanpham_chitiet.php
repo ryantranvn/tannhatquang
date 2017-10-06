@@ -42,7 +42,7 @@
                                         </div>
                                         <div class="col col-sm-12">
                                             <p class="product_desc"><?=$product['name']?> - <?=$product['code']?></p>
-                                            <p class="product_prize">VND 120.000</p>
+                                            <p class="product_prize">VND <?=$product['price']?></p>
                                             <p class="product_prize_old"><span>VND 240.000 </span> 50%</p>
                                             <a href="<?=F_URL?><?=$product['url']?>" class="link_full"></a>
                                         </div>
@@ -53,7 +53,9 @@
                                 </div>
                             <? } ?>
                         </div>
+                        <? if (isset($related_products) && count($related_products)>PAGING_NUMBER_NOWS) { ?>
                         <div class="wrap_paging wrap_paging_jpages"></div>
+                        <? } ?>
                     <? } ?>
                 </div>
             </div>

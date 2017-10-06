@@ -43,6 +43,11 @@ class Product extends Root {
     private function product_list()
     {
         $params = $this->params;
+        $segs = $this->segs;
+        if (isset($params['cat']) && $params['cat']=="sp" && count($segs)>0) {
+            $category_url = $segs[1];
+        }
+
         if (isset($params['page']) && $params['page']>1) {
             $page = $params['page'];
         }
@@ -55,6 +60,7 @@ class Product extends Root {
                         ,post.category_id
                         ,post.category_name
                         ,post.status
+                        ,post_picture.url as thumbnail
                         ,product.code
                         ,product.name
                         ,product.url
@@ -69,9 +75,11 @@ class Product extends Root {
                         ,product.detail
                         , (SELECT url FROM post_picture WHERE post_id=post.id LIMIT 1) as thumbnail
                     FROM post
+                    INNER JOIN post_picture ON post_picture.post_id = post.id
                     INNER JOIN product ON product.post_id = post.id
+                    INNER JOIN category ON category.id = post.category_id
             ";
-        $where = " WHERE post.type = 'product' AND post.del_flg=0";
+        $where = " WHERE post.type = 'product' AND post.del_flg=0 AND category.url='".$category_url."'";
         $sql .= $where;
         $total = $this->Base_model->table_total_rows($sql);
 
@@ -90,7 +98,9 @@ class Product extends Root {
         if ($offset <= 0) $offset=0;
         $sql .= " LIMIT ". $offset . ', ' . $config['per_page'];
         $this->data['products'] = $this->Base_model->table_get_list($sql);
-
+print_r('<pre>');
+print_r($this->data['products']);
+exit();
         $this->pagination->initialize($config);
         $this->data['paging'] =  $this->pagination->create_links();
 
