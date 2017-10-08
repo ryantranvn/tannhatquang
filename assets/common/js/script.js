@@ -294,6 +294,18 @@
                 event.preventDefault();
             });
         }
+    // key press alpha num
+    function justNum(inputElement)
+    {
+        inputElement.keypress(function(event)
+        {
+            var kC = event.keyCode || event.which
+            if (kC >= 48 && kC <=57) {
+                return true;
+            }
+            event.preventDefault();
+        });
+    }
     // disable enter Input
         function disableEnter(inputElement)
         {

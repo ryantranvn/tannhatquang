@@ -195,52 +195,60 @@
 	}
 
 // status
-	var clsTextColor_Status = 'txt-color-white'
-	var clsBgColor_ActiveStatus = 'bg-color-green'
-	var clsBgColor_InactiveStatus = 'bg-color-blueDark'
-	var clsBgColor_BlockStatus = 'bg-color-red'
-	var arrStatus = new Array()
-	arrStatus['active'] 	= ['bg-color-green', 	'txt-color-white']
-	arrStatus['inactive'] 	= ['bg-color-blueDark', 'txt-color-white']
-	arrStatus['block'] 		= ['bg-color-red', 		'txt-color-white']
-	// init both add or edit form has status element
+	var clsTextColor_Status = 'txt-color-white';
+	var clsBgColor_ActiveStatus = 'bg-color-green';
+	var clsBgColor_InactiveStatus = 'bg-color-blueDark';
+	var clsBgColor_BlockStatus = 'bg-color-red';
+	var arrStatus = new Array();
+	arrStatus['active'] 	= ['bg-color-green', 	'txt-color-white'];
+	arrStatus['inactive'] 	= ['bg-color-blueDark', 'txt-color-white'];
+	arrStatus['block'] 		= ['bg-color-red', 		'txt-color-white'];
+	arrStatus['1'] 		= ['btn-warning', 	'txt-color-white'];
+	arrStatus['0'] 	= ['btn-default', 	'txt-color-dark'];
+	// array of buttons in modal
+	var arrButton = new Array();
+	arrButton['active'] 	= '<button class="btn bg-color-green txt-color-white btnStatus" data-value="active">Hiện</button>';
+	arrButton['inactive'] 	= '<button class="btn bg-color-blueDark txt-color-white btnStatus" data-value="inactive">Ẩn</button>';
+	arrButton['block']		= '<button class="btnStatus btn bg-color-red txt-color-white" data-value="block">Block</button>';
+	arrButton['hot']		= '<button class="btnHot btn btn-warning txt-color-white" data-value="1">Nổi bật</button>';
+	arrButton['normal']		= '<button class="btnHot btn btn-default txt-color-dark" data-value="0">Thường</button>';
+// init both add or edit form has status element
 	function init_Radio() {
 		if ($('.radioWrapper').length>0) {
 			$('body').find('.radioWrapper').each( function() {
-				var radioId = $(this).attr('id')
-				var radioWrapper = $('#'+radioId)
-				var checkedStatus = radioWrapper.find('input[name=status]:checked')
+				var radioId = $(this).attr('id');
+				var radioWrapper = $('#'+radioId);
+				var checkedStatus = radioWrapper.find('input[name=status]:checked');
 
 				if (checkedStatus != undefined) {
-					checkedStatus.parent('label').addClass('active')
-					checkedStatus.parent('label').addClass(arrStatus[checkedStatus.val()][0])
-					checkedStatus.parent('label').addClass(arrStatus[checkedStatus.val()][1])
+					checkedStatus.parent('label').addClass('active');
+					checkedStatus.parent('label').addClass(arrStatus[checkedStatus.val()][0]);
+					checkedStatus.parent('label').addClass(arrStatus[checkedStatus.val()][1]);
 				}
 
 				// on click
 				radioWrapper.on('click', 'label.btn', function() {
-					var thisLabel = $(this)
-					var input = thisLabel.children('input')
-					var btn_group = thisLabel.parent('.btn-group')
-					var is_checked = input.is(':checked')
+					var thisLabel = $(this);
+					var input = thisLabel.children('input');
+					var btn_group = thisLabel.parent('.btn-group');
+					var is_checked = input.is(':checked');
 					if (!is_checked) {
 						// reset
-						btn_group.find('input:checked').removeAttr('checked')
-						btn_group.find('label').attr('class','btn btn-default')
+						btn_group.find('input:checked').removeAttr('checked');
+						btn_group.find('label').attr('class','btn btn-default');
 						// new
-						thisLabel.addClass(arrStatus[input.val()][0]).addClass(arrStatus[input.val()][1])
+						thisLabel.addClass(arrStatus[input.val()][0]).addClass(arrStatus[input.val()][1]);
 						input.attr('checked','checked');
 					}
 				})
 			})
 		}
 	}
-
-	function formatButton(idRow, statusVal, preID_Btn, class_Btn, id_Modal) // button in grid list
+// button in grid list
+	function formatButton(idRow, statusVal, class_Btn, ajax_url, id_Modal)
 	{
 		var activeClass = arrStatus[statusVal][0] + " " + arrStatus[statusVal][1]
-		var fa = "";
-		fa = '<button id="'+preID_Btn+idRow+'" class="btn '+class_Btn+' '+activeClass+'" data-id="'+idRow+'" data-toggle="modal" data-target="#'+id_Modal+'">'
+		var fa = '<button class="btn btnGrid '+class_Btn+' '+activeClass+'" data-id="'+idRow+'" data-value="'+statusVal+'" data-url="'+ajax_url+'"  data-toggle="modal" data-target="#'+id_Modal+'">'
 			switch (statusVal)
 			{
 				case 'active':
@@ -249,6 +257,12 @@
                 case 'inactive':
                     fa += 'Ẩn';
                     break;
+                case '0':
+                    fa += 'Thường';
+                    break;
+                case '1':
+                    fa += 'Nổi bật';
+                    break;
 				default:
 					break;
             }
@@ -256,15 +270,29 @@
 
 		return fa;
 	}
-	function click_btnInGrid(class_Btn, id_Modal, url_Ajax, fnCallback)
+	function click_btnInGrid(id_Modal, fnCallback)
 	{
-		// on show
-			var idBtn
-			$('.'+class_Btn).click( function() {
-				idBtn = $(this).attr('id')
+        var modal_body = $('#'+id_Modal+' .modal-content .modal-body');
+        var btnGrid = $('.btnGrid');
+		// show modal on click btnGrid
+        	btnGrid.click( function() {
+				var btn = $(this);
+                modal_body.find('.row_id').html(btn.attr('data-id'));
+                modal_body.find('.old_value').html(btn.attr('data-value'));
+                modal_body.find('.ajax_url').html(btn.attr('data-url'));
+
+                modal_body.find('button').remove();
+				if (btn.hasClass('btnStatus')) {
+                    modal_body.append(arrButton['active'], arrButton['inactive']);
+				}
+				else if (btn.hasClass('btnHot')) {
+                    modal_body.append(arrButton['hot'], arrButton['normal']);
+				}
+
+			// position of modal
 				$('#'+id_Modal+' .modal-content').position({
-				  my: "left top",
-				  at: "left top",
+				  my: "right top",
+				  at: "right top",
 				  of: $(this)
 				});
 			});
@@ -277,16 +305,15 @@
 			    }
 			});
 		// in hide
-			$('#'+id_Modal+' .btn').click( function() {
-				var oldValue = $('#'+idBtn).attr('data-value');
+			$('#'+id_Modal).on('click', '.btn', function() {
+                var id = modal_body.find('.row_id').html();
+                var oldValue = modal_body.find('.old_value').html();
+                var ajax_url = modal_body.find('.ajax_url').html();
 				var newValue = $(this).attr('data-value');
 				$('#'+id_Modal).modal('hide');
-
 				if (oldValue != newValue) {
-					// id = idBtn.substring(7)
-					id = $('#'+idBtn).attr('data-id')
 					$.ajax({
-			    		url: url_Ajax,
+			    		url: ajax_url,
 			            type: 'POST',
 		                cache: false,
 		                dataType: 'text',

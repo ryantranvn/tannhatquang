@@ -475,6 +475,15 @@
 		"outputStyle": 1,
 		"syntaxCheckerStyle": 1
 		},
+	"\/backend\/css\/compressed\/style.css": {
+		"fileType": 16,
+		"ignore": 1,
+		"ignoreWasSetByUser": 0,
+		"inputAbbreviatedPath": "\/backend\/css\/compressed\/style.css",
+		"outputAbbreviatedPath": "No Output Path",
+		"outputPathIsOutsideProject": 0,
+		"outputPathIsSetByUser": 0
+		},
 	"\/backend\/css\/compressed\/style.min.css": {
 		"fileType": 16,
 		"ignore": 1,
@@ -948,6 +957,17 @@
 		"outputStyle": 1,
 		"syntaxCheckerStyle": 1
 		},
+	"\/common\/js\/compressed\/script.min.js": {
+		"fileType": 64,
+		"ignore": 1,
+		"ignoreWasSetByUser": 0,
+		"inputAbbreviatedPath": "\/common\/js\/compressed\/script.min.js",
+		"outputAbbreviatedPath": "\/common\/js\/compressed\/compressed\/script.min.min.js",
+		"outputPathIsOutsideProject": 0,
+		"outputPathIsSetByUser": 0,
+		"outputStyle": 1,
+		"syntaxCheckerStyle": 1
+		},
 	"\/common\/js\/jquery-min.js": {
 		"fileType": 64,
 		"ignore": 0,
@@ -1212,17 +1232,6 @@
 		"outputStyle": 1,
 		"syntaxCheckerStyle": 1
 		},
-	"\/common\/js\/script.min.js": {
-		"fileType": 64,
-		"ignore": 0,
-		"ignoreWasSetByUser": 0,
-		"inputAbbreviatedPath": "\/common\/js\/script.min.js",
-		"outputAbbreviatedPath": "\/common\/js\/compressed\/script.min.min.js",
-		"outputPathIsOutsideProject": 0,
-		"outputPathIsSetByUser": 0,
-		"outputStyle": 1,
-		"syntaxCheckerStyle": 1
-		},
 	"\/frontend\/css\/compressed\/maintain.min.css": {
 		"fileType": 16,
 		"ignore": 1,
@@ -1243,7 +1252,7 @@
 		},
 	"\/frontend\/css\/compressed\/style.min.css": {
 		"fileType": 16,
-		"ignore": 1,
+		"ignore": 0,
 		"ignoreWasSetByUser": 0,
 		"inputAbbreviatedPath": "\/frontend\/css\/compressed\/style.min.css",
 		"outputAbbreviatedPath": "No Output Path",

@@ -19,14 +19,14 @@
         <? } ?>
         </div>
     <!-- end widget content -->
-    <!-- Modal -->
+    <!-- Status Modal -->
         <div class="modal fade" id="modalStatus" tabindex="-1" role="dialog" aria-labelledby="myModalLabel" aria-hidden="true">
             <div class="modal-dialog">
                 <div class="modal-content">
                     <div class="modal-body">
-                        <? foreach ($statusArr as $status) {
-                            echo $status;
-                        } ?>
+                        <div class="row_id"></div>
+                        <div class="old_value"></div>
+                        <div class="ajax_url"></div>
                     </div>
                 </div><!-- /.modal-content -->
             </div><!-- /.modal-dialog -->

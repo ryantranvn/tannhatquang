@@ -3,7 +3,8 @@
 	<head>
 		<?=$this->load->view('backend/includes/pageTop','',TRUE)?>
 		<?=$this->load->view('backend/includes/cssSmartAdmin','',TRUE)?>
-		<link rel="stylesheet" type="text/css" href="<?=assetsUrl('backend','css','style.min.css')?>?ver=<?=$css_version?>" />
+		<?/*<link rel="stylesheet" type="text/css" href="<?=assetsUrl('backend','css','style.min.css')?>?ver=<?=$css_version?>" />*/?>
+        <link rel="stylesheet" type="text/css" href="<?=assetsUrl('backend','css','compressed/style.css')?>" />
 		<link rel="stylesheet" type="text/css" href="<?=assetsUrl('backend','css','wheelmenu.css')?>" />
 		<link rel="stylesheet" type="text/css" href="<?=libsUrl('fancybox','css','jquery.fancybox.css')?>" />
 		<link rel="stylesheet" type="text/css" href="<?=libsUrl('jqueryui','css','lightness/jquery-ui.css')?>" />

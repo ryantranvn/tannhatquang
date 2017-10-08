@@ -246,14 +246,16 @@
             background: url('../../images/cart.png') no-repeat left 40px center;
 
             #cart_number {
+                display: block;
+                width: 30px;
                 position: absolute;
-                left: 45px;
+                left: 43px;
                 top: -5px;
-                font-size: 18px;
+                font-size: 16px;
                 color: $color_red;
+                text-align: center;
             }
         }
-
     }
     #nav_sanpham_popover {
         display: none;
@@ -521,8 +523,7 @@
             p {
                 color: white;
                 font-size: 24px;
-                margin: 0;
-                margin-top: 20px;
+                margin: 20px 0px 0px 0px;
                 line-height: 36px;
                 text-transform: uppercase;
             }
@@ -577,26 +578,21 @@
 /* GIOITHIEU */
     #wrap_gioithieu {
         #wrap_right {
-            padding: 0px 30px;
         }
     }
 /* LIENHE */
     #wrap_lienhe {
         #wrap_right {
-            padding: 0px 30px;
         }
     }
 /* BANGGIA */
     #wrap_banggia {
         #wrap_right {
-            padding: 0px 30px;
         }
     }
 /* TINTUC */
     #wrap_tintuc {
         #wrap_right {
-            padding: 0px 30px;
-
             .wrap_tintuc_noibat {
                 margin: 30px 0px;
                 padding-bottom: 30px;
@@ -637,6 +633,13 @@
             width: 100px;
         }
     }
+/* wrap_right */
+    #wrap_right {
+        padding: 0px 20px;
+        .col.col-sm-4 {
+            padding: 10px;
+        }
+     }
 /* PRODUCT CATEGORY */
     .product_category {
         .title {
@@ -680,18 +683,20 @@
 
             li {
                 margin-bottom: 20px;
+                padding: 5px;
+                border: solid 1px $color_border;
 
                 .media {
                     position: relative;
                 }
-                .desc {
+                .product_name {
                     font-size: 13px;
-                    margin: 20px 0px 0px 0px;
+                    margin: 0px;
                 }
                 .prize {
                     font-size: 18px;
                     color: $color_red;
-                    margin: 5px 0px 0px 0px;
+                    margin: 10px 0px 0px 0px;
                 }
                 .prize_old {
                     font-size: 14px;
@@ -701,10 +706,10 @@
             }
             li:hover {
                 font-weight: 700;
+                border: solid 1px $color_content;
             }
         }
     }
-
     #pos {
         position: fixed;
         right: 20px; top: 20px;
@@ -714,15 +719,12 @@
 /* SANPHAM */
     #wrap_sanpham {
         #wrap_right {
-            padding: 0px 30px;
-
             .wrap_sanpham_list {
                 .item_sanpham {
-                    margin: 20px 0;
-                    padding: 15px;
+                    margin: 10px 1px;
+                    padding: 10px 1px;
                     text-align: center;
-                    border: solid 1px transparent;
-
+                    border: solid 1px $color_border;
                     .wrap_thumbnail {
                         margin: auto;
                         width: 80%;
@@ -740,15 +742,16 @@
 
                         }
                     }
-                    p.product_desc {
+                    .product_information {
+                        height: 130px;
+                    }
+                    p.product_name {
                         font-size: 14px;
                         color: $color_content;
                         margin-bottom: 10px;
                         margin-top: 10px;
                         padding: 0px 10px;
-                        white-space: nowrap;
-                        overflow: hidden;
-                        text-overflow: ellipsis;
+                        height: 60px;
                     }
                     p.product_prize {
                         font-size: 24px;
@@ -824,9 +827,10 @@
                 }
 
                 .wrap_product_info {
+                    min-height: 250px;
 
                     .product_name {
-                        font-size: 18px;
+                        font-size: 20px;
                         margin-bottom: 20px;
                         color: $color_title;
                     }
@@ -880,10 +884,137 @@
                         color: $color_title;
                     }
                 }
+                .item_number {
+                    float: right;  clear: none;
+                    margin: 10px 30px 0px 10px;
+
+                    input[name="item_number"] {
+                        width: 60px;
+                    }
+                    input[name="item_number"]:hover {
+                        cursor: text;
+                    }
+
+                }
             }
         }
     }
 
+/* GIOHANG */
+    #wrap_giohang {
+        .wrap_lbl_giohang {
+            padding: 15px;
+            margin: 15px 0px;
+            border: solid 1px $color_border;
+            .number_item {
+                color: $color_blue;
+                font-weight: 700;
+            }
+            span.btn_text {
+                float: right;
+                clear: none;
+                background: $color_red;
+                color: white;
+                padding: 15px;
+                margin-top: -15px;
+            }
+        }
+        .wrap_giohang_danhsach {
+            .wrap_giohang_item {
+                height: 150px;
+                padding: 20px 0px;
+                margin-bottom: 10px;
+                background: white;
+
+                .col {
+                    height: 100%;
+                }
+            }
+            .col_thumbail {
+                text-align: center;
+
+                .thumbnail_product {
+                    margin: auto;
+                    max-width: 100%;
+                    max-height: 100%;
+                }
+            }
+
+            .delete_item {
+                position: absolute;
+                bottom: 0px;
+            }
+            .col_prize {
+                .product_prize {
+                    span:first-child {
+                        font-size: 12px;
+                    }
+                    span:last-child {
+                        font-size: 18px;
+                        font-weight: 700;
+                    }
+                }
+                .product_prize_old {
+                    font-size: 14px;
+                    color: $color_title;
+                    padding-right: 10px;
+                    text-decoration: line-through;
+                }
+            }
+            .col_number_item {
+                span:first-child {
+                    font-size: 12px;
+                    float: left;
+                    clear: both;
+                }
+                .item_number {
+                    input[name="item_number"] {
+                        width: 60px;
+                    }
+                    input[name="item_number"]:hover {
+                        cursor: text;
+                    }
+
+                }
+            }
+            .col_sub_total {
+                .sub_total {
+                    span:first-child {
+                        font-size: 12px;
+                        float: left;
+                    }
+                    span:last-child {
+                        float: right;
+                        font-size: 18px;
+                        font-weight: 700;
+                    }
+                }
+            }
+        }
+        .wrap_giohang_tong {
+            padding: 15px;
+            margin: 15px 0px;
+            border: solid 1px $color_border;
+
+            p {
+                color: $color_red;
+                text-align: right;
+
+
+                span {
+                    font-size: 16px;
+                }
+                span.currency {
+                    margin-left: 100px;
+                    margin-right: 20px;
+                }
+                span.total {
+                    font-size: 24px;
+                    font-weight: 700;
+                }
+            }
+        }
+    }
 /* Pagination */
     .wrap_paging {
         font-size: 24px;

@@ -1,6 +1,7 @@
 // list
     if ($(idTableList).length>0) {
-        var statusStr = ":All;active:Active;inactive:Inactive";
+        var statusStr = ":Tất cả;active:Hiện;inactive:Ẩn";
+        var hotStr = ":Tất cả;1:Nổi bật;0:Thường";
         caption = captionButton(true, true);
         caption += captionImport(currentModule['module']);
     // jqGrid
@@ -13,9 +14,12 @@
             gridResize: true,
             autoResizeAllColumns: true,
             iconSet: "fontAwesome",
-            colNames : ['Status', 'Chuyên mục', 'Mã SP', 'Tên SP', 'Đơn vị', 'Số lượng', 'Tồn kho', 'Giá', 'Thứ tự', 'Hình', 'Action'],
+            colNames : ['Status', 'Nổi bật', 'Chuyên mục', 'Mã SP', 'Tên SP', 'Đơn vị', 'Số lượng', 'Tồn kho', 'Giá', 'Thứ tự', 'Hình', 'Action'],
             colModel : [{ name : 'status', index : 'status', align : 'center', width : '80',
                             stype: 'select', searchoptions:{ sopt:['eq'], value: statusStr }
+                        },
+                        { name : 'hot_flg', index : 'hot_flg', align : 'center', width : '80',
+                            stype: 'select', searchoptions:{ sopt:['eq'], value: hotStr }
                         },
                         { name : 'category', index : 'category', search : true, width : '100' },
                         { name : 'code', index : 'code', search : true, align : 'center', width : '60' },
@@ -49,24 +53,26 @@
                 for (var i = 0; i < ids.length; i++) {
                     var cl = ids[i];
                     var rowData = jQuery(idTableList).jqGrid ('getRowData', cl);
-                    var fa = formatButton(cl, rowData.status, 'btnStatus_', 'btnStatus', 'modalStatus')
-                    var th = ""
+                    var fa = formatButton(cl, rowData.status, 'btnStatus', bUrl+currentModule['url']+'/ajax_status', 'modalStatus');
+                    var ht = formatButton(cl, rowData.hot_flg, 'btnHot', bUrl+currentModule['url']+'/ajax_hot', 'modalStatus');
+                    var th = "";
                     var arr = rowData.pictures.split(',');
                     if (arr != undefined && arr.length>0) {
                         $.each(arr, function( index, url ) {
                             th += '<a class="groupFancyBox" href="' + url + '" rel="image-'+i+'"><img src="' + url + '" class="smalThumbInTable" /></a>'
                         });
                     }
-                    var btnInline = btnEditInline(cl) + bntDeleteInline(cl)
+                    var btnInline = btnEditInline(cl) + bntDeleteInline(cl);
                     jQuery(idTableList).jqGrid('setRowData', ids[i], {
                         status : fa,
+                        hot_flg : ht,
                         pictures : th,
                         act : btnInline
                     });
 
                 }
             // btnStatus
-                click_btnInGrid('btnStatus', 'modalStatus', bUrl+currentModule['url']+'/ajax_status', function() {
+                click_btnInGrid('modalStatus', function() {
                     location.reload();
                 });
             },
@@ -87,8 +93,7 @@
     // delete inline
         $('body').on('click','.btnDelete', function(e) {
             e.preventDefault();
-
-            href = $(this).attr('href');
+            var href = $(this).attr('href');
             showSmartAlert("Warning", "<p>Are you sure delete this data ?</p>", '[YES][NO]', function() {
                 // click YES
                 window.location.href = href
@@ -100,9 +105,9 @@
     // multi-delete
         $('body').on('click', '#btnMultiDelete', function(e) {
             e.preventDefault();
-            href = $(this).attr('href');
+            var href = $(this).attr('href');
 
-            selectedRows = jQuery(idTableList).jqGrid('getGridParam','selarrrow');
+            var selectedRows = jQuery(idTableList).jqGrid('getGridParam','selarrrow');
             if (selectedRows.length==0) {
                 showSmartAlert("Error", "Please select data.", '[YES]');
             }
@@ -136,7 +141,7 @@
 
 // frmProduct
     if ($('#frmProduct').length>0) {
-            justAlphaNum($('input[name=code_product]'));
+            // justAlphaNum($('input[name=code_product]'));
         // generate URL
             gen_url($('input[name="name_product"]'), $('input[name="url_product"]'));
         // preventBeginWith

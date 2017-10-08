@@ -5,7 +5,7 @@
 		<?=$this->load->view('backend/includes/reply','',TRUE)?>
 		<!-- row -->
 			<div class="row">
-                <article class="col-xs-12 col-sm-12 col-md-4 col-lg-4">
+                <article class="col-xs-12 col-sm-12 col-md-3 col-lg-3">
                     <div class="jarviswidget jarviswidget-color-blue" data-widget-editbutton="false" data-widget-deletebutton="false">
                         <!-- header -->
                             <header>
@@ -17,7 +17,7 @@
                         </div>
                     </div>
                 </article>
-				<article class="col-xs-12 col-sm-12 col-md-8 col-lg-8">
+				<article class="col-xs-12 col-sm-12 col-md-9 col-lg-9">
                     <div class="jarviswidget jarviswidget-color-blue" data-widget-editbutton="false" data-widget-deletebutton="false">
                         <!-- header -->
                             <header>

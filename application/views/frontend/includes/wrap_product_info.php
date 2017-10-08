@@ -1,18 +1,21 @@
-<div class="product_name">
-    Neque porro quisquam est qui dolorem ipsum quia dolor sit amet, consectetur, adipisci velit...
-</div>
+<div class="product_name"><?=$product['name']?></div>
+
+<? if (isset($product['price_sale']) && $product['price_sale']>0) {?>
 <p class="attr_name">Khuyến mãi:</p>
-<p class="attr_value color_blue">Đang được cập nhật</p>
+<p class="attr_value color_blue"><?=$product['price_sale']?></p>
+<? } ?>
+
+<!--
 <p class="attr_name">Loại sản phẩm:</p>
 <p class="attr_value color_blue">Đèn Led Âm trần - Libastar - Việt Nam</p>
-<p class="attr_name">Nhà cung cấp:</p>
-<p class="attr_value color_blue">Công Ty TNHH TM Nhật Quang</p>
+-->
+
+<? if (isset($product['manufacturer']) && $product['manufacturer']!="") {?>
+<p class="attr_name">Thương hiệu:</p>
+<p class="attr_value color_blue"><?=$product['manufacturer']?></p>
+<? } ?>
+
+<? if (isset($product['description']) && $product['description']!="") {?>
 <p class="attr_name">Thông tin chi tiết:</p>
-<p class="attr_value color_blue">Đèn Led âm trần tròn, kính mờ, trắng ngọc trai 12W - Libastar - Việt Nam</p>
-<div class="attr_value">
-    - Ánh Sáng: Trắng - Vàng<br/>
-    - Chip led nhập khẩu Taiwan<br/>
-    - Chấn lưu có IC<br/>
-    - Phi: 110mm<br/>
-    - Bảo hành 24 tháng
-</div>
+<div class="attr_value"><?=$product['description']?></div>
+<? } ?>

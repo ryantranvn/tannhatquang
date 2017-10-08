@@ -31,6 +31,7 @@ class Product extends Root {
         // $jsBlock = array('<script language="javascript" type="text/javascript" src="'.ASSETS_URL.'frontend/js/compressed/sly.min.js"></script>');
     	// $this->data['jsBlock'] = $jsBlock;
         $params = $this->params;
+
         if (count($params) == 0) {
             $this->product_detail();
         }
@@ -45,9 +46,13 @@ class Product extends Root {
         $params = $this->params;
         $segs = $this->segs;
         if (isset($params['cat']) && $params['cat']=="sp" && count($segs)>0) {
-            $category_url = $segs[1];
+            if (count($segs)>1) {
+                $category_url = $segs[2];
+            }
+            else {
+                $category_url = '';
+            }
         }
-
         if (isset($params['page']) && $params['page']>1) {
             $page = $params['page'];
         }
@@ -60,7 +65,6 @@ class Product extends Root {
                         ,post.category_id
                         ,post.category_name
                         ,post.status
-                        ,post_picture.url as thumbnail
                         ,product.code
                         ,product.name
                         ,product.url
@@ -75,11 +79,13 @@ class Product extends Root {
                         ,product.detail
                         , (SELECT url FROM post_picture WHERE post_id=post.id LIMIT 1) as thumbnail
                     FROM post
-                    INNER JOIN post_picture ON post_picture.post_id = post.id
                     INNER JOIN product ON product.post_id = post.id
                     INNER JOIN category ON category.id = post.category_id
             ";
-        $where = " WHERE post.type = 'product' AND post.del_flg=0 AND category.url='".$category_url."'";
+        $where = " WHERE post.type = 'product' AND post.del_flg=0";
+        if ($category_url!="") {
+            $where .= " AND category.url='".$category_url."'";
+        }
         $sql .= $where;
         $total = $this->Base_model->table_total_rows($sql);
 
@@ -98,9 +104,7 @@ class Product extends Root {
         if ($offset <= 0) $offset=0;
         $sql .= " LIMIT ". $offset . ', ' . $config['per_page'];
         $this->data['products'] = $this->Base_model->table_get_list($sql);
-print_r('<pre>');
-print_r($this->data['products']);
-exit();
+
         $this->pagination->initialize($config);
         $this->data['paging'] =  $this->pagination->create_links();
 
@@ -120,12 +124,21 @@ exit();
          );
          $this->data['jsBlock'] = $jsBlock;
 
-        $url = $this->uri->segment(1,0);
+        $url = $this->uri->segment(2,0);
         $products = $this->Product_model->get_one($url);
         if ($products == FALSE || count($products)==0) {
             $this->template->load('frontend/template', 'frontend/maintain/page404', $this->data);
         }
         else {
+
+            // get pictures
+            $pictures = $this->Base_model->get_db('post_picture', array('url'), array('post_id'=>$products[0]['id']));
+            $products[0]['pictures'] = array();
+            if ($pictures != FALSE && count($pictures)>0) {
+                foreach ($pictures as $picture) {
+                    array_push($products[0]['pictures'], $picture['url']);
+                }
+            }
             $this->data['product'] = $products[0];
 
             // get related_products
@@ -138,42 +151,5 @@ exit();
             $this->template->load($this->gate.'/template', $this->gate.'/sanpham_chitiet', $this->data);
         }
     }
-/*
-    public function ajax_product_categroies()
-    {
-        $arr_JSON = array();
-        $path = '0-1-';
-        $categories = $this->Category_model->get_categories($path);
-        if ($categories == FALSE || count($categories)==0) {
-            $arr_JSON['err'] = 1;
-        }
-        else {
-            $categories_nav_1 = $categories_nav_2 = array();
-            foreach ($categories as $key => $category) {
-                $indent = count(explode('-', $category['path']));
-                $categories[$key]['indent'] = $indent-1;
-
-                if ($categories[$key]['indent']==3) {
-                    $categories[$key]['sub'] = array();
-                    array_push($categories_nav_1, $categories[$key]);
-                }
-                else if ($categories[$key]['indent']==4) {
-                    array_push($categories_nav_2, $categories[$key]);
-                }
-
-            }
-            foreach ($categories_nav_1 as $key => $cat_1) {
-                foreach ($categories_nav_2 as $cat_2) {
-                    if (strpos($cat_2['path'], $cat_1['path'])!==FALSE) {
-                        array_push($categories_nav_1[$key]['sub'], $cat_2);
-                    }
-                }
-            }
-            $arr_JSON['categories'] = $categories_nav_1;
-        }
-
-        echo json_encode($arr_JSON);
-    }
-*/
 
 }

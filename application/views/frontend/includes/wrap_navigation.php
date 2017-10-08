@@ -23,8 +23,8 @@
             </div>
             <div id="wrap_cart" class="col col-sm-2 text-right">
                 Giỏ hàng
-                <span id="cart_number">10</span>
-				<a class="link_full" href="<?=F_URL?>"></a>
+                <span id="cart_number">0</span>
+				<a class="link_full" href="<?=F_URL?>gio-hang"></a>
             </div>
         </div>
     </div>
@@ -38,12 +38,12 @@
         <? foreach ($categories as $category) { ?>
         <div class="item">
             <p class="nav_parent">
-                <a href="<?=F_URL?><?=$category['url']?>?cat=sp"><?=$category['name']?></a>
+                <a href="<?=F_URL?>san-pham/<?=$category['url']?>?cat=sp"><?=$category['name']?></a>
             </p>
             <? if (count($category['sub'])>0) { ?>
                 <? foreach ($category['sub'] as $sub) { ?>
                     <p class="nav_child">
-                        <a href="<?=F_URL?><?=$sub['url']?>?cat=sp&sub=<?=$category['url']?>"><?=$sub['name']?></a>
+                        <a href="<?=F_URL?>san-pham/<?=$sub['url']?>?cat=sp&sub=<?=$category['url']?>"><?=$sub['name']?></a>
                     </p>
                 <? } ?>
             <? } ?>

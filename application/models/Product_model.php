@@ -185,7 +185,6 @@ class Product_model extends Base_model {
                     ,product.price_sale_percent
                     ,product.order
                     ,product.detail
-                    , (SELECT url FROM post_picture WHERE post_id=post.id LIMIT 1) as thumbnail
                 FROM post
                 INNER JOIN product ON product.post_id = post.id
             ";
@@ -221,6 +220,35 @@ class Product_model extends Base_model {
             ";
         $where = " WHERE post.type = 'product' AND post.del_flg=0 AND post.category_id='".$category_id."' AND post.id<>'".$post_id."'";
         $sql .= $where;
+        $query = $this->db->query($sql);
+        $result = $query->result_array();
+        return $result;
+    }
+
+    public function get_hot_product($number=5)
+    {
+        $sql = "SELECT
+                        post.id
+                        ,post.category_id
+                        ,post.category_name
+                        ,product.code
+                        ,product.name
+                        ,product.url
+                        ,product.description
+                        ,product.manufacturer
+                        ,product.price
+                        ,product.price_sale
+                        ,product.price_sale_percent
+                        ,product.order
+                        , (SELECT url FROM post_picture WHERE post_id=post.id LIMIT 1) as thumbnail
+                    FROM post
+                    INNER JOIN product ON product.post_id = post.id
+                    INNER JOIN category ON category.id = post.category_id
+            ";
+        $where = " WHERE post.type = 'product' AND post.del_flg=0 AND post.hot_flg=1";
+        $sql .= $where;
+        $sql .= " ORDER BY post.updated_datetime DESC";
+        $sql .= " LIMIT ".$number;
         $query = $this->db->query($sql);
         $result = $query->result_array();
         return $result;

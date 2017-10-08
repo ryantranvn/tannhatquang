@@ -20,6 +20,7 @@ class Root extends CI_Controller {
         $this->load->helper('form');
         $this->load->library('form_validation');
         $this->load->model('User_model');
+        $this->load->model('Product_model');
 
     // detect Mobile device
         $detect = new Mobile_Detect;
@@ -36,6 +37,10 @@ class Root extends CI_Controller {
         //     $this->data['authUser'] = $this->session->userdata('authUser');
         // }
     // pass data to JS
+        $js_data = array(
+            'max_number_item_cart' => MAX_NUMBER_ITEM_CART
+        );
+        $this->data['varJS']['js_data'] = $js_data;
         // $this->data['varJS']['authUser'] = $this->data['authUser'];
         // if ($this->session->userdata('invalidUser') != FALSE) {
         //     $this->data['varJS']['invalidUser'] = $this->session->userdata('invalidUser');
@@ -57,9 +62,11 @@ class Root extends CI_Controller {
         $this->data['frmSearch'] = frm('', array('id'=>'frmSearch'), FALSE);
     // categories
         $this->data['categories'] = $this->get_product_categroies();
+    // get hot product
+        $this->data['hot_products'] = $this->Product_model->get_hot_product();
 
 //         print_r('<pre>');
-//         print_r($this->data['categories']);
+//         print_r($this->data['hot_products']);
 //         exit();
     }
 
@@ -68,6 +75,7 @@ class Root extends CI_Controller {
         // Some example data
 
     }
+
     public function get_product_categroies()
     {
         $path = '0-1-';
@@ -99,6 +107,7 @@ class Root extends CI_Controller {
 
         return $categories_nav_1;
     }
+
     /*
     public function is_authUser()
     {

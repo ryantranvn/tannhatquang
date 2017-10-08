@@ -19,12 +19,7 @@ class Category extends Root {
             array_push($this->data['jsBlock'], '<script language="javascript" type="text/javascript" src="'. ASSETS_URL . 'backend/js/init_height.js"></script>');
         	array_push($this->data['jsBlock'], '<script language="javascript" type="text/javascript" src="'. ASSETS_URL . 'backend/js/category.js"></script>');
             array_push($this->data['jsBlock'], '<script language="javascript" type="text/javascript" src="'. ASSETS_URL . 'backend/js/tree.js"></script>');
-        // status array
-            $this->data['statusArr'] = array(
-                 'active' => '<button class="btn bg-color-green txt-color-white" data-value="active">Active</button>'
-                ,'inactive' => '<button class="btn bg-color-blueDark txt-color-white" data-value="inactive">Inactive</button>'
-                // ,'block' => '<button class="btn bg-color-red txt-color-white" data-value="block">Block</button>'
-            );
+        // is sub
             $this->data['is_sub_category'] = 0;
     }
 // index

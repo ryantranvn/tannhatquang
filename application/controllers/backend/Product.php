@@ -24,14 +24,9 @@ class Product extends Root {
             array_push($this->data['jsBlock'], '<script language="javascript" type="text/javascript" src="'. ASSETS_URL . 'backend/js/init_height.js"></script>');
         	array_push($this->data['jsBlock'], '<script language="javascript" type="text/javascript" src="'. ASSETS_URL . 'backend/js/product.js"></script>');
             array_push($this->data['jsBlock'], '<script language="javascript" type="text/javascript" src="'. ASSETS_URL . 'backend/js/tree.js"></script>');
-        // status array
-            $this->data['statusArr'] = array(
-                 'active' => '<button class="btn bg-color-green txt-color-white" data-value="active">Active</button>'
-                ,'inactive' => '<button class="btn bg-color-blueDark txt-color-white" data-value="inactive">Inactive</button>'
-                // ,'block' => '<button class="btn bg-color-red txt-color-white" data-value="block">Block</button>'
-            );
-        $this->data['is_sub_category'] = 1;
-        $this->data['is_post'] = 1;
+        // is sub
+            $this->data['is_sub_category'] = 1;
+            $this->data['is_post'] = 1;
     }
 // index
     public function index()
@@ -76,6 +71,7 @@ class Product extends Root {
                         post.id
                         ,post.type
                         ,post.del_flg
+                        ,post.hot_flg
                         ,post.status
                         ,product.id AS product_id
                         ,product.post_id
@@ -157,6 +153,22 @@ class Product extends Root {
             else {
                 echo "true";
             }
+    }
+// Ajax_hot
+    public function ajax_hot()
+    {
+        // check permission
+        $this->noAccess($this->data['permissionsMember'], $this->currentModule['control_name'], 3);
+        // get data
+        $id = $this->input->post('id',TRUE);
+        $value = $this->input->post('value',TRUE);
+        // update
+        if ($this->Base_model->update_db('post', array('hot_flg'=>$value), array('id' => $id)) === FALSE) {
+            echo "false";
+        }
+        else {
+            echo "true";
+        }
     }
 // Add
     public function add()

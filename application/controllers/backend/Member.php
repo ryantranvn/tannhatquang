@@ -21,12 +21,7 @@ class Member extends Root {
     // block js and css
         // array_push($this->data['cssBlock'], '<link rel="stylesheet" type="text/css" href="'. ASSETS_URL . 'backend/css/module.min.css" />');
         array_push($this->data['jsBlock'], '<script language="javascript" type="text/javascript" src="'. ASSETS_URL . 'backend/js/member.js?ver='.$this->data['js_version'].'"></script>');
-    // status array
-        $this->data['statusArr'] = array(
-             'active' => '<button class="btn bg-color-green txt-color-white" data-value="active">Active</button>'
-            ,'inactive' => '<button class="btn bg-color-blueDark txt-color-white" data-value="inactive">Inactive</button>'
-            // ,'block' => '<button class="btn bg-color-red txt-color-white" data-value="block">Block</button>'
-        );
+
     }
 
 // index

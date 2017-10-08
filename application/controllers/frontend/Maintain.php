@@ -15,7 +15,8 @@ class Maintain extends Root {
 // Understruction
     public function index()
     {
-        $this->template->load('frontend/template', 'frontend/maintain/understruction', $this->data);
+        $this->load->view('frontend/maintain/understruction', $this->data);
+        //$this->template->load('frontend/template', 'frontend/maintain/understruction', $this->data);
     }
 
 // page404

@@ -24,14 +24,9 @@ class News extends Root {
             array_push($this->data['jsBlock'], '<script language="javascript" type="text/javascript" src="'. ASSETS_URL . 'backend/js/init_height.js"></script>');
         	array_push($this->data['jsBlock'], '<script language="javascript" type="text/javascript" src="'. ASSETS_URL . 'backend/js/news.js"></script>');
             array_push($this->data['jsBlock'], '<script language="javascript" type="text/javascript" src="'. ASSETS_URL . 'backend/js/tree.js"></script>');
-        // status array
-            $this->data['statusArr'] = array(
-                 'active' => '<button class="btn bg-color-green txt-color-white" data-value="active">Hiện</button>'
-                ,'inactive' => '<button class="btn bg-color-blueDark txt-color-white" data-value="inactive">Ẩn</button>'
-                // ,'block' => '<button class="btn bg-color-red txt-color-white" data-value="block">Block</button>'
-            );
-        $this->data['is_sub_category'] = 2;
-        $this->data['is_post'] = 1;
+        // is sub
+            $this->data['is_sub_category'] = 2;
+            $this->data['is_post'] = 1;
     }
 
 // index

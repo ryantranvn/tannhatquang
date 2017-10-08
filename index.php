@@ -358,6 +358,9 @@ else {
 	// define('GAPP_REDIRECT_URI', F_URL);
 	// define('GAPP_API_KEY', '');
 
+define('MAX_NUMBER_ITEM_CART', 9999);
+
+define('NO_IMG', ASSETS_URL . 'frontend/images/light.png');
 
 define('PREFIX_CODE_CAT', '-c');
 define('PREFIX_CODE_PRODUCT', '-p');
