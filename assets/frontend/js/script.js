@@ -46,65 +46,6 @@ $(document).ready(function(){
         }
     });
 
-    /*
-    $.ajax({
-        url : fUrl + 'get_product_categories',
-        type: 'POST',
-        cache: false,
-        dataType: 'json',
-        data: { 'csrf_hash' : $.cookie('csrf_cookie_ci') },
-        success: function(data) {
-            if (data.err==1) {
-            }
-            else {
-                list = '';
-                $.each(data.categories, function(index, item) {
-                    list += '<div class="category">' + item['name'];
-                    if (item['sub'].length==0) {
-                        list += '</div>';
-                    }
-                    else {
-                        list += '<ul>';
-                        $.each(item['sub'], function(index_sub, sub) {
-                            list += '<li><a href="'+ sub['url'] +'">' + sub['name'] + '</a></li>';
-                        });
-                        list += '</ul></div>';
-                    }
-                });
-                $.each(data.categories, function(index, item) {
-                    list += '<div class="category">' + item['name'];
-                    if (item['sub'].length==0) {
-                        list += '</div>';
-                    }
-                    else {
-                        list += '<ul>';
-                        $.each(item['sub'], function(index_sub, sub) {
-                            list += '<li><a href="'+ sub['url'] +'">' + sub['name'] + '</a></li>';
-                        });
-                        list += '</ul></div>';
-                    }
-                });
-                $.each(data.categories, function(index, item) {
-                    list += '<div class="category">' + item['name'];
-                    if (item['sub'].length==0) {
-                        list += '</div>';
-                    }
-                    else {
-                        list += '<ul>';
-                        $.each(item['sub'], function(index_sub, sub) {
-                            list += '<li><a href="'+ sub['url'] +'">' + sub['name'] + '</a></li>';
-                        });
-                        list += '</ul></div>';
-                    }
-                });
-
-                $('#nav_sanpham_popover').html('').html(list);
-            }
-        },
-        error: function() {
-        }
-    });
-    */
 // slick
     $('#slick_hotline').slick({
         infinite: true,
@@ -164,7 +105,8 @@ $(document).ready(function(){
 // item_number
     if ($('.item_number').find('input[name="item_number"]').length>0) {
     // set number of cart
-        number_input('.number_input')
+        number_input('.number_input');
+        add_cart();
     }
 
 // cart
@@ -174,7 +116,39 @@ $(document).ready(function(){
 
 
 });
+function add_cart()
+{
+    $('.add_cart').click( function(e) {
+        e.preventDefault();
+        // get data
+        var number_item = 0;
+        var arr_data = new Array();
+        $('body').find('.number_input').each( function() {
+            var input_val = parseInt($(this).val());
+            number_item += input_val;
+            var id = $(this).attr('data-id');
+            arr_data[id] = number_item;
+        });
+        console.log(arr_data)
+        if (number_item>0 && arr_data.length>0) {
+            $.ajax({
+                url: fUrl + 'ajax_cart',
+                type: 'POST',
+                cache: false,
+                dataType: 'json',
+                data: {
+                    'csrf_hash' : $.cookie('csrf_cookie_ci'),
+                    'arr_data' : arr_data
+                },
+                success: function (data) {
 
+                },
+                error: function () {
+                }
+            });
+        }
+    });
+}
 function number_input(input_class_name)
 {
     $('body').on('keypress', input_class_name, function(event) {

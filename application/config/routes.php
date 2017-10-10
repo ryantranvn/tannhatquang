@@ -21,7 +21,8 @@ defined('BASEPATH') OR exit('No direct script access allowed');
     $route['backend/(:any)'] 	            = "backend/$1";
     $route['backend']                       = "backend/dashboard";
 /* FRONTEND */
-    $route['get_product_categories'] = 'frontend/Product/ajax_product_categroies';
+    //$route['get_product_categories'] = 'frontend/Product/ajax_product_categroies';
+
 
     $route['bang-gia'] = 'frontend/Home/banggia';
     $route['lien-he'] = 'frontend/Home/lienhe';
@@ -34,6 +35,8 @@ defined('BASEPATH') OR exit('No direct script access allowed');
     $route['san-pham/(:any)'] = 'frontend/Product';
 
     $route['gio-hang'] = 'frontend/Cart';
+    $route['ajax_cart'] = 'frontend/Cart/ajax_cart';
+
 
 	$maintain_uri = explode('/', $_SERVER['REQUEST_URI']);
     if ($maintain_uri[1]=='backend') {

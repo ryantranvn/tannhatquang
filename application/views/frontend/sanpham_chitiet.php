@@ -33,7 +33,7 @@
                             <a class="add_cart" href="#">THÊM VÀO GIỎ HÀNG</a>
                             <div class="item_number btn-group" role="group">
                                 <button type="button" class="btn btn-default btn_decrease" disabled>-</button>
-                                <input type="text" name="item_number" value="1" class="btn btn-default number_input" oncopy="return false" onpaste="return false" oncut="return false" />
+                                <input type="text" name="item_number" value="1" data-id="<?=$product['id']?>" class="btn btn-default number_input" oncopy="return false" onpaste="return false" oncut="return false" />
                                 <button type="button" class="btn btn-default btn_increase">+</button>
                             </div>
                         </div>

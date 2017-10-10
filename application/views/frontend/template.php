@@ -20,6 +20,7 @@
     } ?>
     <!-- check old browser -->
         <script type="text/javascript">
+            /*
         var $buoop = {};
             $buoop.ol = window.onload;
             window.onload=function(){
@@ -29,6 +30,7 @@
              e.setAttribute("src", "//browser-update.org/update.js");
              document.body.appendChild(e);
             }
+            */
         </script>
     <!-- GA -->
         <? if (ONAIR==0) { ?>
@@ -67,7 +69,7 @@
         <script language="javascript" type="text/javascript" src="<?=ASSETS_URL?>common/js/jquery.validate.min.js"></script>
         <script language="javascript" type="text/javascript" src="<?=ASSETS_URL?>common/js/jquery.cookie.min.js"></script>
         <script language="javascript" type="text/javascript" src="<?=ASSETS_URL?>common/js/compressed/script.min.js"></script>
-        <script language="javascript" type="text/javascript" src="<?=ASSETS_URL?>frontend/js/compressed/script.min.js"></script>
+        <script language="javascript" type="text/javascript" src="<?=ASSETS_URL?>frontend/js/script.js"></script>
 
     </body>
 </html>

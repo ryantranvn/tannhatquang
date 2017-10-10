@@ -32,5 +32,10 @@ class Cart extends Root
         $this->template->load($this->gate.'/template', $this->gate.'/giohang', $this->data);
     }
 
+    public function ajax_cart()
+    {
+        $arr_data = $this->input->post('arr_data', TRUE);
 
+        echo json_encode($arr_data); exit();
+    }
 }
