@@ -43,12 +43,13 @@ class Cart extends Root
             foreach ($session_cart['list'] as $post_id => $item) {
                 $products = $this->Product_model->get_post('product', $post_id);
                 if ($products != FALSE && count($products)>0) {
-                    array_push($session_cart['list'][$post_id], $products[0]);
+                    $session_cart['list'][$post_id]['product'] = $products[0];
+//                    $session_cart['list'][$post_id]['product']
                 }
             }
         }
-//        print_r("<pre>");
-//        print_r($session_cart);exit();
+        print_r("<pre>");
+        print_r($session_cart);exit();
 
         $this->template->load($this->gate.'/template', $this->gate.'/giohang', $this->data);
     }
