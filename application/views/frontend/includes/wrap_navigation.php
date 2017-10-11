@@ -23,7 +23,20 @@
             </div>
             <div id="wrap_cart" class="col col-sm-2 text-right">
                 Giỏ hàng
-                <span id="cart_number">0</span>
+                <span id="cart_number">
+                    <?
+                    if (isset($session_cart) && $session_cart['total_item']>0) {
+                        if ($session_cart['total_item']<=99) {
+                            echo $session_cart['total_item'];
+                        }
+                        else {
+                            echo "99<plus>+</plus>";
+                        }
+                    } else {
+                        echo "0";
+                    }
+                    ?>
+                </span>
 				<a class="link_full" href="<?=F_URL?>gio-hang"></a>
             </div>
         </div>

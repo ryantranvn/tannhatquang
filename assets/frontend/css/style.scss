@@ -249,11 +249,17 @@
                 display: block;
                 width: 30px;
                 position: absolute;
-                left: 43px;
+                left: 42px;
                 top: -5px;
                 font-size: 16px;
                 color: $color_red;
                 text-align: center;
+
+                plus {
+                    position: absolute;
+                    top: -11px;
+                    left: 20px;
+                }
             }
         }
     }
@@ -1050,6 +1056,7 @@
 
                 span {
                     font-size: 16px;
+                    font-weight: bold;
                 }
                 span.currency {
                     margin-left: 100px;
@@ -1060,6 +1067,13 @@
                     font-weight: 700;
                 }
             }
+        }
+        .btn_dathang {
+            float: right; clear: none;
+            background: $color_blue;
+            color: white;
+            padding: 15px;
+
         }
     }
 /* Pagination */

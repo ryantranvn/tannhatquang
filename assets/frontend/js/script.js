@@ -127,12 +127,11 @@ function add_cart()
             var input_val = parseInt($(this).val());
             number_item += input_val;
             var id = $(this).attr('data-id');
-            arr_data[id] = number_item;
+            arr_data.push({post_id:id, number_item:number_item})
         });
-        console.log(arr_data)
         if (number_item>0 && arr_data.length>0) {
             $.ajax({
-                url: fUrl + 'ajax_cart',
+                url: fUrl + 'ajax_to_cart',
                 type: 'POST',
                 cache: false,
                 dataType: 'json',
@@ -141,7 +140,26 @@ function add_cart()
                     'arr_data' : arr_data
                 },
                 success: function (data) {
-
+                    if (data.error == 1) {
+                        swal(
+                            'Rất tiếc...',
+                            data.msg,
+                            'error'
+                        )
+                    }
+                    else {
+                        if (data.total_item<=99) {
+                            $('#wrap_cart #cart_number').html(data.total_item);
+                        }
+                        else {
+                            $('#wrap_cart #cart_number').html("99<plus>+</plus>");
+                        }
+                        swal(
+                            'Cám ơn bạn!',
+                            'Sản phẩm đã được thêm vào giỏ hàng.',
+                            'success'
+                        )
+                    }
                 },
                 error: function () {
                 }

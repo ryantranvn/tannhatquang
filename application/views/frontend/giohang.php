@@ -1,5 +1,6 @@
 <div id="wrap_giohang" class="container-fluid">
     <div class="container">
+        <!--
         <div class="wrap_steps">
             <div class="stepwizard">
                 <div class="stepwizard-row">
@@ -22,6 +23,7 @@
                 </div>
             </div>
         </div>
+        -->
         <div class="row">
             <div class="col col-sm-12">
                 <div class="wrap_lbl_giohang">
@@ -32,6 +34,7 @@
         <div class="row">
             <div class="col col-sm-12">
                 <div class="wrap_giohang_danhsach">
+
                     <? for ($i=1; $i<3; $i++) { ?>
                     <div class="wrap_giohang_item">
                         <div class="col col-sm-2 col_thumbail">
@@ -76,6 +79,11 @@
                         <span class="total"><?=number_format(121160000, 0, ',', '.')?></span>
                     </p>
                 </div>
+            </div>
+        </div>
+        <div class="row">
+            <div class="col col-sm-12">
+                <button class="btn btn_dathang">TIẾN HÀNH ĐẶT HÀNG</button>
             </div>
         </div>
     </div>

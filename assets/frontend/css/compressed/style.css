@@ -206,11 +206,16 @@ body {
   display: block;
   width: 30px;
   position: absolute;
-  left: 43px;
+  left: 42px;
   top: -5px;
   font-size: 16px;
   color: #bf1e2e;
   text-align: center;
+}
+#wrap_navigation #wrap_cart #cart_number plus {
+  position: absolute;
+  top: -11px;
+  left: 20px;
 }
 
 #nav_sanpham_popover {
@@ -928,6 +933,7 @@ body {
 }
 #wrap_giohang .wrap_giohang_tong p span {
   font-size: 16px;
+  font-weight: bold;
 }
 #wrap_giohang .wrap_giohang_tong p span.currency {
   margin-left: 100px;
@@ -936,6 +942,13 @@ body {
 #wrap_giohang .wrap_giohang_tong p span.total {
   font-size: 24px;
   font-weight: 700;
+}
+#wrap_giohang .btn_dathang {
+  float: right;
+  clear: none;
+  background: #3aa1ea !important;
+  color: white;
+  padding: 15px;
 }
 
 /* Pagination */

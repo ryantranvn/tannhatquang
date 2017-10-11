@@ -14,6 +14,7 @@
     <link rel="stylesheet" type="text/css" href="<?=LIB_URL?>slick/slick.css" />
     <link rel="stylesheet" type="text/css" href="<?=LIB_URL?>slick/slick-theme.css" />
     <link rel="stylesheet" type="text/css" href="<?=LIB_URL?>popover/jquery.webui-popover.css" />
+    <link rel="stylesheet" type="text/css" href="<?=LIB_URL?>sweetalert2/sweetalert2.css" />
     <!-- css block -->
     <? foreach ($cssBlock as $css) {
         echo $css;
@@ -69,6 +70,8 @@
         <script language="javascript" type="text/javascript" src="<?=ASSETS_URL?>common/js/jquery.validate.min.js"></script>
         <script language="javascript" type="text/javascript" src="<?=ASSETS_URL?>common/js/jquery.cookie.min.js"></script>
         <script language="javascript" type="text/javascript" src="<?=ASSETS_URL?>common/js/compressed/script.min.js"></script>
+        <script language="javascript" type="text/javascript" src="<?=LIB_URL?>sweetalert2/sweetalert2.js"></script>
+        <script language="javascript" type="text/javascript" src="<?=LIB_URL?>sweetalert2/core.js"></script>
         <script language="javascript" type="text/javascript" src="<?=ASSETS_URL?>frontend/js/script.js"></script>
 
     </body>

@@ -64,7 +64,10 @@ class Root extends CI_Controller {
         $this->data['categories'] = $this->get_product_categroies();
     // get hot product
         $this->data['hot_products'] = $this->Product_model->get_hot_product();
-
+    // get session cart
+        if ($this->session->userdata('session_cart')!=FALSE) {
+            $this->data['session_cart'] = $this->session->userdata('session_cart');
+        }
 //         print_r('<pre>');
 //         print_r($this->data['hot_products']);
 //         exit();
