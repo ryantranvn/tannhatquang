@@ -81,6 +81,12 @@ body {
   overflow: hidden;
 }
 
+.fixed_bottom {
+  position: fixed;
+  bottom: 0;
+  width: 100%;
+}
+
 /* some class format */
 .text_left {
   text-align: left;
@@ -943,7 +949,7 @@ body {
   font-size: 24px;
   font-weight: 700;
 }
-#wrap_giohang .btn_dathang {
+#wrap_giohang .btn_blue {
   float: right;
   clear: none;
   background: #3aa1ea !important;

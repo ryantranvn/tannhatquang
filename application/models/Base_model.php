@@ -162,6 +162,7 @@ class Base_model extends CI_model {
                         ,product.price_sale_percent
                         ,product.order
                         ,product.detail
+                        , (SELECT url FROM post_picture WHERE post_id=post.id LIMIT 1) as thumbnail
                     FROM post
                     INNER JOIN product ON product.post_id = post.id
             ";

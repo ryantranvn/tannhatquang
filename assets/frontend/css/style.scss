@@ -126,6 +126,11 @@
     .fixed {
         overflow: hidden;
     }
+    .fixed_bottom {
+        position: fixed;
+        bottom: 0;
+        width: 100%;
+    }
 /* some class format */
     .text_left { text-align: left; }
     .text_right { text-align: right }
@@ -1068,12 +1073,11 @@
                 }
             }
         }
-        .btn_dathang {
+        .btn_blue {
             float: right; clear: none;
             background: $color_blue;
             color: white;
             padding: 15px;
-
         }
     }
 /* Pagination */

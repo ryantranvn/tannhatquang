@@ -25,7 +25,7 @@
                 Giỏ hàng
                 <span id="cart_number">
                     <?
-                    if (isset($session_cart) && $session_cart['total_item']>0) {
+                    if (isset($session_cart) && isset($session_cart['total_item'])) {
                         if ($session_cart['total_item']<=99) {
                             echo $session_cart['total_item'];
                         }

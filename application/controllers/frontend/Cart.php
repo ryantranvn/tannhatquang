@@ -39,17 +39,27 @@ class Cart extends Root
         if ($this->session->userdata('session_cart')!=FALSE) {
             $session_cart = $this->session->userdata('session_cart');
         }
-        if (count($session_cart)>0 && $session_cart['total_item']>0) {
+
+        if (count($session_cart)>0 && isset($session_cart['list']) && count($session_cart['list'])>0) {
             foreach ($session_cart['list'] as $post_id => $item) {
                 $products = $this->Product_model->get_post('product', $post_id);
                 if ($products != FALSE && count($products)>0) {
-                    $session_cart['list'][$post_id]['product'] = $products[0];
-//                    $session_cart['list'][$post_id]['product']
+                    $info = $products[0];
+                    $session_cart['list'][$post_id]['info'] = $info;
+                    if ($info['price_sale'] > 0) {
+                        $price = $info['price_sale'];
+                    }
+                    else {
+                        $price = $info['price'];
+                    }
+                    $session_cart['list'][$post_id]['sub_total'] = $price * $session_cart['list'][$post_id]['number_item'];
                 }
             }
         }
-        print_r("<pre>");
-        print_r($session_cart);exit();
+        $this->data['session_cart'] = $session_cart;
+
+//        print_r("<pre>");
+//        print_r($session_cart);exit();
 
         $this->template->load($this->gate.'/template', $this->gate.'/giohang', $this->data);
     }

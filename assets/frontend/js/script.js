@@ -111,7 +111,9 @@ $(document).ready(function(){
 
 // cart
     if ($('#wrap_giohang').length>0) {
-
+        if ($('#wrap_footer').position().top<= screen_height-$('#wrap_footer').height()) {
+            $('#wrap_footer').addClass('fixed_bottom');
+        }
     }
 
 
