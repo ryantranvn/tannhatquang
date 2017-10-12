@@ -1155,6 +1155,17 @@
 		"outputStyle": 1,
 		"syntaxCheckerStyle": 1
 		},
+	"\/common\/js\/jquery.number.min.js": {
+		"fileType": 64,
+		"ignore": 0,
+		"ignoreWasSetByUser": 0,
+		"inputAbbreviatedPath": "\/common\/js\/jquery.number.min.js",
+		"outputAbbreviatedPath": "\/common\/js\/compressed\/jquery.number.min.min.js",
+		"outputPathIsOutsideProject": 0,
+		"outputPathIsSetByUser": 0,
+		"outputStyle": 1,
+		"syntaxCheckerStyle": 1
+		},
 	"\/common\/js\/jquery.numeric.js": {
 		"fileType": 64,
 		"ignore": 0,
@@ -1216,6 +1227,17 @@
 		"ignoreWasSetByUser": 0,
 		"inputAbbreviatedPath": "\/common\/js\/jquery.validate.min.js",
 		"outputAbbreviatedPath": "\/common\/js\/compressed\/jquery.validate.min.min.js",
+		"outputPathIsOutsideProject": 0,
+		"outputPathIsSetByUser": 0,
+		"outputStyle": 1,
+		"syntaxCheckerStyle": 1
+		},
+	"\/common\/js\/numeral.min.js": {
+		"fileType": 64,
+		"ignore": 0,
+		"ignoreWasSetByUser": 0,
+		"inputAbbreviatedPath": "\/common\/js\/numeral.min.js",
+		"outputAbbreviatedPath": "\/common\/js\/compressed\/numeral.min.min.js",
 		"outputPathIsOutsideProject": 0,
 		"outputPathIsSetByUser": 0,
 		"outputStyle": 1,

@@ -2,6 +2,11 @@ var document_height = $(document).height();
 var screen_height = $(window).height();
 var footer_height = $('#wrap_footer').height();
 
+// $.ajaxSetup({
+//     complete : function (xhr, status) {
+//
+//     }
+// });
 // scroll top
     $('#gotoTop').affix({offset: {bottom: (footer_height+80)} });
     $(window).scroll(function (event) {
@@ -20,6 +25,10 @@ var footer_height = $('#wrap_footer').height();
         });
     });
 
+    var in_cart = false;
+    if ($('#wrap_giohang').length>0) {
+        in_cart = true;
+    }
 $(document).ready(function(){
 // navigation
     $('[rel="popover"]').popover({
@@ -118,6 +127,46 @@ $(document).ready(function(){
 
 
 });
+
+function ajax_update_cart(post_id, number_item) {
+    $.ajax({
+        url: fUrl + 'ajax_update_cart',
+        type: 'POST',
+        cache: false,
+        dataType: 'json',
+        data: {
+            'csrf_hash' : $.cookie('csrf_cookie_ci'),
+            'post_id' : post_id,
+            'number_item' : number_item
+        },
+        success: function (data) {
+
+            if (data.error == 1) {
+                swal(
+                    'Rất tiếc...',
+                    data.msg,
+                    'error'
+                )
+            }
+            else {
+            // update cart
+                if (data.total_item<=99) {
+                    $('#wrap_cart #cart_number').html(data.total_item);
+                }
+                else {
+                    $('#wrap_cart #cart_number').html("99<plus>+</plus>");
+                }
+            // update row
+                var sub_total = $.number( data.sub_total, 0, ',', '.' );
+                $('.wrap_item_'+post_id).find('.col_sub_total').find('.sub_total').children('span:last-child').html(sub_total);
+                var total = $.number( data.total, 0, ',', '.' );
+                $('.wrap_giohang_tong').find('.total').html(total);
+            }
+        },
+        error: function () {
+        }
+    });
+}
 function add_cart()
 {
     $('.add_cart').click( function(e) {
@@ -133,7 +182,7 @@ function add_cart()
         });
         if (number_item>0 && arr_data.length>0) {
             $.ajax({
-                url: fUrl + 'ajax_to_cart',
+                url: fUrl + 'ajax_add_cart',
                 type: 'POST',
                 cache: false,
                 dataType: 'json',
@@ -142,6 +191,7 @@ function add_cart()
                     'arr_data' : arr_data
                 },
                 success: function (data) {
+
                     if (data.error == 1) {
                         swal(
                             'Rất tiếc...',
@@ -171,6 +221,7 @@ function add_cart()
 }
 function number_input(input_class_name)
 {
+
     $('body').on('keypress', input_class_name, function(event) {
         var kC = event.keyCode || event.which;1
         if (kC >= 48 && kC <=57) {
@@ -230,6 +281,11 @@ function number_input(input_class_name)
         if (old_value>=js_data.max_number_item_cart) {
             btn_increase.attr('disabled','disabled');
         }
+        if (in_cart) {
+            var post_id = input.attr('data-id');
+            var number_item = new_value;
+            ajax_update_cart(post_id, number_item);
+        }
     });
     $('.btn_decrease').click( function() {
         var btn_decrease = $(this);
@@ -244,3 +300,4 @@ function number_input(input_class_name)
         }
     });
 }
+

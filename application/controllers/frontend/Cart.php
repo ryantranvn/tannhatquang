@@ -11,9 +11,6 @@ if (file_exists(APPPATH . 'controllers/frontend/Root.php')) {
 class Cart extends Root
 {
 
-    private $params = array();
-    private $segs = array();
-
     public function __construct()
     {
         parent::__construct();
@@ -41,6 +38,7 @@ class Cart extends Root
         }
 
         if (count($session_cart)>0 && isset($session_cart['list']) && count($session_cart['list'])>0) {
+            $session_cart['total'] =0;
             foreach ($session_cart['list'] as $post_id => $item) {
                 $products = $this->Product_model->get_post('product', $post_id);
                 if ($products != FALSE && count($products)>0) {
@@ -53,10 +51,15 @@ class Cart extends Root
                         $price = $info['price'];
                     }
                     $session_cart['list'][$post_id]['sub_total'] = $price * $session_cart['list'][$post_id]['number_item'];
+                    $session_cart['total'] += $session_cart['list'][$post_id]['sub_total'];
                 }
             }
         }
         $this->data['session_cart'] = $session_cart;
+        if ($this->session->userdata('session_cart')!=FALSE) {
+            $this->session->unset_userdata('session_cart');
+        }
+        $this->session->set_userdata('session_cart', $session_cart);
 
 //        print_r("<pre>");
 //        print_r($session_cart);exit();
@@ -64,8 +67,45 @@ class Cart extends Root
         $this->template->load($this->gate.'/template', $this->gate.'/giohang', $this->data);
     }
 
+    public function clearall()
+    {
+        $this->session->unset_userdata('session_cart');
+    }
 
-    public function ajax_to_cart()
+    public function ajax_update_cart()
+    {
+        $arr_JSON = array();
+        $post_id = $this->input->post('post_id', TRUE);
+        $number_item = $this->input->post('number_item',TRUE);
+        if ($this->session->userdata('session_cart')==FALSE) {
+            $arr_JSON['error'] = 1;
+            $arr_JSON['msg'] = "Lỗi thông tin giỏ hàng";
+            echo json_encode($arr_JSON);
+            exit();
+        }
+        $session_cart = $this->session->userdata('session_cart');
+        // udpate session cart
+        $number_item_old = $session_cart['list'][$post_id]['number_item'];
+        $session_cart['list'][$post_id]['number_item'] = $number_item;
+        $session_cart['total_item'] = $session_cart['total_item'] - $number_item_old + $number_item;
+        $sub_total_old = $session_cart['list'][$post_id]['sub_total'];
+        $session_cart['list'][$post_id]['sub_total'] = $session_cart['list'][$post_id]['info']['price'] * $number_item;
+        $session_cart['total'] = $session_cart['total'] - $sub_total_old + $session_cart['list'][$post_id]['sub_total'];
+
+        if ($this->session->userdata('session_cart')!=FALSE) {
+            $this->session->unset_userdata('session_cart');
+        }
+        $this->session->set_userdata('session_cart', $session_cart);
+
+        $arr_JSON['error'] = 0;
+        $arr_JSON['total_item'] = $session_cart['total_item'];
+        $arr_JSON['sub_total'] = $session_cart['list'][$post_id]['sub_total'];
+        $arr_JSON['total'] = $session_cart['total'];
+        echo json_encode($arr_JSON);
+        exit();
+    }
+
+    public function ajax_add_cart()
     {
         $arr_JSON = array();
         if ($this->session->userdata('session_cart')==FALSE) {
@@ -98,7 +138,7 @@ class Cart extends Root
                     $session_cart['list'][$post_id] = array('number_item'=>$number_item);
                 }
                 else {
-                    $session_cart['list'][$post_id]['number_item'] = $session_cart[$post_id]['number_item']+$number_item;
+                    $session_cart['list'][$post_id]['number_item'] += $number_item;
                 }
                 $session_cart['total_item'] += $number_item;
             }

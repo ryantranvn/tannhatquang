@@ -41,7 +41,9 @@
     <body>
         <?=$this->load->view('frontend/includes/wrap_top','',TRUE)?>
         <?=$this->load->view('frontend/includes/wrap_search','',TRUE)?>
+        <? if (!isset($remove_navigation)) { ?>
         <?=$this->load->view('frontend/includes/wrap_navigation','',TRUE)?>
+        <? } ?>
         <? if (!isset($remove_banner)) { ?>
             <?=$this->load->view('frontend/includes/wrap_banner','',TRUE)?>
         <? } ?>
@@ -70,6 +72,7 @@
         <script language="javascript" type="text/javascript" src="<?=ASSETS_URL?>common/js/jquery.validate.min.js"></script>
         <script language="javascript" type="text/javascript" src="<?=ASSETS_URL?>common/js/jquery.cookie.min.js"></script>
         <script language="javascript" type="text/javascript" src="<?=ASSETS_URL?>common/js/compressed/script.min.js"></script>
+        <script language="javascript" type="text/javascript" src="<?=ASSETS_URL?>common/js/jquery.number.min.js"></script>
         <script language="javascript" type="text/javascript" src="<?=LIB_URL?>sweetalert2/sweetalert2.js"></script>
         <script language="javascript" type="text/javascript" src="<?=LIB_URL?>sweetalert2/core.js"></script>
         <script language="javascript" type="text/javascript" src="<?=ASSETS_URL?>frontend/js/script.js"></script>

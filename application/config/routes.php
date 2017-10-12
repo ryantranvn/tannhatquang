@@ -34,9 +34,12 @@ defined('BASEPATH') OR exit('No direct script access allowed');
     $route['san-pham'] = 'frontend/Product';
     $route['san-pham/(:any)'] = 'frontend/Product';
 
+    $route['gio-hang/clearall'] = 'frontend/Cart/clearall';
     $route['gio-hang'] = 'frontend/Cart';
-    $route['ajax_to_cart'] = 'frontend/Cart/ajax_to_cart';
+    $route['ajax_add_cart'] = 'frontend/Cart/ajax_add_cart';
+    $route['ajax_update_cart'] = 'frontend/Cart/ajax_update_cart';
 
+    $route['checkout'] = 'frontend/Checkout';
 
 	$maintain_uri = explode('/', $_SERVER['REQUEST_URI']);
     if ($maintain_uri[1]=='backend') {

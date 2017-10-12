@@ -147,6 +147,16 @@
     .no_padding_right {
         padding-right: 0;
     }
+    .btn_blue {
+        background: $color_blue;
+        color: white;
+        padding: 15px;
+    }
+    .btn_yellow {
+        background: $color_yellow;
+        color: $color_content;
+        padding: 15px;
+    }
 /* containers */
     .container {
         width: $width_center;
@@ -988,6 +998,9 @@
                     height: 100%;
                 }
             }
+            .need_contact {
+                background-color: rgba(152,152,152,0.1);
+            }
             .col_thumbail {
                 text-align: center;
 
@@ -1003,6 +1016,7 @@
                 bottom: 0px;
             }
             .col_prize {
+                position: relative;
                 .product_prize {
                     span:first-child {
                         font-size: 12px;
@@ -1017,6 +1031,14 @@
                     color: $color_title;
                     padding-right: 10px;
                     text-decoration: line-through;
+                }
+                .contact_price {
+                    position: absolute;
+                    left: 0;
+                    bottom: 0;
+                    color: $color_red;
+                    font-size: 11px;
+                    margin: 0;
                 }
             }
             .col_number_item {
@@ -1073,11 +1095,11 @@
                 }
             }
         }
-        .btn_blue {
-            float: right; clear: none;
-            background: $color_blue;
-            color: white;
-            padding: 15px;
+        .btn_dathang {
+            float: right;
+        }
+        .btn_muahang {
+            float: left;
         }
     }
 /* Pagination */
