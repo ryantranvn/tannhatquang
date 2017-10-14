@@ -120,10 +120,11 @@ $(document).ready(function(){
 
 // cart
     if ($('#wrap_giohang').length>0) {
-        if ($('#wrap_footer').position().top <= screen_height - $('#wrap_footer').height()) {
-            $('#wrap_footer').addClass('fixed_bottom');
-        }
-        $('.wrap_giohang_item').find('.delete_item').click(function () {
+        // if ($('#wrap_footer').position().top <= screen_height - $('#wrap_footer').height()) {
+        //     $('#wrap_footer').addClass('fixed_bottom');
+        // }
+        $('.wrap_giohang_item').find('.delete_item').click(function (e) {
+            e.preventDefault();
             var item = $(this).parent().parent('.wrap_giohang_item');
             var post_id = $(this).attr('data-id');
             $.ajax({
@@ -144,7 +145,23 @@ $(document).ready(function(){
                         )
                     }
                     else {
-
+                        item.fadeOut('slow');
+                        // update cart
+                        if (data.total_item<=99) {
+                            $('#wrap_cart #cart_number').html(data.total_item);
+                            if (data.total_item==0) {
+                                $('.btn_dathang').remove();
+                            }
+                        }
+                        else {
+                            $('#wrap_cart #cart_number').html("99<plus>+</plus>");
+                        }
+                        // update row
+                        var sub_total = $.number( data.sub_total, 0, ',', '.' );
+                        $('.wrap_item_'+post_id).find('.col_sub_total').find('.sub_total').children('span:last-child').html(sub_total);
+                        var total = $.number( data.total, 0, ',', '.' );
+                        $('.wrap_giohang_tong').find('.total').html(total);
+                        $('.wrap_lbl_giohang').find('.number_item').html(data.total_item);
                     }
                 },
                 error: function () {
@@ -255,14 +272,14 @@ function number_input(input_class_name) {
         }
         event.preventDefault();
     });
-    $('body').on('keyup', input_class_name, function(event) {
-        var element = $(this);
-        var number_length = $.trim(element.val()).length;
-        if (number_length==1 && element.val()=="0") {
-            element.val("1");
+    $('body').on('keyup', input_class_name, function() {
+        var input = $(this);
+        var number_length = $.trim(input.val()).length;
+        if (number_length==1 && input.val()=="0") {
+            input.val("1");
         }
         if (number_length>=5) {
-            element.val(element.val().substr(0,4));
+            input.val(input.val().substr(0,4));
         }
         return true;
     });
@@ -299,6 +316,11 @@ function number_input(input_class_name) {
         else {
             btn_decrease.removeAttr('disabled');
             btn_increase.removeAttr('disabled');
+        }
+        if (in_cart && current_value>=1 && current_value<js_data.max_number_item_cart) {
+            var post_id = input.attr('data-id');
+            var number_item = current_value;
+            ajax_update_cart(post_id, number_item);
         }
     });
     $('.btn_increase').click( function() {
