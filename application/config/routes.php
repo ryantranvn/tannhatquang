@@ -38,6 +38,8 @@ defined('BASEPATH') OR exit('No direct script access allowed');
     $route['gio-hang'] = 'frontend/Cart';
     $route['ajax_add_cart'] = 'frontend/Cart/ajax_add_cart';
     $route['ajax_update_cart'] = 'frontend/Cart/ajax_update_cart';
+    $route['ajax_delete_cart'] = 'frontend/Cart/ajax_delete_cart';
+
 
     $route['checkout'] = 'frontend/Checkout';
 

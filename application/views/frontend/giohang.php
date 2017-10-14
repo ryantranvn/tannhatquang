@@ -4,12 +4,8 @@
             <div class="col col-sm-12">
                 <div class="wrap_lbl_giohang">
                     <h4>Giỏ hàng
-                        (<span class="number_item">
-                        <? if (count($session_cart)>0) { ?>
-                            <?=$session_cart['total_item']?>
-                        <? } else { ?>
-                            0
-                        <? } ?>
+                        (<span class="number_item"><? if (count($session_cart)>0) { ?><?=$session_cart['total_item']?>
+                        <? } else { ?>0<? } ?>
                         </span> sản phẩm)
                         <span class="btn_text">THÔNG TIN MUA HÀNG</span>
                     </h4>
@@ -33,7 +29,7 @@
                         </div>
                         <div class="col col-sm-3 col_name">
                             <p class="product_name"><?=$product['info']['name']?></p>
-                            <a class="delete_item" href="#">Xóa</a>
+                            <a class="delete_item" data-id="<?=$product['info']['id']?>" href="#">Xóa</a>
                         </div>
                         <div class="col col-sm-2 col_prize">
                         <? if ($product['info']['price_sale'] > 0)  { ?>

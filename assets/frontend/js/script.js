@@ -120,11 +120,38 @@ $(document).ready(function(){
 
 // cart
     if ($('#wrap_giohang').length>0) {
-        if ($('#wrap_footer').position().top<= screen_height-$('#wrap_footer').height()) {
+        if ($('#wrap_footer').position().top <= screen_height - $('#wrap_footer').height()) {
             $('#wrap_footer').addClass('fixed_bottom');
         }
-    }
+        $('.wrap_giohang_item').find('.delete_item').click(function () {
+            var item = $(this).parent().parent('.wrap_giohang_item');
+            var post_id = $(this).attr('data-id');
+            $.ajax({
+                url: fUrl + 'ajax_delete_cart',
+                type: 'POST',
+                cache: false,
+                dataType: 'json',
+                data: {
+                    'csrf_hash': $.cookie('csrf_cookie_ci'),
+                    'post_id': post_id
+                },
+                success: function (data) {
+                    if (data.error == 1) {
+                        swal(
+                            'Rất tiếc...',
+                            data.msg,
+                            'error'
+                        )
+                    }
+                    else {
 
+                    }
+                },
+                error: function () {
+                }
+            });
+        });
+    }
 
 });
 
@@ -140,7 +167,6 @@ function ajax_update_cart(post_id, number_item) {
             'number_item' : number_item
         },
         success: function (data) {
-
             if (data.error == 1) {
                 swal(
                     'Rất tiếc...',
@@ -161,14 +187,15 @@ function ajax_update_cart(post_id, number_item) {
                 $('.wrap_item_'+post_id).find('.col_sub_total').find('.sub_total').children('span:last-child').html(sub_total);
                 var total = $.number( data.total, 0, ',', '.' );
                 $('.wrap_giohang_tong').find('.total').html(total);
+                $('.wrap_lbl_giohang').find('.number_item').html(data.total_item);
             }
         },
         error: function () {
         }
     });
 }
-function add_cart()
-{
+
+function add_cart() {
     $('.add_cart').click( function(e) {
         e.preventDefault();
         // get data
@@ -219,9 +246,8 @@ function add_cart()
         }
     });
 }
-function number_input(input_class_name)
-{
 
+function number_input(input_class_name) {
     $('body').on('keypress', input_class_name, function(event) {
         var kC = event.keyCode || event.which;1
         if (kC >= 48 && kC <=57) {
@@ -241,17 +267,22 @@ function number_input(input_class_name)
         return true;
     });
     $('body').on('focus', input_class_name, function(event) {
-        var element = $(this);
-        if (element.val()=="") element.val('1');
+        var input = $(this);
+        if (input.val()=="") input.val('1');
     });
     $('body').on('blur', input_class_name, function(event) {
-        var element = $(this);
-        var number_length = $.trim(element.val()).length;
+        var input = $(this);
+        var number_length = $.trim(input.val()).length;
         if (number_length==0) {
-            element.val("1");
+            input.val("1");
         }
         else if (number_length>=5) {
-            element.val(element.val().substr(0,4));
+            input.val(input.val().substr(0,4));
+        }
+        if (in_cart) {
+            var post_id = input.attr('data-id');
+            var number_item = input.val();
+            ajax_update_cart(post_id, number_item);
         }
     });
     $('body').on('change', input_class_name, function(event) {
@@ -281,7 +312,7 @@ function number_input(input_class_name)
         if (old_value>=js_data.max_number_item_cart) {
             btn_increase.attr('disabled','disabled');
         }
-        if (in_cart) {
+        if (in_cart && new_value<js_data.max_number_item_cart) {
             var post_id = input.attr('data-id');
             var number_item = new_value;
             ajax_update_cart(post_id, number_item);
@@ -297,6 +328,11 @@ function number_input(input_class_name)
         btn_increase.removeAttr('disabled');
         if (new_value==1) {
             btn_decrease.attr('disabled','disabled');
+        }
+        if (in_cart && new_value>=1) {
+            var post_id = input.attr('data-id');
+            var number_item = new_value;
+            ajax_update_cart(post_id, number_item);
         }
     });
 }

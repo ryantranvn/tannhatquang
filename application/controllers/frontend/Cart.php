@@ -72,12 +72,42 @@ class Cart extends Root
         $this->session->unset_userdata('session_cart');
     }
 
+    public function ajax_delete_cart()
+    {
+        $arr_JSON = array();
+        $post_id = (int)$this->input->post('post_id', TRUE);
+        if ($this->session->userdata('session_cart')==FALSE || !isset($post_id) || $post_id==0) {
+            $arr_JSON['error'] = 1;
+            $arr_JSON['msg'] = "Lỗi thông tin giỏ hàng";
+            echo json_encode($arr_JSON);
+            exit();
+        }
+        $session_cart = $this->session->userdata('session_cart');
+        $number_item_old = $session_cart['list'][$post_id]['number_item'];
+        $session_cart['total_item'] = $session_cart['total_item'] - $number_item_old;
+
+        $sub_total_old = $session_cart['list'][$post_id]['sub_total'];
+        $session_cart['total'] = $session_cart['total'] - $sub_total_old;
+
+        unset($session_cart['list'][$post_id]);
+        if ($this->session->userdata('session_cart')!=FALSE) {
+            $this->session->unset_userdata('session_cart');
+        }
+        $this->session->set_userdata('session_cart', $session_cart);
+
+        $arr_JSON['error'] = 0;
+        $arr_JSON['total_item'] = $session_cart['total_item'];
+        $arr_JSON['total'] = $session_cart['total'];
+        echo json_encode($arr_JSON);
+        exit();
+    }
+
     public function ajax_update_cart()
     {
         $arr_JSON = array();
-        $post_id = $this->input->post('post_id', TRUE);
-        $number_item = $this->input->post('number_item',TRUE);
-        if ($this->session->userdata('session_cart')==FALSE) {
+        $post_id = (int)$this->input->post('post_id', TRUE);
+        $number_item = (int)$this->input->post('number_item',TRUE);
+        if ($this->session->userdata('session_cart')==FALSE || !isset($post_id) || $post_id==0 || !isset($number_item) || $number_item==0 ) {
             $arr_JSON['error'] = 1;
             $arr_JSON['msg'] = "Lỗi thông tin giỏ hàng";
             echo json_encode($arr_JSON);
