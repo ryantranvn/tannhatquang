@@ -36,7 +36,9 @@ class Checkout extends Root
         if ($this->session->userdata('session_cart') != FALSE) {
             $session_cart = $this->session->userdata('session_cart');
         }
-
+        if (count($session_cart)==0 || count($session_cart['list'])==0) {
+            redirect(F_URL . 'gio-hang');
+        }
         $this->data['session_cart'] = $session_cart;
 
 //        print_r("<pre>");
