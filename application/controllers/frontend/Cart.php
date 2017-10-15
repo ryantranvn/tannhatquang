@@ -119,7 +119,13 @@ class Cart extends Root
         $session_cart['list'][$post_id]['number_item'] = $number_item;
         $session_cart['total_item'] = $session_cart['total_item'] - $number_item_old + $number_item;
         $sub_total_old = $session_cart['list'][$post_id]['sub_total'];
-        $session_cart['list'][$post_id]['sub_total'] = $session_cart['list'][$post_id]['info']['price'] * $number_item;
+        if ($session_cart['list'][$post_id]['info']['price_sale']>0) {
+            $price = $session_cart['list'][$post_id]['info']['price_sale'];
+        }
+        else {
+            $price = $session_cart['list'][$post_id]['info']['price'];
+        }
+        $session_cart['list'][$post_id]['sub_total'] = $price * $number_item;
         $session_cart['total'] = $session_cart['total'] - $sub_total_old + $session_cart['list'][$post_id]['sub_total'];
 
         if ($this->session->userdata('session_cart')!=FALSE) {

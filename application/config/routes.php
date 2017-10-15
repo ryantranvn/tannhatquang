@@ -40,8 +40,11 @@ defined('BASEPATH') OR exit('No direct script access allowed');
     $route['ajax_update_cart'] = 'frontend/Cart/ajax_update_cart';
     $route['ajax_delete_cart'] = 'frontend/Cart/ajax_delete_cart';
 
+    $route['ajax_get_district'] = 'frontend/Root/ajax_get_district';
+
 
     $route['checkout'] = 'frontend/Checkout';
+    $route['checkout/confirm'] = 'frontend/Checkout/confirm';
 
 	$maintain_uri = explode('/', $_SERVER['REQUEST_URI']);
     if ($maintain_uri[1]=='backend') {

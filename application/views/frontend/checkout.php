@@ -1,4 +1,4 @@
-<div id="wrap_giohang" class="container-fluid">
+<div id="wrap_checkout" class="container-fluid">
     <div class="container">
         <div class="wrap_steps">
             <div class="stepwizard">
@@ -22,35 +22,47 @@
         <div class="row">
             <div class="col col-sm-12">
                 <div class="wrap_order_review">
-                    <h4>Thông tin đơn hàng</h4>
-                    <table>
+                    <h4 class="title">Thông tin đơn hàng</h4>
+                    <table class="tbl_order">
                         <tr>
-                            <th>Mã sản phẩm</th>
+                            <th width="12%">Mã sản phẩm</th>
                             <th>Tên sản phẩm</th>
-                            <th>Đơn giá</th>
-                            <th>Số lượng</th>
-                            <th>Thành tiền</th>
+                            <th width="15%">Đơn giá</th>
+                            <th width="12%">Số lượng</th>
+                            <th width="20%">Thành tiền</th>
                         </tr>
                         <? foreach ($session_cart['list'] as $product) { ?>
                         <tr>
-                            <td><?=$product['info']['code']?></td>
-                            <td><?=$product['info']['name']?></td>
-                            <td>
+                            <td class="text_center"><?=$product['info']['code']?></td>
+                            <td class="text_left"><?=$product['info']['name']?></td>
+                            <td class="text_right">
                             <? if ($product['info']['price_sale']>0) { ?>
                                 <?=$product['info']['price_sale']?>
                             <? } else { ?>
                                 <?=$product['info']['price']?>
                             <? } ?>
                             </td>
-                            <td><?=$product['info']['quantity']?></td>
-                            <td></td>
+                            <td class="text_center"><?=$product['number_item']?></td>
+                            <td class="text_right">
+                                <?=number_format($product['sub_total'], 0, ',', '.')?>
+                            </td>
                         </tr>
                         <? } ?>
+                        <tr class="tr_tongcong">
+                            <td class="text_right" colspan="4">Tổng cộng</td>
+                            <td class="text_right"><span style="float: left">VND</span><?=number_format($session_cart['total'], 0, ',', '.')?></td>
+                        </tr>
                     </table>
+                    <p class="note"><?=NOTE_PRICE_NEED_CONTACT?></p>
                 </div>
             </div>
         </div>
 
-
+        <div class="row">
+            <div class="col col-sm-12">
+                <button class="btn btn_blue btn_muahang" onclick="window.open('<?=F_URL?>gio-hang', '_self')">XEM LẠI GIỎ HÀNG</button>
+                <button class="btn btn_yellow btn_xacnhan" onclick="window.open('<?=F_URL?>checkout/confirm', '_self')">XÁC NHẬN</button>
+            </div>
+        </div>
     </div>
 </div>

@@ -170,6 +170,51 @@ $(document).ready(function(){
         });
     }
 
+// checkout
+    if ($('#wrap_checkout').length>0) {
+        init_select2($('select[name="province_id"]'), 92);
+        init_select2($('select[name="district_id"]'));
+        $('select[name="province_id"]').change( function() {
+            var province_id = $(this).val();
+            $('select[name="district_id"]').val('<option value="0">Chọn quận/huyện</option>')
+            $('select[name="district_id"]').select2({
+                ajax: {
+                    url: fUrl + 'ajax_get_district',
+                    dataType: 'json',
+                    method: 'post',
+                    data: function () {
+                        return {
+                            'csrf_hash' : $.cookie('csrf_cookie_ci'),
+                            'province_id' : province_id
+                        }
+                    },
+                    processResults: function (data) {
+                        data.unshift({"id":"0", "text":"Chọn quận/huyện"});
+                        return {
+                            results: data
+                        };
+                    },
+                    cache: true,
+                    initSelection: function(element, callback) {
+                        
+                    }
+                }
+            });
+        })
+        // $('select[name="district_id"]').val('0').trigger('change');
+        $('input[name="same_address"]').change( function() {
+            if ($(this).val()==0) {
+                $('.different_address').slideDown()
+            }
+            else {
+                $('.different_address').slideUp()
+            }
+        });
+
+    }
+
+
+
 });
 
 function ajax_update_cart(post_id, number_item) {
@@ -258,6 +303,11 @@ function add_cart() {
                     }
                 },
                 error: function () {
+                    swal(
+                        'Rất tiếc...',
+                        'Lỗi không thể thêm sản phẩm vào giỏ hàng.',
+                        'error'
+                    )
                 }
             });
         }
@@ -359,3 +409,9 @@ function number_input(input_class_name) {
     });
 }
 
+function init_select2(select_element, default_val) {
+    select_element.select2();
+    if (default_val != undefined) {
+        select_element.val(default_val).trigger('change')
+    }
+}

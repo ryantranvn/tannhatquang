@@ -111,6 +111,14 @@ class Root extends CI_Controller {
         return $categories_nav_1;
     }
 
+    public function ajax_get_district() {
+        $province_id = $this->input->post('province_id',TRUE);
+        if ($province_id == FALSE || $province_id == 0) {
+            echo json_encode(array('error'=>1));
+        }
+        echo json_encode(loadDistricts($province_id));
+//        echo json_encode(array('error'=>0, 'districts' => loadDistricts($province_id)));
+    }
     /*
     public function is_authUser()
     {

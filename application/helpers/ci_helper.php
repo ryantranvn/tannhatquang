@@ -97,7 +97,7 @@ if (file_exists(APPPATH . 'libraries/PHPMailer/PHPMailerAutoload.php')) {
     function loadDistricts($id_province)
     {
         $CI = & get_instance();
-        $districts = $CI->Base_model->get_db('district',array('id','name','type'),array('id_province' => $id_province),NULL,'name','asc');
+        $districts = $CI->Base_model->get_db('district',array('id','name AS text', 'type'),array('id_province' => $id_province),NULL,'name','asc');
 
         return $districts;
     }

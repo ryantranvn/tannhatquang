@@ -47,4 +47,26 @@ class Checkout extends Root
         $this->template->load($this->gate . '/template', $this->gate . '/checkout', $this->data);
     }
 
+    public function confirm()
+    {
+        $cssBlock = array('<link rel="stylesheet" type="text/css" href="'.ASSETS_URL.'common/css/select2.min.css">');
+        $this->data['cssBlock'] = $cssBlock;
+
+        $jsBlock = array('<script language="javascript" type="text/javascript" src="'.ASSETS_URL.'common/js/select2.min.js"></script>');
+        $this->data['jsBlock'] = $jsBlock;
+
+        $session_cart = array();
+        if ($this->session->userdata('session_cart') != FALSE) {
+            $session_cart = $this->session->userdata('session_cart');
+        }
+        if (!isset($session_cart) || count($session_cart)==0 || count($session_cart['list'])==0) {
+            redirect(F_URL );
+        }
+        $this->data['provinces'] = loadProvinces();
+        $this->data['dictricts'] = loadDistricts(92); // Cần Thơ
+
+        $this->data['frmCustomer'] = frm('', array('id' => 'frmCustomer'), FALSE);
+
+        $this->template->load($this->gate . '/template', $this->gate . '/checkout_confirm', $this->data);
+    }
 }
