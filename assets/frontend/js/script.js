@@ -172,12 +172,20 @@ $(document).ready(function(){
 
 // checkout
     if ($('#wrap_checkout').length>0) {
-        init_select2($('select[name="province_id"]'), 92);
-        init_select2($('select[name="district_id"]'));
-        $('select[name="province_id"]').change( function() {
+        var province_1 = $('select[name="province_id_1"]');
+        var province_2 = $('select[name="province_id_2"]');
+        var district_1 = $('select[name="district_id_1"]');
+        var district_2 = $('select[name="district_id_2"]');
+
+        init_select2(province_1, 92);
+        init_select2(province_2, 92);
+        init_select2(district_1);
+        init_select2(district_2);
+
+        province_1.change( function() {
             var province_id = $(this).val();
-            $('select[name="district_id"]').val('<option value="0">Chọn quận/huyện</option>')
-            $('select[name="district_id"]').select2({
+            district_1.val("").trigger('change')
+            district_1.select2({
                 ajax: {
                     url: fUrl + 'ajax_get_district',
                     dataType: 'json',
@@ -189,19 +197,14 @@ $(document).ready(function(){
                         }
                     },
                     processResults: function (data) {
-                        data.unshift({"id":"0", "text":"Chọn quận/huyện"});
                         return {
                             results: data
                         };
-                    },
-                    cache: true,
-                    initSelection: function(element, callback) {
-                        
                     }
                 }
             });
-        })
-        // $('select[name="district_id"]').val('0').trigger('change');
+        });
+
         $('input[name="same_address"]').change( function() {
             if ($(this).val()==0) {
                 $('.different_address').slideDown()
@@ -410,8 +413,36 @@ function number_input(input_class_name) {
 }
 
 function init_select2(select_element, default_val) {
-    select_element.select2();
-    if (default_val != undefined) {
+    select_element.select2({
+        matcher: matchCustom
+    });
+    if (default_val != undefined && default_val != "") {
         select_element.val(default_val).trigger('change')
     }
+}
+
+function matchCustom(params, data) {
+    // If there are no search terms, return all of the data
+    if ($.trim(params.term) === '') {
+        return data;
+    }
+
+    // Do not display the item if there is no 'text' property
+    if (typeof data.text === 'undefined') {
+        return null;
+    }
+
+    // `params.term` should be the term that is used for searching
+    // `data.text` is the text that is displayed for the data object
+    if (data.text.indexOf(params.term) > -1) {
+        var modifiedData = $.extend({}, data, true);
+        modifiedData.text += ' (matched)';
+
+        // You can return modified objects from here
+        // This includes matching the `children` how you want in nested data sets
+        return modifiedData;
+    }
+
+    // Return `null` if the term should not be displayed
+    return null;
 }

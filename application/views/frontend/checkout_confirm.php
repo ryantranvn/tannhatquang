@@ -54,7 +54,7 @@
                                 <div class="col col-sm-4">
                                     <div class="form-group">
                                         <label for="province">Tỉnh/Thành phố</label>
-                                        <select class="js_select2" name="province_id">
+                                        <select class="js_select2" name="province_id_1">
                                             <? foreach ($provinces as $province) { ?>
                                                 <option value="<?=$province['id']?>"><?=$province['name']?></option>
                                             <? } ?>
@@ -64,8 +64,7 @@
                                 <div class="col col-sm-4">
                                     <div class="form-group">
                                         <label for="district">Quận/Huyện</label>
-                                        <select class="js_select2" name="district_id">
-                                            <option value="0">Chọn quận/huyện</option>
+                                        <select class="js_select2" name="district_id_1" data-placeholder="Chọn quận/huyện">
                                             <? foreach ($dictricts as $district) { ?>
                                                 <option value="<?=$district['id']?>"><?=$district['text']?></option>
                                             <? } ?>
@@ -102,7 +101,7 @@
                                 <div class="col col-sm-4">
                                     <div class="form-group">
                                         <label for="province">Tỉnh/Thành phố</label>
-                                        <select class="js_select2" name="province_id">
+                                        <select class="js_select2" name="province_id_2">
                                             <? foreach ($provinces as $province) { ?>
                                                 <option value="<?=$province['id']?>"><?=$province['name']?></option>
                                             <? } ?>
@@ -112,8 +111,7 @@
                                 <div class="col col-sm-4">
                                     <div class="form-group">
                                         <label for="district">Quận/Huyện</label>
-                                        <select class="js_select2" name="district_id">
-                                            <option value="0">Chọn quận/huyện</option>
+                                        <select class="js_select2" name="district_id_2">
                                             <? foreach ($dictricts as $district) { ?>
                                                 <option value="<?=$district['id']?>"><?=$district['text']?></option>
                                             <? } ?>
