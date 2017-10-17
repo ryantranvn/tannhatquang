@@ -813,6 +813,8 @@ body {
     height: 34px !important; }
   #wrap_checkout .wrap_customer_info form .different_address {
     display: none; }
+  #wrap_checkout .wrap_customer_info form .btn_hoantat {
+    float: right; }
 #wrap_checkout .btn_xacnhan {
   float: right; }
 

@@ -172,6 +172,7 @@ $(document).ready(function(){
 
 // checkout
     if ($('#wrap_checkout').length>0) {
+    /* init select province & district */
         var province_1 = $('select[name="province_id_1"]');
         var province_2 = $('select[name="province_id_2"]');
         var district_1 = $('select[name="district_id_1"]');
@@ -181,7 +182,7 @@ $(document).ready(function(){
         init_select2(province_2, 92);
         init_select2(district_1);
         init_select2(district_2);
-
+    /* main address */
         province_1.change( function() {
             var province_id = $(this).val();
             district_1.val("").trigger('change')
@@ -204,7 +205,7 @@ $(document).ready(function(){
                 }
             });
         });
-
+    /* different address */
         $('input[name="same_address"]').change( function() {
             if ($(this).val()==0) {
                 $('.different_address').slideDown()
@@ -213,7 +214,77 @@ $(document).ready(function(){
                 $('.different_address').slideUp()
             }
         });
+        province_2.change( function() {
+            var province_id = $(this).val();
+            district_2.val("").trigger('change')
+            district_2.select2({
+                ajax: {
+                    url: fUrl + 'ajax_get_district',
+                    dataType: 'json',
+                    method: 'post',
+                    data: function () {
+                        return {
+                            'csrf_hash' : $.cookie('csrf_cookie_ci'),
+                            'province_id' : province_id
+                        }
+                    },
+                    processResults: function (data) {
+                        return {
+                            results: data
+                        };
+                    }
+                }
+            });
+        });
 
+        justNum($('input[name="phone"]'));
+    /* validation */
+        var validator = $("#frmCustomer").validate({
+            rules: {
+                fullname: {
+                    required : true,
+                    maxlength : 512
+                },
+                phone: {
+                    required : true,
+                    maxlength : 20
+                },
+                email: {
+                    email: true
+                }
+            },
+            messages: {
+                fullname: {
+                    required : "bắt buộc nhập",
+                    maxlength : "tối đa 512 ký tự"
+                },
+                phone: {
+                    required : "bắt buộc nhập",
+                    maxlength : "tối đa 20 số"
+                },
+                email: {
+                    email: "email không đúng định dạng"
+                }
+            },
+            highlight: function (element) {
+                $(element).closest('.form-group').removeClass('has-success').addClass('has-error');
+            },
+            unhighlight: function (element) {
+                $(element).closest('.form-group').removeClass('has-error').addClass('has-success');
+            },
+            errorElement: 'span',
+            errorClass: 'help-block',
+            errorPlacement: function (error, element) {
+                if (element.parent('.input-group').length) {
+                    error.insertAfter(element.parent());
+                } else {
+                    error.insertAfter(element);
+                }
+            },
+            submitHandler: function(form) {
+                form.submit();
+            }
+        });
     }
 
 
@@ -420,7 +491,7 @@ function init_select2(select_element, default_val) {
         select_element.val(default_val).trigger('change')
     }
 }
-
+// adapt for select2
 function matchCustom(params, data) {
     // If there are no search terms, return all of the data
     if ($.trim(params.term) === '') {
@@ -434,9 +505,10 @@ function matchCustom(params, data) {
 
     // `params.term` should be the term that is used for searching
     // `data.text` is the text that is displayed for the data object
-    if (data.text.indexOf(params.term) > -1) {
+    var change_case_text = data.text.toLowerCase();
+    if (change_case_text.indexOf(params.term) > -1) {
         var modifiedData = $.extend({}, data, true);
-        modifiedData.text += ' (matched)';
+        // modifiedData.text += ' (matched)';
 
         // You can return modified objects from here
         // This includes matching the `children` how you want in nested data sets

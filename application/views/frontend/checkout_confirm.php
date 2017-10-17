@@ -74,7 +74,7 @@
                                 <div class="col col-sm-4">
                                     <div class="form-group">
                                         <label for="address">Địa chỉ</label>
-                                        <input type="text" class="form-control" id="address" name="address">
+                                        <input type="text" class="form-control" id="address_1" name="address">
                                     </div>
                                 </div>
                             </div>
@@ -111,7 +111,7 @@
                                 <div class="col col-sm-4">
                                     <div class="form-group">
                                         <label for="district">Quận/Huyện</label>
-                                        <select class="js_select2" name="district_id_2">
+                                        <select class="js_select2" name="district_id_2" data-placeholder="Chọn quận/huyện">
                                             <? foreach ($dictricts as $district) { ?>
                                                 <option value="<?=$district['id']?>"><?=$district['text']?></option>
                                             <? } ?>
@@ -121,7 +121,7 @@
                                 <div class="col col-sm-4">
                                     <div class="form-group">
                                         <label for="address">Địa chỉ</label>
-                                        <input type="text" class="form-control" id="address" name="address">
+                                        <input type="text" class="form-control" id="address_2" name="address">
                                     </div>
                                 </div>
                             </div>
@@ -132,6 +132,14 @@
                             <div class="form-group">
                                 <label for="note">Chú thích giao hàng</label>
                                 <textarea class="form-control" rows="3" name="note"></textarea>
+                            </div>
+                        </div>
+                    </div>
+                    <div class="row frm_block">
+                        <div class="col col-sm-12">
+                            <div class="form-group">
+                                <button class="btn btn_blue btn_back" onclick="window.open('<?=F_URL?>checkout', '_self')">XEM LẠI HÓA ĐƠN</button>
+                                <button type="submit" class="btn btn_yellow btn_hoantat">HOÀN TẤT</button>
                             </div>
                         </div>
                     </div>

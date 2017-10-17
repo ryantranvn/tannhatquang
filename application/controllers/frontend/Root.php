@@ -79,6 +79,18 @@ class Root extends CI_Controller {
 
     }
 
+    public function has_cart()
+    {
+        $session_cart = array();
+        if ($this->session->userdata('session_cart') != FALSE) {
+            $session_cart = $this->session->userdata('session_cart');
+        }
+        if (!isset($session_cart) || count($session_cart)==0 || count($session_cart['list'])==0) {
+            return FALSE;
+        }
+        return $session_cart;
+    }
+
     public function get_product_categroies()
     {
         $path = '0-1-';
@@ -117,7 +129,6 @@ class Root extends CI_Controller {
             echo json_encode(array('error'=>1));
         }
         echo json_encode(loadDistricts($province_id));
-//        echo json_encode(array('error'=>0, 'districts' => loadDistricts($province_id)));
     }
     /*
     public function is_authUser()
