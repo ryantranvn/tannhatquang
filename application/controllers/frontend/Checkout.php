@@ -97,7 +97,14 @@ class Checkout extends Root
             'email'         => strtolower($email),
             'note'          => $this->input->post('note', TRUE),
         );
-        var_dump($this->input->post('province_id_1', TRUE));exit();
+        var_dump($this->input->post('province_id_1', TRUE));
+        var_dump($this->input->post('district_id_1', TRUE));
+        var_dump($this->input->post('address_1', TRUE));
+        var_dump($this->input->post('province_id_2', TRUE));
+        var_dump($this->input->post('district_id_2', TRUE));
+        var_dump($this->input->post('address_2', TRUE));
+        exit();
+
         $arr_address_main = array('province_id'   => $this->input->post('province_id_1', TRUE),
                                     'district_id'   => $this->input->post('district_id_1', TRUE),
                                     'address'       => $this->input->post('address_1', TRUE),
