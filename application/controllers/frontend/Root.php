@@ -50,7 +50,7 @@ class Root extends CI_Controller {
             $this->session->unset_userdata('invalid');
         }
         $this->data['varJS']['js_data'] = $js_data;
-        
+
         // $this->data['varJS']['authUser'] = $this->data['authUser'];
         // if ($this->session->userdata('invalidUser') != FALSE) {
         //     $this->data['varJS']['invalidUser'] = $this->session->userdata('invalidUser');

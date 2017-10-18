@@ -52,7 +52,7 @@ defined('BASEPATH') OR exit('No direct script access allowed');
         $route['404_override'] = "";
     }
     else {
-        $route['404_override'] = 'Maintain/page_404';
+        $route['404_override'] = 'Maintain';
     }
 
 $route['translate_uri_dashes'] = TRUE;

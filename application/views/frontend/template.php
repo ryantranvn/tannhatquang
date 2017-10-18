@@ -37,6 +37,9 @@
         <? if (ONAIR==0) { ?>
             <?=$this->load->view('frontend/includes/ga','',TRUE)?>
         <? }?>
+      <!-- JS -->
+      <script language="javascript" type="text/javascript" src="<?=ASSETS_URL?>frontend/js/compressed/jquery.min.js"></script>
+      <script language="javascript" type="text/javascript" src="<?=LIB_URL?>bootstrap/js/bootstrap.min.js"></script>
     </head>
     <body>
         <?=$this->load->view('frontend/includes/wrap_top','',TRUE)?>
@@ -59,8 +62,6 @@
             var js_data = <?=json_encode($varJS['js_data']); ?>;
         </script>
         <!-- JS -->
-        <script language="javascript" type="text/javascript" src="<?=ASSETS_URL?>frontend/js/compressed/jquery.min.js"></script>
-        <script language="javascript" type="text/javascript" src="<?=LIB_URL?>bootstrap/js/bootstrap.min.js"></script>
         <!-- <script language="javascript" type="text/javascript" src="<?=LIB_URL?>bxslider/js/jquery.bxslider.min.js"></script> -->
         <script type="text/javascript" src="<?=LIB_URL?>slick/slick.min.js"></script>
         <script type="text/javascript" src="<?=LIB_URL?>popover/jquery.webui-popover.js"></script>

@@ -10,7 +10,9 @@ class Maintain extends Root {
     public function __construct()
     {
         parent::__construct();
-
+        // set template
+        $this->data['remove_banner'] = TRUE;
+        $this->data['remove_hotline'] = TRUE;
     }
 // Understruction
     public function index()

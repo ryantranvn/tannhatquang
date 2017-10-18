@@ -87,7 +87,7 @@
         <div class="row">
             <div class="col col-sm-12">
             <? if (count($session_cart)==0 || count($session_cart['list'])==0) { ?>
-                <button class="btn btn_blue btn_muahang" onclick="window.open('<?=F_URL?>san-pham?cat=sp', '_self')">TIẾP TỤC MUA HÀNG</button>
+                <button class="btn btn_blue btn_muahang" onclick="window.open('<?=F_URL?>san-pham?cat=sp', '_self')">MUA HÀNG</button>
             <? } else { ?>
                 <button class="btn btn_blue btn_muahang" onclick="window.open('<?=F_URL?>san-pham?cat=sp', '_self')">TIẾP TỤC MUA HÀNG</button>
                 <button class="btn btn_yellow btn_dathang" onclick="window.open('<?=F_URL?>checkout', '_self')">TIẾN HÀNH ĐẶT HÀNG</button>
