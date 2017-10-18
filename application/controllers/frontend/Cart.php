@@ -43,6 +43,7 @@ class Cart extends Root
                 $products = $this->Product_model->get_post('product', $post_id);
                 if ($products != FALSE && count($products)>0) {
                     $info = $products[0];
+                    unset($info['detail']);
                     $session_cart['list'][$post_id]['info'] = $info;
                     if ($info['price_sale'] > 0) {
                         $price = $info['price_sale'];

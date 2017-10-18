@@ -45,6 +45,7 @@ defined('BASEPATH') OR exit('No direct script access allowed');
 
     $route['checkout'] = 'frontend/Checkout';
     $route['checkout/confirm'] = 'frontend/Checkout/confirm';
+    $route['checkout/complete'] = 'frontend/Checkout/complete';
 
 	$maintain_uri = explode('/', $_SERVER['REQUEST_URI']);
     if ($maintain_uri[1]=='backend') {

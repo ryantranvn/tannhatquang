@@ -2,11 +2,11 @@ var document_height = $(document).height();
 var screen_height = $(window).height();
 var footer_height = $('#wrap_footer').height();
 
-// $.ajaxSetup({
-//     complete : function (xhr, status) {
-//
-//     }
-// });
+$.ajaxSetup({
+    complete : function (xhr, status) {
+
+    }
+});
 // scroll top
     $('#gotoTop').affix({offset: {bottom: (footer_height+80)} });
     $(window).scroll(function (event) {
@@ -178,10 +178,10 @@ $(document).ready(function(){
         var district_1 = $('select[name="district_id_1"]');
         var district_2 = $('select[name="district_id_2"]');
 
-        init_select2(province_1, 92);
-        init_select2(province_2, 92);
-        init_select2(district_1);
-        init_select2(district_2);
+        init_select2(province_1, "Chọn tỉnh/thành phố");
+        init_select2(province_2, "Chọn tỉnh/thành phố");
+        init_select2(district_1, "Chọn quận/huyện");
+        init_select2(district_2, "Chọn quận/huyện");
     /* main address */
         province_1.change( function() {
             var province_id = $(this).val();
@@ -209,6 +209,7 @@ $(document).ready(function(){
         $('input[name="same_address"]').change( function() {
             if ($(this).val()==0) {
                 $('.different_address').slideDown()
+                $('input[name="address_2"]').val('');
             }
             else {
                 $('.different_address').slideUp()
@@ -216,7 +217,7 @@ $(document).ready(function(){
         });
         province_2.change( function() {
             var province_id = $(this).val();
-            district_2.val("").trigger('change')
+            district_2.val("").trigger('change');
             district_2.select2({
                 ajax: {
                     url: fUrl + 'ajax_get_district',
@@ -229,6 +230,7 @@ $(document).ready(function(){
                         }
                     },
                     processResults: function (data) {
+                        $('input[name="csrf_hash"]').val($.cookie('csrf_cookie_ci'));
                         return {
                             results: data
                         };
@@ -483,8 +485,10 @@ function number_input(input_class_name) {
     });
 }
 
-function init_select2(select_element, default_val) {
+function init_select2(select_element, placeholder, default_val) {
+    select_element.val("").trigger('change');
     select_element.select2({
+        placeholder: placeholder,
         matcher: matchCustom
     });
     if (default_val != undefined && default_val != "") {
@@ -506,7 +510,8 @@ function matchCustom(params, data) {
     // `params.term` should be the term that is used for searching
     // `data.text` is the text that is displayed for the data object
     var change_case_text = data.text.toLowerCase();
-    if (change_case_text.indexOf(params.term) > -1) {
+    var search_term = params.term.toLowerCase();
+    if (change_case_text.indexOf(search_term) > -1) {
         var modifiedData = $.extend({}, data, true);
         // modifiedData.text += ' (matched)';
 

@@ -24,125 +24,125 @@
                 <div class="wrap_customer_info">
                     <h4 class="title">Thông tin khách hàng</h4>
                     <?=$frmCustomer['open']?>
-                    <div class="row">
-                        <div class="col col-sm-12">
-                            <div class="row">
-                                <div class="col col-sm-4">
-                                    <div class="form-group">
-                                        <label for="fullname">Họ tên <span class="require">*</span></label>
-                                        <input type="text" class="form-control" id="fullname" name="fullname">
+                        <div class="row">
+                            <div class="col col-sm-12">
+                                <div class="row">
+                                    <div class="col col-sm-4">
+                                        <div class="form-group">
+                                            <label for="fullname">Họ tên <span class="require">*</span></label>
+                                            <input type="text" class="form-control" id="fullname" name="fullname">
+                                        </div>
                                     </div>
-                                </div>
-                                <div class="col col-sm-4">
-                                    <div class="form-group">
-                                        <label for="phone">Điện thoại <span class="require">*</span></label>
-                                        <input type="text" class="form-control" id="phone" name="phone">
+                                    <div class="col col-sm-4">
+                                        <div class="form-group">
+                                            <label for="phone">Điện thoại <span class="require">*</span></label>
+                                            <input type="text" class="form-control" id="phone" name="phone">
+                                        </div>
                                     </div>
-                                </div>
-                                <div class="col col-sm-4">
-                                    <div class="form-group">
-                                        <label for="email">Email</label>
-                                        <input type="text" class="form-control" id="email" name="email">
-                                    </div>
-                                </div>
-                            </div>
-                        </div>
-                    </div>
-                    <div class="row frm_block">
-                        <div class="col col-sm-12">
-                            <div class="row">
-                                <div class="col col-sm-4">
-                                    <div class="form-group">
-                                        <label for="province">Tỉnh/Thành phố</label>
-                                        <select class="js_select2" name="province_id_1">
-                                            <? foreach ($provinces as $province) { ?>
-                                                <option value="<?=$province['id']?>"><?=$province['name']?></option>
-                                            <? } ?>
-                                        </select>
-                                    </div>
-                                </div>
-                                <div class="col col-sm-4">
-                                    <div class="form-group">
-                                        <label for="district">Quận/Huyện</label>
-                                        <select class="js_select2" name="district_id_1" data-placeholder="Chọn quận/huyện">
-                                            <? foreach ($dictricts as $district) { ?>
-                                                <option value="<?=$district['id']?>"><?=$district['text']?></option>
-                                            <? } ?>
-                                        </select>
-                                    </div>
-                                </div>
-                                <div class="col col-sm-4">
-                                    <div class="form-group">
-                                        <label for="address">Địa chỉ</label>
-                                        <input type="text" class="form-control" id="address_1" name="address">
+                                    <div class="col col-sm-4">
+                                        <div class="form-group">
+                                            <label for="email">Email</label>
+                                            <input type="text" class="form-control" id="email" name="email">
+                                        </div>
                                     </div>
                                 </div>
                             </div>
                         </div>
-                    </div>
-                    <div class="row frm_block">
-                        <div class="col col-sm-12">
-                            <label style="color: #3aa1ea">Địa chỉ giao hàng</label>
-                            <div class="radio">
-                                <label>
-                                    <input type="radio" name="same_address" value="1" checked>
-                                    Giao đến cùng địa chỉ trên
-                                </label>
-                            </div>
-                            <div class="radio">
-                                <label>
-                                    <input type="radio" name="same_address" value="0">
-                                    Giao đến địa chỉ khác
-                                </label>
-                            </div>
-                        </div>
-                        <div class="col col-sm-12 different_address">
-                            <div class="row">
-                                <div class="col col-sm-4">
-                                    <div class="form-group">
-                                        <label for="province">Tỉnh/Thành phố</label>
-                                        <select class="js_select2" name="province_id_2">
-                                            <? foreach ($provinces as $province) { ?>
-                                                <option value="<?=$province['id']?>"><?=$province['name']?></option>
-                                            <? } ?>
-                                        </select>
+                        <div class="row frm_block">
+                            <div class="col col-sm-12">
+                                <div class="row">
+                                    <div class="col col-sm-4">
+                                        <div class="form-group">
+                                            <label for="province">Tỉnh/Thành phố</label>
+                                            <select class="js_select2" name="province_id_1">
+                                                <? foreach ($provinces as $province) { ?>
+                                                    <option value="<?=$province['id']?>"><?=$province['name']?></option>
+                                                <? } ?>
+                                            </select>
+                                        </div>
                                     </div>
-                                </div>
-                                <div class="col col-sm-4">
-                                    <div class="form-group">
-                                        <label for="district">Quận/Huyện</label>
-                                        <select class="js_select2" name="district_id_2" data-placeholder="Chọn quận/huyện">
-                                            <? foreach ($dictricts as $district) { ?>
-                                                <option value="<?=$district['id']?>"><?=$district['text']?></option>
-                                            <? } ?>
-                                        </select>
+                                    <div class="col col-sm-4">
+                                        <div class="form-group">
+                                            <label for="district">Quận/Huyện</label>
+                                            <select class="js_select2" name="district_id_1">
+                                                <? foreach ($dictricts as $district) { ?>
+                                                    <option value="<?=$district['id']?>"><?=$district['text']?></option>
+                                                <? } ?>
+                                            </select>
+                                        </div>
                                     </div>
-                                </div>
-                                <div class="col col-sm-4">
-                                    <div class="form-group">
-                                        <label for="address">Địa chỉ</label>
-                                        <input type="text" class="form-control" id="address_2" name="address">
+                                    <div class="col col-sm-4">
+                                        <div class="form-group">
+                                            <label for="address">Địa chỉ</label>
+                                            <input type="text" class="form-control" id="address_1" name="address_1">
+                                        </div>
                                     </div>
                                 </div>
                             </div>
                         </div>
-                    </div>
-                    <div class="row frm_block">
-                        <div class="col col-sm-12">
-                            <div class="form-group">
-                                <label for="note">Chú thích giao hàng</label>
-                                <textarea class="form-control" rows="3" name="note"></textarea>
+                        <div class="row frm_block">
+                            <div class="col col-sm-12">
+                                <label style="color: #3aa1ea">Địa chỉ giao hàng</label>
+                                <div class="radio">
+                                    <label>
+                                        <input type="radio" name="same_address" value="1" checked>
+                                        Giao đến cùng địa chỉ trên
+                                    </label>
+                                </div>
+                                <div class="radio">
+                                    <label>
+                                        <input type="radio" name="same_address" value="0">
+                                        Giao đến địa chỉ khác
+                                    </label>
+                                </div>
+                            </div>
+                            <div class="col col-sm-12 different_address">
+                                <div class="row">
+                                    <div class="col col-sm-4">
+                                        <div class="form-group">
+                                            <label for="province">Tỉnh/Thành phố</label>
+                                            <select class="js_select2" name="province_id_2">
+                                                <? foreach ($provinces as $province) { ?>
+                                                    <option value="<?=$province['id']?>"><?=$province['name']?></option>
+                                                <? } ?>
+                                            </select>
+                                        </div>
+                                    </div>
+                                    <div class="col col-sm-4">
+                                        <div class="form-group">
+                                            <label for="district">Quận/Huyện</label>
+                                            <select class="js_select2" name="district_id_2" data-placeholder="Chọn quận/huyện">
+                                                <? foreach ($dictricts as $district) { ?>
+                                                    <option value="<?=$district['id']?>"><?=$district['text']?></option>
+                                                <? } ?>
+                                            </select>
+                                        </div>
+                                    </div>
+                                    <div class="col col-sm-4">
+                                        <div class="form-group">
+                                            <label for="address">Địa chỉ</label>
+                                            <input type="text" class="form-control" id="address_2" name="address_2">
+                                        </div>
+                                    </div>
+                                </div>
                             </div>
                         </div>
-                    </div>
-                    <div class="row frm_block">
-                        <div class="col col-sm-12">
-                            <div class="form-group">
-                                <button class="btn btn_blue btn_back" onclick="window.open('<?=F_URL?>checkout', '_self')">XEM LẠI HÓA ĐƠN</button>
-                                <button type="submit" class="btn btn_yellow btn_hoantat">HOÀN TẤT</button>
+                        <div class="row frm_block">
+                            <div class="col col-sm-12">
+                                <div class="form-group">
+                                    <label for="note">Chú thích giao hàng</label>
+                                    <textarea class="form-control" rows="3" name="note"></textarea>
+                                </div>
                             </div>
                         </div>
-                    </div>
+                        <div class="row frm_block">
+                            <div class="col col-sm-12">
+                                <div class="form-group">
+                                    <button class="btn btn_blue btn_back" onclick="window.open('<?=F_URL?>checkout', '_self')">XEM LẠI HÓA ĐƠN</button>
+                                    <button type="submit" class="btn btn_yellow btn_hoantat">HOÀN TẤT</button>
+                                </div>
+                            </div>
+                        </div>
                     <?=$frmCustomer['close']?>
                 </div>
             </div>

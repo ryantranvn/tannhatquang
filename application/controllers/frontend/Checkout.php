@@ -17,6 +17,8 @@ class Checkout extends Root
         $this->load->library('pagination');
         $this->load->model('Product_model');
         $this->load->model('Category_model');
+        $this->load->model('Order_model');
+
         // set template
         $this->data['remove_banner'] = TRUE;
         $this->data['remove_hotline'] = TRUE;
@@ -85,28 +87,34 @@ class Checkout extends Root
             redirect($_SERVER['REQUEST_URI']);
         }
         // get customer data
+        $email = $this->input->post('email', TRUE);
+        if ($email == NULL) {
+            $email = "";
+        }
         $arr_customer = array(
-            'fullname'      => $this->input->post('fullname',TRUE),
-            'phone'         => $this->input->post('phone',TRUE),
-            'email'         => strtolower($this->input->post('fullname',TRUE)),
-            'note'       => $this->input->post('address',TRUE),
+            'fullname'      => $this->input->post('fullname', TRUE),
+            'phone'         => $this->input->post('phone', TRUE),
+            'email'         => strtolower($email),
+            'note'          => $this->input->post('note', TRUE),
         );
-        $arr_address = array();
-        array_push($arr_address, array('province_id'   => $this->input->post('province_id_1',TRUE),
-                                        'district_id'   => $this->input->post('district_id_1',TRUE),
-                                        'address'       => $this->input->post('address_1',TRUE),
-                                        'status'        => '1'
-                                        ));
-        $same_address = $this->input->post('same_address',TRUE);
-        if ($same_address == 0) {
-            array_push($arr_address, array('province_id'   => $this->input->post('province_id_2',TRUE),
+        var_dump($this->input->post('province_id_1', TRUE));exit();
+        $arr_address_main = array('province_id'   => $this->input->post('province_id_1', TRUE),
+                                    'district_id'   => $this->input->post('district_id_1', TRUE),
+                                    'address'       => $this->input->post('address_1', TRUE),
+                                    'status'        => '1'
+                                    );
+        $same_address = $this->input->post('same_address', TRUE);
+        $arr_address_delivery = array();
+        if ($same_address === NULL) {
+            $arr_address_delivery = array('province_id'   => $this->input->post('province_id_2',TRUE),
                                             'district_id'   => $this->input->post('district_id_2',TRUE),
                                             'address'       => $this->input->post('address_2',TRUE),
                                             'status'        => '0'
-                                        ));
+                                        );
         }
+
         // update db
-        if ($this->Order_model->insert_order($session_cart, $arr_customer, $arr_address) === FALSE) {
+        if ($this->Order_model->insert_order($session_cart, $arr_customer, $arr_address_main, $arr_address_delivery) === FALSE) {
             $this->session->set_userdata('invalid', "Error.");
             redirect($_SERVER['REQUEST_URI']);
         }
