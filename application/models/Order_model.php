@@ -45,6 +45,9 @@ class Order_model extends Base_model {
                 );
                 $address_id_delivery = $this->db->insert_id();
             }
+            if (!isset($address_id_delivery)) {
+                $address_id_delivery = NULL;
+            }
         // update order
             $this->insert_db('order',
                 array('customer_id'         => $customer_id,

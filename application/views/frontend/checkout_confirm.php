@@ -65,9 +65,6 @@
                                         <div class="form-group">
                                             <label for="district">Quận/Huyện</label>
                                             <select class="js_select2" name="district_id_1">
-                                                <? foreach ($dictricts as $district) { ?>
-                                                    <option value="<?=$district['id']?>"><?=$district['text']?></option>
-                                                <? } ?>
                                             </select>
                                         </div>
                                     </div>
@@ -112,9 +109,6 @@
                                         <div class="form-group">
                                             <label for="district">Quận/Huyện</label>
                                             <select class="js_select2" name="district_id_2" data-placeholder="Chọn quận/huyện">
-                                                <? foreach ($dictricts as $district) { ?>
-                                                    <option value="<?=$district['id']?>"><?=$district['text']?></option>
-                                                <? } ?>
                                             </select>
                                         </div>
                                     </div>

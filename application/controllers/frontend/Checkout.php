@@ -62,7 +62,7 @@ class Checkout extends Root
             redirect(F_URL );
         }
         $this->data['provinces'] = loadProvinces();
-        $this->data['dictricts'] = loadDistricts(92); // Cần Thơ
+        $this->data['dictricts'] = group_districts();
 
         $this->data['frmCustomer'] = frm(F_URL . 'checkout/complete', array('id' => 'frmCustomer'), FALSE);
 
@@ -87,23 +87,12 @@ class Checkout extends Root
             redirect($_SERVER['REQUEST_URI']);
         }
         // get customer data
-        $email = $this->input->post('email', TRUE);
-        if ($email == NULL) {
-            $email = "";
-        }
         $arr_customer = array(
             'fullname'      => $this->input->post('fullname', TRUE),
             'phone'         => $this->input->post('phone', TRUE),
-            'email'         => strtolower($email),
+            'email'         => $this->input->post('email', TRUE),
             'note'          => $this->input->post('note', TRUE),
         );
-        var_dump($this->input->post('province_id_1', TRUE));
-        var_dump($this->input->post('district_id_1', TRUE));
-        var_dump($this->input->post('address_1', TRUE));
-        var_dump($this->input->post('province_id_2', TRUE));
-        var_dump($this->input->post('district_id_2', TRUE));
-        var_dump($this->input->post('address_2', TRUE));
-        exit();
 
         $arr_address_main = array('province_id'   => $this->input->post('province_id_1', TRUE),
                                     'district_id'   => $this->input->post('district_id_1', TRUE),
@@ -122,10 +111,11 @@ class Checkout extends Root
 
         // update db
         if ($this->Order_model->insert_order($session_cart, $arr_customer, $arr_address_main, $arr_address_delivery) === FALSE) {
-            $this->session->set_userdata('invalid', "Error.");
+            $this->session->set_userdata('invalid', "checkout_error");
             redirect($_SERVER['REQUEST_URI']);
         }
-        $this->session->set_userdata('valid', "Successful.");
-        redirect($_SERVER['REQUEST_URI']);
+        $this->session->set_userdata('valid', "checkout_success");
+        $this->session->unset_userdata('session_cart');
+        redirect(F_URL);
     }
 }

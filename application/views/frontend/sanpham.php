@@ -47,7 +47,7 @@
                                         <? } ?>
                                     </p>
                                     <? } ?>
-                                    <a href="<?=F_URL?><?=$product['url']?>" class="link_full"></a>
+                                    <a href="<?=F_URL?>san-pham/<?=$product['url']?>" class="link_full"></a>
                                 </div>
                                 <?/*
                                 <div class="col col-sm-12">

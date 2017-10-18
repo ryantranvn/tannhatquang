@@ -94,10 +94,15 @@ if (file_exists(APPPATH . 'libraries/PHPMailer/PHPMailerAutoload.php')) {
 
         return $provinces;
     }
-    function loadDistricts($id_province)
+    function loadDistricts($id_province=FALSE)
     {
         $CI = & get_instance();
-        $districts = $CI->Base_model->get_db('district',array('id','name AS text', 'type'),array('id_province' => $id_province),NULL,'name','asc');
+        if ($id_province==FALSE) {
+            $districts = $CI->Base_model->get_db('district',array('id','name AS text', 'type', 'location', 'id_province'),NULL,NULL,'id_province','asc');
+        }
+        else {
+            $districts = $CI->Base_model->get_db('district', array('id', 'name AS text', 'type', 'location', 'id_province'), array('id_province' => $id_province), NULL, 'name', 'asc');
+        }
 
         return $districts;
     }

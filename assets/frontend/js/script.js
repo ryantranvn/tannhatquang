@@ -2,11 +2,12 @@ var document_height = $(document).height();
 var screen_height = $(window).height();
 var footer_height = $('#wrap_footer').height();
 
-$.ajaxSetup({
-    complete : function (xhr, status) {
+// $.ajaxSetup({
+//     complete : function (xhr, status) {
+//
+//     }
+// });
 
-    }
-});
 // scroll top
     $('#gotoTop').affix({offset: {bottom: (footer_height+80)} });
     $(window).scroll(function (event) {
@@ -29,7 +30,33 @@ $.ajaxSetup({
     if ($('#wrap_giohang').length>0) {
         in_cart = true;
     }
-$(document).ready(function(){
+$(document).ready( function() {
+// valid
+    var sweetalert_title = "";
+    var sweetalert_msg = "";
+    var reply_msg = "";
+    if (js_data.valid != undefined) {
+        reply_msg = js_data.valid;
+    }
+    else if (js_data.invalid != undefined) {
+        reply_msg = js_data.invalid;
+    }
+    switch (reply_msg) {
+        case 'checkout_success':
+            sweetalert_title = 'Cám ơn bạn!';
+            sweetalert_msg = 'Đơn hàng của bạn đã được tiếp nhận. <br/>Chúng tôi sẽ liên lạc với bạn trong thời gian sớm nhất.';
+            show_sweetalert(sweetalert_title, sweetalert_msg, 'success');
+            break;
+        case 'checkout_error':
+            sweetalert_title = 'Rất tiếc!';
+            sweetalert_msg = 'Đơn hàng của bạn chưa được tiếp nhận. <br/>Vui lòng liên hệ với chúng tôi để được hỗ trợ tốt hơn.';
+            show_sweetalert(sweetalert_title, sweetalert_msg, 'error');
+            break;
+        default:
+            break;
+    }
+
+
 // navigation
     $('[rel="popover"]').popover({
         container: 'body',
@@ -182,11 +209,14 @@ $(document).ready(function(){
         init_select2(province_2, "Chọn tỉnh/thành phố");
         init_select2(district_1, "Chọn quận/huyện");
         init_select2(district_2, "Chọn quận/huyện");
+
     /* main address */
+        var province_id;
         province_1.change( function() {
-            var province_id = $(this).val();
-            district_1.val("").trigger('change')
+            province_id = $(this).val();
+            district_1.val("").trigger('change');
             district_1.select2({
+                minimumResultsForSearch: -1,
                 ajax: {
                     url: fUrl + 'ajax_get_district',
                     dataType: 'json',
@@ -216,9 +246,10 @@ $(document).ready(function(){
             }
         });
         province_2.change( function() {
-            var province_id = $(this).val();
+            province_id = $(this).val();
             district_2.val("").trigger('change');
             district_2.select2({
+                minimumResultsForSearch: -1,
                 ajax: {
                     url: fUrl + 'ajax_get_district',
                     dataType: 'json',
@@ -284,6 +315,7 @@ $(document).ready(function(){
                 }
             },
             submitHandler: function(form) {
+                $('input[name="csrf_hash"]').attr('value', $.cookie('csrf_cookie_ci'));
                 form.submit();
             }
         });
@@ -522,4 +554,13 @@ function matchCustom(params, data) {
 
     // Return `null` if the term should not be displayed
     return null;
+}
+
+function show_sweetalert(sweetalert_title, sweetalert_msg, type)
+{
+    swal(
+        sweetalert_title,
+        sweetalert_msg,
+        type
+    )
 }

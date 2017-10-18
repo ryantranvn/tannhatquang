@@ -40,7 +40,17 @@ class Root extends CI_Controller {
         $js_data = array(
             'max_number_item_cart' => MAX_NUMBER_ITEM_CART
         );
+        // get interact results
+        if ($this->session->userdata('valid') != FALSE) {
+            $js_data['valid'] = $this->session->userdata('valid');
+            $this->session->unset_userdata('valid');
+        }
+        if ($this->session->userdata('invalid') != FALSE) {
+            $js_data['invalid'] = $this->session->userdata('invalid');
+            $this->session->unset_userdata('invalid');
+        }
         $this->data['varJS']['js_data'] = $js_data;
+        
         // $this->data['varJS']['authUser'] = $this->data['authUser'];
         // if ($this->session->userdata('invalidUser') != FALSE) {
         //     $this->data['varJS']['invalidUser'] = $this->session->userdata('invalidUser');
@@ -49,7 +59,6 @@ class Root extends CI_Controller {
         // else {
         //     $this->data['varJS']['invalidUser'] = "";
         // }
-
     // Meta tag
         $this->data['meta'] = array('description'=>'',
                               'keywords'=>'',
@@ -68,6 +77,7 @@ class Root extends CI_Controller {
         if ($this->session->userdata('session_cart')!=FALSE) {
             $this->data['session_cart'] = $this->session->userdata('session_cart');
         }
+
 //         print_r('<pre>');
 //         print_r($this->data['hot_products']);
 //         exit();
@@ -123,7 +133,8 @@ class Root extends CI_Controller {
         return $categories_nav_1;
     }
 
-    public function ajax_get_district() {
+    public function ajax_get_district()
+    {
         $province_id = $this->input->post('province_id',TRUE);
         if ($province_id == FALSE || $province_id == 0) {
             echo json_encode(array('error'=>1));
