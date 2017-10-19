@@ -22,6 +22,10 @@ class Home extends Root {
     	// $this->data['jsBlock'] = $jsBlock;
 
         $this->data['active_nav'] = "home";
+
+        // get sale product
+        $this->data['sale_products'] = $this->Product_model->get_sale_product(10);
+
         $this->template->load($this->gate.'/template', $this->gate.'/home', $this->data);
     }
 // gioithieu

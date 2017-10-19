@@ -82,6 +82,7 @@ class Product extends Root {
                         ,product.quantity
                         ,product.stock_in_trade
                         ,product.price
+                        ,product.price_sale
                         ,category.name AS category
                     FROM post
                     INNER JOIN product ON product.post_id = post.id
