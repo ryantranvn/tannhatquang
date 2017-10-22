@@ -220,6 +220,9 @@ td .ui-jqgrid .ui-jqgrid-htable th {
   color: white;
   border: none; }
 
+.ui-jqgrid-hdiv, .ui-jqgrid-bdiv, .ui-jqgrid-pager {
+  width: 100% !important; }
+
 /* TREE VIEW */
 .tree li.parent_li > span {
   position: relative;

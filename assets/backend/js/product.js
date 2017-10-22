@@ -85,7 +85,7 @@
             },
             // onSelectRow: function(id) {
             // },
-            editurl: "server.php"
+            //editurl: "server.php"
         });
 
     // common

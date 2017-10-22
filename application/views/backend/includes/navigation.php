@@ -60,12 +60,23 @@
 					</ul>
 				</li>
 			<? } ?>
-			<!-- User -->
-			<? if ($permissionsMember['User'][1] == 1) { ?>
-				<li class="<?php if (isset($activeNav) && $activeNav == 'User') { ?>active<? } ?>">
-					<a href="<?=B_URL.$modules['User']['url']?>">
-						<i class="<?=$modules['User']['icon']?>"></i>
-						<?=$modules['User']['name']?>
+
+            <!-- Order -->
+            <? if ($permissionsMember['Order'][1] == 1) { ?>
+                <li class="<?php if (isset($activeNav) && $activeNav == 'Order') { ?>active<? } ?>">
+                    <a href="<?=B_URL.$modules['Order']['url']?>">
+                        <i class="<?=$modules['Order']['icon']?>"></i>
+                        <?=$modules['Order']['name']?>
+                    </a>
+                </li>
+            <? } ?>
+
+			<!-- Customer -->
+			<? if ($permissionsMember['Customer'][1] == 1) { ?>
+				<li class="<?php if (isset($activeNav) && $activeNav == 'Customer') { ?>active<? } ?>">
+					<a href="<?=B_URL.$modules['Customer']['url']?>">
+						<i class="<?=$modules['Customer']['icon']?>"></i>
+                        Customer
 					</a>
 				</li>
 			<? } ?>

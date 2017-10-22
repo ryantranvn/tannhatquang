@@ -247,7 +247,7 @@
 // button in grid list
 	function formatButton(idRow, statusVal, class_Btn, ajax_url, id_Modal)
 	{
-		var activeClass = arrStatus[statusVal][0] + " " + arrStatus[statusVal][1]
+		var activeClass = arrStatus[statusVal][0] + " " + arrStatus[statusVal][1];
 		var fa = '<button class="btn btnGrid '+class_Btn+' '+activeClass+'" data-id="'+idRow+'" data-value="'+statusVal+'" data-url="'+ajax_url+'"  data-toggle="modal" data-target="#'+id_Modal+'">'
 			switch (statusVal)
 			{

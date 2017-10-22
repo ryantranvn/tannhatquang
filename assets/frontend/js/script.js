@@ -199,126 +199,128 @@ $(document).ready( function() {
 
 // checkout
     if ($('#wrap_checkout').length>0) {
-    /* init select province & district */
-        var province_1 = $('select[name="province_id_1"]');
-        var province_2 = $('select[name="province_id_2"]');
-        var district_1 = $('select[name="district_id_1"]');
-        var district_2 = $('select[name="district_id_2"]');
+        if ($('#frmCustomer').length>0) {
+            /* init select province & district */
+            var province_1 = $('select[name="province_id_1"]');
+            var province_2 = $('select[name="province_id_2"]');
+            var district_1 = $('select[name="district_id_1"]');
+            var district_2 = $('select[name="district_id_2"]');
 
-        init_select2(province_1, "Chọn tỉnh/thành phố");
-        init_select2(province_2, "Chọn tỉnh/thành phố");
-        init_select2(district_1, "Chọn quận/huyện");
-        init_select2(district_2, "Chọn quận/huyện");
+            init_select2(province_1, "Chọn tỉnh/thành phố");
+            init_select2(province_2, "Chọn tỉnh/thành phố");
+            init_select2(district_1, "Chọn quận/huyện");
+            init_select2(district_2, "Chọn quận/huyện");
 
-    /* main address */
-        var province_id;
-        province_1.change( function() {
-            province_id = $(this).val();
-            district_1.val("").trigger('change');
-            district_1.select2({
-                minimumResultsForSearch: -1,
-                ajax: {
-                    url: fUrl + 'ajax_get_district',
-                    dataType: 'json',
-                    method: 'post',
-                    data: function () {
-                        return {
-                            'csrf_hash' : $.cookie('csrf_cookie_ci'),
-                            'province_id' : province_id
+            /* main address */
+            var province_id;
+            province_1.change(function () {
+                province_id = $(this).val();
+                district_1.val("").trigger('change');
+                district_1.select2({
+                    minimumResultsForSearch: -1,
+                    ajax: {
+                        url: fUrl + 'ajax_get_district',
+                        dataType: 'json',
+                        method: 'post',
+                        data: function () {
+                            return {
+                                'csrf_hash': $.cookie('csrf_cookie_ci'),
+                                'province_id': province_id
+                            }
+                        },
+                        processResults: function (data) {
+                            return {
+                                results: data
+                            };
                         }
-                    },
-                    processResults: function (data) {
-                        return {
-                            results: data
-                        };
                     }
+                });
+            });
+            /* different address */
+            $('input[name="same_address"]').change(function () {
+                if ($(this).val() == 0) {
+                    $('.different_address').slideDown()
+                    $('input[name="address_2"]').val('');
+                }
+                else {
+                    $('.different_address').slideUp()
                 }
             });
-        });
-    /* different address */
-        $('input[name="same_address"]').change( function() {
-            if ($(this).val()==0) {
-                $('.different_address').slideDown()
-                $('input[name="address_2"]').val('');
-            }
-            else {
-                $('.different_address').slideUp()
-            }
-        });
-        province_2.change( function() {
-            province_id = $(this).val();
-            district_2.val("").trigger('change');
-            district_2.select2({
-                minimumResultsForSearch: -1,
-                ajax: {
-                    url: fUrl + 'ajax_get_district',
-                    dataType: 'json',
-                    method: 'post',
-                    data: function () {
-                        return {
-                            'csrf_hash' : $.cookie('csrf_cookie_ci'),
-                            'province_id' : province_id
+            province_2.change(function () {
+                province_id = $(this).val();
+                district_2.val("").trigger('change');
+                district_2.select2({
+                    minimumResultsForSearch: -1,
+                    ajax: {
+                        url: fUrl + 'ajax_get_district',
+                        dataType: 'json',
+                        method: 'post',
+                        data: function () {
+                            return {
+                                'csrf_hash': $.cookie('csrf_cookie_ci'),
+                                'province_id': province_id
+                            }
+                        },
+                        processResults: function (data) {
+                            $('input[name="csrf_hash"]').val($.cookie('csrf_cookie_ci'));
+                            return {
+                                results: data
+                            };
                         }
-                    },
-                    processResults: function (data) {
-                        $('input[name="csrf_hash"]').val($.cookie('csrf_cookie_ci'));
-                        return {
-                            results: data
-                        };
                     }
+                });
+            });
+
+            justNum($('input[name="phone"]'));
+            /* validation */
+            var validator = $("#frmCustomer").validate({
+                rules: {
+                    fullname: {
+                        required: true,
+                        maxlength: 512
+                    },
+                    phone: {
+                        required: true,
+                        maxlength: 20
+                    },
+                    email: {
+                        email: true
+                    }
+                },
+                messages: {
+                    fullname: {
+                        required: "bắt buộc nhập",
+                        maxlength: "tối đa 512 ký tự"
+                    },
+                    phone: {
+                        required: "bắt buộc nhập",
+                        maxlength: "tối đa 20 số"
+                    },
+                    email: {
+                        email: "email không đúng định dạng"
+                    }
+                },
+                highlight: function (element) {
+                    $(element).closest('.form-group').removeClass('has-success').addClass('has-error');
+                },
+                unhighlight: function (element) {
+                    $(element).closest('.form-group').removeClass('has-error').addClass('has-success');
+                },
+                errorElement: 'span',
+                errorClass: 'help-block',
+                errorPlacement: function (error, element) {
+                    if (element.parent('.input-group').length) {
+                        error.insertAfter(element.parent());
+                    } else {
+                        error.insertAfter(element);
+                    }
+                },
+                submitHandler: function (form) {
+                    $('input[name="csrf_hash"]').attr('value', $.cookie('csrf_cookie_ci'));
+                    form.submit();
                 }
             });
-        });
-
-        justNum($('input[name="phone"]'));
-    /* validation */
-        var validator = $("#frmCustomer").validate({
-            rules: {
-                fullname: {
-                    required : true,
-                    maxlength : 512
-                },
-                phone: {
-                    required : true,
-                    maxlength : 20
-                },
-                email: {
-                    email: true
-                }
-            },
-            messages: {
-                fullname: {
-                    required : "bắt buộc nhập",
-                    maxlength : "tối đa 512 ký tự"
-                },
-                phone: {
-                    required : "bắt buộc nhập",
-                    maxlength : "tối đa 20 số"
-                },
-                email: {
-                    email: "email không đúng định dạng"
-                }
-            },
-            highlight: function (element) {
-                $(element).closest('.form-group').removeClass('has-success').addClass('has-error');
-            },
-            unhighlight: function (element) {
-                $(element).closest('.form-group').removeClass('has-error').addClass('has-success');
-            },
-            errorElement: 'span',
-            errorClass: 'help-block',
-            errorPlacement: function (error, element) {
-                if (element.parent('.input-group').length) {
-                    error.insertAfter(element.parent());
-                } else {
-                    error.insertAfter(element);
-                }
-            },
-            submitHandler: function(form) {
-                $('input[name="csrf_hash"]').attr('value', $.cookie('csrf_cookie_ci'));
-                form.submit();
-            }
-        });
+        }
     }
 
 

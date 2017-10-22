@@ -62,7 +62,6 @@ class Checkout extends Root
             redirect(F_URL );
         }
         $this->data['provinces'] = loadProvinces();
-        $this->data['dictricts'] = group_districts();
 
         $this->data['frmCustomer'] = frm(F_URL . 'checkout/complete', array('id' => 'frmCustomer'), FALSE);
 
@@ -101,7 +100,7 @@ class Checkout extends Root
                                     );
         $same_address = $this->input->post('same_address', TRUE);
         $arr_address_delivery = array();
-        if ($same_address === NULL) {
+        if ($same_address == 0) {
             $arr_address_delivery = array('province_id'   => $this->input->post('province_id_2',TRUE),
                                             'district_id'   => $this->input->post('district_id_2',TRUE),
                                             'address'       => $this->input->post('address_2',TRUE),

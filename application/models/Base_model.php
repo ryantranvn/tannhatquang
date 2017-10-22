@@ -242,7 +242,27 @@ class Base_model extends CI_model {
         }
         return $arr_return;
     }
-// FIND POST
+// GET ADDRESS
+    function get_addresses($customer_id)
+    {
+        $sql = "SELECT ca.address
+                        ,ca.province_id
+                        ,p.name AS province
+                        ,ca.district_id
+                        ,d.name AS district
+                        ,ca.status
+                        ,ca.customer_id
+                    FROM customer_address AS ca
+                    INNER JOIN province AS p ON p.id = ca.province_id
+                    INNER JOIN district AS d ON d.id = ca.district_id
+            ";
+        $where = " WHERE ca.del_flg = 0 AND ca.customer_id = ".$customer_id;
+        $sql .= $where;
+        $query = $this->db->query($sql);
+        $result = $query->result_array();
+        return $result;
+    }
+
 
 
 /*
