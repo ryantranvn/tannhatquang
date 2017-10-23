@@ -476,3 +476,9 @@ td .ui-jqgrid .ui-jqgrid-htable th {
   left: 0;
   bottom: 0;
   z-index: 10000; }
+
+/* customer */
+.customer_form .well .tbl_address .btnSave {
+  display: none; }
+.customer_form .help-block {
+  color: red; }

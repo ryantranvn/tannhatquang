@@ -31,9 +31,7 @@
                     <!-- Buttons -->
                         <div class="row">
                             <input type="text" name="customer_id" class="hiddenInput" <? if (isset($frmData)) { ?> value="<?=$frmData['id']?>" <? } ?> />
-                            <button class="btn btn-sm btn-success pull-right" type="submit">
-                                <i class="fa fa-lg fa-save"></i> Submit
-                            </button>
+                            <button type="submit" class="btn btn-primary pull-right">LƯU</button>
                         </div>
                     <?=$frmCustomer['close']?>
                 </div>

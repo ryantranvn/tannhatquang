@@ -245,7 +245,8 @@ class Base_model extends CI_model {
 // GET ADDRESS
     function get_addresses($customer_id)
     {
-        $sql = "SELECT ca.address
+        $sql = "SELECT ca.id
+                        ,ca.address
                         ,ca.province_id
                         ,p.name AS province
                         ,ca.district_id

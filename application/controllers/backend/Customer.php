@@ -132,7 +132,8 @@ class Customer extends Root {
         $this->data['breadcrumb'][1] = array('name'=>'Edit', 'url' => '');
 
         // creare form
-        $this->data['frmCustomer'] = frm(NULL, array('id' => 'frmCustomer'), FALSE, array('customer_id'=>$customer_id));
+        $this->data['frmCustomer'] = frm(B_URL .$this->currentModule['url'] . '/update_customer', array('id' => 'frmCustomer'), FALSE, array('customer_id'=>$customer_id));
+        $this->data['frmCustomerAddress'] = frm(NULL, array('id' => 'frmCustomerAddress'), FALSE, array('customer_id'=>$customer_id));
 
         // get customer information
         $frmData = $this->Base_model->get_db('customer', NULL, array('id'=>$customer_id));
@@ -144,7 +145,28 @@ class Customer extends Root {
         // get address list
         $this->data['addresses'] = $this->Base_model->get_addresses($customer_id);
 
+        $this->data['provinces'] = loadProvinces();
+
         $this->template->load('backend/template', 'backend/customer/form', $this->data);
+    }
+// update_customer
+    public function update_customer()
+    {
+
+    }
+// update_customer_address
+    public function update_customer_address()
+    {
+        $address_id = $this->input->post('address_id',TRUE);
+        $address = $this->input->post('address',TRUE);
+        $province_id = $this->input->post('province_id',TRUE);
+        $district_id = $this->input->post('district_id',TRUE);
+        print_r("<pre>");
+//        print_r($address_id);
+//        print_r($address);
+        print_r($province_id);
+//        print_r($district_id);
+        exit();
     }
 //  Ajax List
     public function ajax_order_list()

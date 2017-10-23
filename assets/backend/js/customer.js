@@ -184,3 +184,144 @@ if ($(idTableList).length>0 && $('.customer_list').length>0) {
 
         }
     }
+// frmCustomerAddress
+    if ($('#frmCustomerAddress').length>0) {
+    // click edit customer address
+        $('.btnEdit').click( function() {
+            var address_id = $(this).find('.address_id').html();
+            var address = $(this).find('.address').html();
+            var province_id = $(this).find('.province_id').html();
+            var district_id = $(this).find('.district_id').html();
+            $('#frmCustomerAddress').find('input[name="current_address_id"]').val(address_id.trim());
+            $('#frmCustomerAddress').find('input[name="current_address"]').val(address.trim());
+            $('#frmCustomerAddress').find('input[name="current_province_id"]').val(province_id.trim());
+            $('#frmCustomerAddress').find('input[name="current_district_id"]').val(district_id.trim());
+        });
+    // set default value of address modal
+        $('#modal_address').on('show.bs.modal', function (e) {
+            $('input[name="address"]').val($('#frmCustomerAddress').find('input[name="current_address"]').val());
+            var province_id = $('#frmCustomerAddress').find('input[name="current_province_id"]').val();
+            $('select[name="province_id"]').select2('val',province_id);
+            var district_id = $('#frmCustomerAddress').find('input[name="current_district_id"]').val();
+            $.ajax({
+                url: fUrl + 'ajax_get_district',
+                type: 'POST',
+                cache: false,
+                dataType: 'json',
+                data: {
+                    'province_id' : province_id,
+                    'csrf_hash' : $.cookie('csrf_cookie_ci')
+                },
+                success: function(data) {
+                    if(typeof data =='object') {
+                        var district_list = "";
+                        $.each(data, function(index, item) {
+                            district_list += "<option value='"+item['id']+"'>"+item['text']+"</option>"
+                        });
+                        $('select[name="district_id"]').html('').html(district_list).promise().done(function() {
+                            $('select[name="district_id"]').select2('val',district_id);
+                        });
+                    }
+                },
+                error: function() {
+                    showSmartAlert("Error", "Can send data. Please contact to admin.", '[YES]')
+                }
+            });
+        });
+    // bind district from province
+        $('#frmCustomerAddress').find('select[name="province_id"]').change( function() {
+            var province_id = $(this).val();
+            $('select[name="district_id"]').select2('val','');
+            $.ajax({
+                url: fUrl + 'ajax_get_district',
+                type: 'POST',
+                cache: false,
+                dataType: 'json',
+                data: {
+                    'province_id' : province_id,
+                    'csrf_hash' : $.cookie('csrf_cookie_ci')
+                },
+                success: function(data) {
+                    if(typeof data =='object') {
+                        var district_list = "";
+                        $.each(data, function(index, item) {
+                            district_list += "<option value='"+item['id']+"'>"+item['text']+"</option>"
+                        });
+                        $('select[name="district_id"]').html('').html(district_list)
+                    }
+                },
+                error: function() {
+                    showSmartAlert("Error", "Can send data. Please contact to admin.", '[YES]')
+                }
+            });
+        });
+    // validation and submit
+        var validator = $("#frmCustomerAddress").validate({
+            rules: {
+                address: {
+                    required : true,
+                    maxlength : 512
+                },
+                province_id: {
+                    required : true
+                },
+                district_id: {
+                    required: true
+                }
+            },
+            messages: {
+                address: {
+                    required : "Địa chỉ bắt buộc nhập",
+                    maxlength : "Tối đa 512 ký tự"
+                },
+                province_id: {
+                    required : "Tỉnh/Thành phố bắt buộc chọn"
+                },
+                district_id: {
+                    required : "Tỉnh/Thành phố bắt buộc chọn"
+                }
+            },
+            highlight: function (element) {
+                $(element).closest('.form-group').removeClass('has-success').addClass('has-error');
+            },
+            unhighlight: function (element) {
+                $(element).closest('.form-group').removeClass('has-error').addClass('has-success');
+            },
+            errorElement: 'span',
+            errorClass: 'help-block',
+            errorPlacement: function (error, element) {
+                if (element.parent('.input-group').length) {
+                    error.insertAfter(element.parent());
+                } else {
+                    error.insertAfter(element);
+                }
+            },
+            submitHandler: function(form) {
+                var address_id = $('input[name="current_address_id"]').val();
+                $.ajax({
+                    url: bUrl + 'customer/update_customer_address',
+                    type: 'POST',
+                    cache: false,
+                    dataType: 'json',
+                    data: {'csrf_hash' : $.cookie('csrf_cookie_ci'),
+                        'address_id': address_id,
+                        'province_id': $('select[name="province_id"]').select2('val'),
+                        'district_id': $('select[name="district_id"]').select2('val'),
+                        'address': $('input[name="address"]').val()
+                    },
+                    success: function(data) {
+                        if (data.err=="1") {
+                            showSmartAlert("Error", data.msg, '[YES]')
+                        }
+                        else {
+                            window.location.href = bUrl + currentModule['url'] + '/edit/' + address_id;
+                        }
+                    },
+                    error: function() {
+                        showSmartAlert("Error", "Can send data. Please contact to admin.", '[YES]')
+                    }
+                });
+                return false;
+            }
+        });
+    }
