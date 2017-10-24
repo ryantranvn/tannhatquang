@@ -21,7 +21,8 @@
 				<li class="<?php if (isset($activeNav) && $activeNav == 'Dashboard') { ?>active<? } ?>">
 					<a href="<?=B_URL.$modules['Dashboard']['url']?>">
 						<i class="<?=$modules['Dashboard']['icon']?>"></i>
-						<?=$modules['Dashboard']['name']?>
+						<?/*=$modules['Dashboard']['name']*/?>
+                        Trang chủ
 					</a>
 				</li>
 			<!-- Product -->
@@ -30,14 +31,14 @@
 				<li class="<?php if (isset($activeNav) && ($activeNav == 'Product_category' || $activeNav == 'Product')) { ?>active<? } ?>">
 					<a href="#">
 						<i class="fa fa-th-large"></i>
-						<span class="menu-item-parent">Product</span>
+						<span class="menu-item-parent">Sản phẩm</span>
 					</a>
 					<ul>
 					<? if (isset($permissionsMember['Product_category']) && $permissionsMember['Product_category'][1] == 1) { ?>
-						<li><a href="<?=B_URL.$modules['Product_category']['url']?>">Product Category</a></li>
+						<li><a href="<?=B_URL.$modules['Product_category']['url']?>">Phân loại sản phẩm</a></li>
 					<? } ?>
 					<? if (isset($permissionsMember['Product']) && $permissionsMember['Product'][1] == 1) { ?>
-						<li><a href="<?=B_URL.$modules['Product']['url']?>">Product</a></li>
+						<li><a href="<?=B_URL.$modules['Product']['url']?>">Sản phẩm</a></li>
 					<? } ?>
 					</ul>
 				</li>
@@ -48,14 +49,14 @@
 				<li class="<?php if (isset($activeNav) && ($activeNav == 'News_category' || $activeNav == 'News')) { ?>active<? } ?>">
 					<a href="#">
 						<i class="fa fa-th-large"></i>
-						<span class="menu-item-parent">News</span>
+						<span class="menu-item-parent">Tin tức</span>
 					</a>
 					<ul>
 					<? if (isset($permissionsMember['News_category']) && $permissionsMember['News_category'][1] == 1) { ?>
-						<li><a href="<?=B_URL.$modules['News_category']['url']?>">News Category</a></li>
+						<li><a href="<?=B_URL.$modules['News_category']['url']?>">Phân loại tin tức</a></li>
 					<? } ?>
 					<? if (isset($permissionsMember['News']) && $permissionsMember['News'][1] == 1) { ?>
-						<li><a href="<?=B_URL.$modules['News']['url']?>">News</a></li>
+						<li><a href="<?=B_URL.$modules['News']['url']?>">Tin tức</a></li>
 					<? } ?>
 					</ul>
 				</li>
@@ -66,7 +67,8 @@
                 <li class="<?php if (isset($activeNav) && $activeNav == 'Order') { ?>active<? } ?>">
                     <a href="<?=B_URL.$modules['Order']['url']?>">
                         <i class="<?=$modules['Order']['icon']?>"></i>
-                        <?=$modules['Order']['name']?>
+                        <?/*=$modules['Order']['name']*/?>
+                        Đơn hàng
                     </a>
                 </li>
             <? } ?>
@@ -76,7 +78,7 @@
 				<li class="<?php if (isset($activeNav) && $activeNav == 'Customer') { ?>active<? } ?>">
 					<a href="<?=B_URL.$modules['Customer']['url']?>">
 						<i class="<?=$modules['Customer']['icon']?>"></i>
-                        Customer
+                        Khách hàng
 					</a>
 				</li>
 			<? } ?>

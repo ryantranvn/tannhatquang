@@ -560,6 +560,17 @@
 		"outputStyle": 1,
 		"syntaxCheckerStyle": 1
 		},
+	"\/backend\/js\/compressed\/customer.min.js": {
+		"fileType": 64,
+		"ignore": 1,
+		"ignoreWasSetByUser": 0,
+		"inputAbbreviatedPath": "\/backend\/js\/compressed\/customer.min.js",
+		"outputAbbreviatedPath": "\/backend\/js\/compressed\/compressed\/customer.min.min.js",
+		"outputPathIsOutsideProject": 0,
+		"outputPathIsSetByUser": 0,
+		"outputStyle": 1,
+		"syntaxCheckerStyle": 1
+		},
 	"\/backend\/js\/compressed\/news.min.js": {
 		"fileType": 64,
 		"ignore": 1,
@@ -620,7 +631,7 @@
 		"ignore": 0,
 		"ignoreWasSetByUser": 0,
 		"inputAbbreviatedPath": "\/backend\/js\/customer.js",
-		"outputAbbreviatedPath": "\/backend\/js\/compressed\/user.min.js",
+		"outputAbbreviatedPath": "\/backend\/js\/compressed\/customer.min.js",
 		"outputPathIsOutsideProject": 0,
 		"outputPathIsSetByUser": 0,
 		"outputStyle": 1,

@@ -107,6 +107,13 @@ if (file_exists(APPPATH . 'libraries/PHPMailer/PHPMailerAutoload.php')) {
         return $districts;
     }
 
+    function load_order_status()
+    {
+        $CI = & get_instance();
+        $order_status = $CI->Base_model->get_db('order_status',NULL,NULL,NULL,'id','asc');
+
+        return $order_status;
+    }
 // FORM
     // create form
     function frm($action, $attrArr, $hasUpload, $hiddenArr=NULL)

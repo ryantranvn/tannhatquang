@@ -28,6 +28,16 @@
                             <input type="text" class="form-control" name="email" <? if (isset($frmData)) { ?> value="<?=$frmData['email']?>" <? } ?> />
                             <span class="charLimit" id="email_limit"></span>
                         </div>
+                        <div class="row">
+                            <fieldset>
+                                <div id="statusAdd" class="form-group row radioWrapper">
+                                    <label class="control-label">Trạng thái</label>
+                                    <div class="row">
+                                        <?=$this->load->view('backend/includes/group_status_btn','',TRUE)?>
+                                    </div>
+                                </div>
+                            </fieldset>
+                        </div>
                     <!-- Buttons -->
                         <div class="row">
                             <input type="text" name="customer_id" class="hiddenInput" <? if (isset($frmData)) { ?> value="<?=$frmData['id']?>" <? } ?> />
@@ -44,26 +54,26 @@
                     <ul id="widget-tab-1" class="nav nav-tabs">
                         <li class="active">
                             <a data-toggle="tab" href="#tab_1">
-                                <i class="fa fa-lg fa-book"></i>
-                                <span class="hidden-mobile hidden-tablet"> Địa chỉ </span>
+                                <i class="fa fa-lg fa-credit-card"></i>
+                                <span class="hidden-mobile hidden-tablet"> Đơn hàng </span>
                             </a>
                         </li>
                         <li>
                             <a data-toggle="tab" href="#tab_2">
-                                <i class="fa fa-lg fa-credit-card"></i>
-                                <span class="hidden-mobile hidden-tablet"> Đơn hàng </span>
+                                <i class="fa fa-lg fa-book"></i>
+                                <span class="hidden-mobile hidden-tablet"> Địa chỉ </span>
                             </a>
                         </li>
                     </ul>
                 </header>
                 <!-- end header -->
-                <div id="wrap_tab" class="custom-scroll table-responsive" class="row" style="position: relative; overflow-x: hidden; overflow-y: scroll; padding-top: 20px;">
+                <div id="wrap_tab" class="wrap_tab custom-scroll table-responsive" class="row" style="position: relative; overflow-x: hidden; overflow-y: scroll; padding-top: 20px;">
                     <div class="tab-content padding-10">
                         <div class="tab-pane fade in active" id="tab_1">
-                            <?=$this->load->view('backend/customer/list_address','',TRUE)?>
+                            <?=$this->load->view('backend/includes/table_list','',TRUE)?>
                         </div>
                         <div class="tab-pane fade" id="tab_2">
-                            <?=$this->load->view('backend/includes/table_list','',TRUE)?>
+                            <?=$this->load->view('backend/customer/list_address','',TRUE)?>
                         </div>
                     </div>
                 </div>

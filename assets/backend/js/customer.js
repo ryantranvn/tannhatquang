@@ -118,7 +118,7 @@
     // order table list
         if ($(idTableList).length>0) {
             var customer_id = $('#frmCustomer').find('input[name="customer_id"]').val();
-            var statusStr = ":Tất cả;active:Hiện;inactive:Ẩn";
+            var statusStr = ":Tất cả;1:Mới;2:Đã xem;3:Đã liên lạc;4:Đã xác nhận;5:Đang chuyển hàng;6:Đã nhận hàng;7:Đã thanh toán;8:Đã hủy";
             caption = captionButton(false, true);
             // jqGrid
             jQuery(idTableList).jqGrid({
@@ -132,7 +132,7 @@
                 iconSet: "fontAwesome",
                 colNames : ['Status', 'Mã đơn hàng', 'Total', 'Ngày', 'Địa chỉ', 'Quận', 'Tỉnh', 'Action'],
                 colModel : [
-                    { name : 'status', index : 'status', align : 'center', width : '80',
+                    { name : 'status', index : 'status', align : 'center', width : '140',
                         stype: 'select', searchoptions:{ sopt:['eq'], value: statusStr }
                     },
                     { name : 'id', index : 'id', search : true, align : 'center', width : '150' },
@@ -156,7 +156,7 @@
                     for (var i = 0; i < ids.length; i++) {
                         var cl = ids[i];
                         var rowData = jQuery(idTableList).jqGrid ('getRowData', cl);
-                        var fa = formatButton(cl, rowData.status, 'btnStatus', bUrl+currentModule['url']+'/ajax_status', 'modalStatus');
+                        var fa = formatOrderStatusButton(cl, rowData.status, 'btnOrderStatus', bUrl+currentModule['url']+'/ajax_status', 'modalStatus');
                         var btnInline = btnEditInline(cl) + bntDeleteInline(cl);
                         jQuery(idTableList).jqGrid('setRowData', ids[i], {
                             status : fa,
@@ -187,7 +187,6 @@
 // frmCustomerAddress
     if ($('#frmCustomerAddress').length>0) {
         var customer_id = $('#frmCustomer').find('input[name="customer_id"]').val();
-        console.log(customer_id)
     // click edit customer address
         $('.btnEdit').click( function() {
             var address_id = $(this).find('.address_id').html();
@@ -205,30 +204,32 @@
             var province_id = $('#frmCustomerAddress').find('input[name="current_province_id"]').val();
             $('select[name="province_id"]').select2('val',province_id);
             var district_id = $('#frmCustomerAddress').find('input[name="current_district_id"]').val();
-            $.ajax({
-                url: fUrl + 'ajax_get_district',
-                type: 'POST',
-                cache: false,
-                dataType: 'json',
-                data: {
-                    'province_id' : province_id,
-                    'csrf_hash' : $.cookie('csrf_cookie_ci')
-                },
-                success: function(data) {
-                    if(typeof data =='object') {
-                        var district_list = "";
-                        $.each(data, function(index, item) {
-                            district_list += "<option value='"+item['id']+"'>"+item['text']+"</option>"
-                        });
-                        $('select[name="district_id"]').html('').html(district_list).promise().done(function() {
-                            $('select[name="district_id"]').select2('val',district_id);
-                        });
+            if (province_id != "") {
+                $.ajax({
+                    url: fUrl + 'ajax_get_district',
+                    type: 'POST',
+                    cache: false,
+                    dataType: 'json',
+                    data: {
+                        'province_id': province_id,
+                        'csrf_hash': $.cookie('csrf_cookie_ci')
+                    },
+                    success: function (data) {
+                        if (typeof data == 'object') {
+                            var district_list = "";
+                            $.each(data, function (index, item) {
+                                district_list += "<option value='" + item['id'] + "'>" + item['text'] + "</option>"
+                            });
+                            $('select[name="district_id"]').html('').html(district_list).promise().done(function () {
+                                $('select[name="district_id"]').select2('val', district_id);
+                            });
+                        }
+                    },
+                    error: function () {
+                        showSmartAlert("Error", "Can send data. Please contact to admin.", '[YES]')
                     }
-                },
-                error: function() {
-                    showSmartAlert("Error", "Can send data. Please contact to admin.", '[YES]')
-                }
-            });
+                });
+            }
         });
     // bind district from province
         $('#frmCustomerAddress').find('select[name="province_id"]').change( function() {
@@ -306,6 +307,7 @@
                     cache: false,
                     dataType: 'json',
                     data: {'csrf_hash' : $.cookie('csrf_cookie_ci'),
+                        'customer_id': customer_id,
                         'address_id': address_id,
                         'province_id': $('select[name="province_id"]').select2('val'),
                         'district_id': $('select[name="district_id"]').select2('val'),
@@ -313,10 +315,10 @@
                     },
                     success: function(data) {
                         if (data.err=="1") {
-                            showSmartAlert("Error", data.msg, '[YES]')
+                            showSmartAlert("Error", data.msg, '[YES]');
                         }
                         else {
-                            //window.location.href = bUrl + currentModule['url'] + '/edit/' + customer_id;
+                            window.location.href = bUrl + currentModule['url'] + '/edit/' + customer_id;
                         }
                     },
                     error: function() {
@@ -325,5 +327,12 @@
                 });
                 return false;
             }
+        });
+    // delete address
+        $('.btnDelete').click( function() {
+            var address_id = $(this).find('.address_id').html().trim();
+            showSmartAlert("Xóa địa chỉ", "Bạn có chắc muốn xóa địa chỉ này ?", '[YES][NO]', function() {
+                window.location.href = bUrl + currentModule['url'] + '/delete_address/' + address_id;
+            });
         });
     }

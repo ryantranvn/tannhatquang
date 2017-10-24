@@ -203,15 +203,35 @@
 	arrStatus['active'] 	= ['bg-color-green', 	'txt-color-white'];
 	arrStatus['inactive'] 	= ['bg-color-blueDark', 'txt-color-white'];
 	arrStatus['block'] 		= ['bg-color-red', 		'txt-color-white'];
+
 	arrStatus['1'] 		= ['btn-warning', 	'txt-color-white'];
 	arrStatus['0'] 	= ['btn-default', 	'txt-color-dark'];
+
+	arrStatus['status_1'] 	= ['btn-default', 		'txt-color-dark'];
+	arrStatus['status_2'] 	= ['bg-color-pinkDark', 'txt-color-white'];
+	arrStatus['status_3'] 	= ['bg-color-pink', 	'txt-color-white'];
+	arrStatus['status_4'] 	= ['bg-color-red', 	'txt-color-white'];
+	arrStatus['status_5'] 	= ['bg-color-redLight', 'txt-color-white'];
+	arrStatus['status_6'] 	= ['bg-color-green', 	'txt-color-white'];
+	arrStatus['status_7'] 	= ['bg-color-orange', 	'txt-color-white'];
+	arrStatus['status_8'] 	= ['bg-color-darken', 	'txt-color-white'];
 	// array of buttons in modal
 	var arrButton = new Array();
 	arrButton['active'] 	= '<button class="btn bg-color-green txt-color-white btnStatus" data-value="active">Hiện</button>';
 	arrButton['inactive'] 	= '<button class="btn bg-color-blueDark txt-color-white btnStatus" data-value="inactive">Ẩn</button>';
 	arrButton['block']		= '<button class="btnStatus btn bg-color-red txt-color-white" data-value="block">Block</button>';
+
 	arrButton['hot']		= '<button class="btnHot btn btn-warning txt-color-white" data-value="1">Nổi bật</button>';
 	arrButton['normal']		= '<button class="btnHot btn btn-default txt-color-dark" data-value="0">Thường</button>';
+
+	arrButton['status_1']		= '<button class="btnOrderStatus btn btn-default txt-color-dark" data-value="1">Mới</button>';
+	arrButton['status_2']		= '<button class="btnOrderStatus btn bg-color-pinkDark txt-color-white" data-value="2">Đã xem</button>';
+	arrButton['status_3']		= '<button class="btnOrderStatus btn bg-color-pink txt-color-white" data-value="3">Đã liên lạc</button>';
+	arrButton['status_4']		= '<button class="btnOrderStatus btn bg-color-red txt-color-white" data-value="4">Đã xác nhận</button>';
+	arrButton['status_5']		= '<button class="btnOrderStatus btn bg-color-redLight txt-color-white" data-value="5">Đang chuyển hàng</button>';
+	arrButton['status_6']		= '<button class="btnOrderStatus btn bg-color-green txt-color-white" data-value="6">Đã nhận hàng</button>';
+	arrButton['status_7']		= '<button class="btnOrderStatus btn bg-color-orange txt-color-white" data-value="7">Đã thanh toán</button>';
+	arrButton['status_8']		= '<button class="btnOrderStatus btn bg-color-darken txt-color-white" data-value="8">Đã hủy</button>';
 // init both add or edit form has status element
 	function init_Radio() {
 		if ($('.radioWrapper').length>0) {
@@ -288,6 +308,9 @@
 				else if (btn.hasClass('btnHot')) {
                     modal_body.append(arrButton['hot'], arrButton['normal']);
 				}
+				else if (btn.hasClass('btnOrderStatus')) {
+                    modal_body.append(arrButton['status_1'], arrButton['status_2'], arrButton['status_3'], arrButton['status_4'], arrButton['status_5'], arrButton['status_6'], arrButton['status_7'], arrButton['status_8']);
+				}
 
 			// position of modal
 				$('#'+id_Modal+' .modal-content').position({
@@ -343,6 +366,43 @@
 			    	});
 				}
 			});
+	}
+	function formatOrderStatusButton(idRow, statusVal, class_Btn, ajax_url, id_Modal)
+	{
+		var activeClass = arrStatus['status_'+statusVal][0] + " " + arrStatus['status_'+statusVal][1];
+		var fa = '<button class="btn btnGrid '+class_Btn+' '+activeClass+'" data-id="'+idRow+'" data-value="'+statusVal+'" data-url="'+ajax_url+'"  data-toggle="modal" data-target="#'+id_Modal+'">'
+		switch (statusVal)
+		{
+			case '1':
+				fa += 'Mới';
+				break;
+			case '2':
+				fa += 'Đã xem';
+				break;
+			case '3':
+				fa += 'Đã liên lạc';
+				break;
+			case '4':
+				fa += 'Đã xác nhận';
+				break;
+            case '5':
+                fa += 'Đang chuyển hàng';
+                break;
+            case '6':
+                fa += 'Đã nhận hàng';
+                break;
+            case '7':
+                fa += 'Đã thanh toán';
+                break;
+            case '8':
+                fa += 'Đã hủy';
+                break;
+			default:
+				break;
+		}
+		fa += '</button>'
+
+		return fa;
 	}
 // tree view
 	function treeView()
@@ -904,5 +964,5 @@
    	// pages
 		dashboardPage();
 
-		userPage();
+		//userPage();
 	});

@@ -249,8 +249,10 @@ class Base_model extends CI_model {
                         ,ca.address
                         ,ca.province_id
                         ,p.name AS province
+                        ,p.type AS province_type
                         ,ca.district_id
                         ,d.name AS district
+                        ,d.type AS district_type
                         ,ca.status
                         ,ca.customer_id
                     FROM customer_address AS ca

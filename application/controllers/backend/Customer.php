@@ -81,7 +81,7 @@ class Customer extends Root {
                     $field = $rule->field;
                     $value = $this->db->escape_like_str($rule->data);
                     if ($field == "status") {
-                        $where .= " post.status='" . $value . "'";
+                        $where .= " customer.status='" . $value . "'";
                     }
                     else {
                         if ($field == "address") {
@@ -146,18 +146,45 @@ class Customer extends Root {
         $this->data['addresses'] = $this->Base_model->get_addresses($customer_id);
 
         $this->data['provinces'] = loadProvinces();
+        $this->data['order_status'] = load_order_status();
 
         $this->template->load('backend/template', 'backend/customer/form', $this->data);
     }
 // update_customer
     public function update_customer()
     {
-
+        $customer_id = $this->input->post('customer_id',TRUE);
+        $fullname = $this->input->post('fullname',TRUE);
+        $phone = $this->input->post('phone',TRUE);
+        $email = $this->input->post('email',TRUE);
+        $status = $this->input->post('status', TRUE);
+        $this->noAccess($this->data['permissionsMember'], $this->currentModule['control_name'], 3);
+        // valid form
+        $this->form_validation->set_rules('fullname', 'Họ tên', 'trim|required|max_length[256]|xss_clean');
+        $this->form_validation->set_rules('phone', 'Điện thoại', 'trim|required|max_length[20]|xss_clean');
+        $this->form_validation->set_rules('email', 'Email', 'trim|valid_email|xss_clean');
+        $this->form_validation->set_message('required', '%s bắt buộc nhập');
+        $this->form_validation->set_message('max_length', '%s tối đa 255 ký tự');
+        $this->form_validation->set_message('valid_email', '%s không đúng định dạng');
+        if ( $this->form_validation->run() == FALSE && validation_errors() != "") {
+            $this->session->set_userdata('invalid', validation_errors());
+        }
+        else {
+            // update phone
+            if ($this->Base_model->update_db('customer',array('fullname'=>$fullname, 'phone'=>$phone, 'email'=>$email, 'status'=>$status), array('id'=>$customer_id))==FALSE) {
+                $this->session->set_userdata('invalid', "Update data error.");
+            }
+            else {
+                $this->session->set_userdata('valid', "Update data successful.");
+            }
+        }
+        redirect(B_URL . $this->currentModule['url'] . '/edit/' . $customer_id);
     }
 // update_customer_address
     public function update_customer_address()
     {
         $address_id = $this->input->post('address_id',TRUE);
+        $customer_id = $this->input->post('customer_id',TRUE);
         $address = $this->input->post('address',TRUE);
         $province_id = $this->input->post('province_id',TRUE);
         $district_id = $this->input->post('district_id',TRUE);
@@ -182,12 +209,52 @@ class Customer extends Root {
             $msg['msg'] = validation_errors();
         }
         else {
-            // update db
-            $msg['err'] = 0;
-
+            if ($address_id == NULL) {
+                if ( $this->Base_model->insert_db('customer_address', array('address'=>$address, 'province_id'=>$province_id, 'district_id'=>$district_id, 'customer_id'=>$customer_id)) === FALSE ) {
+                    $msg['err'] = 1;
+                    $msg['msg'] = 'Error update data.';
+                }
+                else {
+                    $msg['err'] = 0;
+                    $this->session->set_userdata('valid', "Update data successful.");
+                }
+            }
+            else { // update db
+                if ( $this->Base_model->update_db('customer_address', array('address'=>$address, 'province_id'=>$province_id, 'district_id'=>$district_id), array('id'=>$address_id)) === FALSE ) {
+                    $msg['err'] = 1;
+                    $msg['msg'] = 'Error update data.';
+                }
+                else {
+                    $msg['err'] = 0;
+                    $this->session->set_userdata('valid', "Update data successful.");
+                }
+            }
         }
         echo json_encode($msg);
     }
+// delete_address
+    public function delete_address($address_id)
+    {
+        if ($address_id == FALSE) {
+            $this->session->set_userdata('invalid', "Không tìm thấy dữ liệu.");
+        }
+        else {
+            $arr_address = $this->Base_model->get_db('customer_address',NULL,array('id'=>$address_id));
+            if ($arr_address != FALSE && count($arr_address)>0) {
+                $address = $arr_address[0];
+            }
+            $customer_id = $address['customer_id'];
+            if ($this->Base_model->update_db('customer_address', array('del_flg'=>1), array('id'=>$address_id))==FALSE) {
+                $this->session->set_userdata('invalid', "Lỗi xóa dữ liệu");
+            }
+            else {
+                $this->session->set_userdata('valid', "Xóa dữ liệu thành công");
+            }
+        }
+
+        redirect(B_URL . $this->currentModule['url'] . '/edit/' . $customer_id);
+    }
+
 //  Ajax List
     public function ajax_order_list()
     {
