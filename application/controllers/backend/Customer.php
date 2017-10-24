@@ -161,12 +161,32 @@ class Customer extends Root {
         $address = $this->input->post('address',TRUE);
         $province_id = $this->input->post('province_id',TRUE);
         $district_id = $this->input->post('district_id',TRUE);
-        print_r("<pre>");
-//        print_r($address_id);
-//        print_r($address);
-        print_r($province_id);
-//        print_r($district_id);
-        exit();
+        $msg = array();
+
+        // check permission
+        if ($address_id == NULL) { // add
+            $this->noAccess($this->data['permissionsMember'], $this->currentModule['control_name'], 2);
+        }
+        else {
+            $this->noAccess($this->data['permissionsMember'], $this->currentModule['control_name'], 3);
+        }
+
+        // valid form
+        $this->form_validation->set_rules('province_id', 'Tỉnh/Thành phố', 'trim|required|xss_clean');
+        $this->form_validation->set_rules('district_id', 'Quận/Huyện', 'trim|required|xss_clean');
+        $this->form_validation->set_rules('address', 'Địa chỉ', 'trim|required|max_length[512]|xss_clean');
+        $this->form_validation->set_message('required', '%s bắt buộc nhập');
+        $this->form_validation->set_message('max_length', '%s tối đa 255 ký tự');
+        if ( $this->form_validation->run() == FALSE && validation_errors() != "") {
+            $msg['err'] = 1;
+            $msg['msg'] = validation_errors();
+        }
+        else {
+            // update db
+            $msg['err'] = 0;
+
+        }
+        echo json_encode($msg);
     }
 //  Ajax List
     public function ajax_order_list()

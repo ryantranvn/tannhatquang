@@ -259,6 +259,7 @@ class Base_model extends CI_model {
             ";
         $where = " WHERE ca.del_flg = 0 AND ca.customer_id = ".$customer_id;
         $sql .= $where;
+        $sql .= " ORDER BY ca.status DESC";
         $query = $this->db->query($sql);
         $result = $query->result_array();
         return $result;
