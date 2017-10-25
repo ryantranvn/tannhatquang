@@ -207,7 +207,7 @@
 	arrStatus['1'] 		= ['btn-warning', 	'txt-color-white'];
 	arrStatus['0'] 	= ['btn-default', 	'txt-color-dark'];
 
-	arrStatus['status_1'] 	= ['btn-default', 		'txt-color-dark'];
+	arrStatus['status_1'] 	= ['btn-primary', 		'txt-color-dark'];
 	arrStatus['status_2'] 	= ['bg-color-pinkDark', 'txt-color-white'];
 	arrStatus['status_3'] 	= ['bg-color-pink', 	'txt-color-white'];
 	arrStatus['status_4'] 	= ['bg-color-red', 	'txt-color-white'];
@@ -224,7 +224,7 @@
 	arrButton['hot']		= '<button class="btnHot btn btn-warning txt-color-white" data-value="1">Nổi bật</button>';
 	arrButton['normal']		= '<button class="btnHot btn btn-default txt-color-dark" data-value="0">Thường</button>';
 
-	arrButton['status_1']		= '<button class="btnOrderStatus btn btn-default txt-color-dark" data-value="1">Mới</button>';
+	arrButton['status_1']		= '<button class="btnOrderStatus btn btn-primary txt-color-dark" data-value="1">Mới</button>';
 	arrButton['status_2']		= '<button class="btnOrderStatus btn bg-color-pinkDark txt-color-white" data-value="2">Đã xem</button>';
 	arrButton['status_3']		= '<button class="btnOrderStatus btn bg-color-pink txt-color-white" data-value="3">Đã liên lạc</button>';
 	arrButton['status_4']		= '<button class="btnOrderStatus btn bg-color-red txt-color-white" data-value="4">Đã xác nhận</button>';

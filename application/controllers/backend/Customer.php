@@ -281,9 +281,9 @@ class Customer extends Root {
                         ,ca.status as address_status
                         ,ca.customer_id
                     FROM `order` AS o
-                    LEFT JOIN `customer_address` AS ca ON ca.id = o.customer_address_id
-                    INNER JOIN `province` AS p ON p.id = ca.province_id
-                    INNER JOIN `district` AS d ON d.id = ca.district_id
+                    LEFT OUTER JOIN `customer_address` AS ca ON ca.id = o.customer_address_id OR o.customer_address_id IS NULL
+                    LEFT OUTER JOIN `province` AS p ON p.id = ca.province_id AND o.customer_address_id IS NOT NULL
+                    LEFT OUTER JOIN `district` AS d ON d.id = ca.district_id AND o.customer_address_id IS NOT NULL
             ";
 
         if ( $params['sidx'] == "address") {
