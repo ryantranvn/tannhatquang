@@ -6,8 +6,6 @@ if (file_exists(APPPATH . 'controllers/backend/Root.php')) {
 
 class Customer extends Root {
 
-	private $module = 'user';
-
     public function __construct()
     {
         parent::__construct();
@@ -39,7 +37,6 @@ class Customer extends Root {
 
         $this->template->load('backend/template', 'backend/customer', $this->data);
     }
-
 //  Ajax List
     public function ajax_list()
     {
@@ -106,7 +103,6 @@ class Customer extends Root {
         // return json
         echo json_encode($list);
     }
-
 // Ajax_status
     public function ajax_status()
     {
@@ -131,7 +127,7 @@ class Customer extends Root {
         // breadcrumb
         $this->data['breadcrumb'][1] = array('name'=>'Edit', 'url' => '');
 
-        // creare form
+        // create form
         $this->data['frmCustomer'] = frm(B_URL .$this->currentModule['url'] . '/update_customer', array('id' => 'frmCustomer'), FALSE, array('customer_id'=>$customer_id));
         $this->data['frmCustomerAddress'] = frm(NULL, array('id' => 'frmCustomerAddress'), FALSE, array('customer_id'=>$customer_id));
 
@@ -254,7 +250,6 @@ class Customer extends Root {
 
         redirect(B_URL . $this->currentModule['url'] . '/edit/' . $customer_id);
     }
-
 //  Ajax List
     public function ajax_order_list()
     {
@@ -273,7 +268,7 @@ class Customer extends Root {
                         ,o.total
                         ,o.status
                         ,o.created_datetime
-                        ,ca.address
+                        ,IF (o.customer_address_id IS NOT NULL, ca.address, ca.address=NULL) as address
                         ,ca.province_id
                         ,p.name AS province
                         ,ca.district_id

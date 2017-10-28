@@ -84,5 +84,24 @@ class Order_model extends Base_model {
         }
     }
 
-
+    public function get_order($order_id)
+    {
+        $sql = "SELECT
+                        o.* 
+                        ,IF (o.customer_address_id IS NOT NULL, ca.province_id, NULL) AS province_id
+                        ,IF (o.customer_address_id IS NOT NULL, ca.district_id, NULL) AS district_id
+                        ,IF (o.customer_address_id IS NOT NULL, ca.address, NULL) AS address
+                        ,c.fullname
+                        ,c.email
+                        ,c.phone
+                    FROM `order` AS o
+                    INNER JOIN customer_address AS ca ON ca.id = o.customer_address_id OR o.customer_address_id IS NULL
+                    INNER JOIN customer AS c ON c.id = o.customer_id
+            ";
+        $where = " WHERE o.del_flg = 0 AND ca.del_flg = 0 AND c.del_flg = 0 AND o.id = ".$order_id;
+        $sql .= $where;
+        $query = $this->db->query($sql);
+        $result = $query->result_array();
+        return $result;
+    }
 }

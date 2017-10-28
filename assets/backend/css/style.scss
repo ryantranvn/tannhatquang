@@ -368,8 +368,10 @@ body {
 	.modal-open .modal {
 		background-color: rgba(0,0,0,0.7);
 	}
-	.customer_form .modal-dialog {
-		max-width: 150px !important;
+	.customer_form, .order_list {
+		.modal-dialog {
+			max-width: 150px !important;
+		}
 	}
 /**/
 	#productCategoryModal {
