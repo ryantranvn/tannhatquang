@@ -30,6 +30,8 @@ class Product extends Root {
 
         // $jsBlock = array('<script language="javascript" type="text/javascript" src="'.ASSETS_URL.'frontend/js/compressed/sly.min.js"></script>');
     	// $this->data['jsBlock'] = $jsBlock;
+        $product_search = $this->input->post('product_search',TRUE);
+
         $params = $this->params;
 
         if (count($params) == 0) {

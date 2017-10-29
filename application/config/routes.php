@@ -3,8 +3,8 @@ defined('BASEPATH') OR exit('No direct script access allowed');
 
 // is testing ?
     if (ENVIRONMENT == 'commingsoon' || ENVIRONMENT == 'understruction') {
-        $route['default_controller'] = "frontend/Maintain";
-        $route['(:any)'] = "frontend/Maintain";
+        $route['default_controller'] = "Maintain";
+        $route['(:any)'] = "Maintain";
     }
     else {
 		$route['default_controller'] = 'frontend/Home';
@@ -21,28 +21,20 @@ defined('BASEPATH') OR exit('No direct script access allowed');
     $route['backend/(:any)'] 	            = "backend/$1";
     $route['backend']                       = "backend/dashboard";
 /* FRONTEND */
-    //$route['get_product_categories'] = 'frontend/Product/ajax_product_categroies';
-
 
     $route['bang-gia'] = 'frontend/Home/banggia';
     $route['lien-he'] = 'frontend/Home/lienhe';
 	$route['gioi-thieu'] = 'frontend/Home/gioithieu';
-
     $route['tin-tuc'] = 'frontend/News';
     $route['tin-tuc/page/(:num)'] = 'frontend/News';
-
     $route['san-pham'] = 'frontend/Product';
     $route['san-pham/(:any)'] = 'frontend/Product';
-
     $route['gio-hang/clearall'] = 'frontend/Cart/clearall';
     $route['gio-hang'] = 'frontend/Cart';
     $route['ajax_add_cart'] = 'frontend/Cart/ajax_add_cart';
     $route['ajax_update_cart'] = 'frontend/Cart/ajax_update_cart';
     $route['ajax_delete_cart'] = 'frontend/Cart/ajax_delete_cart';
-
     $route['ajax_get_district'] = 'frontend/Root/ajax_get_district';
-
-
     $route['checkout'] = 'frontend/Checkout';
     $route['checkout/confirm'] = 'frontend/Checkout/confirm';
     $route['checkout/complete'] = 'frontend/Checkout/complete';

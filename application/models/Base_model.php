@@ -242,8 +242,12 @@ class Base_model extends CI_model {
         }
         return $arr_return;
     }
-// GET ADDRESS
-    function get_addresses($customer_id)
+/* GET ADDRESS
+    $main_address = -1 : get all
+    $main_address = 0 : get all, not get default
+    $main_address = 1 : just get default
+*/
+    function get_address($customer_id, $main_address=-1)
     {
         $sql = "SELECT ca.id
                         ,ca.address
@@ -260,6 +264,9 @@ class Base_model extends CI_model {
                     INNER JOIN district AS d ON d.id = ca.district_id
             ";
         $where = " WHERE ca.del_flg = 0 AND ca.customer_id = ".$customer_id;
+        if ($main_address != -1) {
+            $where .= " AND ca.status = ".$main_address;
+        }
         $sql .= $where;
         $sql .= " ORDER BY ca.status DESC";
         $query = $this->db->query($sql);
@@ -267,6 +274,29 @@ class Base_model extends CI_model {
         return $result;
     }
 
+    function get_order_address($customer_address_id)
+    {
+        $sql = "SELECT ca.id
+                        ,ca.address
+                        ,ca.province_id
+                        ,p.name AS province
+                        ,p.type AS province_type
+                        ,ca.district_id
+                        ,d.name AS district
+                        ,d.type AS district_type
+                        ,ca.status
+                        ,ca.customer_id
+                    FROM customer_address AS ca
+                    INNER JOIN province AS p ON p.id = ca.province_id
+                    INNER JOIN district AS d ON d.id = ca.district_id
+            ";
+        $where = " WHERE ca.del_flg = 0 AND ca.id = ".$customer_address_id;
+        $sql .= $where;
+        $sql .= " ORDER BY ca.status DESC";
+        $query = $this->db->query($sql);
+        $result = $query->result_array();
+        return $result;
+    }
 
 
 /*

@@ -5,7 +5,7 @@ if ($(idTableList).length>0) {
     caption = captionButton(false, true);
     // jqGrid
     jQuery(idTableList).jqGrid({
-        url: bUrl + currentModule['url'] + '/ajax_list?q=2&customer_id='+customer_id,
+        url: bUrl + currentModule['url'] + '/ajax_list?q=2',
         datatype: "json",
         height : 'auto',
         autowidth : true,
@@ -13,7 +13,7 @@ if ($(idTableList).length>0) {
         gridResize: true,
         autoResizeAllColumns: true,
         iconSet: "fontAwesome",
-        colNames : ['Status', 'Mã đơn hàng', 'Total', 'Ngày', 'Địa chỉ', 'Quận', 'Tỉnh', 'Action'],
+        colNames : ['Status', 'Mã đơn hàng', 'Total', 'Ngày', 'Họ tên', 'Điện thoại', 'Địa chỉ', 'Quận', 'Tỉnh', 'Action'],
         colModel : [
             { name : 'status', index : 'status', align : 'center', width : '140',
                 stype: 'select', searchoptions:{ sopt:['eq'], value: statusStr }
@@ -21,6 +21,8 @@ if ($(idTableList).length>0) {
             { name : 'id', index : 'id', search : true, align : 'center', width : '150' },
             { name : 'total', index : 'total', search : true, align : 'center', width : '120' },
             { name : 'created_datetime', index : 'created_datetime', align : 'center', search : true, width : '200' },
+            { name : 'fullname', index : 'fullname', align : 'center', search : true, width : '150' },
+            { name : 'phone', index : 'phone', align : 'center', search : true, width : '150' },
             { name : 'address', index : 'address', align : 'center', search : true, width : '150' },
             { name : 'district', index : 'district', align : 'center', search : true, width : '100' },
             { name : 'province', index : 'province', align : 'center', search : true, width : '100' },
@@ -45,7 +47,6 @@ if ($(idTableList).length>0) {
                     status : fa,
                     act : btnInline
                 });
-
             }
             // btnStatus
             click_btnInGrid('modalStatus', function() {
@@ -65,4 +66,43 @@ if ($(idTableList).length>0) {
     // common
     tableCommon();
 
+    // delete inline
+    $('body').on('click','.btnDelete', function(e) {
+        e.preventDefault();
+        var href = $(this).attr('href');
+        showSmartAlert("Warning", "<p>Are you sure delete this data ?</p>", '[YES][NO]', function() {
+            // click YES
+            window.location.href = href
+        }, function() {
+            // click NO
+        });
+    });
+
+    // multi-delete
+    $('body').on('click', '#btnMultiDelete', function(e) {
+        e.preventDefault();
+        var href = $(this).attr('href');
+
+        var selectedRows = jQuery(idTableList).jqGrid('getGridParam','selarrrow');
+        if (selectedRows.length==0) {
+            showSmartAlert("Error", "Please select data.", '[YES]');
+        }
+        else {
+            showSmartAlert("Warning", "<p>Are you sure delete this data ?</p>", '[YES][NO]', function() {
+                // click YES
+                $('#ids').val(selectedRows);
+                $('#frmTopButtons').submit();
+            }, function() {
+                // click NO
+            });
+        }
+    });
+}
+
+if ($('#frmOrder').length>0) {
+    var btn = $('#frmOrder').find('.order_status');
+    btn = btn.html(formatOrderStatusButton(btn.attr('data-id'), btn.attr('data-value').trim(), 'btnOrderStatus', bUrl+currentModule['url']+'/ajax_status', 'modalStatus'));
+    click_btnInGrid('modalStatus', function() {
+        location.reload();
+    });
 }

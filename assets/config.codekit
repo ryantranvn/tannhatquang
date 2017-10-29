@@ -955,6 +955,17 @@
 		"outputPathIsSetByUser": 0,
 		"processed": 0
 		},
+	"\/common\/images\/icon-customer.png": {
+		"fileType": 32768,
+		"ignore": 0,
+		"ignoreWasSetByUser": 0,
+		"initialSize": 8957,
+		"inputAbbreviatedPath": "\/common\/images\/icon-customer.png",
+		"outputAbbreviatedPath": "\/common\/images\/icon-customer.png",
+		"outputPathIsOutsideProject": 0,
+		"outputPathIsSetByUser": 0,
+		"processed": 0
+		},
 	"\/common\/images\/logo-dev.png": {
 		"fileType": 32768,
 		"ignore": 0,

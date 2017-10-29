@@ -9,8 +9,7 @@ class My_Security extends CI_Security {
     }
 	public function csrf_show_error()
 	{
-        // show_error(B_URL . explode('/', $_SERVER['REQUEST_URI'])[2]);
-        header('Location: ' . B_URL . 'error_csrf');
+        header('Location: ' . F_URL . 'error_csrf');
         exit();
 	}
 }

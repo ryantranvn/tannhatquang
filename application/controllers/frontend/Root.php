@@ -68,7 +68,7 @@ class Root extends CI_Controller {
         $this->data['cssBlock'] = array();
         $this->data['jsBlock'] = array();
     // frmSearch
-        $this->data['frmSearch'] = frm('', array('id'=>'frmSearch'), FALSE);
+        $this->data['frmSearch'] = frm(F_URL . 'san-pham?cat=sp', array('id'=>'frmSearch'), FALSE);
     // categories
         $this->data['categories'] = $this->get_product_categroies();
     // get hot product
@@ -77,10 +77,6 @@ class Root extends CI_Controller {
         if ($this->session->userdata('session_cart')!=FALSE) {
             $this->data['session_cart'] = $this->session->userdata('session_cart');
         }
-
-//         print_r('<pre>');
-//         print_r($this->data['hot_products']);
-//         exit();
     }
 
     public function index()

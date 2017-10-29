@@ -154,46 +154,58 @@ $(document).ready( function() {
             e.preventDefault();
             var item = $(this).parent().parent('.wrap_giohang_item');
             var post_id = $(this).attr('data-id');
-            $.ajax({
-                url: fUrl + 'ajax_delete_cart',
-                type: 'POST',
-                cache: false,
-                dataType: 'json',
-                data: {
-                    'csrf_hash': $.cookie('csrf_cookie_ci'),
-                    'post_id': post_id
-                },
-                success: function (data) {
-                    if (data.error == 1) {
-                        swal(
-                            'Rất tiếc...',
-                            data.msg,
-                            'error'
-                        )
-                    }
-                    else {
-                        item.fadeOut('slow');
-                        // update cart
-                        if (data.total_item<=99) {
-                            $('#wrap_cart #cart_number').html(data.total_item);
-                            if (data.total_item==0) {
-                                $('.btn_dathang').remove();
-                            }
+            swal({
+                title: 'Tân Nhật Quang',
+                text: "Bạn có thật sự muốn xóa sản phẩm này khỏi giỏ hàng ?",
+                type: 'warning',
+                showCancelButton: true,
+                confirmButtonColor: '#3085d6',
+                cancelButtonColor: '#d33',
+                confirmButtonText: 'Xóa',
+                cancelButtonText: 'Không'
+            }).then(function () {
+                $.ajax({
+                    url: fUrl + 'ajax_delete_cart',
+                    type: 'POST',
+                    cache: false,
+                    dataType: 'json',
+                    data: {
+                        'csrf_hash': $.cookie('csrf_cookie_ci'),
+                        'post_id': post_id
+                    },
+                    success: function (data) {
+                        if (data.error == 1) {
+                            swal(
+                                'Rất tiếc...',
+                                data.msg,
+                                'error'
+                            )
                         }
                         else {
-                            $('#wrap_cart #cart_number').html("99<plus>+</plus>");
+                            item.fadeOut('slow');
+                            // update cart
+                            if (data.total_item<=99) {
+                                $('#wrap_cart #cart_number').html(data.total_item);
+                                if (data.total_item==0) {
+                                    $('.btn_dathang').remove();
+                                }
+                            }
+                            else {
+                                $('#wrap_cart #cart_number').html("99<plus>+</plus>");
+                            }
+                            // update row
+                            var sub_total = $.number( data.sub_total, 0, ',', '.' );
+                            $('.wrap_item_'+post_id).find('.col_sub_total').find('.sub_total').children('span:last-child').html(sub_total);
+                            var total = $.number( data.total, 0, ',', '.' );
+                            $('.wrap_giohang_tong').find('.total').html(total);
+                            $('.wrap_lbl_giohang').find('.number_item').html(data.total_item);
                         }
-                        // update row
-                        var sub_total = $.number( data.sub_total, 0, ',', '.' );
-                        $('.wrap_item_'+post_id).find('.col_sub_total').find('.sub_total').children('span:last-child').html(sub_total);
-                        var total = $.number( data.total, 0, ',', '.' );
-                        $('.wrap_giohang_tong').find('.total').html(total);
-                        $('.wrap_lbl_giohang').find('.number_item').html(data.total_item);
+                    },
+                    error: function () {
                     }
-                },
-                error: function () {
-                }
-            });
+                });
+            })
+
         });
     }
 
@@ -323,7 +335,21 @@ $(document).ready( function() {
         }
     }
 
-
+// search
+    $('#frmSearch').find('.btn').click( function(e) {
+        e.preventDefault();
+        var product_search = $('#frmSearch').find('input[name="product_search"]').val().trim();
+        if (product_search.length==0) {
+            swal(
+                'Vui lòng nhập tên hoặc mã sản phẩm cần tìm kiếm',
+                data.msg,
+                'error'
+            )
+        }
+        else {
+            $('#frmSearch').submit();
+        }
+    });
 
 });
 

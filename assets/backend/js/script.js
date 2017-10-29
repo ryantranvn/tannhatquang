@@ -295,7 +295,8 @@
         var modal_body = $('#'+id_Modal+' .modal-content .modal-body');
         var btnGrid = $('.btnGrid');
 		// show modal on click btnGrid
-        	btnGrid.click( function() {
+        	btnGrid.click( function(e) {
+        		e.preventDefault();
 				var btn = $(this);
                 modal_body.find('.row_id').html(btn.attr('data-id'));
                 modal_body.find('.old_value').html(btn.attr('data-value'));

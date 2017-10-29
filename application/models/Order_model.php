@@ -104,4 +104,26 @@ class Order_model extends Base_model {
         $result = $query->result_array();
         return $result;
     }
+
+    public function get_order_detail($order_id)
+    {
+        $sql = "SELECT od.*
+                        ,product.code
+                        ,product.name
+                        ,product.url
+                        ,product.description
+                        ,product.unit
+                        ,product.manufacturer
+                        ,product.order
+                        , (SELECT url FROM post_picture WHERE post_id=post.id LIMIT 1) as thumbnail
+                    FROM `order_detail` AS od
+                    INNER JOIN post ON post.id = od.post_id
+                    INNER JOIN product ON product.post_id = post.id
+            ";
+        $where = " WHERE od.del_flg = 0 AND post.del_flg = 0 AND od.order_id = ".$order_id;
+        $sql .= $where;
+        $query = $this->db->query($sql);
+        $result = $query->result_array();
+        return $result;
+    }
 }

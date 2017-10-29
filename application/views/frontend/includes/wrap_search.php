@@ -9,7 +9,7 @@
             <div id="wrap_frmSearch" class="col col-sm-9 pull-right">
                 <?=$frmSearch['open']?>
                 <div class="input-group">
-                    <input type="text" class="form-control" placeholder="Tìm kiếm sản phẩm">
+                    <input type="text" name="product_search" class="form-control" placeholder="Tìm kiếm sản phẩm">
                     <span class="btn input-group-addon">
                         <i class="fa fa-search"></i>
                     </span>

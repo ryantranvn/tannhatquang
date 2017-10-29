@@ -139,7 +139,7 @@ class Customer extends Root {
         }
         $this->data['frmData'] = $frmData[0];
         // get address list
-        $this->data['addresses'] = $this->Base_model->get_addresses($customer_id);
+        $this->data['addresses'] = $this->Base_model->get_address($customer_id);
 
         $this->data['provinces'] = loadProvinces();
         $this->data['order_status'] = load_order_status();

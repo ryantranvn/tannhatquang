@@ -485,3 +485,37 @@ td .ui-jqgrid .ui-jqgrid-htable th {
   display: none; }
 .customer_form .help-block {
   color: red; }
+
+/* order_form */
+.order_form #frmOrder .customer_info {
+  padding-bottom: 10px; }
+  .order_form #frmOrder .customer_info .customer_thumbnail {
+    width: 80px;
+    height: 80px; }
+  .order_form #frmOrder .customer_info span {
+    text-indent: 20px;
+    display: inline-block;
+    vertical-align: top;
+    line-height: 28px; }
+  .order_form #frmOrder .customer_info span.fullname {
+    font-size: 14px;
+    text-transform: uppercase;
+    font-weight: bold; }
+  .order_form #frmOrder .customer_info h6 {
+    color: #2aabd2; }
+  .order_form #frmOrder .customer_info .order_status {
+    text-indent: 0; }
+.order_form #frmOrder .order_info th {
+  text-align: center;
+  font-weight: bold;
+  color: #2aabd2; }
+.order_form #frmOrder .order_info .thumbnail_product {
+  width: 80px; }
+.order_form #frmOrder .order_info .product_name {
+  display: inline-block;
+  vertical-align: top; }
+.order_form #frmOrder .order_info tfoot {
+  font-weight: bold;
+  font-size: 16px; }
+.order_form .modal-dialog {
+  max-width: 150px !important; }
