@@ -30,8 +30,6 @@ class Product extends Root {
 
         // $jsBlock = array('<script language="javascript" type="text/javascript" src="'.ASSETS_URL.'frontend/js/compressed/sly.min.js"></script>');
     	// $this->data['jsBlock'] = $jsBlock;
-        $product_search = $this->input->post('product_search',TRUE);
-
         $params = $this->params;
 
         if (count($params) == 0) {
@@ -47,13 +45,15 @@ class Product extends Root {
     {
         $params = $this->params;
         $segs = $this->segs;
+        $category_url = '';
         if (isset($params['cat']) && $params['cat']=="sp" && count($segs)>0) {
             if (count($segs)>1) {
                 $category_url = $segs[2];
             }
-            else {
-                $category_url = '';
-            }
+        }
+        $search_val = "";
+        if (isset($params['search']) && $params['search']!="") {
+            $search_val = $params['search'];
         }
         if (isset($params['page']) && $params['page']>1) {
             $page = $params['page'];
@@ -88,6 +88,9 @@ class Product extends Root {
         if ($category_url!="") {
             $where .= " AND category.url='".$category_url."'";
         }
+        if ($search_val!="") {
+            $where .= " AND product.name LIKE '%".$search_val."%'";
+        }
         $sql .= $where;
         $total = $this->Base_model->table_total_rows($sql);
 
@@ -95,7 +98,7 @@ class Product extends Root {
         $config['first_url'] = paging_base_url($this->params) . '&page=1';
         $config['query_string_segment'] = 'page';
         $config['total_rows'] = $total;
-        $config['per_page'] = 12;
+        $config['per_page'] = 3;
         $config['use_page_numbers'] = TRUE;
         $config['page_query_string'] = TRUE;
         $config['num_links'] = 5;

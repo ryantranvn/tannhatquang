@@ -7,6 +7,14 @@ var footer_height = $('#wrap_footer').height();
 //
 //     }
 // });
+// invalid alert
+    if (js_data.invalid) {
+        swal(
+            'Rất tiếc...',
+            js_data.invalid,
+            'error'
+        )
+    }
 
 // scroll top
     $('#gotoTop').affix({offset: {bottom: (footer_height+80)} });
@@ -341,13 +349,16 @@ $(document).ready( function() {
         var product_search = $('#frmSearch').find('input[name="product_search"]').val().trim();
         if (product_search.length==0) {
             swal(
+                'Rất tiếc...',
                 'Vui lòng nhập tên hoặc mã sản phẩm cần tìm kiếm',
-                data.msg,
                 'error'
             )
         }
         else {
-            $('#frmSearch').submit();
+           //$('#frmSearch').submit();
+            var params = { cat : 'sp', search : product_search };
+            var params_str = jQuery.param( params );
+            window.location.href = fUrl + 'san-pham?' + params_str;
         }
     });
 

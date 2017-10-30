@@ -835,7 +835,9 @@ body {
 /* Pagination */
 .wrap_paging {
   font-size: 24px;
-  text-align: center; }
+  text-align: center;
+  padding-top: 20px;
+  clear: both; }
   .wrap_paging a {
     color: #464646; }
   .wrap_paging a:not(:first-child):not(:last-child)::after {

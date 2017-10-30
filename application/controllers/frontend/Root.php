@@ -68,7 +68,7 @@ class Root extends CI_Controller {
         $this->data['cssBlock'] = array();
         $this->data['jsBlock'] = array();
     // frmSearch
-        $this->data['frmSearch'] = frm(F_URL . 'san-pham?cat=sp', array('id'=>'frmSearch'), FALSE);
+        $this->data['frmSearch'] = frm(NULL, array('id'=>'frmSearch'), FALSE);
     // categories
         $this->data['categories'] = $this->get_product_categroies();
     // get hot product
