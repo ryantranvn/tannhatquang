@@ -18,7 +18,7 @@ class News extends Root {
         $this->load->model($this->currentModule['control_name'].'_model', 'model');
         $this->data['activeModule'] = $this->currentModule['control_name'];
         $this->data['activeNav'] = $this->currentModule['control_name'];
-        $this->data['breadcrumb'][0] = array('name'=>$this->currentModule['name'], 'url' => B_URL . $this->currentModule['url']);
+        $this->data['breadcrumb'][0] = array('name'=>'Tin tức'/*$this->currentModule['name']*/, 'url' => B_URL . $this->currentModule['url']);
         // block js and css
             // array_push($this->data['cssBlock'], '<link rel="stylesheet" type="text/css" href="'. ASSETS_URL . 'backend/css/.css" />');
             array_push($this->data['jsBlock'], '<script language="javascript" type="text/javascript" src="'. ASSETS_URL . 'backend/js/init_height.js"></script>');
@@ -35,7 +35,7 @@ class News extends Root {
         // check not access
             $this->noAccess($this->data['permissionsMember'], $this->currentModule['control_name'], 1);
         // breadcrumb
-            $this->data['breadcrumb'][1] = array('name'=>'List', 'url' => B_URL . $this->currentModule['url']);
+            $this->data['breadcrumb'][1] = array('name'=>'Danh sách', 'url' => B_URL . $this->currentModule['url']);
         // for tree
             $arrCategory = $this->Base_model->get_db('category', NULL, NULL, array('path'=>$this->path), array('path','order','name'), array('asc','asc','asc'));
             foreach ($arrCategory as $key => $category) {
@@ -140,7 +140,7 @@ class News extends Root {
         // check permission
             $this->noAccess($this->data['permissionsMember'], $this->currentModule['control_name'], 2);
         // breadcrumb
-            $this->data['breadcrumb'][1] = array('name'=>'Add', 'url' => '');
+            $this->data['breadcrumb'][1] = array('name'=>'Thêm mới', 'url' => '');
         // tree
             $arrCategory = $this->Base_model->get_db('category', NULL, NULL, array('path'=>$this->path), array('path','order','name'), array('asc','asc','asc'));
             foreach ($arrCategory as $key => $category) {
@@ -156,19 +156,32 @@ class News extends Root {
         $this->template->load('backend/template', 'backend/news/form', $this->data);
     }
 // Edit
-    public function edit($id)
+    public function edit($post_id)
     {
         // check permission
             $this->noAccess($this->data['permissionsMember'], $this->currentModule['control_name'], 3);
         // breadcrumb
-            $this->data['breadcrumb'][1] = array('name'=>'Edit', 'url' => '');
+            $this->data['breadcrumb'][1] = array('name'=>'Chỉnh sửa', 'url' => '');
         // get post
-            $posts = $this->Base_model->get_post('news', $id);
-            if ($posts === FALSE && count($posts)==0) {
-                $this->session->set_userdata('invalid', "Không tìm thấy dữ liệu.");
-                redirect(B_URL . $this->currentModule['url']);
+        $posts = $this->Base_model->get_post('news', $post_id);
+        if ($posts === FALSE && count($posts)==0) {
+            $this->session->set_userdata('invalid', "Không tìm thấy dữ liệu.");
+            redirect(B_URL . $this->currentModule['url']);
+        }
+        $this->data['frmData'] = $post = $posts[0];
+        $pictures = $this->Base_model->get_db('post_picture', NULL, array('post_id' => $post_id));
+        if ($pictures !== FALSE && count($pictures)>0) {
+            $this->data['pictures'] = $pictures;
+            $str = "[";
+            foreach ($pictures as $key => $picture) {
+                if ($key!=0) {
+                    $str .= ",";
+                }
+                $str .= '"' . $picture['url']. '"';
             }
-            $this->data['frmData'] = $post = $posts[0];
+            $str .= "]";
+            $this->data['picture_input'] = $str;
+        }
         // get category tree
             $arrCategory = $this->Base_model->get_db('category', NULL, NULL, array('path'=>$this->path), array('path','order','name'), array('asc','asc','asc'));
             foreach ($arrCategory as $key => $category) {
@@ -177,6 +190,7 @@ class News extends Root {
             }
             $this->data['categories'] = $arrCategory;
             $this->data['selected_category_id'] = $post['category_id'];
+            $this->data['selected_category_name'] = $post['category_name'];
             $this->data['parent_id'] = $post['category_id'];
         // creare form
             $this->data['frmNews'] = frm(NULL, array('id' => 'frmNews'), TRUE);

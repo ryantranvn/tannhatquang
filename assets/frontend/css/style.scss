@@ -763,6 +763,14 @@
 /* SANPHAM */
     #wrap_sanpham {
         #wrap_right {
+            .wrap_search {
+                border-bottom: solid 1px $color_border;
+                padding: 10px;
+
+                b {
+                    color: $color_red;
+                }
+            }
             .wrap_sanpham_list {
                 .item_sanpham {
                     margin: 10px 1px;

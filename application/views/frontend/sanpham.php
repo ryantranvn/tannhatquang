@@ -6,6 +6,11 @@
                 <?=$this->load->view('frontend/includes/wrap_hot_product','',TRUE)?>
             </div>
             <div id="wrap_right" class="col col-sm-9">
+                <? if (isset($search_val)) { ?>
+                <div class="wrap_search">
+                    <h4>Kết quả tìm kiếm cho '<b><?=$search_val?></b>': <b><?=count($products)?></b> kết quả</h4>
+                </div>
+                <? } ?>
                 <div class="row">
                     <? if (isset($products) && count($products)>0) { ?>
                     <div class="wrap_sanpham_list container-fluid">

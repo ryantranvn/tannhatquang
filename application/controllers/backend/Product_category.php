@@ -23,7 +23,7 @@ class Product_category extends Root {
 
         $this->data['activeModule'] = $this->currentModule['control_name'];
         $this->data['activeNav'] = $this->currentModule['control_name'];
-        $this->data['breadcrumb'][0] = array('name'=>$this->currentModule['name'], 'url' => B_URL . $this->currentModule['url']);
+        $this->data['breadcrumb'][0] = array('name'=>'Phân loại sản phẩm', 'url' => B_URL . $this->currentModule['url']);
         // block js and css
             // array_push($this->data['cssBlock'], '<link rel="stylesheet" type="text/css" href="'. ASSETS_URL . 'backend/css/category.min.css" />');
         	array_push($this->data['jsBlock'], '<script language="javascript" type="text/javascript" src="'. ASSETS_URL . 'backend/js/category.js"></script>');
@@ -38,7 +38,7 @@ class Product_category extends Root {
             $this->noAccess($this->data['permissionsMember'], $this->currentModule['control_name'], 1);
 
         // breadcrumb
-            $this->data['breadcrumb'][1] = array('name'=>'List', 'url' => B_URL . $this->currentModule['url']);
+            $this->data['breadcrumb'][1] = array('name'=>'Danh sách', 'url' => B_URL . $this->currentModule['url']);
 
         // for tree
             $arrCategory = $this->Base_model->get_db('category', NULL, NULL, array('path'=>$this->path), array('path','order','name'), array('asc','asc','asc'));
@@ -117,7 +117,7 @@ class Product_category extends Root {
             $this->noAccess($this->data['permissionsMember'], $this->currentModule['control_name'], 2);
 
         // breadcrumb
-            $this->data['breadcrumb'][1] = array('name'=>'Add', 'url' => '');
+            $this->data['breadcrumb'][1] = array('name'=>'Thêm mới', 'url' => '');
 
         $arrCategory = $this->Base_model->get_db('category', NULL, NULL, array('path'=>$this->path), array('path','order','name'), array('asc','asc','asc'));
         foreach ($arrCategory as $key => $category) {

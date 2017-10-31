@@ -171,6 +171,7 @@ class Base_model extends CI_model {
             $sql = "SELECT
                         post.id
                         ,post.category_id
+                        ,post.category_name
                         ,post.status
                         ,news.title
                         ,news.url
@@ -178,6 +179,7 @@ class Base_model extends CI_model {
                         ,news.description
                         ,news.order
                         ,news.detail
+                        , (SELECT url FROM post_picture WHERE post_id=post.id LIMIT 1) as thumbnail
                     FROM post
                     INNER JOIN news ON news.post_id = post.id
             ";

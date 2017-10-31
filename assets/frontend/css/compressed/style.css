@@ -544,6 +544,11 @@ body {
   z-index: 1000; }
 
 /* SANPHAM */
+#wrap_sanpham #wrap_right .wrap_search {
+  border-bottom: solid 1px #dddddd;
+  padding: 10px; }
+  #wrap_sanpham #wrap_right .wrap_search b {
+    color: #bf1e2e; }
 #wrap_sanpham #wrap_right .wrap_sanpham_list .item_sanpham {
   margin: 10px 1px;
   padding: 10px 1px;

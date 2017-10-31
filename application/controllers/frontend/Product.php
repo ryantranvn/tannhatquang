@@ -53,7 +53,8 @@ class Product extends Root {
         }
         $search_val = "";
         if (isset($params['search']) && $params['search']!="") {
-            $search_val = $params['search'];
+            $search_val = filter_var($params['search'], FILTER_SANITIZE_STRING);
+            $this->data['search_val'] = $search_val;
         }
         if (isset($params['page']) && $params['page']>1) {
             $page = $params['page'];
