@@ -7,7 +7,7 @@
             </div>
             <div id="wrap_right" class="col col-sm-9">
                 <div class="row">
-                    <h3 class="text_left red" style="line-height: 40px">Tin nổi bật - Khuyến mãi </h3>
+                    <h3 class="text_left red" style="line-height: 40px; display: none">Tin nổi bật - Khuyến mãi </h3>
                     <div class="wrap_tintuc_noibat container-fluid">
                         <div class="col col-sm-6">
                             <img src="<?=ASSETS_URL?>frontend/images/tintuc-01.jpg" alt="<?=IMG_ALT?>" />

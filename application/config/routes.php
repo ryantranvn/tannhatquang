@@ -10,6 +10,7 @@ defined('BASEPATH') OR exit('No direct script access allowed');
 		$route['default_controller'] = 'frontend/Home';
     }
 /* BACKEND */
+    $route['backend/price-list/'] 	= "backend/Price_list";
     $route['backend/product-category/delete/(:num)'] 	= "backend/category/delete/$1";
 
     $route['backend/(:any)/ajax_hot'] 	    = "backend/$1/ajax_hot";

@@ -308,6 +308,8 @@ body {
   margin-top: 40px;
   padding: 20px 0px;
   background: white; }
+  #wrap_footer .link_logo {
+    display: block; }
   #wrap_footer ul.nav {
     margin-top: 20px; }
     #wrap_footer ul.nav a {

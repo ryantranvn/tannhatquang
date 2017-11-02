@@ -82,6 +82,17 @@
 					</a>
 				</li>
 			<? } ?>
+
+            <!-- Price List -->
+            <? if ($permissionsMember['Price_list'][1] == 1) { ?>
+                <li class="<?php if (isset($activeNav) && $activeNav == 'Price_list') { ?>active<? } ?>">
+                    <a href="<?=B_URL.$modules['Price_list']['url']?>">
+                        <i class="<?=$modules['Price_list']['icon']?>"></i>
+                        Bảng giá
+                    </a>
+                </li>
+            <? } ?>
+
 			<!-- Setting -->
 			<? if ($permissionsMember['Setting'][1] == 1) { ?>
 				<li class="moduleSystem <?php if (isset($activeNav) && $activeNav == 'Setting') { ?>active<? } ?>">

@@ -452,9 +452,11 @@
         margin-top: 40px;
         padding: 20px 0px;
         background: white;
+        .link_logo {
+            display: block;
+        }
         ul.nav {
             margin-top: 20px;
-
             a {
                 display: inline-block;
                 color: $color_content;
