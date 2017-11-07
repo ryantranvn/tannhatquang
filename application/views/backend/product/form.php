@@ -206,44 +206,44 @@
 	                        </div>
 	                    <!-- Picture -->
 	                        <div class="row" style="margin-top: 20px">
-	                                <div class="col-xs-12 col-sm-12 col-md-12 col-lg-12">
-	                                    <div class="row">
-	                                        <div class="col-xs-12 col-sm-12 col-md-12 col-lg-12">
-	                                            <fieldset>
-	                                                <div class="form-group">
-	                                                    <label class="control-label">Hình sản phẩm</label>
-	                                                    <p>
-	                                                        <span class="label label-warning">
-	                                                        NOTE</span> &nbsp; Chỉ chấp nhận file *.png, *.jpg &amp; size <=5MBs.
-	                                                    </p>
-	                                                    <div class="input-group">
-	                                                        <input type="text" name="thumbnail" class="inputThumbnail form-control" readonly <? if (isset($picture_input) && strlen($picture_input)>4) { ?> value='<?=$picture_input?>' <? } ?>>
-	                                                        <div class="input-group-btn">
-	                                                            <button class="btn btn-default btnSelectThumbnail" type="button">
-	                                                                Select File
-	                                                            </button>
-	                                                        </div>
-	                                                    </div>
-	                                                    <div class="thumbnailWrapper" style="margin-top: 10px">
-	                                                        <? if (isset($pictures) && count($pictures)>0) {
-	                                                            foreach ($pictures as $picture) { ?>
-                                                                    <? if ($picture['url'] != "") { ?>
-	                                                                <div class="thumbnailItem">
-	                                                                    <img src="<?=$picture['url']?>" class="thumbnail" />
-	                                                                    <a class="thumbnailDel"><i class="fa fa-trash-o"></i></a>
-	                                                                </div>
-                                                                    <? } ?>
-	                                                            <? } ?>
-	                                                        <? } else  { ?>
-	                                                        <img class="thumbnail" src="<?php echo assetsUrl('common','images','default.jpg'); ?>" />
-	                                                        <? } ?>
-	                                                    </div>
-	                                                </div>
-	                                            </fieldset>
-	                                        </div>
-	                                    </div>
-	                                </div>
-	                            </div>
+                                <div class="col-xs-12 col-sm-12 col-md-12 col-lg-12">
+                                    <div class="row">
+                                        <div class="col-xs-12 col-sm-12 col-md-12 col-lg-12">
+                                            <fieldset>
+                                                <div class="form-group">
+                                                    <label class="control-label">Hình sản phẩm</label>
+                                                    <p>
+                                                        <span class="label label-warning">
+                                                        NOTE</span> &nbsp; Chỉ chấp nhận file *.png, *.jpg &amp; size <=5MBs.
+                                                    </p>
+                                                    <div class="input-group">
+                                                        <input type="text" name="thumbnail" class="inputThumbnail form-control" readonly <? if (isset($picture_input) && strlen($picture_input)>4) { ?> value='<?=$picture_input?>' <? } ?>>
+                                                        <div class="input-group-btn">
+                                                            <button class="btn btn-default btnSelectThumbnail" type="button">
+                                                                Select File
+                                                            </button>
+                                                        </div>
+                                                    </div>
+                                                    <div class="thumbnailWrapper" style="margin-top: 10px">
+                                                        <? if (isset($pictures) && count($pictures)>0) {
+                                                            foreach ($pictures as $picture) { ?>
+                                                                <? if ($picture['url'] != "") { ?>
+                                                                <div class="thumbnailItem">
+                                                                    <img src="<?=$picture['url']?>" class="thumbnail" />
+                                                                    <a class="thumbnailDel"><i class="fa fa-trash-o"></i></a>
+                                                                </div>
+                                                                <? } ?>
+                                                            <? } ?>
+                                                        <? } else  { ?>
+                                                        <img class="thumbnail" src="<?php echo assetsUrl('common','images','default.jpg'); ?>" />
+                                                        <? } ?>
+                                                    </div>
+                                                </div>
+                                            </fieldset>
+                                        </div>
+                                    </div>
+                                </div>
+                            </div>
 	                    <!-- Detail -->
 	                        <div class="row">
 	                            <div class="col-xs-12 col-sm-12 col-md-12 col-lg-12">
