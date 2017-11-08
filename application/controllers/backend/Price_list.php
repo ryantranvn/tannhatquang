@@ -35,23 +35,47 @@ class Price_list extends Root
         $this->data['breadcrumb'][1] = array('name' => 'Danh sách', 'url' => B_URL . $this->currentModule['url']);
         // create frm
         $this->data['frmTopButtons'] = frm(B_URL . $this->currentModule['url'] . '/multi_delete', array('id' => "frmTopButtons"), FALSE);
-        $this->data['frmPriceList'] = frm(NULL, array('id' => 'frmPriceList'), TRUE);
+        $this->data['frmPriceList'] = frm(B_URL . $this->currentModule['url'] . '/submit', array('id' => 'frmPriceList'), FALSE);
 
         $this->template->load('backend/template', 'backend/price_list', $this->data);
     }
-// Add
-/*
-    public function add()
+//  Ajax List
+    public function ajax_list()
+    {
+        // get params
+        $params = array(
+            'page'     => $_GET['page']
+            ,'limit'    => $_GET['rows']
+            ,'sidx'     => $_GET['sidx']
+            ,'sord'     => $_GET['sord']
+        );
+        $sql = "SELECT * FROM price_list";
+        $where = "";
+        if (isset($_GET['filters'])) {
+            $params['filters'] = json_decode($_GET['filters']);
+            if (count($params['filters']->rules)>0) {
+                if ($where == "") {$where .= " WHERE"; } else { $where .= " AND"; }
+                foreach($params['filters']->rules as $rule) {
+                    $field = $rule->field;
+                    $value = $this->db->escape_like_str($rule->data);
+
+                    $where .= " $field LIKE '%$value%'";
+                }
+            }
+        }
+        $sql .= $where;
+        // return json
+        echo json_encode($this->Base_model->table_list_in_page($sql, $params));
+    }
+// Submit
+    public function submit()
     {
         // check permission
         $this->noAccess($this->data['permissionsMember'], $this->currentModule['control_name'], 2);
         // breadcrumb
         $this->data['breadcrumb'][1] = array('name' => 'Thêm mới', 'url' => '');
 
-        // creare form
 
 
-        $this->template->load('backend/template', 'backend/price_list/form', $this->data);
     }
-*/
 }

@@ -82,7 +82,7 @@
             multiselect : true,
             loadBeforeSend: function () {
                 $(this).closest("div.ui-jqgrid-view").find("table.ui-jqgrid-htable>thead>tr>th").css({"text-align":"center"});
-            },
+            }
             // onSelectRow: function(id) {
             // },
             //editurl: "server.php"

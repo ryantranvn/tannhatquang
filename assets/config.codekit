@@ -593,6 +593,17 @@
 		"outputStyle": 1,
 		"syntaxCheckerStyle": 1
 		},
+	"\/backend\/js\/compressed\/price_list.min.js": {
+		"fileType": 64,
+		"ignore": 1,
+		"ignoreWasSetByUser": 0,
+		"inputAbbreviatedPath": "\/backend\/js\/compressed\/price_list.min.js",
+		"outputAbbreviatedPath": "\/backend\/js\/compressed\/compressed\/price_list.min.min.js",
+		"outputPathIsOutsideProject": 0,
+		"outputPathIsSetByUser": 0,
+		"outputStyle": 1,
+		"syntaxCheckerStyle": 1
+		},
 	"\/backend\/js\/compressed\/product.min.js": {
 		"fileType": 64,
 		"ignore": 1,
@@ -753,6 +764,17 @@
 		"ignoreWasSetByUser": 0,
 		"inputAbbreviatedPath": "\/backend\/js\/order.js",
 		"outputAbbreviatedPath": "\/backend\/js\/compressed\/order.min.js",
+		"outputPathIsOutsideProject": 0,
+		"outputPathIsSetByUser": 0,
+		"outputStyle": 1,
+		"syntaxCheckerStyle": 1
+		},
+	"\/backend\/js\/price_list.js": {
+		"fileType": 64,
+		"ignore": 0,
+		"ignoreWasSetByUser": 0,
+		"inputAbbreviatedPath": "\/backend\/js\/price_list.js",
+		"outputAbbreviatedPath": "\/backend\/js\/compressed\/price_list.min.js",
 		"outputPathIsOutsideProject": 0,
 		"outputPathIsSetByUser": 0,
 		"outputStyle": 1,

@@ -559,6 +559,9 @@
 					    // htmlStr += '<div id="output" style="display: inline-block; top: 4px; position: relative ;border: dotted 1px #ccc; padding: 2px;"></div>'
 		            	thumbnailWrapper.html('').html(htmlStr)
 		            }
+                    else if (typeFile == 'file') {
+
+                    }
 				})
 			}
 			else {

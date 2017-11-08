@@ -5,7 +5,7 @@
     <!-- row -->
     <div class="row">
     <!-- ADD -->
-        <?php if ($permissionsMember['Module']['2'] == 1 || $permissionsMember['Module']['3'] == 1) { ?>
+        <?php if ($permissionsMember['Price_list']['2'] == 1 || $permissionsMember['Price_list']['3'] == 1) { ?>
             <article class="col-xs-12 col-sm-12 col-md-4 col-lg-4">
                 <div class="jarviswidget jarviswidget-color-blue" data-widget-editbutton="false" data-widget-deletebutton="false">
                     <!-- header -->
@@ -95,7 +95,7 @@
             </article>
         <?php } ?>
     <!-- LIST -->
-        <?php if ($permissionsMember['Module']['2'] == 1 || $permissionsMember['Module']['3'] == 1) { ?>
+        <?php if ($permissionsMember['Price_list']['2'] == 1 || $permissionsMember['Price_list']['3'] == 1) { ?>
         <article class="col-xs-12 col-sm-12 col-md-8 col-lg-8">
         <?php } else { ?>
         <article class="col-xs-12 col-sm-12 col-md-12 col-lg-12">
