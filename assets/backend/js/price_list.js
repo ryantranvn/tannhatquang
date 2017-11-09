@@ -87,14 +87,14 @@ if ($(idTableList).length>0) {
 // file
     selectFile('.btnSelectThumbnail', 'docs', true, false);
 // validator
-    var validator = $("#frmModule").validate({
+    var validator = $("#frmPriceList").validate({
         rules: {
             title: {
                 required: true
             }
         },
         messages: {
-            name_module: {
+            title: {
                 required : "Tiêu đề không được rỗng"
             }
         },

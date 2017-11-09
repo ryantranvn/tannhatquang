@@ -70,12 +70,46 @@ class Price_list extends Root
 // Submit
     public function submit()
     {
+        $id = $this->input->post('id', TRUE);
         // check permission
-        $this->noAccess($this->data['permissionsMember'], $this->currentModule['control_name'], 2);
-        // breadcrumb
-        $this->data['breadcrumb'][1] = array('name' => 'Thêm mới', 'url' => '');
+        if ($id == NULL) { // add
+            $this->noAccess($this->data['permissionsMember'], $this->currentModule['control_name'], 2);
+        }
+        else {
+            $this->noAccess($this->data['permissionsMember'], $this->currentModule['control_name'], 3);
+        }
+    // valid data
+        $this->form_validation->set_rules('title', 'Tiêu đề', 'trim|required|max_length[255]|xss_clean');
+        $this->form_validation->set_message('required', '%s is not empty');
+        $this->form_validation->set_message('max_length', '%s is maximum 255 characters');
+        if ( $this->form_validation->run() == FALSE && validation_errors() != "") {
+            $this->session->set_userdata('invalid', "Không tìm thấy dữ liệu.");
+            redirect(B_URL . $this->currentModule['url']);
+        }
+        $arr_data = array('name' => $name,
+            'control_name' => $control_name,
+            'url' => $url,
+            'icon' => $this->input->post('icon', TRUE),
+            'desc' => $this->input->post('desc', TRUE),
+            'order' => $this->input->post('order', TRUE)
+        );
+        if ($id == NULL) { // add
+            if ( $this->Base_model->insert_db('price_list', $arr_data) === FALSE ) {
+                $this->session->set_userdata('invalid', "Lỗi không thể thêm dữ liệu mới.");
+            }
+            else {
+                $this->session->set_userdata('valid', "Đã thêm dữ liệu mới thành công.");
+            }
+        }
+        else {  // edit
+            if ( $this->Base_model->update_db('price_list', $arr_data, array('id'=>$id)) === FALSE ) {
+                $this->session->set_userdata('invalid', "Lỗi không thể cập nhật dữ liệu mới.");
+            }
+            else {
+                $this->session->set_userdata('valid', "Đã cập nhật dữ liệu thành công.");
+            }
+        }
 
-
-
+        redirect(B_URL . $this->currentModule['url']);
     }
 }
