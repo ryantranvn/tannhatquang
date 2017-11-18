@@ -16,18 +16,26 @@
                     Fax : +84 7806 251 022<br/>
                     Email : dntntannhatquang@gmail.com
                 </p>
-
-                <p><a class="red" href="#">Bảng giá thiết bị đóng cắt C&S (INDIA) (0 bảng giá)</a> Bảng giá thiết bị đóng cắt, cầu dao tự đông, giao chống giật, khởi động từ... và các thiết bị điện công nghiệp khác từ C&S Ấn Độ (INDIA)</p>
-                <p><a class="red" href="#">Bảng giá relay Mikro (0 bảng giá)</a> Bảng báo giá thiết bị relay tự động công nghiệp chính hãng của Mikro</p>
-                <p><a class="red" href="#">Bảng giá thiết bị điện Shneider (1 bảng giá)</a> Bảng báo giá các sản phẩm thiết bị điện công nghiệp chính hãng đến từ thương hiệu nổi tiếng Shneider</p>
-                <p><a class="red" href="#">Bảng giá thiết bị điện Panasonic (1 bảng giá)</a> Bảng báo giá các thiết bị và sản phẩm điện công nghiệp chính hãng đến từ thương hiệu Panasonic nổi tiếng</p>
-                <p><a class="red" href="#">Bảng giá đèn led Libastar (1 bảng giá)</a> Bảng báo giá các thiết bị đèn led chiếu sáng dân dụng và công nghiệp của thương hiệu Libastar</p>
-                <p><a class="red" href="#">Bảng giá thiết bị điện Mitsubishi (0 bảng giá)</a> Bảng báo giá những sản phẩm, thiết bị điện công nghiệp chính hãng của Mitsubishi - Thương hiệu thiết bị điện nổi tiếng hàng đầu</p>
-                <p><a class="red" href="#">Bảng giá thiết bị điện Sino Vanlock (0 bảng giá)</a> Bảng báo giá các thiết bị và sản phẩm điện dân dung của thương hiệu giá rẻ Sino - Vanlock</p>
-                <p><a class="red" href="#">Bảng giá thiết bị điện LS (1 bảng giá)</a> Bảng báo giá các thiết bị và sản phẩm điện công nghiệp tự động hóa chính hãng đến từ thương hiệu nổi tiếng LS</p>
-                <p><a class="red" href="#">Bảng giá thiết bị Duhal (0 bảng giá)</a> Bảng báo giá các thiết bị cùng sản phẩm của hãng thiết bị điện dân dụng Duhal. Liện hệ hotline 0973.893.001 để được giá tốt nhất</p>
-                <p><a class="red" href="#">Bảng giá thiêt bị paragon (1 bảng giá)</a> Bảng báo giá các sản phẩm thiết bị đèn chiếu sáng chất lượng đến từ thương hiệu thiết bị điện dân dụng Paragon hàng đâu tại Việt Nam</p>
-                <p><a class="red" href="#">Bảng giá Meikosha (1 bảng giá)</a> Bảng báo giá thiết bị điện công nghiệp chính hãng của Meikosha - Thương hiệu thiết bị điện chất lượng và uy tín</p>
+                <?php
+                    foreach ($price_list as $item) { ?>
+                        <p>
+                            <a class="red" href="<?php echo F_URL . $item['filename']?>" target="_blank"><?php echo $item['title']?></a>
+                            <?php echo $item['desc']?>
+                        </p>
+                    <?php
+                    }
+                ?>
+<!--                <p><a class="red" href="#">Bảng giá thiết bị đóng cắt C&S (INDIA) (0 bảng giá)</a> Bảng giá thiết bị đóng cắt, cầu dao tự đông, giao chống giật, khởi động từ... và các thiết bị điện công nghiệp khác từ C&S Ấn Độ (INDIA)</p>-->
+<!--                <p><a class="red" href="#">Bảng giá relay Mikro (0 bảng giá)</a> Bảng báo giá thiết bị relay tự động công nghiệp chính hãng của Mikro</p>-->
+<!--                <p><a class="red" href="#">Bảng giá thiết bị điện Shneider (1 bảng giá)</a> Bảng báo giá các sản phẩm thiết bị điện công nghiệp chính hãng đến từ thương hiệu nổi tiếng Shneider</p>-->
+<!--                <p><a class="red" href="#">Bảng giá thiết bị điện Panasonic (1 bảng giá)</a> Bảng báo giá các thiết bị và sản phẩm điện công nghiệp chính hãng đến từ thương hiệu Panasonic nổi tiếng</p>-->
+<!--                <p><a class="red" href="#">Bảng giá đèn led Libastar (1 bảng giá)</a> Bảng báo giá các thiết bị đèn led chiếu sáng dân dụng và công nghiệp của thương hiệu Libastar</p>-->
+<!--                <p><a class="red" href="#">Bảng giá thiết bị điện Mitsubishi (0 bảng giá)</a> Bảng báo giá những sản phẩm, thiết bị điện công nghiệp chính hãng của Mitsubishi - Thương hiệu thiết bị điện nổi tiếng hàng đầu</p>-->
+<!--                <p><a class="red" href="#">Bảng giá thiết bị điện Sino Vanlock (0 bảng giá)</a> Bảng báo giá các thiết bị và sản phẩm điện dân dung của thương hiệu giá rẻ Sino - Vanlock</p>-->
+<!--                <p><a class="red" href="#">Bảng giá thiết bị điện LS (1 bảng giá)</a> Bảng báo giá các thiết bị và sản phẩm điện công nghiệp tự động hóa chính hãng đến từ thương hiệu nổi tiếng LS</p>-->
+<!--                <p><a class="red" href="#">Bảng giá thiết bị Duhal (0 bảng giá)</a> Bảng báo giá các thiết bị cùng sản phẩm của hãng thiết bị điện dân dụng Duhal. Liện hệ hotline 0973.893.001 để được giá tốt nhất</p>-->
+<!--                <p><a class="red" href="#">Bảng giá thiêt bị paragon (1 bảng giá)</a> Bảng báo giá các sản phẩm thiết bị đèn chiếu sáng chất lượng đến từ thương hiệu thiết bị điện dân dụng Paragon hàng đâu tại Việt Nam</p>-->
+<!--                <p><a class="red" href="#">Bảng giá Meikosha (1 bảng giá)</a> Bảng báo giá thiết bị điện công nghiệp chính hãng của Meikosha - Thương hiệu thiết bị điện chất lượng và uy tín</p>-->
             </div>
         </div>
     </div>

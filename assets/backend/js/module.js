@@ -72,8 +72,6 @@
     // edit
         $('body').on('click', '.btnEdit', function(e) {
             e.preventDefault();
-
-            oper = 'edit'
             id = $(this).attr('data-id')
             $.ajax({
                 url: bUrl + 'module/ajax_get_module',

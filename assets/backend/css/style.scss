@@ -266,6 +266,12 @@ body {
 	.ui-jqgrid-hdiv, .ui-jqgrid-bdiv, .ui-jqgrid-pager {
 		width: 100% !important;
 	}
+	.ui-state-hover .link_in_table i {
+		color: black;
+	}
+	.link_in_table i {
+		font-size: 20px;
+	}
 /* TREE VIEW */
 	.tree li.parent_li>span {
 		position: relative;

@@ -56,9 +56,12 @@ CKEDITOR.editorConfig = function( config ) {
     config.filebrowserBrowseUrl = libsUrl + kcfinder + '/browse.php?opener=ckeditor&type=files';
     config.filebrowserImageBrowseUrl = libsUrl + kcfinder + '/browse.php?opener=ckeditor&type=images';
     config.filebrowserFlashBrowseUrl = libsUrl + kcfinder + '/browse.php?opener=ckeditor&type=flash';
+    config.filebrowserDocsBrowseUrl = libsUrl + kcfinder + '/browse.php?opener=ckeditor&type=docs';
+
     config.filebrowserUploadUrl = libsUrl + kcfinder + '/upload.php?opener=ckeditor&type=files';
     config.filebrowserImageUploadUrl = libsUrl + kcfinder + '/upload.php?opener=ckeditor&type=images';
     config.filebrowserFlashUploadUrl = libsUrl + kcfinder + '/upload.php?opener=ckeditor&type=flash';
+    config.filebrowserDocsUploadUrl = libsUrl + kcfinder + '/upload.php?opener=ckeditor&type=docs';
 
     config.extraPlugins += (config.extraPlugins.length == 0 ? '' : ',') + 'ckeditor_wiris';
     config.toolbar_Full.push({ name: 'wiris', items : [ 'ckeditor_wiris_formulaEditor' /*, 'ckeditor_wiris_formulaEditorChemistry', 'ckeditor_wiris_CAS' */]});

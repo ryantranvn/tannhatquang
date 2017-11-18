@@ -571,6 +571,17 @@
 		"outputStyle": 1,
 		"syntaxCheckerStyle": 1
 		},
+	"\/backend\/js\/compressed\/module.min.js": {
+		"fileType": 64,
+		"ignore": 1,
+		"ignoreWasSetByUser": 0,
+		"inputAbbreviatedPath": "\/backend\/js\/compressed\/module.min.js",
+		"outputAbbreviatedPath": "\/backend\/js\/compressed\/compressed\/module.min.min.js",
+		"outputPathIsOutsideProject": 0,
+		"outputPathIsSetByUser": 0,
+		"outputStyle": 1,
+		"syntaxCheckerStyle": 1
+		},
 	"\/backend\/js\/compressed\/news.min.js": {
 		"fileType": 64,
 		"ignore": 1,

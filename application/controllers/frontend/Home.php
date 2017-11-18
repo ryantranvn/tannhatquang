@@ -44,6 +44,8 @@ class Home extends Root {
     public function banggia()
     {
         $this->data['active_nav'] = "banggia";
+        // get data
+        $this->data['price_list'] = $this->Base_model->get_db('price_list',NULL, NULL, NULL, 'order', 'ASC');
         $this->template->load($this->gate.'/template', $this->gate.'/banggia', $this->data);
     }
 // sanpham

@@ -4,6 +4,12 @@ if (file_exists(APPPATH . 'libraries/PHPMailer/PHPMailerAutoload.php')) {
     require_once(APPPATH . 'libraries/PHPMailer/PHPMailerAutoload.php');
 }
 
+    function pr($print_what)
+    {
+        print_r("<pre>");
+        print_r($print_what);
+        exit();
+    }
 // URL
     function assetsUrl($whatModule,$folder,$filename) {
         return F_URL . 'assets/'.$whatModule.'/'.$folder.'/'.$filename;

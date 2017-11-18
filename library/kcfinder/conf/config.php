@@ -28,14 +28,14 @@ $_CONFIG = array(
 
     'types' => array(
         // The folowing directory types are just for an example
-       'files'     => "",
-       'flash'     => "swf",
-       'media'     => "swf flv avi mpg mpeg qt mov wmv asf rm mp4 ogg",
-       'docs'      => "pdf doc docx xls xlsx",
-       'misc'      => "! pdf doc docx xls xlsx",
-       'images'    => "*img",
-       'mimages'   => "*mime image/gif image/png image/jpeg",
-       'notimages' => "*mime ! image/gif image/png image/jpeg",
+        'files'     => "",
+        'flash'     => "swf",
+        'media'     => "swf flv avi mpg mpeg qt mov wmv asf rm mp4 ogg",
+        'misc'      => "! pdf doc docx xls xlsx",
+        'images'    => "*img",
+        'mimages'   => "*mime image/gif image/png image/jpeg",
+        'notimages' => "*mime ! image/gif image/png image/jpeg",
+        //'docs'      => "*mime application/pdf application/doc application/docx application/xls application/xlsx"
     // (F)CKEditor types
         // 'files'   =>  "",
         // 'flash'   =>  "swf",

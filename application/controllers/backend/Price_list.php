@@ -67,6 +67,29 @@ class Price_list extends Root
         // return json
         echo json_encode($this->Base_model->table_list_in_page($sql, $params));
     }
+// ajax_get_edit
+    public function ajax_get_edit()
+    {
+        $this->noAccess($this->data['permissionsMember'], $this->currentModule['control_name'], 3);
+        $arrJSON = array();
+        $id = $this->input->post('id', TRUE);
+        if ($id == FALSE) {
+            $msg['err'] = 1;
+            $msg['msg'] = "Error data";
+        }
+        else {
+            $arr_date = $this->Base_model->get_db('price_list', NULL, array('id' => $id));
+            if ($arr_date==FALSE || count($arr_date)==0) {
+                $msg['err'] = 1;
+                $msg['msg'] = "Error data";
+            }
+            else {
+                $msg['err'] = 0;
+                $msg['price_list'] = $arr_date[0];
+            }
+        }
+        echo json_encode($msg);
+    }
 // Submit
     public function submit()
     {
@@ -86,10 +109,8 @@ class Price_list extends Root
             $this->session->set_userdata('invalid', "Không tìm thấy dữ liệu.");
             redirect(B_URL . $this->currentModule['url']);
         }
-        $arr_data = array('name' => $name,
-            'control_name' => $control_name,
-            'url' => $url,
-            'icon' => $this->input->post('icon', TRUE),
+        $arr_data = array('title' => $this->input->post('title', TRUE),
+            'filename' => $this->input->post('filename', TRUE),
             'desc' => $this->input->post('desc', TRUE),
             'order' => $this->input->post('order', TRUE)
         );
@@ -111,5 +132,47 @@ class Price_list extends Root
         }
 
         redirect(B_URL . $this->currentModule['url']);
+    }
+// Delete
+    public function delete($id)
+    {
+        // check permission
+        $this->noAccess($this->data['permissionsMember'], $this->currentModule['control_name'], 4);
+        // exclude  default categories
+        if ($id===FALSE || $id=="" || $id==0) {
+            $this->session->set_userdata('invalid', 'This ID is not existing.');
+            redirect($_SERVER['HTTP_REFERER']);
+        }
+        // delete db
+        if ($this->Base_model->delete_db('price_list', 'id', $id) === FALSE) {
+            $this->session->set_userdata('invalid', "Error delete data");
+        }
+        else {
+            $this->session->set_userdata('valid', "Delete data successful.");
+        }
+        redirect($_SERVER['HTTP_REFERER']);
+    }
+// Multi delete
+    public function multi_delete()
+    {
+        // check permission
+        $this->noAccess($this->data['permissionsMember'], $this->currentModule['control_name'], 4);
+        // get data
+        $ids = $this->input->post('ids', TRUE);
+        $arrID = explode(",", $ids[0]);
+        $deleted = 0;
+        foreach ($arrID as $id) {
+            // delete db
+            if ($this->Base_model->delete_db('price_list', 'id', $id) !== FALSE) {
+                $deleted++;
+            }
+        }
+        if ($deleted==count($arrID)) {
+            $this->session->set_userdata('valid', "Delete data successful.");
+        }
+        else {
+            $this->session->set_userdata('invalid', "Error delete data");
+        }
+        redirect($_SERVER['HTTP_REFERER']);
     }
 }
