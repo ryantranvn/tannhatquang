@@ -31,18 +31,23 @@
                 </div>
                 <div class="row">
                     <h3 class="text_left red" style="line-height: 40px">Tin tức sản phẩm</h3>
+                    <? if (isset($arr_news) && count($arr_news)>0) { ?>
                     <div class="wrap_tintuc_sanpham container-fluid">
-                        <? for ($i=0; $i<=7; $i++) { ?>
+                        <? foreach ($arr_news as $key => $news) { ?>
                         <div class="col col-sm-6 item_tintuc_sanpham">
                             <div class="row">
                                 <div class="col col-sm-6">
-                                    <img class="media-object thumbnail_product" src="<?=F_URL?>assets/frontend/images/light.png" alt="<?=IMG_ALT?>">
+                                    <? if ($news['thumbnail'] != "")  { ?>
+                                        <img class="media-object thumbnail_product" src="<?=F_URL?><?=$news['thumbnail']?>" alt="<?=IMG_ALT?>"/>
+                                    <? } else { ?>
+                                        <img class="media-object thumbnail_product" src="<?=NO_IMG?>" alt="<?=IMG_ALT?>"/>
+                                    <? } ?>
+                                    <a href="<?=F_URL?>tin-tuc/<?=$news['url']?>" class="link_full"></a>
                                 </div>
                                 <div class="col col-sm-6">
-                                    <p class="title">It is a long established fact that</p>
-                                    <p class="desc">
-                                        a reader will be distracted by the readable content of a page when looking at its layout.
-                                    </p>
+                                    <p class="title"><?php echo $news['title'] ?></p>
+                                    <p class="desc"><?php echo $news['description'] ?></p>
+                                    <a href="<?=F_URL?>tin-tuc/<?=$news['url']?>" class="link_full"></a>
                                 </div>
                             </div>
                         </div>
@@ -51,6 +56,7 @@
                             <?=$paging?>
                         </div>
                     </div>
+                    <? } ?>
                 </div>
             </div>
         </div>

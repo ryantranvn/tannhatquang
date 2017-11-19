@@ -12,11 +12,9 @@
                     <li<?if (isset($nav_active) && $nav_active=="banggia") { ?> class="active"<? } ?>>
                         <a href="<?=F_URL?>bang-gia">Bảng giá</a>
                     </li>
-                    <?/*
                     <li<?if (isset($nav_active) && $nav_active=="tintuc") { ?> class="active"<? } ?>>
-                        <a href="<?=F_URL?>tin-tuc">Tin tức</a>
+                        <a href="<?=F_URL?>tin-tuc?cat=tt">Tin tức</a>
                     </li>
-                    */ ?>
                     <li<?if (isset($nav_active) && $nav_active=="lienhe") { ?> class="active"<? } ?>>
                         <a href="<?=F_URL?>lien-he">Liên hệ</a>
                     </li>

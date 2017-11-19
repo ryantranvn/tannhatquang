@@ -54,6 +54,21 @@ if (file_exists(APPPATH . 'libraries/PHPMailer/PHPMailerAutoload.php')) {
         return current_url() . '?' . $params_str;
     }
 
+    function config_paging($params, $total, $per_page)
+    {
+        $config['base_url'] = paging_base_url($params);
+        $config['first_url'] = paging_base_url($params) . '&page=1';
+        $config['query_string_segment'] = 'page';
+        $config['total_rows'] = $total;
+        $config['per_page'] = $per_page;
+        $config['use_page_numbers'] = TRUE;
+        $config['page_query_string'] = TRUE;
+        $config['num_links'] = 5;
+        $config['first_link'] = "<<";
+        $config['last_link'] = ">>";
+
+        return $config;
+    }
 // BROWSER info
 	function client_ip()
     {

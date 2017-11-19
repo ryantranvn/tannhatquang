@@ -38,7 +38,6 @@ class Product extends Root {
         else {
             $this->product_list();
         }
-
     }
 // list
     private function product_list()
