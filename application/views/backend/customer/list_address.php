@@ -51,7 +51,7 @@
 <? } ?>
 <!-- Address Modal -->
 <div class="modal fade" id="modal_address" tabindex="-1" role="dialog" aria-labelledby="myModalLabel" aria-hidden="true">
-    <div class="modal-dialog">
+    <div class="modal-dialog" style="max-width: none !important;">
         <div class="modal-content">
             <?=$frmCustomerAddress['open']?>
             <input type="text" class="hiddenInput" name="current_address_id" />

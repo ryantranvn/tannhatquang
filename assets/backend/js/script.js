@@ -176,11 +176,20 @@
 	}
 
 // action buttons inline
-	function btnEditInline(id)
+	function btnEditInline(id, link_out)
 	{
 		buttons = '';
 		if (permissionsMember[currentModule['control_name']][3] == 1) {
-			buttons += '<a href="' + bUrl + currentModule['url'] + '/edit/' + id + '" data-id="' + id + '" class="btn btn-primary btn-xs btnEdit"><i class="fa fa-edit"></i></a>'
+			buttons += '<a href="' + bUrl + currentModule['url'] + '/edit/' + id + '" data-id="' + id + '" class="btn btn-primary btn-xs btnEdit"><i class="fa fa-edit"></i></a>';
+		}
+
+		return buttons;
+	}
+	function btnEditInline_with_linkout(id, link_out)
+	{
+		buttons = '';
+		if (permissionsMember[currentModule['control_name']][3] == 1) {
+			buttons += '<a href="' + link_out + '" data-id="' + id + '" class="btn btn-primary btn-xs btnEdit"><i class="fa fa-edit"></i></a>';
 		}
 
 		return buttons;

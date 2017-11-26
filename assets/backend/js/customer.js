@@ -157,7 +157,8 @@
                         var cl = ids[i];
                         var rowData = jQuery(idTableList).jqGrid ('getRowData', cl);
                         var fa = formatOrderStatusButton(cl, rowData.status, 'btnOrderStatus', bUrl+currentModule['url']+'/ajax_status', 'modalStatus');
-                        var btnInline = btnEditInline(cl) + bntDeleteInline(cl);
+                        var linkout = bUrl + 'order/edit/' + cl;
+                        var btnInline = btnEditInline_with_linkout(cl, linkout) + bntDeleteInline(cl);
                         jQuery(idTableList).jqGrid('setRowData', ids[i], {
                             status : fa,
                             act : btnInline

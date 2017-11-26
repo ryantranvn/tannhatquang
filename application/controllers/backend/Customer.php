@@ -53,7 +53,7 @@ class Customer extends Root {
                     ,province.name AS province
                     ,district.name AS district
                 FROM customer
-                LEFT OUTER JOIN customer_address ON customer_address.customer_id = customer.id
+                LEFT OUTER JOIN customer_address ON customer_address.customer_id = customer.id OR customer_address.customer_id IS NULL
                 LEFT OUTER JOIN province ON province.id = customer_address.province_id
                 LEFT OUTER JOIN district ON district.id = customer_address.district_id
                 ";
@@ -69,7 +69,7 @@ class Customer extends Root {
         else {
             $params['sidx'] = "customer." . $params['sidx'];
         }
-        $where = " WHERE customer_address.status=1";
+        $where = " WHERE customer_address.status=1 OR customer_address.status IS NULL";
         if (isset($_GET['filters'])) {
             $params['filters'] = json_decode($_GET['filters']);
             if (count($params['filters']->rules)>0) {
