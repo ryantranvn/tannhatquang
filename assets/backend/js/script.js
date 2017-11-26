@@ -528,60 +528,58 @@
 	{
 		$('body').on('click', buttonClass, function() {
 			if (typeFile == 'images' || typeFile == 'media') {
-				thumbnailWrapper = $(this).parent().parent().next('.thumbnailWrapper')
+				thumbnailWrapper = $(this).parent().parent().next('.thumbnailWrapper');
 			}
 			if (multiFile==undefined || multiFile=="") {
-				inputField = $(this).parent().prev('.inputThumbnail')
+				inputField = $(this).parent().prev('.inputThumbnail');
 				openKCFinder(inputField, typeFile, function() {
 					filename = inputField.val();
 					if (typeFile == 'images') {
-						typeDir = 'images/'
+						typeDir = 'images/';
 						htmlImg = '<img src="' + filename + '" class="thumbnail" />';
-		                htmlDel = '<a class="thumbnailDel"><i class="fa fa-trash-o"></i></a>'
-	                	nameLinkInput = inputField.attr('name')
+		                htmlDel = '<a class="thumbnailDel"><i class="fa fa-trash-o"></i></a>';
+	                	nameLinkInput = inputField.attr('name');
 	                	if (hasLink==undefined || hasLink=="") {
-	                		htmlLink = ''
+	                		htmlLink = '';
 	                	}
 	                	else if (hasLink==true) {
-		                	htmlLink = '<div class="row">'
-			                	htmlLink += '<label style="float: left; clear: both;">Link</label>'
-			                	htmlLink += '<input type="text" name="'+nameLinkInput+'_link" class="inputThumbnail form-control" style="float: left; clear: both" />'
-			                htmlLink += '</div>'
+		                	htmlLink = '<div class="row">';
+			                	htmlLink += '<label style="float: left; clear: both;">Link</label>';
+			                	htmlLink += '<input type="text" name="'+nameLinkInput+'_link" class="inputThumbnail form-control" style="float: left; clear: both" />';
+			                htmlLink += '</div>';
 			            }
-		                thumbnailWrapper.html('').html('<div class="thumbnailItem">' + htmlImg+htmlDel+htmlLink + '</div>')
+		                thumbnailWrapper.html('').html('<div class="thumbnailItem">' + htmlImg+htmlDel+htmlLink + '</div>');
 		            }
 		            else if (typeFile == 'media') {
-		            	htmlStr = '<video id="video" width="320" controls="true">'
-					        htmlStr += '<source src="'+filename+'">'
-					        htmlStr += 'Your browser does not support HTML5 video tag. Please download FireFox 3.5 or higher.'
-					    htmlStr += '</video><br/>'
+		            	htmlStr = '<video id="video" width="320" controls="true">';
+					        htmlStr += '<source src="'+filename+'">';
+					        htmlStr += 'Your browser does not support HTML5 video tag. Please download FireFox 3.5 or higher.';
+					    htmlStr += '</video><br/>';
 					    // htmlStr += '<button onclick="shoot()" style="width: 64px;border: solid 2px #ccc;">Capture</button><br/>'
 					    // htmlStr += '<div id="output" style="display: inline-block; top: 4px; position: relative ;border: dotted 1px #ccc; padding: 2px;"></div>'
-		            	thumbnailWrapper.html('').html(htmlStr)
+		            	thumbnailWrapper.html('').html(htmlStr);
 		            }
-                    else if (typeFile == 'docs') {
-                        typeDir = 'docs/'
-                    }
+
 				})
 			}
 			else {
-				inputField = $(this).parent().prev('.inputThumbnail')
+				inputField = $(this).parent().prev('.inputThumbnail');
 				openKCFinderMulti(inputField, typeFile, hasLink, function() {
 					if (typeFile == 'images') {
-						typeDir = 'images/'
+						typeDir = 'images/';
 						var obj = JSON.parse(inputField.val());
 						htmlImgList = "";
 						$.each(obj, function(index, value) {
 							htmlImg = '<img src="' + value + '" class="thumbnail" />';
 			                htmlDel = '<a class="thumbnailDel"><i class="fa fa-trash-o"></i></a>';
 							if (hasLink==undefined || hasLink=="") {
-		                		htmlLink = ''
+		                		htmlLink = '';
 		                	}
 							else {
-								htmlLink = '<div class="">'
-				                	htmlLink += '<label style="float: left; clear: both;">Link</label>'
-				                	htmlLink += '<input type="text" name="thumbnail_links[]" class="form-control" style="float: left; clear: both" />'
-				                htmlLink += '</div>'
+								htmlLink = '<div class="">';
+				                	htmlLink += '<label style="float: left; clear: both;">Link</label>';
+				                	htmlLink += '<input type="text" name="thumbnail_links[]" class="form-control" style="float: left; clear: both" />';
+				                htmlLink += '</div>';
 							}
 							htmlImgList += '<div class="thumbnailItem">' + htmlImg + htmlDel + htmlLink + '</div>';
 						});

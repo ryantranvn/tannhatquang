@@ -135,7 +135,6 @@ class Product extends Root {
             $this->template->load('frontend/template', 'frontend/maintain/page404', $this->data);
         }
         else {
-
             // get pictures
             $pictures = $this->Base_model->get_db('post_picture', array('url'), array('post_id'=>$products[0]['id']));
             $products[0]['pictures'] = array();

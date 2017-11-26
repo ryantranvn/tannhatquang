@@ -13,6 +13,8 @@ class News extends Root {
     {
         parent::__construct();
         $this->load->library('pagination');
+        $this->load->model('News_model');
+        $this->load->model('Category_model');
 
         $this->params = $this->input->get();
         $this->segs = $this->uri->segment_array();
@@ -81,6 +83,20 @@ class News extends Root {
 // detail
     private function news_detail()
     {
-
+        $url = $this->uri->segment(2,0);
+        $arr_news = $this->News_model->get_one($url);
+        if ($arr_news == FALSE || count($arr_news)==0) {
+            $this->template->load('frontend/template', 'frontend/maintain/page404', $this->data);
+        }
+        else {
+            $this->data['news'] = $arr_news[0];
+            // get related_news
+            $related_news = $this->News_model->get_related($arr_news[0]['id'], $arr_news[0]['category_id']);
+            $this->data['related_news'] = array();
+            if ($related_news != FALSE && count($related_news)>0) {
+                $this->data['related_news'] = $related_news;
+            }
+        }
+        $this->template->load($this->gate.'/template', $this->gate.'/tintuc_chitiet', $this->data);
     }
 }

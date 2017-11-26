@@ -63,4 +63,53 @@ class News_model extends Base_model {
         }
     }
 
+/*
+ * get product
+ * */
+    public function get_one($url)
+    {
+        $sql = "SELECT
+                    post.id
+                    ,post.category_id
+                    ,post.category_name
+                    ,post.status
+                    ,news.title
+                    ,news.url
+                    ,news.description
+                    ,news.thumbnail
+                    ,news.order
+                    ,news.detail
+                FROM post
+                INNER JOIN news ON news.post_id = post.id
+            ";
+        $where = " WHERE post.type='news' AND post.del_flg=0 AND news.url='".$url."'";
+        $sql .= $where;
+        $query = $this->db->query($sql);
+        $result = $query->result_array();
+        return $result;
+    }
+
+    public function get_related($post_id, $category_id)
+    {
+        $sql = "SELECT
+                    post.id
+                    ,post.category_id
+                    ,post.category_name
+                    ,post.status
+                    ,news.title
+                    ,news.url
+                    ,news.description
+                    ,news.thumbnail
+                    ,news.order
+                    ,news.detail
+                FROM post
+                INNER JOIN news ON news.post_id = post.id
+            ";
+        $where = " WHERE post.type = 'news' AND post.del_flg=0 AND post.category_id='".$category_id."' AND post.id<>'".$post_id."'";
+        $sql .= $where;
+        $query = $this->db->query($sql);
+        $result = $query->result_array();
+        return $result;
+    }
+
 }
