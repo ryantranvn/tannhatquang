@@ -344,6 +344,15 @@ $(document).ready( function() {
     }
 
 // search
+    $('#frmSearch').find('.product_search').keypress(function(e) {
+        e.preventDefault();
+        if(e.which == 13) {
+            alert('You pressed enter!');
+
+            return false;
+        }
+
+    });
     $('#frmSearch').find('.btn').click( function(e) {
         e.preventDefault();
         var product_search = $('#frmSearch').find('input[name="product_search"]').val().trim();
