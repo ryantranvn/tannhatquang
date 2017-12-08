@@ -590,7 +590,6 @@ body {
 			.btnSave {
 				display: none;
 			}
-
 		}
 	}
 	.help-block {
@@ -648,5 +647,19 @@ body {
 	}
 	.modal-dialog {
 		max-width: 150px !important;
+	}
+}
+
+/* document */
+.doc_content {
+	padding: 20px 20px 20px 250px;
+
+    h2 {
+        color: red;
+    }
+	img {
+		-webkit-box-shadow: 5px 5px 10px 0px rgba(0,0,0,0.75);
+		-moz-box-shadow: 5px 5px 10px 0px rgba(0,0,0,0.75);
+		box-shadow: 5px 5px 10px 0px rgba(0,0,0,0.75);
 	}
 }

@@ -47,11 +47,17 @@
 		
 		<!-- end logout button -->
 
+		<!-- document button -->
+			<div id="document" class="btn-header transparent pull-right">
+				<span> <a href="<?=F_URL?>backend/document" title="View Document" target="_blank"><i class="fa fa-book"></i></a> </span>
+			</div>
+		<!-- end document button -->
+
 		<!-- frontend button -->
 			<div id="frontend" class="btn-header transparent pull-right">
 				<span> <a href="<?=F_URL?>" title="View Frontend" target="_blank"><i class="fa fa-home"></i></a> </span>
 			</div>
-		<!-- end logout button -->
+		<!-- end frontend button -->
 
 		
 		<!-- end account button -->

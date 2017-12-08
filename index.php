@@ -311,12 +311,9 @@ else {
 	    define('DB_USER', 'root');
 	    define('DB_PASS', 'root');
     // online
-  //  		define('DB_HOST', 'localhost');
-	    // define('DB_PREFIX', '');
-		//
-	    // define('DB_NAME', 'tane66c4_db');
-	    // define('DB_USER', 'tane66c4');
-	    // define('DB_PASS', 'c8436eebA@!');
+	     //define('DB_NAME', 'tane66c4_db');
+	     //define('DB_USER', 'tane66c4');
+	     //define('DB_PASS', 'c8436eebA@!');
 
 // set local time
     date_default_timezone_set('Asia/Ho_Chi_Minh');
