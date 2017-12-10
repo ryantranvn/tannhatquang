@@ -10,6 +10,10 @@ class Document extends Root {
     public function __construct()
     {
         parent::__construct();
+        array_push($this->data['cssBlock'], '<link rel="stylesheet" type="text/css" href="'. LIB_URL . 'lightbox/css/lightbox.min.css" />');
+        array_push($this->data['jsBlock'], '<script language="javascript" type="text/javascript" src="'. LIB_URL . 'lightbox/js/lightbox.min.js"></script>');
+        array_push($this->data['jsBlock'], '<script language="javascript" type="text/javascript" src="'. ASSETS_URL . 'backend/js/document.js"></script>');
+
     }
 
     // index

@@ -662,16 +662,110 @@ td .ui-jqgrid .ui-jqgrid-htable th {
 }
 
 /* document */
-.doc_content {
-  padding: 20px 20px 20px 250px;
+#gotoTop {
+  position: fixed;
+  z-index: 1000;
+  right: 20px;
+  bottom: 50px;
+  width: 66px;
+  height: 66px;
+  background: url("../../images/arrow-top.png") no-repeat center #bf1e2e;
 }
-.doc_content h2 {
+#gotoTop:hover {
+  cursor: pointer;
+}
+
+.doc_content {
+  position: relative;
+  overflow-x: hidden;
+  overflow-y: scroll;
+  padding: 20px 20px 20px 250px;
+  line-height: 24px;
+  font-size: 13px;
+}
+.doc_content h2.list_title {
   color: red;
+  padding-bottom: 5px;
+  border-bottom: solid 2px #000000;
+}
+.doc_content h2.list_title i {
+  font-size: 16px;
+  margin-right: 10px;
+}
+.doc_content h2.page_title {
+  color: white;
+  background: linear-gradient(to right, #3a3633 93%, #2a2725 100%);
+  padding: 10px;
+}
+.doc_content .wrap_img {
+  text-align: center;
+  margin: 20px;
+}
+.doc_content .wrap_img a {
+  position: relative;
+  display: inline-block;
+  padding: 10px;
+  padding-bottom: 30px;
+  text-align: center;
+}
+.doc_content .wrap_img a em {
+  margin: auto;
+  position: absolute;
+  left: 0;
+  right: 0;
+  bottom: 0;
+  font-weight: 700;
+}
+.doc_content .wrap_img .img2img {
+  font-size: 40px;
+  color: red;
+  margin: 20px;
+}
+.doc_content .wrap_img.size_200 img {
+  max-width: 200px;
+}
+.doc_content .wrap_img.size_300 img {
+  max-width: 300px;
+}
+.doc_content .wrap_img.size_400 img {
+  max-width: 400px;
+}
+.doc_content .wrap_img.size_800 img {
+  max-width: 800px;
 }
 .doc_content img {
   -webkit-box-shadow: 5px 5px 10px 0px rgba(0, 0, 0, 0.75);
   -moz-box-shadow: 5px 5px 10px 0px rgba(0, 0, 0, 0.75);
   box-shadow: 5px 5px 10px 0px rgba(0, 0, 0, 0.75);
+  margin: auto;
+}
+.doc_content .list {
+  background: #DDD;
+  margin: 0;
+  padding: 20px 0px;
+}
+.doc_content .list li {
+  margin-left: 30px;
+  font-size: 16px;
+  line-height: 30px;
+}
+.doc_content .list a {
+  text-decoration: none;
+}
+.doc_content .list a:hover {
+  color: red;
+}
+.doc_content .noted {
+  padding: 10px;
+  background: #0782C1;
+  color: white;
+  font-size: 14px;
+  margin-bottom: 10px;
+}
+.doc_content .noted i {
+  color: yellow;
+  font-size: 20px;
+  margin-right: 10px;
 }
 
 /*# sourceMappingURL=style.css.map */

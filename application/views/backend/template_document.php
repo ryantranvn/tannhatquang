@@ -23,8 +23,8 @@
 <div class="doc_content col-xs-12 col-sm-12 col-md-12 col-lg-12">
     <?=$content; ?>
 </div>
+<div id="gotoTop"></div>
 <?=$this->load->view('backend/includes/footer','',TRUE)?>
-
 <?=$this->load->view('backend/includes/jsSmartAdmin', '', TRUE)?>
 
 <script language="javascript" type="text/javascript" src="<?=libsUrl('fancybox','js','jquery.fancybox.pack.js') ?>"></script>

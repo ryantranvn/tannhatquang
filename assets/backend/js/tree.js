@@ -5,14 +5,15 @@
 // default_category_id
 $('.tree').find('span[data-id='+selected_category_id+']').addClass('label-success');
 // show icons on tree
-if (permissionsMember[currentModule['control_name']][3] == 1 && $('#is_post').length==0) { // has permission and not post page
+    if (permissionsMember[currentModule['control_name']][3] == 1 && $('#is_post').length==0) { // has permission and not post page
         if ($('#frmCategory').length==0) { // only edit in category or sub-category page
             $('.tree').find('span').each( function() {
                 $(this).click( function() {
                     if ($(this).attr('data-id')>2) { // not default category
                         $('.tree').find('a').remove();
                         htmlStr = '<a class="iconEdit_inTree" href="' + bUrl + currentModule['url'] + '/edit/' + $(this).attr('data-id') + '"><i class="fa fa-lg fa-edit"></i></a>';
-                        htmlStr += '<a class="iconDelete_inTree" href="' + bUrl + currentModule['url'] + '/delete/' + $(this).attr('data-id') + '"><i class="fa fa-lg fa-trash-o txt-color-red"></i></a>';
+                        delete_link = bUrl + currentModule['url'] + "/delete/" + $(this).attr('data-id')
+                        htmlStr += "<a class='iconDelete_inTree' href='javascript:;' onclick='confirm_delete(delete_link); return false;'><i class='fa fa-lg fa-trash-o txt-color-red'></i></a>";
                         $(this).append(htmlStr);
                     }
                 });
@@ -20,6 +21,7 @@ if (permissionsMember[currentModule['control_name']][3] == 1 && $('#is_post').le
 
         }
     }
+
 
 // disabled root on sub category page
     if ($('#is_sub_category').length>0 && $('#is_sub_category').val()!=0) {
@@ -35,3 +37,11 @@ if (permissionsMember[currentModule['control_name']][3] == 1 && $('#is_post').le
         parentItem = $('.tree').find('li > span[data-id=' + $('input[name=parent_id]').val() + ']')
         parentItem.addClass('btn btn-danger disabled');
     }
+// delete on tree
+function confirm_delete(url) {
+    showSmartAlert("Warning", "<p>Delete a category may be effect to another data.</p><p>Are you sure delete this data ?</p>", '[YES][NO]', function() {
+        // click YES
+        window.location.href = url
+    }, function() {// click CANCEL
+    });
+}

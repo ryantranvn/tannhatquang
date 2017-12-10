@@ -94,7 +94,7 @@
         tableCommon();
 
     // delete inline
-        $('body').on('click','.btnDelete, .iconDelete_inTree', function(e) {
+        $('body').on('click','.btnDelete', function(e) {
             e.preventDefault();
 
             href = $(this).attr('href');
@@ -161,9 +161,9 @@
             thumbnailWrapper.html('').html(defaultIMG);
         });
     // validation
-        $('textarea[name="desc_category"]').mouseleave( function () {
-            console.log($(this).val())
-        })
+    //    $('textarea[name="desc_category"]').mouseleave( function () {
+    //        console.log($(this).val())
+    //    })
         var validator = $("#frmCategory").validate({
                         rules: {
                             name_category: {

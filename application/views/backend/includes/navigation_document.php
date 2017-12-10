@@ -1,5 +1,5 @@
 <!-- #NAVIGATION -->
-<aside id="left-panel">
+<aside id="left-panel" style="position: fixed">
     <!-- NAVIGATION : This navigation is also responsive-->
     <nav>
         <ul style="margin-top: 20px;">

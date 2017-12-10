@@ -247,8 +247,7 @@ class Category extends Root {
                                               'status' => $this->input->post('status', TRUE),
                                               'parent_id' => $parent_id,
                                               'path' => $path,
-                                              'modified_datetime' => date('Y-m-d H:i:s'),
-                                              'modified_by' => $this->data['authMember']['username']
+                                              'updated_by' => $this->data['authMember']['username']
                                              );
                         if ( $this->model->update_category($categoryEdit, $id) === FALSE ) {
                             $msg['err'] = 1;
