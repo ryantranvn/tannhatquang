@@ -26,6 +26,7 @@
     <img class="document_image" src="<?php echo assetsUrl('document','images','menu-tao_danh_muc_sp_01.jpg'); ?>" />
 </div>
 
+<!-- display -->
 <h2 id="display" class="list_title"><i class="fa fa-chevron-right"></i>Giao diện</h2>
 <div class="wrap_img size_800">
     <a href="<?php echo assetsUrl('document','images','danhmuc_sp_01.jpg'); ?>" data-lightbox="img_add_category" data-title="Giao diện">
@@ -96,12 +97,12 @@
 </ul>
 <p class="noted"><i class="fa fa-exclamation-triangle"></i>Lưu ý : tại màn hình sửa danh mục (Hình B-02), nếu click chọn 1 danh mục khác trên cây thư mục bên trái => điều này sẽ thay đổi danh mục cha của danh mục đang sửa</p>
 <div class="wrap_img size_200">
-    <a href="<?php echo assetsUrl('document','images','danhmuc_sp_edit_01.jpg'); ?>" data-lightbox="img_add_category" data-title="Giao diện">
+    <a href="<?php echo assetsUrl('document','images','danhmuc_sp_edit_01.jpg'); ?>" data-lightbox="img_edit_category" data-title="Giao diện">
         <img class="document_image" src="<?php echo assetsUrl('document','images','danhmuc_sp_edit_01.jpg'); ?>" />
         <em>Hình B-01</em>
     </a>
     <i class="fa fa-arrow-right img2img"></i>
-    <a href="<?php echo assetsUrl('document','images','danhmuc_sp_edit_02.jpg'); ?>" data-lightbox="img_add_category" data-title="Giao diện">
+    <a href="<?php echo assetsUrl('document','images','danhmuc_sp_edit_02.jpg'); ?>" data-lightbox="img_edit_category" data-title="Giao diện">
         <img class="document_image" src="<?php echo assetsUrl('document','images','danhmuc_sp_edit_02.jpg'); ?>" />
         <em>Hình B-02</em>
     </a>
@@ -110,30 +111,84 @@
 <!-- delete -->
 <h2 id="delete" class="list_title"><i class="fa fa-chevron-right"></i>Xóa danh mục</h2>
 <div class="wrap_img size_800">
-    <a href="<?php echo assetsUrl('document','images','danhmuc_sp_delete_01.jpg'); ?>" data-lightbox="img_add_category" data-title="Giao diện">
+    <a href="<?php echo assetsUrl('document','images','danhmuc_sp_delete_01.jpg'); ?>" data-lightbox="img_delete_category" data-title="Giao diện">
         <img class="document_image" src="<?php echo assetsUrl('document','images','danhmuc_sp_delete_01.jpg'); ?>" />
         <em>Hình C-01</em>
     </a>
 </div>
+<p class="noted"><i class="fa fa-exclamation-triangle"></i>Lưu ý : việc xóa danh mục sản phẩm sẽ ảnh hưởng đến toàn bộ danh mục con và các sản phẩm thuộc danh mục sản phẩm đó. </p>
 <ul class="steps">
-    <li>Cách 1 : Xóa trên cây thư mục - (Hình C-02)
+    <li>Cách 1 : Xóa trên cây thư mục
         <ul class="sub_steps">
-            <li>Bước 1 : Click chọn danh mục cần sửa trên cây thư mục bên trái</li>
-            <li>Bước 2 : Click nút delete</li>
+            <li>Bước 1 : Click chọn danh mục cần sửa trên cây thư mục bên trái  - (Hình C-02)</li>
+            <li>Bước 2 : Click nút delete - (Hình C-03)</li>
+            <li>Bước 3 : Click nút YES : xóa  -  NO : không xóa - (Hình C-04)</li>
         </ul>
     </li>
 </ul>
+<div class="wrap_img size_200">
+    <a href="<?php echo assetsUrl('document','images','danhmuc_sp_delete_03.jpg'); ?>" data-lightbox="img_delete_category" data-title="Giao diện">
+        <img class="document_image" src="<?php echo assetsUrl('document','images','danhmuc_sp_delete_03.jpg'); ?>" />
+        <em>Hình C-02</em>
+    </a>
+    <i class="fa fa-arrow-right img2img"></i>
+    <a href="<?php echo assetsUrl('document','images','danhmuc_sp_delete_02.jpg'); ?>" data-lightbox="img_delete_category" data-title="Giao diện">
+        <img class="document_image" src="<?php echo assetsUrl('document','images','danhmuc_sp_delete_02.jpg'); ?>" />
+        <em>Hình C-03</em>
+    </a>
+    <i class="fa fa-arrow-right img2img"></i>
+    <a href="<?php echo assetsUrl('document','images','danhmuc_sp_delete_04.jpg'); ?>" data-lightbox="img_delete_category" data-title="Giao diện">
+        <img class="document_image" src="<?php echo assetsUrl('document','images','danhmuc_sp_delete_04.jpg'); ?>" />
+        <em>Hình C-04</em>
+    </a>
+</div>
 <ul class="steps">
-    <li>Cách 2 : Xóa trên bảng dữ liệu - (Hình C-01)
+    <li>Cách 2 : Xóa trên bảng dữ liệu
         <ul class="sub_steps">
-            <li>Click nút Delete trên dòng của danh mục cần xóa</li>
+            <li>Bước 1 : Click nút Delete trên dòng của danh mục cần xóa - (Hình C-05)</li>
+            <li>Bước 2 : Click nút delete - (Hình C-06)</li>
+            <li>Bước 3 : Click nút YES : xóa  -  NO : không xóa - (Hình C-07)</li>
         </ul>
     </li>
 </ul>
+<div class="wrap_img size_200">
+    <a href="<?php echo assetsUrl('document','images','danhmuc_sp_delete_05.jpg'); ?>" data-lightbox="img_delete_category" data-title="Giao diện">
+        <img class="document_image" src="<?php echo assetsUrl('document','images','danhmuc_sp_delete_05.jpg'); ?>" />
+        <em>Hình C-05</em>
+    </a>
+    <i class="fa fa-arrow-right img2img"></i>
+    <a href="<?php echo assetsUrl('document','images','danhmuc_sp_delete_02.jpg'); ?>" data-lightbox="img_delete_category" data-title="Giao diện">
+        <img class="document_image" src="<?php echo assetsUrl('document','images','danhmuc_sp_delete_02.jpg'); ?>" />
+        <em>Hình C-06</em>
+    </a>
+    <i class="fa fa-arrow-right img2img"></i>
+    <a href="<?php echo assetsUrl('document','images','danhmuc_sp_delete_04.jpg'); ?>" data-lightbox="img_delete_category" data-title="Giao diện">
+        <img class="document_image" src="<?php echo assetsUrl('document','images','danhmuc_sp_delete_04.jpg'); ?>" />
+        <em>Hình C-07</em>
+    </a>
+</div>
 <ul class="steps">
-    <li>Cách 3 : Xóa cùng lúc nhiều danh mục - (Hình C-01)
+    <li>Cách 3 : Xóa cùng lúc nhiều danh mục
         <ul class="sub_steps">
-            <li>Click nút Delete trên dòng của danh mục cần xóa</li>
+            <li>Bước 1 : Click chọn danh mục cần xóa - (Hình C-08)</li>
+            <li>Bước 2 : Click nút Delete - (Hình C-08)</li>
+            <li>Bước 3 : Click nút YES : xóa  -  NO : không xóa - (Hình C-09)</li>
         </ul>
     </li>
 </ul>
+<div class="wrap_img size_200">
+    <a href="<?php echo assetsUrl('document','images','danhmuc_sp_delete_07.jpg'); ?>" data-lightbox="img_delete_category" data-title="Giao diện">
+        <img class="document_image" src="<?php echo assetsUrl('document','images','danhmuc_sp_delete_07.jpg'); ?>" />
+        <em>Hình C-08</em>
+    </a>
+    <i class="fa fa-arrow-right img2img"></i>
+    <a href="<?php echo assetsUrl('document','images','danhmuc_sp_delete_02.jpg'); ?>" data-lightbox="img_delete_category" data-title="Giao diện">
+        <img class="document_image" src="<?php echo assetsUrl('document','images','danhmuc_sp_delete_02.jpg'); ?>" />
+        <em>Hình C-09</em>
+    </a>
+    <i class="fa fa-arrow-right img2img"></i>
+    <a href="<?php echo assetsUrl('document','images','danhmuc_sp_delete_04.jpg'); ?>" data-lightbox="img_delete_category" data-title="Giao diện">
+        <img class="document_image" src="<?php echo assetsUrl('document','images','danhmuc_sp_delete_04.jpg'); ?>" />
+        <em>Hình C-10</em>
+    </a>
+</div>

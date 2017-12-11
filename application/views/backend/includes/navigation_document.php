@@ -15,8 +15,8 @@
                     Quản lý danh mục
                 </a>
             </li>
-            <li class="<?php if (isset($activeNav) && $activeNav == 'Dashboard') { ?>active<? } ?>">
-                <a href="<?=B_URL?>">
+            <li class="<?php if (isset($activeNav) && $activeNav == 'product') { ?>active<? } ?>">
+                <a href="<?=B_URL?>document/product">
                     <i class="fa fa-th-large"></i>
                     Quản lý sản phẩm
                 </a>

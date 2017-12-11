@@ -30,4 +30,10 @@ class Document extends Root {
 
         $this->template->load('backend/template_document', 'backend/document/category', $this->data);
     }
+    public function product()
+    {
+        $this->data['activeNav'] = 'product';
+
+        $this->template->load('backend/template_document', 'backend/document/product', $this->data);
+    }
 }
