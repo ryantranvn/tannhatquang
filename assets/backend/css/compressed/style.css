@@ -767,5 +767,8 @@ td .ui-jqgrid .ui-jqgrid-htable th {
   font-size: 20px;
   margin-right: 10px;
 }
+.doc_content .noted a {
+  color: yellow;
+}
 
 /*# sourceMappingURL=style.css.map */

@@ -16,4 +16,5 @@ $(document).ready( function() {
         $(".doc_content").animate({ scrollTop: 0 }, 600, function() {
         });
     });
+
 });

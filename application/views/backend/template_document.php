@@ -8,6 +8,7 @@
     <link rel="stylesheet" type="text/css" href="<?=assetsUrl('backend','css','wheelmenu.css')?>" />
     <link rel="stylesheet" type="text/css" href="<?=libsUrl('fancybox','css','jquery.fancybox.css')?>" />
     <link rel="stylesheet" type="text/css" href="<?=libsUrl('jqueryui','css','lightness/jquery-ui.css')?>" />
+    <link rel="stylesheet" type="text/css" href="<?=assetsUrl('common','css','videopopup.css')?>" />
     <!-- css block -->
     <?php
     if (count($cssBlock)>0) {
@@ -37,6 +38,9 @@
 <script language="javascript" type="text/javascript" src="<?=assetsUrl('backend','js','jquery.wheelmenu.min.js') ?>"></script>
 <script language="javascript" type="text/javascript" src="<?=assetsUrl('backend','js','init_height.js')?>?ver=<?=$js_version?>"></script>
 <script language="javascript" type="text/javascript" src="<?=assetsUrl('backend','js','script.js')?>?ver=<?=$js_version?>"></script>
+
+<script language="javascript" type="text/javascript" src="<?php echo LIB_URL; ?>html5lightbox/html5lightbox.js"></script>
+
 <!-- js block -->
 <?php
 if (count($jsBlock)>0) {
