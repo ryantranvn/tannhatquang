@@ -15,28 +15,34 @@ $arr_images = array(
 */
 ?>
 <div class="wrap_thumbnail">
-    <? if (count($product['pictures'])<=4) { ?>
-    <ul>
-        <? foreach($product['pictures'] as $picture) { ?>
-        <li>
-            <a href="#" data-large="<?=$picture?>">
-                <img class="thumbnail_product" src="<?=$picture?>" alt="<?=IMG_ALT?>">
-            </a>
-        </li>
-        <? } ?>
-    </ul>
+    <? if (count($product['pictures'])==0) { ?>
+        <img class="media-object thumbnail_product" src="<?=NO_IMG?>" alt="<?=IMG_ALT?>">
     <? } else { ?>
-    <ul id="carousel" class="elastislide-list">
-        <? foreach($product['pictures'] as $picture) { ?>
-        <li>
-            <a href="#" data-large="<?=$picture?>">
-                <img class="thumbnail_product" src="<?=$picture?>" alt="<?=IMG_ALT?>">
-            </a>
-        </li>
+        <? if (count($product['pictures'])<=4) { ?>
+        <ul>
+            <? foreach($product['pictures'] as $picture) { ?>
+            <li>
+                <a href="#" data-large="<?=$picture?>">
+                    <img class="thumbnail_product" src="<?=$picture?>" alt="<?=IMG_ALT?>">
+                </a>
+            </li>
+            <? } ?>
+        </ul>
+        <? } else { ?>
+        <ul id="carousel" class="elastislide-list">
+            <? foreach($product['pictures'] as $picture) { ?>
+            <li>
+                <a href="#" data-large="<?=$picture?>">
+                    <img class="thumbnail_product" src="<?=$picture?>" alt="<?=IMG_ALT?>">
+                </a>
+            </li>
+            <? } ?>
+        </ul>
         <? } ?>
-    </ul>
     <? } ?>
 </div>
 <div class="wrap_large_picture">
+    <? if (count($product['pictures'])>0) { ?>
     <img class="product_zoom" src="<?=$product['pictures'][0]?>" data-zoom-image="<?=$product['pictures'][0]?>" alt="<?=IMG_ALT?>">
+    <? } ?>
 </div>

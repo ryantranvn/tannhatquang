@@ -174,6 +174,7 @@
         return (random < 4 && random > -4) ? GenerateRandomNumber() : random;
     }
 
+
 // FORM
     function reset_form(form)
     {

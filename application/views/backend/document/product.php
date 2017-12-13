@@ -142,13 +142,21 @@
         <em>Hình D-03</em>
     </a>
 </div>
-<p class="noted">
+<div class="noted">
     <i class="fa fa-exclamation-triangle"></i>
-    Lưu ý : trong trường hợp xuất hiện thông báo - (Hình D-04) - quá trình import thành công tuy nhiên có một số dòng dữ liệu bị lỗi, không thể import => có thể download file excel về xem những dữ liệu lỗi.
-</p>
+    Lưu ý :
+    <ul>
+        <li>Trong trường hợp xuất hiện thông báo - (Hình D-04) - quá trình import thành công tuy nhiên có một số dòng dữ liệu bị lỗi, không thể import => có thể download file excel về xem những dữ liệu lỗi.</li>
+        <li>Cột chuyên mục trong file excel import dữ liệu là số ID của danh mục sản phẩm - (HÌnh D-05)</li>
+    </ul>
+</div>
 <div class="wrap_img size_200">
     <a href="<?php echo assetsUrl('document','images','sp_import_04.jpg'); ?>" data-lightbox="img_import" data-title="Giao diện">
         <img class="document_image" src="<?php echo assetsUrl('document','images','sp_import_04.jpg'); ?>" />
         <em>Hình D-04</em>
+    </a>
+    <a href="<?php echo assetsUrl('document','images','sp_import_05.jpg'); ?>" data-lightbox="img_import" data-title="Giao diện">
+        <img class="document_image" src="<?php echo assetsUrl('document','images','sp_import_05.jpg'); ?>" />
+        <em>Hình D-05</em>
     </a>
 </div>

@@ -14,7 +14,7 @@
             gridResize: true,
             autoResizeAllColumns: true,
             iconSet: "fontAwesome",
-            colNames : ['Status', 'Nổi bật', 'Chuyên mục', 'Mã SP', 'Tên SP', 'Đơn vị', 'Số lượng', 'Tồn kho', 'Giá', 'Giá KM', 'Thứ tự', 'Hình', 'Action'],
+            colNames : ['Status', 'Nổi bật', 'Chuyên mục', 'Mã SP', 'Tên SP', 'Đơn vị', /*'Số lượng', 'Tồn kho',*/ 'Giá', 'Giá KM', 'Thứ tự', 'Hình', 'Action'],
             colModel : [{ name : 'status', index : 'status', align : 'center', width : '80',
                             stype: 'select', searchoptions:{ sopt:['eq'], value: statusStr }
                         },
@@ -25,8 +25,10 @@
                         { name : 'code', index : 'code', search : true, align : 'center', width : '60' },
                         { name : 'name', index : 'name', align : 'left', search : true, width : '150' },
                         { name : 'unit', index : 'unit', align : 'center', search : true, width : '60' },
+                        /*
                         { name : 'quantity', index : 'quantity', align : 'right', search : true, width : '60' },
                         { name : 'stock_in_trade', index : 'stock_in_trade', align : 'right', search : true, width : '60' },
+                        */
                         { name : 'price', index : 'price', align : 'right', search : true, width : '60' },
                         { name : 'price_sale', index : 'price_sale', align : 'right', search : true, width : '60' },
                         { name : 'order', index : 'order', align : 'center', search : true, width : '60',
