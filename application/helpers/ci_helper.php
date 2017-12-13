@@ -247,6 +247,10 @@ if (file_exists(APPPATH . 'libraries/PHPMailer/PHPMailerAutoload.php')) {
     }
 
 // return url string
+/**
+ * @param $str
+ * @return mixed|string
+ */
     function url_str($str)
     {
         // trim space more than 1 between 2 words
@@ -274,13 +278,17 @@ if (file_exists(APPPATH . 'libraries/PHPMailer/PHPMailerAutoload.php')) {
             '-'=>',',
             '-'=>' ',
             ''=>'/',
-            ''=>'\\'
+            ''=>'\\',
+            ''=>','
         );
+        try {
+            foreach($unicode as $nonUnicode=>$uni){
+                $str = preg_replace('/'.preg_quote($uni).'/i', $nonUnicode, $str);
+            }
+        } catch (Exception $e) {
+        }
 
-       foreach($unicode as $nonUnicode=>$uni){
-            $str = preg_replace("/($uni/)/i", $nonUnicode, $str);
-       }
-        return strtolower($str);
+        return trim_odd_character(removeVNCharacter(strtolower($str)),"-");
     }
     function url_str_with($str, $character)
     {
@@ -309,16 +317,24 @@ if (file_exists(APPPATH . 'libraries/PHPMailer/PHPMailerAutoload.php')) {
             $character=>',',
             $character=>' '
         );
+        try {
+            foreach($unicode as $nonUnicode=>$uni){
+                $str = preg_replace("/($uni)/i", $nonUnicode, $str);
+            }
+        } catch (Exception $e) {
+        }
 
-       foreach($unicode as $nonUnicode=>$uni){
-            $str = preg_replace("/($uni)/i", $nonUnicode, $str);
-       }
         return strtolower($str);
     }
 // trim add space
     function trim_odd_space($str)
     {
         return trim(preg_replace("/ {2,}/", " ", $str));
+    }
+// trim add space
+    function trim_odd_character($str, $character)
+    {
+        return trim(preg_replace("/".$character."{2,}/", " ", $str));
     }
 
 /* ------------------------------------------- ENCRYPT */

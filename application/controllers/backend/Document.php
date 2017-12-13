@@ -5,6 +5,7 @@ if (file_exists(APPPATH . 'controllers/backend/Root.php')) {
     require_once(APPPATH . 'controllers/backend/Root.php');
 }
 
+
 class Document extends Root {
 
     public function __construct()

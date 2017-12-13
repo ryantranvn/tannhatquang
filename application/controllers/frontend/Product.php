@@ -98,7 +98,7 @@ class Product extends Root {
         $config['first_url'] = paging_base_url($this->params) . '&page=1';
         $config['query_string_segment'] = 'page';
         $config['total_rows'] = $total;
-        $config['per_page'] = 3;
+        $config['per_page'] = 12;
         $config['use_page_numbers'] = TRUE;
         $config['page_query_string'] = TRUE;
         $config['num_links'] = 5;

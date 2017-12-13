@@ -15,6 +15,9 @@
     <li>
         <a href="#delete">Xóa sản phẩm</a>
     </li>
+    <li>
+        <a href="#import">Import danh sách sản phẩm</a>
+    </li>
 </ul>
 
 <h2 id="open" class="list_title"><i class="fa fa-chevron-right"></i>Truy cập</h2>
@@ -97,5 +100,55 @@
     <a href="<?php echo assetsUrl('document','images','sp_edit_03.jpg'); ?>" data-lightbox="img_edit" data-title="Giao diện">
         <img class="document_image" src="<?php echo assetsUrl('document','images','sp_edit_03.jpg'); ?>" />
         <em>Hình B-03</em>
+    </a>
+</div>
+
+<!-- delete -->
+<h2 id="delete" class="list_title"><i class="fa fa-chevron-right"></i>Xóa sản phẩm</h2>
+<ul class="steps">
+    <li>Thao tác xóa tương tự xóa danh mục sản phẩm. </li>
+</ul>
+<div class="wrap_img size_800">
+    <a href="<?php echo assetsUrl('document','images','sp_delete_01.jpg'); ?>" data-lightbox="img_delete" data-title="Giao diện">
+        <img class="document_image" src="<?php echo assetsUrl('document','images','sp_delete_01.jpg'); ?>" />
+        <em>Hình C-01</em>
+    </a>
+</div>
+<p class="noted">
+    <i class="fa fa-exclamation-triangle"></i>
+    Lưu ý : tại màn hình sản phẩm không tương tác sửa/xóa được với các đối tượng trên cây thư mục.
+</p>
+
+<!-- import -->
+<h2 id="import" class="list_title"><i class="fa fa-chevron-right"></i>Import danh sách sản phẩm</h2>
+<ul class="steps">
+    <li>Tại giao diện chính, click chọn nút Import - (Hình D-01)</li>
+    <li>Chọn file (excel - theo đúng mẫu) danh sách sản phẩm cần import - (Hình D-02)</li>
+    <li>Thông báo import dữ liệu thành công - (Hình D-03)</li>
+</ul>
+<div class="wrap_img size_200">
+    <a href="<?php echo assetsUrl('document','images','sp_import_01.jpg'); ?>" data-lightbox="img_import" data-title="Giao diện">
+        <img class="document_image" src="<?php echo assetsUrl('document','images','sp_import_01.jpg'); ?>" />
+        <em>Hình D-01</em>
+    </a>
+    <i class="fa fa-arrow-right img2img"></i>
+    <a href="<?php echo assetsUrl('document','images','sp_import_02.jpg'); ?>" data-lightbox="img_import" data-title="Giao diện">
+        <img class="document_image" src="<?php echo assetsUrl('document','images','sp_import_02.jpg'); ?>" />
+        <em>Hình D-02</em>
+    </a>
+    <i class="fa fa-arrow-right img2img"></i>
+    <a href="<?php echo assetsUrl('document','images','sp_edit_03.jpg'); ?>" data-lightbox="img_edit" data-title="Giao diện">
+        <img class="document_image" src="<?php echo assetsUrl('document','images','sp_edit_03.jpg'); ?>" />
+        <em>Hình D-03</em>
+    </a>
+</div>
+<p class="noted">
+    <i class="fa fa-exclamation-triangle"></i>
+    Lưu ý : trong trường hợp xuất hiện thông báo - (Hình D-04) - quá trình import thành công tuy nhiên có một số dòng dữ liệu bị lỗi, không thể import => có thể download file excel về xem những dữ liệu lỗi.
+</p>
+<div class="wrap_img size_200">
+    <a href="<?php echo assetsUrl('document','images','sp_import_04.jpg'); ?>" data-lightbox="img_import" data-title="Giao diện">
+        <img class="document_image" src="<?php echo assetsUrl('document','images','sp_import_04.jpg'); ?>" />
+        <em>Hình D-04</em>
     </a>
 </div>
