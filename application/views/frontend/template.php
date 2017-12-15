@@ -43,6 +43,7 @@
     </head>
     <body>
         <?=$this->load->view('frontend/includes/wrap_top','',TRUE)?>
+        <?=$this->load->view('frontend/includes/wrap_nav_mobile','',TRUE)?>
         <?=$this->load->view('frontend/includes/wrap_search','',TRUE)?>
         <? if (!isset($remove_navigation)) { ?>
         <?=$this->load->view('frontend/includes/wrap_navigation','',TRUE)?>

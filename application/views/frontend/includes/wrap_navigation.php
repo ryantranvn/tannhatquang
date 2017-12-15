@@ -1,4 +1,4 @@
-<div id="wrap_navigation" class="container-fluid">
+<div id="wrap_navigation" class="container-fluid hidden-xs">
     <div class="container">
         <div class="row">
         <!-- nav Sanpham -->
