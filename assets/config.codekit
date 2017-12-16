@@ -1560,17 +1560,6 @@
 		"outputPathIsSetByUser": 0,
 		"processed": 0
 		},
-	"\/document\/images\/document.jpg": {
-		"fileType": 16384,
-		"ignore": 0,
-		"ignoreWasSetByUser": 0,
-		"initialSize": 94551,
-		"inputAbbreviatedPath": "\/document\/images\/document.jpg",
-		"outputAbbreviatedPath": "\/document\/images\/document.jpg",
-		"outputPathIsOutsideProject": 0,
-		"outputPathIsSetByUser": 0,
-		"processed": 0
-		},
 	"\/document\/images\/excel.jpg": {
 		"fileType": 16384,
 		"ignore": 0,
