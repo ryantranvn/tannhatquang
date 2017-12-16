@@ -57,6 +57,11 @@
 <div id="wrap_sale_product" class="container-fluid">
     <div class="container">
         <div class="row">
+            <div class="wrap_title col col-md-3 visible-xs">
+                <img src="<?=ASSETS_URL?>frontend/images/ticket.png" alt="<?=IMG_ALT?>">
+                <p>SẢN PHẨM <br />KHUYẾN MÃI</p>
+                <a href="#">Xem thêm &#62;</a>
+            </div>
             <div class="wrap_slick col col-md-9">
                 <div class="row">
                     <div id="slick_sale_product" class="slick_container col-xs-12 col-sm-12 col-md-12">
@@ -94,7 +99,7 @@
                     </div>
                 </div>
             </div>
-            <div class="wrap_title col col-md-3">
+            <div class="wrap_title col col-md-3 hidden-xs">
                 <img src="<?=ASSETS_URL?>frontend/images/ticket.png" alt="<?=IMG_ALT?>">
                 <p>SẢN PHẨM <br />KHUYẾN MÃI</p>
                 <a href="#">Xem thêm &#62;</a>

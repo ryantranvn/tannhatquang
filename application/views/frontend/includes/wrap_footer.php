@@ -5,7 +5,7 @@
                 <a class="link_logo" href="<?=F_URL?>">
                     <img src="<?=ASSETS_URL?>frontend/images/logo.png" />
                 </a>
-                <ul class="nav navbar-nav">
+                <ul class="nav navbar-nav hidden-xs">
                     <li<?if (isset($nav_active) && $nav_active=="gioithieu") { ?> class="active"<? } ?>>
                         <a href="<?=F_URL?>gioi-thieu">Giới thiệu</a>
                     </li>
