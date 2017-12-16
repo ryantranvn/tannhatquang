@@ -1,7 +1,7 @@
 <div id="wrap_banner" class="container-fluid">
     <div class="row">
         <div id="carousel_banner" class="carousel slide" data-ride="carousel">
-            <ol class="carousel-indicators">
+            <ol class="carousel-indicators hidden-xs">
                 <li data-target="#carousel_banner" data-slide-to="0" class="active"></li>
                 <li data-target="#carousel_banner" data-slide-to="1"></li>
                 <li data-target="#carousel_banner" data-slide-to="2"></li>

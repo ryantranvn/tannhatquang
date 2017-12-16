@@ -182,7 +182,7 @@
         position: absolute;
         top: 20px;
         right: 20px;
-        z-index: 1;
+        z-index: 100;
         -webkit-user-select: none;
         user-select: none;
     }
@@ -517,6 +517,21 @@
             }
         }
     }
+    @media (max-width: 768px) {
+        #wrap_banner {
+            .carousel {
+                .carousel-inner {
+                    max-width: none !important;
+                    .item {
+                        img {
+                            width: auto;
+                            max-width: none !important;
+                        }
+                    }
+                }
+            }
+        }
+    }
 /* wrap_hotline */
     #wrap_hotline {
         height: $height_hotline;
@@ -587,6 +602,11 @@
                     }
                 }
             }
+        }
+    }
+    @media (max-width: 768px) {
+        #wrap_hotline {
+            margin-top: 20px;
         }
     }
 /* wrap_footer */
@@ -762,6 +782,21 @@
         }
         .wrap_slick {
             background: white;
+        }
+    }
+    @media (max-width: 768px) {
+        #wrap_hot_product, #wrap_sale_product {
+            height: auto;
+
+            .wrap_title {
+                height: auto;
+                img {
+                    margin-top: 10px;
+                }
+                p {
+                    padding-bottom: 40px;
+                }
+            }
         }
     }
 /* GIOITHIEU */

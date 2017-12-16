@@ -21,26 +21,26 @@
                     Quản lý sản phẩm
                 </a>
             </li>
-            <li class="<?php if (isset($activeNav) && $activeNav == 'Dashboard') { ?>active<? } ?>">
-                <a href="<?=B_URL?>">
+            <li class="<?php if (isset($activeNav) && $activeNav == 'order') { ?>active<? } ?>">
+                <a href="<?=B_URL?>document/order">
                     <i class="fa fa-th-large"></i>
                     Quản lý đơn hàng
                 </a>
             </li>
-            <li class="<?php if (isset($activeNav) && $activeNav == 'Dashboard') { ?>active<? } ?>">
-                <a href="<?=B_URL?>">
+            <li class="<?php if (isset($activeNav) && $activeNav == 'customer') { ?>active<? } ?>">
+                <a href="<?=B_URL?>document/customer">
                     <i class="fa fa-th-large"></i>
                     Quản lý khách hàng
                 </a>
             </li>
-            <li class="<?php if (isset($activeNav) && $activeNav == 'Dashboard') { ?>active<? } ?>">
-                <a href="<?=B_URL?>">
+            <li class="<?php if (isset($activeNav) && $activeNav == 'news') { ?>active<? } ?>">
+                <a href="<?=B_URL?>document/news">
                     <i class="fa fa-th-large"></i>
                     Quản lý tin tức
                 </a>
             </li>
-            <li class="<?php if (isset($activeNav) && $activeNav == 'Dashboard') { ?>active<? } ?>">
-                <a href="<?=B_URL?>">
+            <li class="<?php if (isset($activeNav) && $activeNav == 'price_list') { ?>active<? } ?>">
+                <a href="<?=B_URL?>document/price_list">
                     <i class="fa fa-th-large"></i>
                     Quản lý bảng giá
                 </a>

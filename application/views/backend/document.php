@@ -19,6 +19,6 @@
 
 <!-- Excel file -->
 <h2 id="" class="list_title"><i class="fa fa-chevron-right"></i>Mẫu file excel để import dữ liệu</h2>
-<a href="<?php echo assetsUrl('document','images','product.xlsx'); ?>">
+<a href="<?php echo F_URL; ?>product.xlsx">
     <img class="document_image" src="<?php echo assetsUrl('document','images','excel.jpg'); ?>" style="width: 80px;" />
 </a>

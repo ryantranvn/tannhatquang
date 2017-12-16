@@ -1,5 +1,6 @@
 var document_height = $(document).height();
 var screen_height = $(window).height();
+var screen_width = $(window).width();
 var footer_height = $('#wrap_footer').height();
 
 // $.ajaxSetup({
@@ -97,18 +98,37 @@ $(document).ready( function() {
         slidesToShow: 4,
         slidesToScroll: 1
     });
-    $('#slick_hot_product').slick({
-        infinite: true,
-        lazyLoad: 'ondemand',
-        slidesToShow: 3,
-        slidesToScroll: 1
-    });
-    $('#slick_sale_product').slick({
-        infinite: true,
-        lazyLoad: 'ondemand',
-        slidesToShow: 3,
-        slidesToScroll: 1
-    });
+
+    // hot_product
+    if (screen_width<=768) { // width xs
+        $('#slick_hot_product').slick({
+            infinite: true,
+            lazyLoad: 'ondemand',
+            slidesToShow: 1,
+            slidesToScroll: 1
+        });
+        $('#slick_sale_product').slick({
+            infinite: true,
+            lazyLoad: 'ondemand',
+            slidesToShow: 1,
+            slidesToScroll: 1
+        });
+    }
+    else  {
+        $('#slick_hot_product').slick({
+            infinite: true,
+            lazyLoad: 'ondemand',
+            slidesToShow: 3,
+            slidesToScroll: 1
+        });
+        $('#slick_sale_product').slick({
+            infinite: true,
+            lazyLoad: 'ondemand',
+            slidesToShow: 3,
+            slidesToScroll: 1
+        });
+    }
+
 
 // product detail picture
     if ($('.elastislide-list').length > 0) {

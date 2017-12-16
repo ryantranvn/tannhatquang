@@ -37,4 +37,28 @@ class Document extends Root {
 
         $this->template->load('backend/template_document', 'backend/document/product', $this->data);
     }
+    public function order()
+    {
+        $this->data['activeNav'] = 'order';
+
+        $this->template->load('backend/template_document', 'backend/document/order', $this->data);
+    }
+    public function customer()
+    {
+        $this->data['activeNav'] = 'customer';
+
+        $this->template->load('backend/template_document', 'backend/document/customer', $this->data);
+    }
+    public function news()
+    {
+        $this->data['activeNav'] = 'news';
+
+        $this->template->load('backend/template_document', 'backend/document/news', $this->data);
+    }
+    public function price_list()
+    {
+        $this->data['activeNav'] = 'price_list';
+
+        $this->template->load('backend/template_document', 'backend/document/price_list', $this->data);
+    }
 }

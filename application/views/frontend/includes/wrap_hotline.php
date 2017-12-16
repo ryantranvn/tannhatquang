@@ -1,4 +1,4 @@
-<div id="wrap_hotline" class="container-fluid">
+<div id="wrap_hotline" class="container-fluid ">
     <div class="container">
         <div class="row">
 			<div class="wrap_title col col-md-3">
