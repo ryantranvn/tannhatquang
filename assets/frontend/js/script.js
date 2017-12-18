@@ -90,7 +90,15 @@ $(document).ready( function() {
             $('#nav_sanpham_bg').fadeOut('fast');
         }
     });
-
+    $('.product_category').find('i.glyphicon.glyphicon-chevron-down').click( function() {
+        $(this).next('ul').removeClass('hidden-xs').slideDown('fast');
+        $(this).remove();
+    });
+    if ($('.product_category').find('i.glyphicon.glyphicon-chevron-down').is(":visible")) {
+        $('.product_category').find('.title').click( function() {
+            $('.product_category').find('i.glyphicon.glyphicon-chevron-down').click();
+        });
+    }
 // slick
     $('#slick_hotline').slick({
         infinite: true,

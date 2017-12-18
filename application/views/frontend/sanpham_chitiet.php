@@ -9,22 +9,23 @@
                 <div class="row">
                     <div class="wrap_sanpham_detail container-fluid">
                         <div class="row">
-                            <div class="wrap_product_picture col col-sm-6 no_padding">
+                            <div class="wrap_product_picture col col-xs-12 col-sm-6 no_padding">
+                                <div class="product_name visible-xs-block"><?=$product['name']?></div>
                                 <?=$this->load->view('frontend/includes/wrap_product_image','',TRUE)?>
                             </div>
-                            <div class="wrap_product_info col col-sm-6">
+                            <div class="wrap_product_info col col-xs-12 col-sm-6">
                                 <?=$this->load->view('frontend/includes/wrap_product_info','',TRUE)?>
                             </div>
                         </div>
                         <div class="row wrap_price">
                             <? if ($product['price'] > 0) { ?>
-                                <p class="product_prize">VND <?=$product['price']?></p>
+                                <p class="product_prize">VND <?=number_format($product['price'], 0, ',', '.')?></p>
                             <? } else { ?>
                                 <p class="product_prize" style="font-size: 14px;">(vui lòng liên hệ)</p>
                             <? } ?>
                             <? if ($product['price_sale'] > 0) { ?>
                                 <p class="product_prize_old">
-                                    <span>VND <?=$product['price_sale']?> </span>&nbsp;
+                                    <span>VND <?=number_format($product['price_sale'], 0, ',', '.')?> </span>&nbsp;
                                     <? if ($product['price_sale_percent'] > 0) { ?>
                                         <?=$product['price_sale_percent']?>%
                                     <? } ?>

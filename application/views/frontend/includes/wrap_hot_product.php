@@ -1,4 +1,4 @@
-<div class="hot_product">
+<div class="hot_product hidden-xs">
     <p class="title">Sản phẩm nổi bật</p>
     <? if (isset($hot_products) && count($hot_products)>0) { ?>
     <ul>

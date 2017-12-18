@@ -277,7 +277,7 @@ if (file_exists(APPPATH . 'libraries/PHPMailer/PHPMailerAutoload.php')) {
             ''=>'%',
             '-'=>',',
             '-'=>' ',
-            ''=>'/',
+            ''=>'\/',
             ''=>'\\',
             ''=>','
         );

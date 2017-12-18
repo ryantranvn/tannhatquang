@@ -355,7 +355,7 @@ else {
 	// define('GAPP_REDIRECT_URI', F_URL);
 	// define('GAPP_API_KEY', '');
 
-define('MAX_NUMBER_ITEM_CART', 9999);
+define('MAX_NUMBER_ITEM_CART', 10000);
 define('NOTE_PRICE_NEED_CONTACT', '*** Với các sản phẩm có giá bằng 0 VND, vui lòng liên hệ để biết giá chính xác.');
 
 define('NO_IMG', ASSETS_URL . 'frontend/images/light.png');

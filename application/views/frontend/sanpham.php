@@ -14,6 +14,7 @@
                 <div class="row">
                     <? if (isset($products) && count($products)>0) { ?>
                     <div class="wrap_sanpham_list container-fluid">
+                        <p class="title visible-xs-block">Sản phẩm <i class="fa fa-caret-down"></i></p>
                         <? foreach ($products as $key => $product) { ?>
                         <div class="col col-sm-4">
                             <div class="row item_sanpham">

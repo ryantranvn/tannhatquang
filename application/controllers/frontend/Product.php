@@ -48,6 +48,7 @@ class Product extends Root {
         if (isset($params['cat']) && $params['cat']=="sp" && count($segs)>0) {
             if (count($segs)>1) {
                 $category_url = $segs[2];
+                $this->data['category_url'] = $category_url;
             }
         }
         $search_val = "";

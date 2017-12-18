@@ -1,8 +1,8 @@
-<div class="product_name"><?=$product['name']?></div>
+<div class="product_name hidden-xs"><?=$product['name']?></div>
 
 <? if (isset($product['price_sale']) && $product['price_sale']>0) {?>
 <p class="attr_name">Khuyến mãi:</p>
-<p class="attr_value color_blue"><?=$product['price_sale']?></p>
+<p class="attr_value color_blue"><?=number_format($product['price_sale'], 0, ',', '.')?></p>
 <? } ?>
 
 <!--
