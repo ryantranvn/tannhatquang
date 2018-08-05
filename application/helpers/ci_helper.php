@@ -7,7 +7,15 @@ if (file_exists(APPPATH . 'libraries/PHPMailer/PHPMailerAutoload.php')) {
     function pr($print_what)
     {
         print_r("<pre>");
-        print_r($print_what);
+        if (is_array($print_what)) {
+            foreach ($print_what as $arr) {
+                print_r($arr);
+                print_r('<br/>');
+            }
+        }
+        else {
+            print_r($print_what);
+        }
         exit();
     }
 // URL
@@ -287,7 +295,8 @@ if (file_exists(APPPATH . 'libraries/PHPMailer/PHPMailerAutoload.php')) {
             }
         } catch (Exception $e) {
         }
-
+        $str = str_replace('(', '', $str);
+        $str = str_replace(')', '', $str);
         return trim_odd_character(removeVNCharacter(strtolower($str)),"-");
     }
     function url_str_with($str, $character)

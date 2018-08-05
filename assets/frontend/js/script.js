@@ -66,7 +66,7 @@ $(document).ready( function() {
     }
 
 
-// navigation
+// navigation on mobile
     $('[rel="popover"]').popover({
         container: 'body',
         placement: 'bottom',
@@ -137,6 +137,13 @@ $(document).ready( function() {
         });
     }
 
+// cateogry product
+    if ($('#wrap_left').length>0) {
+        var wrapCategory = $('.product_category');
+        wrapCategory.children('ul.parent').children('li.hasSub').children('i').click( function() {
+            $(this).next('ul.child').slideToggle();
+        });
+    }
 
 // product detail picture
     if ($('.elastislide-list').length > 0) {

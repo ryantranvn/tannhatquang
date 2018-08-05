@@ -108,8 +108,8 @@ class API_category extends CI_Controller {
                                               'status' => $this->input->post('status', TRUE),
                                               'parent_id' => $parent_id,
                                               'path' => $path,
-                                              'modified_datetime' => date('Y-m-d H:i:s'),
-                                              'modified_by' => $created_by
+                                              'updated_datetime' => date('Y-m-d H:i:s'),
+                                              'updated_by' => $created_by
                                              );
                         if ( $this->Category_model->update_category($categoryEdit, $id) === FALSE ) {
                             $msg['err'] = 1;

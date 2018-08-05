@@ -118,9 +118,7 @@
                                 </fieldset>
                             </div>
                         </div>
-                    </div>
-                    <!-- Buttons -->
-                    <div class="col-xs-12 col-sm-12 col-md-12 col-lg-12">
+                        <!-- Buttons -->
                         <div class="row">
                             <input type="text" name="id_category" class="hiddenInput" <? if (isset($frmData)) { ?> value="<?=$frmData['id']?>" <? } ?> />
                             <button class="btn btn-sm btn-success pull-right" type="submit">
@@ -131,6 +129,7 @@
                             </button>
                         </div>
                     </div>
+
                     <?=$frmCategory['close']?>
                 </div>
             </div>

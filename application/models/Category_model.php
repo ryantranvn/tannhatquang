@@ -125,15 +125,13 @@ class Category_model extends Base_model {
             $url = $insertArr['url'].PREFIX_CODE_CAT.$id;
         $this->db->query($insertSql_url,array($url, $id, $insertArr['created_by']));
 
-        if ($this->db->trans_status() === FALSE)
-        {
+        if ($this->db->trans_status() === FALSE) {
             $this->db->trans_rollback();
             return FALSE;
         }
-        else
-        {
+        else {
             $this->db->trans_commit();
-            return TRUE;
+            return $id;
         }
     }
 

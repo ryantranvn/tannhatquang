@@ -45,9 +45,15 @@ class Product extends Root {
         $params = $this->params;
         $segs = $this->segs;
         $category_url = '';
+        $path = '';
         if (isset($params['cat']) && $params['cat']=="sp" && count($segs)>0) {
             if (count($segs)>1) {
                 $category_url = $segs[2];
+                // get category path
+                $arrPath = $this->Base_model->get_db('category', array('path'), array('url'=>$category_url));
+                if (count($arrPath)>0) {
+                    $path = $arrPath[0]['path'];
+                }
                 $this->data['category_url'] = $category_url;
             }
         }
@@ -83,11 +89,12 @@ class Product extends Root {
                         , (SELECT url FROM post_picture WHERE post_id=post.id LIMIT 1) as thumbnail
                     FROM post
                     INNER JOIN product ON product.post_id = post.id
-                    INNER JOIN category ON category.id = post.category_id
+                    LEFT JOIN category ON category.id = post.category_id
             ";
         $where = " WHERE post.type = 'product' AND post.del_flg=0";
-        if ($category_url!="") {
-            $where .= " AND category.url='".$category_url."'";
+
+        if ($path != "") {
+            $where .= " AND category.path like '%".$path."%'";
         }
         if ($search_val!="") {
             $where .= " AND product.name LIKE '%".$search_val."%'";
@@ -110,6 +117,8 @@ class Product extends Root {
         if ($offset <= 0) $offset=0;
         $sql .= " LIMIT ". $offset . ', ' . $config['per_page'];
         $this->data['products'] = $this->Base_model->table_get_list($sql);
+        $query = $this->db->query($sql);
+        $products = $query->result_array();
 
         $this->pagination->initialize($config);
         $this->data['paging'] =  $this->pagination->create_links();

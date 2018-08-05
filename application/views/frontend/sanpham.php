@@ -18,7 +18,7 @@
                         <? foreach ($products as $key => $product) { ?>
                         <div class="col col-sm-4">
                             <div class="row item_sanpham">
-                                <div class="col col-sm-12">
+                                <div class="col col-sm-12" style="background: white">
                                     <div class="wrap_thumbnail">
                                         <? if ($product['thumbnail'] != "")  { ?>
                                         <img class="media-object thumbnail_product" src="<?=F_URL?><?=$product['thumbnail']?>" alt="<?=IMG_ALT?>"/>
@@ -31,7 +31,7 @@
                                 <div class="product_information col col-sm-12">
                                     <p class="product_name">
                                         <?
-                                            $substr = substr($product['name'],0,30);
+                                            $substr = substr($product['name'],0,50);
                                             if (strlen($substr)<strlen($product['name'])) {
                                                 $substr .= "...";
                                             }

@@ -70,7 +70,7 @@ class Root extends CI_Controller {
     // frmSearch
         $this->data['frmSearch'] = frm(NULL, array('id'=>'frmSearch'), FALSE);
     // categories
-        $this->data['categories'] = $this->get_product_categroies();
+        $this->data['categories'] = $this->getCategories();
     // get hot product
         $this->data['hot_products'] = $this->Product_model->get_hot_product(10);
     // get session cart
@@ -97,7 +97,29 @@ class Root extends CI_Controller {
         return $session_cart;
     }
 
-    public function get_product_categroies()
+    public function getCategories() {
+        $sql = "
+                SELECT `category`.`id`
+                  ,`category`.`name`
+                  ,`category`.`url`
+                  ,`category`.`path`
+                FROM `category`
+                WHERE `category`.`status` = 'active' AND `category`.`parent_id` = ?
+                ORDER BY `order` ASC, `name` ASC";
+        $query = $this->db->query($sql, array(1));
+        $categories = $query->result_array();
+
+        foreach ($categories as $key => $category) {
+            $subQuery = $this->db->query($sql,  array($category['id']));
+            $subCategories = $subQuery->result_array();
+            if (count($subCategories)>0) {
+                $categories[$key]['sub'] = $subCategories;
+            }
+        }
+
+        return $categories;
+    }
+    public function get_product_categoies()
     {
         $path = '0-1-';
         $this->load->model('Category_model');

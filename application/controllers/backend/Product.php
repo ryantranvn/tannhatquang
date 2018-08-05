@@ -16,6 +16,7 @@ class Product extends Root {
         $this->data['varJS']['currentModule'] = $this->currentModule;
         // load
         $this->load->model($this->currentModule['control_name'].'_model', 'model');
+        $this->load->model('Category_model');
         $this->data['activeModule'] = $this->currentModule['control_name'];
         $this->data['activeNav'] = $this->currentModule['control_name'];
         $this->data['breadcrumb'][0] = array('name'=>'Sản phẩm'/*$this->currentModule['name']*/, 'url' => B_URL . $this->currentModule['url']);
@@ -384,6 +385,158 @@ class Product extends Root {
         if(isset($_POST) && $_SERVER['REQUEST_METHOD'] == "POST") {
             $inputFileName = $_FILES['importFile']['tmp_name'];
             $objPHPExcel = PHPExcel_IOFactory::load($inputFileName);
+
+            $sheetData = $objPHPExcel->getActiveSheet()->toArray(null,null,null,null,null,null,null,null);
+            $importData = array();
+            $arrMainCategory = [];
+            $arrSubCategory = [];
+            foreach ($sheetData as $key => $col) {
+                if ($key > 0 && $this->security->xss_clean($col[0]) != "") {
+                    // get data
+                    $mainCategory = $this->security->xss_clean($col[1]);
+                    $subCategory = $this->security->xss_clean($col[2]);
+                    $codeProduct = strtoupper($this->security->xss_clean($col[3]));
+                    $nameProduct = $this->security->xss_clean($col[4]);
+                    $imgProduct = $this->security->xss_clean($col[5]);
+                    $priceProduct = $this->security->xss_clean($col[6]);
+                    $unitProduct = $this->security->xss_clean($col[7]);
+
+                    // get member
+                    $authMember = $this->session->userdata('authMember');
+                    $created_by = $authMember['username'];
+
+                    // main category
+                    /*
+                    $parentId = 1;
+                    $urlMainCategory = url_str($mainCategory);
+                    $mainCategoryId = $this->isExistedCategory($urlMainCategory, $parentId);
+                    if ($categoryId !== FALSE) {
+                        $mainCategoryId = $categoryId;
+                    }
+                    else {
+                        $pathMainCategory = $this->makePath($parentId);
+                        $categoryAdd = array(
+                            'name' => $mainCategory,
+                            'url' => $urlMainCategory,
+                            'desc' => '',
+                            'thumbnail' => '',
+                            'order' => 0,
+                            'status' => 'active',
+                            'parent_id' => $parentId,
+                            'path' => $pathMainCategory,
+                            'created_datetime' => date('Y-m-d H:i:s'),
+                            'created_by' => $created_by
+                        );
+                        $mainCategoryId = $this->Category_model->insert_category($categoryAdd, $pathMainCategory);
+                    }
+                    */
+
+                    // add sub category
+                    /*
+                    $urlSubCategory = url_str($subCategory);
+                    $categoryId = $this->isExistedCategory($urlSubCategory, $mainCategoryId);
+                    if ($categoryId != FALSE) {
+                        $subCategoryId = $categoryId;
+                    }
+                    else {
+                        $pathSubCategory = $this->makePath($mainCategoryId);
+                        $subCategoryAdd = array(
+                            'name' => $subCategory,
+                            'url' => $urlSubCategory,
+                            'desc' => '',
+                            'thumbnail' => '',
+                            'order' => 0,
+                            'status' => 'active',
+                            'parent_id' => $mainCategoryId,
+                            'path' => $pathSubCategory,
+                            'created_datetime' => date('Y-m-d H:i:s'),
+                            'created_by' => $created_by
+                        );
+                        $subCategoryId = $this->Category_model->insert_category($subCategoryAdd, $pathSubCategory);
+                    }
+                    */
+
+                    // add product
+                    $urlSubCategory = url_str($subCategory);
+                    $categoryId = $this->getCategoryId($urlSubCategory);
+                    $urlProduct = url_str($nameProduct);
+                    if (!$this->is_existed_code($codeProduct)) {
+                        $productData = array(
+                            'code' => $codeProduct
+                            ,'category_id' => $categoryId
+                            ,'category_name' => $subCategory
+                            ,'name' => $nameProduct
+                            ,'url' => $urlProduct
+                            ,'description' => ''
+                            ,'manufacturer' => 'Philip'
+                            ,'unit' => $unitProduct
+                            ,'price' => $priceProduct
+                            ,'price_sale' => 0
+                            ,'price_sale_percent' => 0
+                            ,'quantity' => 0
+                            ,'arrPicture' => ['upload/images/sanpham/philip/'.$imgProduct]
+                            ,'order' => 0
+                            ,'status' => 'active'
+                            ,'detail' => ''
+                            ,'by' => $this->data['authMember']['username']
+                        );
+                        $this->model->insert_product($productData);
+                    }
+                }
+            }
+
+            $this->session->set_userdata('valid', "Import data successful.");
+
+        }
+        redirect(B_URL . $this->router->fetch_class());
+    }
+
+    private function getCategoryId($url)
+    {
+        $where = array('url' => $url);
+        $existed_url = $this->Base_model->get_db('category',array('id'), $where);
+        if ($existed_url !== FALSE && count($existed_url) > 0) {
+            return $existed_url[0]['id'];    // existed
+        }
+        return FALSE;
+    }
+
+    /* is_existed */
+    private function isExistedCategory($url, $parent_id)
+    {
+        $where = array('parent_id' => $parent_id, 'url' => $url);
+        $existed_url = $this->Base_model->get_db('category',array('id'), $where);
+        if ($existed_url !== FALSE && count($existed_url) > 0) {
+            return $existed_url[0]['id'];    // existed
+        }
+        return FALSE;
+    }
+
+    /* make path */
+    //return path or FALSE
+    private function makePath($parent_id)
+    {
+        $path = "";
+        if ($parent_id == 0) {
+            $path = "0-";
+        }
+        else {
+            // get path of parent
+            $parentPath = $this->Category_model->get_category_haveID($parent_id);
+            if ($parentPath === FALSE || count($parentPath)==0) {
+                return FALSE;
+            }
+            $path .= $parentPath[0]['path'];
+        }
+        return $path;
+    }
+
+
+    /*public function import()
+    {
+        if(isset($_POST) && $_SERVER['REQUEST_METHOD'] == "POST") {
+            $inputFileName = $_FILES['importFile']['tmp_name'];
+            $objPHPExcel = PHPExcel_IOFactory::load($inputFileName);
             $sheetData = $objPHPExcel->getActiveSheet()->toArray(null,null,null,null,null);
             $importData = array();
             foreach ($sheetData as $key => $row) {
@@ -410,7 +563,7 @@ class Product extends Root {
             $this->session->set_userdata('valid', "Import data successful.");
         }
         redirect(B_URL . $this->router->fetch_class());
-    }
+    }*/
 /* MORE */
     private function is_existed_code($code, $post_id=NULL)
     {

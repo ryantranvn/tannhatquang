@@ -903,6 +903,7 @@
                 a {
                     color: $color_content;
                 }
+
                 ul.child {
                     list-style: none;
                 }
@@ -915,6 +916,19 @@
             li:hover {
                 font-weight: 700;
             }
+            li.hasSub {
+                i.fa.fa-caret-down {
+                    display: inline-block;
+                    float: right;
+
+                    &:hover {
+                        cursor: pointer;
+                    }
+                }
+            }
+        }
+        ul.child {
+            display: none;
         }
         i.glyphicon-chevron-down {
             font-size: 25px;
@@ -1013,7 +1027,7 @@
                 }
                 .item_sanpham {
                     margin: 10px 1px;
-                    padding: 10px 1px;
+                    padding: 0px 1px 10px 1px;
                     text-align: center;
                     border: solid 1px $color_border;
                     .wrap_thumbnail {
