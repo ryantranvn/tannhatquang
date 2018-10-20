@@ -217,7 +217,8 @@ class Product extends Root {
         // breadcrumb
             $this->data['breadcrumb'][1] = array('name'=>'Chỉnh sửa', 'url' => '');
         // get post
-            $posts = $this->Base_model->get_post('product', $post_id);
+            // $posts = $this->Base_model->get_post('product', $post_id);
+            $posts = $this->model->get_product($post_id);
             if ($posts === FALSE || count($posts)==0) {
                 $this->session->set_userdata('invalid', "Không tìm thấy dữ liệu.");
                 redirect(B_URL . $this->currentModule['url']);

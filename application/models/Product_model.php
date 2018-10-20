@@ -6,6 +6,35 @@ class Product_model extends Base_model {
     {
         parent::__construct();
     }
+    public function get_product($post_id)
+    {
+        $sql = "SELECT
+                    post.id
+                    ,post.category_id
+                    ,post.category_name
+                    ,post.status
+                    ,product.code
+                    ,product.name
+                    ,product.url
+                    ,product.description
+                    ,product.unit
+                    ,manufacturer.name AS manufacturer
+                    ,product.quantity
+                    ,product.price
+                    ,product.price_sale
+                    ,product.price_sale_percent
+                    ,product.order
+                    ,product.detail
+                FROM post
+                INNER JOIN product ON product.post_id = post.id
+                INNER JOIN manufacturer ON manufacturer.id = product.manufacturer_id
+            ";
+        $where = " WHERE post.type = 'product' AND post.del_flg=0 AND post.id='".$post_id."'";
+        $sql .= $where;
+        $query = $this->db->query($sql);
+        $result = $query->result_array();
+        return $result;
+    }
 
     public function insert_product($productData)
 	{
