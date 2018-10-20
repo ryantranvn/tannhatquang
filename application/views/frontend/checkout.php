@@ -37,9 +37,9 @@
                             <td class="text_left"><?=$product['info']['name']?></td>
                             <td class="text_right">
                             <? if ($product['info']['price_sale']>0) { ?>
-                                <?=$product['info']['price_sale']?>
+                                <?=number_format($product['info']['price_sale'], 0, ',', '.')?>
                             <? } else { ?>
-                                <?=$product['info']['price']?>
+                                <?=number_format($product['info']['price'], 0, ',', '.')?>
                             <? } ?>
                             </td>
                             <td class="text_center"><?=$product['number_item']?></td>

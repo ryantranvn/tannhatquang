@@ -13,13 +13,16 @@
             <!-- end header -->
                 <div id="wrap_form" class="row" style="position: relative; overflow-x: hidden; overflow-y: scroll">
                     <?=$frmCategory['open']?>
+                    <? /*
                     <div class="col-xs-12 col-sm-12 col-md-4 col-lg-4">
                         <label class="control-label">Parent <sup>*</sup></label>
-                        <?=$this->load->view('backend/includes/tree','',TRUE)?>
+                        <?php $this->load->view('backend/includes/tree','',TRUE) ?>
                     </div>
-                    <div class="col-xs-12 col-sm-12 col-md-8 col-lg-8">
+                    */?>
+                    <div class="col-xs-12 col-sm-12 col-md-12 col-lg-12">
                         <div class="row">
-                            <div class="col-xs-12 col-sm-12 col-md-8 col-lg-8">
+                            <div class="col-xs-12 col-sm-12 col-md-6 col-lg-6">
+                                <?=$this->load->view('backend/includes/select_category','',TRUE)?>
                             <!-- Name -->
                                 <div class="row">
                                     <fieldset>
@@ -88,7 +91,7 @@
                                 </div>
                             </div>
                             <!-- Thumbnail -->
-                            <div class="col-xs-12 col-sm-12 col-md-4 col-lg-4">
+                            <div class="col-xs-12 col-sm-12 col-md-6 col-lg-6">
                                 <fieldset>
                                     <div class="form-group">
                                         <label class="control-label">Thumbnail</label>

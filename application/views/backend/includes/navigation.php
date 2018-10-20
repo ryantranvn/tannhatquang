@@ -44,7 +44,15 @@
 				</li>
 			<? } ?>
 			<!-- News -->
-			<? if ((isset($permissionsMember['News_category']) && $permissionsMember['News_category'][1] == 1)
+                <? if (isset($permissionsMember['News']) && $permissionsMember['News'][1] == 1) { ?>
+                <li class="<?php if (isset($activeNav) && $activeNav == 'News') { ?>active<? } ?>">
+                    <a href="<?=B_URL.$modules['News']['url']?>">
+                        <i class="fa fa-th-large"></i>
+                        <span class="menu-item-parent">Tin tức</span>
+                    </a>
+                </li>
+                <? }?>
+			<?/* if ((isset($permissionsMember['News_category']) && $permissionsMember['News_category'][1] == 1)
 			|| (isset($permissionsMember['News']) && $permissionsMember['News'][1] == 1)) { ?>
 				<li class="<?php if (isset($activeNav) && ($activeNav == 'News_category' || $activeNav == 'News')) { ?>active<? } ?>">
 					<a href="#">
@@ -60,7 +68,7 @@
 					<? } ?>
 					</ul>
 				</li>
-			<? } ?>
+			<? } */?>
 
             <!-- Order -->
             <? if ($permissionsMember['Order'][1] == 1) { ?>
@@ -91,6 +99,7 @@
                     </a>
                 </li>
             <? } ?>
+            <?php /*
 			<!-- Setting -->
 			<? if ($permissionsMember['Setting'][1] == 1) { ?>
 				<li class="moduleSystem <?php if (isset($activeNav) && $activeNav == 'Setting') { ?>active<? } ?>">
@@ -127,6 +136,7 @@
 					</a>
 				</li>
 			<? } ?>
+                */ ?>
 			</ul>
 		</nav>
 		<span class="minifyme" data-action="minifyMenu">

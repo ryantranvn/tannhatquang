@@ -14,9 +14,9 @@
                     Email : dntntannhatquang@gmail.com
                 </p>
                 <h4 class="text_left red" style="line-height: 30px">Phòng Kinh Doanh</h4>
-                <p><b>Anh Hưng</b> - Số nội bộ 102<br/>ĐT: 0973 893 001  |  Email: hungthanhvinh88@yahoo.com</p>
-                <p><b>Chị Hên</b> - Số nội bộ 101<br/>ĐT: 0973 807 632  |  Email: henthanhvinh@gmail.com</p>
-                <p><b>Anh Lộc</b> - Số nội bộ 104<br/>ĐT: 01887671926  |  Email: locthanhvinh@yahoo.com</p>
+                <p><b>Hồ Minh Sơn</b> - ĐT: 0948484343  |  Email: dntntannhatquang@gmail.com</p>
+                <p><b>Võ Hoàng Tiền</b> - ĐT: 029036515555  |  Email: dntntannhatquang@gmail.com</p>
+                <p><b>Trịnh Út Nữ</b> - ĐT: 0913601701  |  Email: dntntannhatquang@yahoo.com</p>
             </div>
         </div>
     </div>

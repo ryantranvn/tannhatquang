@@ -71,6 +71,13 @@ class Root extends CI_Controller {
         $this->data['frmSearch'] = frm(NULL, array('id'=>'frmSearch'), FALSE);
     // categories
         $this->data['categories'] = $this->getCategories();
+    // brands   
+        $this->data['brands'] = $this->getBrands();
+    // get params
+        $brandStr = $this->input->get('brand',TRUE);
+        if (strlen($brandStr)>0) {
+            $this->data['paramsUrl'] = 'brand='.$brandStr;
+        }        
     // get hot product
         $this->data['hot_products'] = $this->Product_model->get_hot_product(10);
     // get session cart
@@ -83,6 +90,12 @@ class Root extends CI_Controller {
     {
         // Some example data
 
+    }
+
+    private function getBrands() {
+        $brands = $this->Base_model->get_db('manufacturer', ['id', 'name', 'url'], null, null, ['name'], ['asc']);
+
+        return $brands;
     }
 
     public function has_cart()
@@ -119,6 +132,7 @@ class Root extends CI_Controller {
 
         return $categories;
     }
+
     public function get_product_categoies()
     {
         $path = '0-1-';

@@ -48,9 +48,9 @@
 		<!-- end logout button -->
 
 		<!-- document button -->
-			<div id="document" class="btn-header transparent pull-right">
-				<span> <a href="<?=F_URL?>backend/document" title="View Document" target="_blank"><i class="fa fa-book"></i></a> </span>
-			</div>
+			<!--<div id="document" class="btn-header transparent pull-right">
+				<span> <a href="<?/*=F_URL*/?>backend/document" title="View Document" target="_blank"><i class="fa fa-book"></i></a> </span>
+			</div>-->
 		<!-- end document button -->
 
 		<!-- frontend button -->

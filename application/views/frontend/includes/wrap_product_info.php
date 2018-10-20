@@ -9,7 +9,10 @@
 <p class="attr_name">Loại sản phẩm:</p>
 <p class="attr_value color_blue">Đèn Led Âm trần - Libastar - Việt Nam</p>
 -->
-
+<? if (isset($product['code']) && $product['code']!="") {?>
+    <p class="attr_name">Mã sản phẩm:</p>
+    <p class="attr_value color_blue"><?=$product['code']?></p>
+<? } ?>
 <? if (isset($product['manufacturer']) && $product['manufacturer']!="") {?>
 <p class="attr_name">Thương hiệu:</p>
 <p class="attr_value color_blue"><?=$product['manufacturer']?></p>

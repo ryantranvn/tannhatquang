@@ -51,9 +51,9 @@
         <? if (!isset($remove_banner)) { ?>
             <?=$this->load->view('frontend/includes/wrap_banner','',TRUE)?>
         <? } ?>
-        <? if (!isset($remove_hotline)) { ?>
+        <? /* if (!isset($remove_hotline)) { ?>
             <?=$this->load->view('frontend/includes/wrap_hotline','',TRUE)?>
-        <? } ?>
+        <? } */ ?>
         <?=$content?>
         <div id="gotoTop"></div>
         <div id="pos"></div>

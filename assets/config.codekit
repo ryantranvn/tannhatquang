@@ -1903,6 +1903,17 @@
 		"outputPathIsSetByUser": 0,
 		"processed": 0
 		},
+	"\/frontend\/images\/default.jpg": {
+		"fileType": 16384,
+		"ignore": 0,
+		"ignoreWasSetByUser": 0,
+		"initialSize": 1319,
+		"inputAbbreviatedPath": "\/frontend\/images\/default.jpg",
+		"outputAbbreviatedPath": "\/frontend\/images\/default.jpg",
+		"outputPathIsOutsideProject": 0,
+		"outputPathIsSetByUser": 0,
+		"processed": 0
+		},
 	"\/frontend\/images\/hand.png": {
 		"fileType": 32768,
 		"ignore": 0,

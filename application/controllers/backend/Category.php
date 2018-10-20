@@ -129,6 +129,7 @@ class Category extends Root {
         $this->data['selected_category_id'] = 0;
         $this->data['selected_category_name'] = 'Root';
         $this->data['parent_id'] = 0;
+
         // create form
             $this->data['frmCategory'] = frm('', array('id' => 'frmCategory'), TRUE);
         $this->template->load('backend/template', 'backend/category/form', $this->data);
@@ -173,8 +174,9 @@ class Category extends Root {
         $desc = $this->input->post('desc',TRUE);
         $thumbnail = $this->input->post('thumbnail',TRUE);
         $id = $this->input->post('id',TRUE);
+        $parent_id = $this->input->post('parent_id',TRUE);
         // check permission
-            if ($id == NULL) { // add
+            /*if ($id == NULL) { // add
                 $this->noAccess($this->data['permissionsMember'], $this->currentModule['control_name'], 2);
                 $parent_id = $this->input->post('selected_category_id',TRUE);
             }
@@ -187,7 +189,8 @@ class Category extends Root {
                 else {
                     $parent_id = $selected_category_id;
                 }
-            }
+            }*/
+
         // valid form
             $this->form_validation->set_rules('name', 'Name', 'trim|required|max_length[255]|xss_clean');
             $this->form_validation->set_rules('url', 'URL', 'trim|required|max_length[255]|alpha_dash|xss_clean');

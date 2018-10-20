@@ -13,66 +13,70 @@
                 <!-- end header -->
                 <div id="wrap_form" class="custom-scroll table-responsive" class="row" style="position: relative; overflow-x: hidden; overflow-y: scroll; padding-top: 20px;">
                     <?=$frmProduct['open']?>
-	                    <div class="col-xs-12 col-sm-12 col-md-4 col-lg-4">
-	                        <label class="control-label">Chuyên mục <sup>*</sup></label>
-	                        <?=$this->load->view('backend/includes/tree','',TRUE)?>
+                    <div class="row">
+	                    <div class="col-xs-12 col-sm-12 col-md-6 col-lg-6">
+	                        <?php /*$this->load->view('backend/includes/tree','',TRUE) */?>
+                            <?=$this->load->view('backend/includes/select_category','',TRUE)?>
 	                    </div>
-	                    <div class="col-xs-12 col-sm-12 col-md-8 col-lg-8">
-	                    <!-- Code & Manufacturer -->
-	                        <div class="row">
-	                            <div class="col-xs-12 col-sm-12 col-md-4 col-lg-4">
-	                                <fieldset>
-	                                    <div class="form-group">
-	                                        <div class="col-sm-12 col-md-12 col-lg-12">
-	                                            <label class="control-label">Mã sản phẩm <sup>*</sup></label>
-	                                            <input type="text" class="form-control" name="code_product" <? if (isset($frmData)) { ?> value="<?=$frmData['code']?>" <? } ?> style="text-transform: uppercase" />
-	                                            <span class="charLimit" id="code_product_limit"></span>
-	                                        </div>
-	                                    </div>
-	                                </fieldset>
-	                            </div>
-	                            <div class="col-xs-12 col-sm-12 col-md-8 col-lg-8">
-	                                <fieldset>
-	                                    <div class="form-group">
-	                                        <div class="col-sm-12 col-md-12 col-lg-12">
-	                                            <label class="control-label">Thương hiệu: </label>
-	                                            <input type="text" class="form-control" name="manufacturer_product" <? if (isset($frmData)) { ?> value="<?=$frmData['manufacturer']?>" <? } ?>/>
-	                                            <span class="charLimit" id="manufacturer_product_limit"></span>
-	                                        </div>
-	                                    </div>
-	                                </fieldset>
-	                            </div>
-	                        </div>
-	                    <!-- Name -->
-	                        <div class="row">
-	                            <div class="col-xs-12 col-sm-12 col-md-12 col-lg-12">
-	                                <fieldset>
-	                                    <div class="form-group">
-	                                        <div class="col-sm-12 col-md-12 col-lg-12">
-	                                            <label class="control-label">Tên sản phẩm <sup>*</sup></label>
-	                                            <input type="text" class="form-control" name="name_product" <? if (isset($frmData)) { ?> value="<?=$frmData['name']?>" <? } ?>/>
-	                                            <span class="charLimit" id="name_product_limit"></span>
-	                                        </div>
-	                                    </div>
-	                                </fieldset>
-	                            </div>
-	                        </div>
-	                    <!-- URL -->
-	                        <div class="row">
-	                            <div class="col-xs-12 col-sm-12 col-md-12 col-lg-12">
-	                                <fieldset>
-	                                    <div class="form-group">
-	                                        <div class="row">
-	                                            <div class="col-sm-12 col-md-12 col-lg-12">
-	                                                <label class="control-label">URL <sup>*</sup></label>
-	                                                <input type="text" class="form-control" name="url_product" <? if (isset($frmData)) { ?> value="<?=$frmData['url']?>" <? } ?> disabled/>
-	                                                <span class="charLimit" id="url_product_limit"></span>
-	                                            </div>
-	                                        </div>
-	                                    </div>
-	                                </fieldset>
-	                            </div>
-	                        </div>
+                    <!-- Manufacturer -->
+                        <div class="col-xs-12 col-sm-12 col-md-6 col-lg-6">
+                            <div class="row">
+                                <div class="col-xs-12 col-sm-12 col-md-12 col-lg-12">
+                                    <fieldset>
+                                        <div class="form-group">
+                                            <div class="col-sm-12 col-md-12 col-lg-12">
+                                                <label class="control-label">Thương hiệu: </label>
+                                                <input type="text" class="form-control" name="manufacturer_product" <? if (isset($frmData)) { ?> value="<?=$frmData['manufacturer']?>" <? } ?>/>
+                                                <span class="charLimit" id="manufacturer_product_limit"></span>
+                                            </div>
+                                        </div>
+                                    </fieldset>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+                    <div class="row">
+                    <!-- Code -->
+                        <div class="col-xs-12 col-sm-12 col-md-12 col-lg-12">
+                            <fieldset>
+                                <div class="form-group">
+                                    <div class="col-sm-12 col-md-6 col-lg-6">
+                                        <label class="control-label">Mã sản phẩm <sup>*</sup></label>
+                                        <input type="text" class="form-control" name="code_product" <? if (isset($frmData)) { ?> value="<?=$frmData['code']?>" <? } ?> style="text-transform: uppercase" />
+                                        <span class="charLimit" id="code_product_limit"></span>
+                                    </div>
+                                </div>
+                            </fieldset>
+                        </div>
+                    </div>
+                    <div class="row">
+                    <!-- Name -->
+                        <div class="col-xs-12 col-sm-12 col-md-6 col-lg-6">
+                            <fieldset>
+                                <div class="form-group">
+                                    <div class="col-sm-12 col-md-12 col-lg-12">
+                                        <label class="control-label">Tên sản phẩm <sup>*</sup></label>
+                                        <input type="text" class="form-control" name="name_product" <? if (isset($frmData)) { ?> value="<?=$frmData['name']?>" <? } ?>/>
+                                        <span class="charLimit" id="name_product_limit"></span>
+                                    </div>
+                                </div>
+                            </fieldset>
+                        </div>
+                    <!-- URL -->
+                        <div class="col-xs-12 col-sm-12 col-md-6 col-lg-6">
+                            <fieldset>
+                                <div class="form-group">
+                                    <div class="row">
+                                        <div class="col-sm-12 col-md-12 col-lg-12">
+                                            <label class="control-label">URL <sup>*</sup></label>
+                                            <input type="text" class="form-control" name="url_product" <? if (isset($frmData)) { ?> value="<?=$frmData['url']?>" <? } ?> disabled/>
+                                            <span class="charLimit" id="url_product_limit"></span>
+                                        </div>
+                                    </div>
+                                </div>
+                            </fieldset>
+                        </div>
+                    </div>
 	                    <!-- Description -->
 	                        <div class="row" style="min-height: 90px;">
 	                            <div class="col-xs-12 col-sm-12 col-md-12 col-lg-12">
@@ -259,19 +263,21 @@
 	                                </fieldset>
 	                            </div>
 	                        </div>
+
+                            <div class="row">
+                                <!-- Buttons -->
+                                <div class="col-xs-12 col-sm-12 col-md-12 col-lg-12">
+                                    <input type="text" name="post_id" class="hiddenInput" <? if (isset($frmData)) { ?> value="<?=$frmData['id']?>" <? } ?> />
+                                    <button class="btn btn-sm btn-success pull-right" type="submit">
+                                        <i class="fa fa-lg fa-save"></i> Submit
+                                    </button>
+                                    <button class="btnCancel btn btn-sm .bg-color-blueLight pull-right" type="button" style="margin-right: 10px;">
+                                        <i class="fa fa-times"></i> Cancel
+                                    </button>
+                                </div>
+                            </div>
 	                    </div>
-	                    <!-- Buttons -->
-	                    <div class="col-xs-12 col-sm-12 col-md-12 col-lg-12">
-	                        <div class="row">
-                                <input type="text" name="post_id" class="hiddenInput" <? if (isset($frmData)) { ?> value="<?=$frmData['id']?>" <? } ?> />
-	                            <button class="btn btn-sm btn-success pull-right" type="submit">
-	                                <i class="fa fa-lg fa-save"></i> Submit
-	                            </button>
-	                            <button class="btnCancel btn btn-sm .bg-color-blueLight pull-right" type="button" style="margin-right: 10px;">
-	                                <i class="fa fa-times"></i> Cancel
-	                            </button>
-	                        </div>
-	                    </div>
+
 	                <?=$frmProduct['close']?>
                 </div>
             </div>

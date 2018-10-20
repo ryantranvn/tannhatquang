@@ -111,7 +111,7 @@ class Category_model extends Base_model {
     {
         $insertSql = "INSERT INTO category (`name`,`url`,`desc`,`thumbnail`,`order`,`status`,`parent_id`,`created_datetime`,`created_by`) VALUES (?,?,?,?,?,?,?,?,?)";
         $updateSql = "UPDATE category SET `path`=? WHERE id=?";
-        $insertSql_url = "INSERT INTO url_route (`url`,`category_id`,`created_by`) VALUES (?,?,?)";
+        $insertSql_url = "INSERT INTO url_route (`url`,`category_id`,`type`,`created_by`) VALUES (?,?,?,?)";
 
         $this->db->trans_begin();
         // insert new category
@@ -122,8 +122,7 @@ class Category_model extends Base_model {
             $path .= $id."-";
             $this->db->query($updateSql,array($path, $id));
         // insert data into url table
-            $url = $insertArr['url'].PREFIX_CODE_CAT.$id;
-        $this->db->query($insertSql_url,array($url, $id, $insertArr['created_by']));
+            $this->db->query($insertSql_url,array($insertArr['url'], $id, 'category', $insertArr['created_by']));
 
         if ($this->db->trans_status() === FALSE) {
             $this->db->trans_rollback();

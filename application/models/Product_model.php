@@ -15,18 +15,17 @@ class Product_model extends Base_model {
 	        $this->db->query($sql_post, array($productData['category_id'], $productData['category_name'], 'product', $productData['status'], $productData['by']));
 			$post_id = $this->db->insert_id();
 		// insert product
-			$sql_product = "INSERT INTO product (`post_id`, `code`, `name`, `url`, `description`, `manufacturer`, `unit`, `detail`, `quantity`, `price`, `price_sale`, `price_sale_percent`, `order`) VALUES (?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?)";
-			$this->db->query($sql_product, array($post_id, $productData['code'], $productData['name'], $productData['url'], $productData['description'], $productData['manufacturer'], $productData['unit'], $productData['detail'], $productData['quantity'], $productData['price'], $productData['price_sale'], $productData['price_sale_percent'], $productData['order']));
-
+			$sql_product = "INSERT INTO product (`post_id`, `code`, `name`, `url`, `description`, `manufacturer_id`, `manufacturer_url`, `unit`, `detail`, `quantity`, `price`, `price_sale`, `price_sale_percent`, `order`) VALUES (?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?)";
+			$this->db->query($sql_product, array($post_id, $productData['code'], $productData['name'], $productData['url'], $productData['description'], $productData['manufacturer_id'], $productData['manufacturer_url'], $productData['unit'], $productData['detail'], $productData['quantity'], $productData['price'], $productData['price_sale'], $productData['price_sale_percent'], $productData['order']));
 		// insert pictures
 			$sql_picture = "INSERT INTO post_picture (`post_id`, `url`) VALUES (?, ?)";
 			foreach ($productData['arrPicture'] as $picture) {
 				$this->db->query($sql_picture, array($post_id, $picture));
 			}
-
         // insert url_route
-            $sql_url = "INSERT INTO url_route (`url`, `category_id`, `post_id`, `created_by`) VALUES (?, ?, ?, ?)";
-            $this->db->query($sql_url, array($productData['url'].'-'.$productData['code'].PREFIX_CODE_PRODUCT.$post_id, $productData['category_id'], $post_id, $productData['by']));
+            $sql_url = "INSERT INTO url_route (`url`, `category_id`, `post_id`, `type`, `created_by`) VALUES (?, ?, ?, ?, ?)";
+            $this->db->query($sql_url, array($productData['url'], $productData['category_id'], $post_id, 'product', $productData['by']));
+            //$this->db->query($sql_url, array($productData['url'].'-'.$productData['code'].PREFIX_CODE_PRODUCT.$post_id, $productData['category_id'], $post_id, $productData['by']));
 
 		if ($this->db->trans_status() === FALSE)
         {
@@ -176,7 +175,7 @@ class Product_model extends Base_model {
                     ,product.url
                     ,product.description
                     ,product.unit
-                    ,product.manufacturer
+                    ,manufacturer.name AS manufacturer
                     ,product.quantity
                     ,product.price
                     ,product.price_sale
@@ -185,6 +184,7 @@ class Product_model extends Base_model {
                     ,product.detail
                 FROM post
                 INNER JOIN product ON product.post_id = post.id
+                INNER JOIN manufacturer ON manufacturer.id = product.manufacturer_id
             ";
         $where = " WHERE post.type = 'product' AND post.del_flg=0 AND url='".$url."'";
         $sql .= $where;
@@ -205,7 +205,7 @@ class Product_model extends Base_model {
                     ,product.url
                     ,product.description
                     ,product.unit
-                    ,product.manufacturer
+                    ,manufacturer.name AS manufacturer
                     ,product.quantity
                     ,product.price
                     ,product.price_sale
@@ -215,6 +215,7 @@ class Product_model extends Base_model {
                     , (SELECT url FROM post_picture WHERE post_id=post.id LIMIT 1) as thumbnail
                 FROM post
                 INNER JOIN product ON product.post_id = post.id
+                INNER JOIN manufacturer ON manufacturer.id = product.manufacturer_id
             ";
         $where = " WHERE post.type = 'product' AND post.del_flg=0 AND post.category_id='".$category_id."' AND post.id<>'".$post_id."'";
         $sql .= $where;
@@ -233,7 +234,7 @@ class Product_model extends Base_model {
                         ,product.name
                         ,product.url
                         ,product.description
-                        ,product.manufacturer
+                        ,manufacturer.name AS manufacturer
                         ,product.price
                         ,product.price_sale
                         ,product.price_sale_percent
@@ -242,6 +243,7 @@ class Product_model extends Base_model {
                     FROM post
                     INNER JOIN product ON product.post_id = post.id
                     INNER JOIN category ON category.id = post.category_id
+                    INNER JOIN manufacturer ON manufacturer.id = product.manufacturer_id
             ";
         $where = " WHERE post.type = 'product' AND post.del_flg=0 AND post.hot_flg=1";
         $sql .= $where;
@@ -262,7 +264,7 @@ class Product_model extends Base_model {
                         ,product.name
                         ,product.url
                         ,product.description
-                        ,product.manufacturer
+                        ,manufacturer.name AS manufacturer
                         ,product.price
                         ,product.price_sale
                         ,product.price_sale_percent
@@ -271,6 +273,7 @@ class Product_model extends Base_model {
                     FROM post
                     INNER JOIN product ON product.post_id = post.id
                     INNER JOIN category ON category.id = post.category_id
+                    INNER JOIN manufacturer ON manufacturer.id = product.manufacturer_id
             ";
         $where = " WHERE post.type = 'product' AND post.del_flg=0 AND product.price_sale>0";
         $sql .= $where;

@@ -14,13 +14,15 @@
             gridResize: true,
             autoResizeAllColumns: true,
             iconSet: "fontAwesome",
-            colNames : ['Status', 'Nổi bật', 'Chuyên mục', 'Mã SP', 'Tên SP', 'Đơn vị', /*'Số lượng', 'Tồn kho',*/ 'Giá', 'Giá KM', 'Thứ tự', 'Hình', 'Action'],
+            colNames : ['Status', 'Nổi bật', 'Nhãn', 'Danh mục', 'Chủng loại', 'Mã SP', 'Tên SP', 'Đơn vị', /*'Số lượng', 'Tồn kho',*/ 'Giá', 'Giá KM', 'Thứ tự', 'Hình', 'Action'],
             colModel : [{ name : 'status', index : 'status', align : 'center', width : '80',
                             stype: 'select', searchoptions:{ sopt:['eq'], value: statusStr }
                         },
                         { name : 'hot_flg', index : 'hot_flg', align : 'center', width : '80',
                             stype: 'select', searchoptions:{ sopt:['eq'], value: hotStr }
                         },
+                        { name : 'manufacturer', index : 'manufacturer', search : true, width : '100' },
+                        { name : 'main_category', index : 'main_category', search : true, width : '100' },
                         { name : 'category', index : 'category', search : true, width : '100' },
                         { name : 'code', index : 'code', search : true, align : 'center', width : '60' },
                         { name : 'name', index : 'name', align : 'left', search : true, width : '150' },
@@ -62,7 +64,9 @@
                     var arr = rowData.pictures.split(',');
                     if (arr != undefined && arr.length>0) {
                         $.each(arr, function( index, url ) {
-                            th += '<a class="groupFancyBox" href="' + url + '" rel="image-'+i+'"><img src="' + url + '" class="smalThumbInTable" /></a>'
+                            if (url != "") {
+                                th += '<a class="groupFancyBox" href="/' + url + '" rel="image-'+i+'"><img src="/' + url + '" class="smalThumbInTable" /></a>'
+                            }
                         });
                     }
                     var btnInline = btnEditInline(cl) + bntDeleteInline(cl);
@@ -292,8 +296,8 @@
                             'thumbnail': $('input[name="thumbnail"]').val(),
                             'order': $('input[name="order"]').val(),
                             'status': $('input[name="status"]:checked').val(),
-                            'category_id': $('input[name="selected_category_id"]').val(),
-                            'category_name': $('input[name="selected_category_name"]').val(),
+                            'category_id': $('select[name="parent_id"]').val(),
+                            'category_name': $('select[name="parent_id"] option:selected').text(),
                             'detail': editor.getData()
                             },
                         success: function(data) {

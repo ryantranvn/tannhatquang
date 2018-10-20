@@ -12,12 +12,12 @@
             gridResize: true,
             autoResizeAllColumns: true,
             iconSet: "fontAwesome",
-            colNames : ['Status', 'Chuyên mục', 'Tiêu đề', 'Thứ tự', 'Hình', 'Action'],
+            colNames : ['Status', /*'Chuyên mục',*/ 'Tiêu đề', 'Thứ tự', 'Hình', 'Action'],
             colModel : [{ name : 'status', index : 'status', align : 'center', width : '80',
                             stype: 'select', searchoptions:{ sopt:['eq'], value: statusStr }
                         },
-                        { name : 'category', index : 'category', search : true, width : '100' },
-                        { name : 'title', index : 'title', align : 'left', search : true, width : '150' },
+                        // { name : 'category', index : 'category', search : true, width : '100' },
+                        { name : 'title', index : 'title', align : 'left', search : true, width : '450' },
                         { name : 'order', index : 'order', align : 'center', search : true, width : '60',
                             editable : true,
                             editoptions: { dataInit: function (elem) {
@@ -206,8 +206,8 @@
                                         'thumbnail': $('input[name="thumbnail"]').val(),
                                         'order': $('input[name="order"]').val(),
                                         'status': $('input[name="status"]:checked').val(),
-                                        'category_id': $('input[name="selected_category_id"]').val(),
-                                        'category_name': $('input[name="selected_category_name"]').val(),
+                                        // 'category_id': $('input[name="selected_category_id"]').val(),
+                                        // 'category_name': $('input[name="selected_category_name"]').val(),
                                         'detail': editor.getData()
                                       },
                                 success: function(data) {

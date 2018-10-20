@@ -119,7 +119,7 @@ class Product_category extends Root {
         // breadcrumb
             $this->data['breadcrumb'][1] = array('name'=>'Thêm mới', 'url' => '');
 
-        $arrCategory = $this->Base_model->get_db('category', NULL, NULL, array('path'=>$this->path), array('path','order','name'), array('asc','asc','asc'));
+        /*$arrCategory = $this->Base_model->get_db('category', NULL, NULL, array('path'=>$this->path), array('path','order','name'), array('asc','asc','asc'));
         foreach ($arrCategory as $key => $category) {
             $indent = count(explode('-', $category['path']));
             $arrCategory[$key]['indent'] = $indent-1;
@@ -127,7 +127,8 @@ class Product_category extends Root {
         $this->data['categories'] = $arrCategory;
         $this->data['selected_category_id'] = $this->id;
         $this->data['selected_category_name'] = $this->name;
-        $this->data['parent_id'] = $this->parent_id;
+        $this->data['parent_id'] = $this->parent_id;*/
+        $this->data['categories'] = getMainCategory(1);
 
         // create form
             $this->data['frmCategory'] = frm('', array('id' => 'frmCategory'), FALSE);
@@ -162,9 +163,11 @@ class Product_category extends Root {
         }
         $this->data['frmData'] = $arrEditCategory[0];
 
+        /*
         $this->data['parent_id'] = $arrEditCategory[0]['parent_id'];
         $this->data['selected_category_id'] = $id;
-        $this->data['selected_category_name'] = $arrEditCategory[0]['name'];
+        $this->data['selected_category_name'] = $arrEditCategory[0]['name'];*/
+        $this->data['categories'] = getMainCategory(1);
 
         // create form
             $this->data['frmCategory'] = frm('', array('id' => 'frmCategory'), FALSE);

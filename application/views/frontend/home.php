@@ -43,7 +43,7 @@
                                             <? } ?>
                                         </p>
                                     <? } ?>
-                                    <a href="<?=F_URL?>san-pham/<?=$product['url']?>" class="link_full"></a>
+                                    <a href="<?=F_URL.$product['url'].'/p'.$product['id']?>" class="link_full"></a>
 								</div>
                             </div>
                         <? } ?>
@@ -91,7 +91,7 @@
                                     <? } else { ?>
                                         <p class="price" style="font-size: 14px;">(vui lòng liên hệ)</p>
                                     <? } ?>
-	                                <p class="price_old"><span>VND 240.000 </span>  50%</p>
+	                                <!--<p class="price_old"><span>VND 240.000 </span>  50%</p>-->
                                     <a href="<?=F_URL?>san-pham/<?=$product['url']?>" class="link_full"></a>
 								</div>
                             </div>

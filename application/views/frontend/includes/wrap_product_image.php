@@ -23,7 +23,11 @@ $arr_images = array(
             <? foreach($product['pictures'] as $picture) { ?>
             <li>
                 <a href="#" data-large="<?=$picture?>">
-                    <img class="thumbnail_product" src="<?=$picture?>" alt="<?=IMG_ALT?>">
+                    <? if (file_exists($_SERVER['DOCUMENT_ROOT'].'/'.$picture)) { ?>
+                        <img class="thumbnail_product" src="<?=F_URL.$picture?>" alt="<?=IMG_ALT?>">
+                    <? } else { ?>
+                        <img class="thumbnail_product" src="<?=NO_IMG?>" alt="<?=IMG_ALT?>">
+                    <? }?>
                 </a>
             </li>
             <? } ?>
@@ -32,9 +36,13 @@ $arr_images = array(
         <ul id="carousel" class="elastislide-list">
             <? foreach($product['pictures'] as $picture) { ?>
             <li>
+                <? if (file_exists($_SERVER['DOCUMENT_ROOT'].'/'.$picture)) { ?>
                 <a href="#" data-large="<?=$picture?>">
-                    <img class="thumbnail_product" src="<?=$picture?>" alt="<?=IMG_ALT?>">
+                    <img class="thumbnail_product" src="<?=F_URL.$picture?>" alt="<?=IMG_ALT?>">
                 </a>
+                <? } else { ?>
+                    <img class="thumbnail_product" src="<?=NO_IMG?>" alt="<?=IMG_ALT?>">
+                <? }?>
             </li>
             <? } ?>
         </ul>
@@ -43,6 +51,10 @@ $arr_images = array(
 </div>
 <div class="wrap_large_picture">
     <? if (count($product['pictures'])>0) { ?>
-    <img class="product_zoom" src="<?=$product['pictures'][0]?>" data-zoom-image="<?=$product['pictures'][0]?>" alt="<?=IMG_ALT?>">
+        <? if (file_exists($_SERVER['DOCUMENT_ROOT'].'/'.$product['pictures'][0])) { ?>
+            <img class="product_zoom" src="<?=F_URL.$product['pictures'][0]?>" data-zoom-image="<?=F_URL.$product['pictures'][0]?>" alt="<?=IMG_ALT?>">
+        <? } else { ?>
+            <img class="thumbnail_product" src="<?=NO_IMG?>" alt="<?=IMG_ALT?>">
+        <? } ?>
     <? } ?>
 </div>

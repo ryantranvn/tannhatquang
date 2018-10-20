@@ -279,26 +279,19 @@ if (file_exists(APPPATH . 'libraries/PHPMailer/PHPMailerAutoload.php')) {
             'O'=>'Ó|Ò|Ỏ|Õ|Ọ|Ô|Ố|Ồ|Ổ|Ỗ|Ộ|Ơ|Ớ|Ờ|Ở|Ỡ|Ợ',
             'U'=>'Ú|Ù|Ủ|Ũ|Ụ|Ư|Ứ|Ừ|Ử|Ữ|Ự',
             'Y'=>'Ý|Ỳ|Ỷ|Ỹ|Ỵ',
-            ''=>',',
-            ''=>"'",
-            ''=> '"',
-            ''=>'%',
-            '-'=>',',
-            '-'=>' ',
-            ''=>'\/',
-            ''=>'\\',
-            ''=>','
+            '-' => ' '
         );
         try {
             foreach($unicode as $nonUnicode=>$uni){
                 $str = preg_replace('/'.preg_quote($uni).'/i', $nonUnicode, $str);
             }
-        } catch (Exception $e) {
-        }
-        $str = str_replace('(', '', $str);
-        $str = str_replace(')', '', $str);
-        return trim_odd_character(removeVNCharacter(strtolower($str)),"-");
+        } catch (Exception $e) { }
+        $str = trim_odd_character(removeVNCharacter(strtolower($str)),"-");
+        $arr = array(' ','(',')','{','}','[',']','|','+','/','\\',':',';','"','\'','*','?','!','@','#','$','%','^','&','=','<','>',',','.','ф');
+        $str = str_replace($arr, '', $str);
+        return $str;
     }
+
     function url_str_with($str, $character)
     {
         // trim space more than 1 between 2 words
@@ -335,6 +328,8 @@ if (file_exists(APPPATH . 'libraries/PHPMailer/PHPMailerAutoload.php')) {
 
         return strtolower($str);
     }
+
+
 // trim add space
     function trim_odd_space($str)
     {
@@ -343,7 +338,7 @@ if (file_exists(APPPATH . 'libraries/PHPMailer/PHPMailerAutoload.php')) {
 // trim add space
     function trim_odd_character($str, $character)
     {
-        return trim(preg_replace("/".$character."{2,}/", " ", $str));
+        return trim(preg_replace("/".$character."{2,}/", "", $str));
     }
 
 /* ------------------------------------------- ENCRYPT */
@@ -1116,4 +1111,21 @@ if (file_exists(APPPATH . 'libraries/PHPMailer/PHPMailerAutoload.php')) {
         // }
 
         curl_close($ch);
+    }
+
+// get all main category
+    function getMainCategory($parentId) {
+        $CI = & get_instance();
+        $category = $CI->Base_model->get_db('category',NULL,array('status'=>'active', 'parent_id' => $parentId),NULL,'name','asc');
+
+        return $category;
+    }
+// get all sub category
+    function getSubProductCategory() {
+        $CI = & get_instance();
+        $sql = "SELECT * FROM category WHERE path like '%0-1-%'  AND parent_id >= 3 AND status='active' ORDER BY `name` ASC";
+        $query = $CI->db->query($sql);
+        $category = $query->result_array();
+
+        return $category;
     }

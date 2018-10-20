@@ -20,6 +20,9 @@ class News_model extends Base_model {
         // insert news
 			$sql_news = "INSERT INTO news (`post_id`,`title`, `url`, `description`, `detail`, `order`) VALUES (?, ?, ?, ?, ?, ?)";
 			$this->db->query($sql_news, array($post_id, $data['title'], $data['url'], $data['description'], $data['detail'], $data['order']));
+        // insert url_route
+            $sql_url = "INSERT INTO url_route (`url`, `category_id`, `post_id`, `type`, `created_by`) VALUES (?, ?, ?, ?, ?)";
+            $this->db->query($sql_url, array($data['url'], $data['category_id'], $post_id, 'news', $data['by']));
 
         if ($this->db->trans_status() === FALSE)
         {

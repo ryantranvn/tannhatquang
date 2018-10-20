@@ -201,8 +201,10 @@ class News extends Root {
     {
         $id_post = $this->input->post('id', TRUE);
         $code = strtoupper($this->input->post('code', TRUE));
-        $category_id = $this->input->post('category_id', TRUE);
-        $category_name = $this->input->post('category_name', TRUE);
+        $category_id = 2;
+        $category_name = 'News';
+//        $category_id = $this->input->post('category_id', TRUE);
+//        $category_name = $this->input->post('category_name', TRUE);
         $url = strtolower($this->input->post('url', TRUE));
         // check permission
             if ($id_post == NULL) { // add

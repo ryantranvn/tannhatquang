@@ -358,7 +358,7 @@ else {
 define('MAX_NUMBER_ITEM_CART', 10000);
 define('NOTE_PRICE_NEED_CONTACT', '*** Với các sản phẩm có giá bằng 0 VND, vui lòng liên hệ để biết giá chính xác.');
 
-define('NO_IMG', ASSETS_URL . 'frontend/images/light.png');
+define('NO_IMG', ASSETS_URL . 'frontend/images/default.jpg');
 
 define('PREFIX_CODE_CAT', '-c');
 define('PREFIX_CODE_PRODUCT', '-p');

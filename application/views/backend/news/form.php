@@ -13,11 +13,12 @@
                 <!-- end header -->
                 <div id="wrap_form" class="custom-scroll table-responsive" class="row" style="position: relative; overflow-x: hidden; overflow-y: scroll">
                     <?=$frmNews['open']?>
+                        <?php /*
                         <div class="col-xs-12 col-sm-12 col-md-4 col-lg-4">
-                            <label class="control-label">Chuyên mục <sup>*</sup></label>
-                            <?=$this->load->view('backend/includes/tree','',TRUE)?>
+                            <? $this->load->view('backend/includes/tree','',TRUE) ?>
                         </div>
-                        <div class="col-xs-12 col-sm-12 col-md-8 col-lg-8">
+                        */ ?>
+                        <div class="col-xs-12 col-sm-12 col-md-12 col-lg-12">
                         <!-- Title -->
 	                        <div class="row">
 	                            <div class="col-xs-12 col-sm-12 col-md-12 col-lg-12">

@@ -5,7 +5,7 @@ if (file_exists(APPPATH . 'controllers/frontend/Root.php')) {
     require_once(APPPATH . 'controllers/frontend/Root.php');
 }
 
-class Product extends Root {
+class Product extends Root { // currently NOT USE
 
     private $params = array();
     private $segs = array();
@@ -31,13 +31,14 @@ class Product extends Root {
         // $jsBlock = array('<script language="javascript" type="text/javascript" src="'.ASSETS_URL.'frontend/js/compressed/sly.min.js"></script>');
     	// $this->data['jsBlock'] = $jsBlock;
         $params = $this->params;
-
+        
         if (count($params) == 0) {
             $this->product_detail();
         }
         else {
             $this->product_list();
         }
+
     }
 // list
     private function product_list()
@@ -139,12 +140,12 @@ class Product extends Root {
          );
          $this->data['jsBlock'] = $jsBlock;
 
-        $url = $this->uri->segment(2,0);
-        $products = $this->Product_model->get_one($url);
-        if ($products == FALSE || count($products)==0) {
+         $url = $this->uri->segment(2,0);
+         $products = $this->Product_model->get_one($url);
+         if ($products == FALSE || count($products)==0) {
             $this->template->load('frontend/template', 'frontend/maintain/page404', $this->data);
-        }
-        else {
+         }
+         else {
             // get pictures
             $pictures = $this->Base_model->get_db('post_picture', array('url'), array('post_id'=>$products[0]['id']));
             $products[0]['pictures'] = array();

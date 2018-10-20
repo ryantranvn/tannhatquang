@@ -70,12 +70,14 @@ class Product extends Root {
             );
             $sql = "SELECT
                         post.id
+                        ,post.category_id
                         ,post.type
                         ,post.del_flg
                         ,post.hot_flg
                         ,post.status
                         ,product.id AS product_id
                         ,product.post_id
+                        ,manufacturer.name AS manufacturer
                         ,product.code
                         ,product.name
                         ,product.unit
@@ -84,13 +86,19 @@ class Product extends Root {
                         ,product.stock_in_trade
                         ,product.price
                         ,product.price_sale
+                        ,category.parent_id AS main_catogory_id
+                        ,(SELECT category.name FROM category WHERE category.id = main_catogory_id) AS main_category
                         ,category.name AS category
                     FROM post
                     INNER JOIN product ON product.post_id = post.id
+                    INNER JOIN manufacturer ON manufacturer.id = product.manufacturer_id
                     LEFT JOIN category ON category.id = post.category_id
                     ";
             if ( $params['sidx'] == "category_name") {
                 $params['sidx'] = "category." . $params['sidx'];
+            }
+            else if ($params['sidx'] == "manufacturer") {
+                $params['sidx'] = "manufacturer.name";
             }
             else if ( $params['sidx'] == "id" || $params['sidx'] == "type" || $params['sidx'] == "del_flg") {
                 $params['sidx'] = "post." . $params['sidx'];
@@ -109,8 +117,11 @@ class Product extends Root {
                         if ($field == "status") {
                             $where .= " post.status='" . $value . "'";
                         }
+                        else if ($field == "manufacturer") {
+                            $where .= " manufacturer.name LIKE '%" . $value . "%'";
+                        }
                         else {
-                            if ($field == "category") {
+                            if ($field == "category" || $field == "main_category") {
                                 $where .= " category.name LIKE '%" . $value . "%'";
                             }
                             else if ($field == "path") {
@@ -180,6 +191,7 @@ class Product extends Root {
         // breadcrumb
             $this->data['breadcrumb'][1] = array('name'=>'Thêm mới', 'url' => '');
         // tree
+            /*
             $arrCategory = $this->Base_model->get_db('category', NULL, NULL, array('path'=>$this->path), array('path','order','name'), array('asc','asc','asc'));
             foreach ($arrCategory as $key => $category) {
                 $indent = count(explode('-', $category['path']));
@@ -189,6 +201,10 @@ class Product extends Root {
             $this->data['selected_category_id'] = $this->id;
             $this->data['selected_category_name'] = $this->name;
             $this->data['parent_id'] = 0;
+            */
+
+            $this->data['categories'] = getSubProductCategory();
+
         // creare form
             $this->data['frmProduct'] = frm(NULL, array('id' => 'frmProduct'), TRUE);
         $this->template->load('backend/template', 'backend/product/form', $this->data);
@@ -202,11 +218,12 @@ class Product extends Root {
             $this->data['breadcrumb'][1] = array('name'=>'Chỉnh sửa', 'url' => '');
         // get post
             $posts = $this->Base_model->get_post('product', $post_id);
-            if ($posts === FALSE && count($posts)==0) {
+            if ($posts === FALSE || count($posts)==0) {
                 $this->session->set_userdata('invalid', "Không tìm thấy dữ liệu.");
                 redirect(B_URL . $this->currentModule['url']);
             }
             $this->data['frmData'] = $post = $posts[0];
+            $this->data['frmData']['parent_id'] = $this->data['frmData']['category_id'];
             $pictures = $this->Base_model->get_db('post_picture', NULL, array('post_id' => $post_id));
             if ($pictures !== FALSE && count($pictures)>0) {
                 $this->data['pictures'] = $pictures;
@@ -221,7 +238,7 @@ class Product extends Root {
                 $this->data['picture_input'] = $str;
             }
         // get category tree
-            $arrCategory = $this->Base_model->get_db('category', NULL, NULL, array('path'=>$this->path), array('path','order','name'), array('asc','asc','asc'));
+            /*$arrCategory = $this->Base_model->get_db('category', NULL, NULL, array('path'=>$this->path), array('path','order','name'), array('asc','asc','asc'));
             foreach ($arrCategory as $key => $category) {
                 $indent = count(explode('-', $category['path']));
                 $arrCategory[$key]['indent'] = $indent-1;
@@ -229,7 +246,9 @@ class Product extends Root {
             $this->data['categories'] = $arrCategory;
             $this->data['selected_category_id'] = $post['category_id'];
             $this->data['selected_category_name'] = $post['category_name'];
-            $this->data['parent_id'] = $post['category_id'];
+            */
+            //$this->data['parent_id'] = $post['category_id'];
+            $this->data['categories'] = getSubProductCategory();
         // creare form
             $this->data['frmProduct'] = frm(NULL, array('id' => 'frmProduct'), TRUE);
 
@@ -276,6 +295,28 @@ class Product extends Root {
             // array for picture
                 $thumbnail = $this->input->post('thumbnail', TRUE);
                 $arrPicture = explode(",", str_replace('"', '', substr($thumbnail, 1, strlen($thumbnail)-2)));
+                $manufacturerName = $this->input->post('manufacturer', TRUE);
+                $manufacturers = $this->Base_model->get_db('manufacturer', ['id', 'name', 'url'], null, null, ['name'], ['asc']);
+                if (count($manufacturers)>0) {
+                    $newManufacturers = [];
+                    foreach ($manufacturers as $manufacturerItem) {
+                        array_push($newManufacturers, $manufacturerItem['url']);
+                    }
+                    $manufacturers = $newManufacturers;
+                }
+                if (!array_key_exists($manufacturerName, $manufacturers)) {
+                    $manufacturerUrl = str_replace('-', '', url_str($manufacturerName)); // remove all dash
+                    // insert manufacturer
+                    $insertManufacturer = [
+                        'name' => $manufacturerName,
+                        'url' => $manufacturerUrl,
+                    ];
+                    $this->db->insert('manufacturer', $insertManufacturer);
+                    $manufacturerId = $this->db->insert_id();
+                    $manufacturers[$manufacturerName] = ['id' => $manufacturerId, 'name' => $manufacturerName, 'url' => $manufacturerUrl];
+                }
+                $manufacturerId = $manufacturers[$manufacturerName]['id'];
+                $manufacturerUrl = $manufacturers[$manufacturerName]['url'];
                 $productData = array(
                      'post_id' => $post_id
                     ,'code' => $code
@@ -284,7 +325,8 @@ class Product extends Root {
                     ,'name' => $this->input->post('name', TRUE)
                     ,'url' => $url
                     ,'description' => $this->input->post('desc', TRUE)
-                    ,'manufacturer' => $this->input->post('manufacturer', TRUE)
+                    ,'manufacturer_id' => $manufacturerId
+                    ,'manufacturer_url' => $manufacturerUrl
                     ,'unit' => $this->input->post('unit', TRUE)
                     ,'price' => $this->input->post('price', TRUE)
                     ,'price_sale' => $this->input->post('price_sale', TRUE)
@@ -387,104 +429,163 @@ class Product extends Root {
             $objPHPExcel = PHPExcel_IOFactory::load($inputFileName);
 
             $sheetData = $objPHPExcel->getActiveSheet()->toArray(null,null,null,null,null,null,null,null);
-            $importData = array();
-            $arrMainCategory = [];
-            $arrSubCategory = [];
+            // get member
+            $authMember = $this->session->userdata('authMember');
+            $created_by = $authMember['username'];
+            $created_at = date('Y-m-d H:i:s');
+
+            // get manufacturer
+            $manufacturers = $this->Base_model->get_db('manufacturer', ['id', 'name', 'url'], null, null, ['name'], ['asc']);
+            if (count($manufacturers)>0) {
+                $newManufacturers = [];
+                foreach ($manufacturers as $manufacturerItem) {
+                    array_push($newManufacturers, $manufacturerItem['url']);
+                }
+                $manufacturers = $newManufacturers;
+            }
+
+            // get category
+            $newCategories = [];
+            $sqlGetMainCategory = "SELECT `id`, `name`, `url`, `parent_id`, `path` FROM  category WHERE `parent_id` = 1";
+            $sqlGetSubCategory = "SELECT `id`, `name`, `url`, `parent_id`, `path` FROM  category WHERE `parent_id` = ?";
+            $queryMainCategory = $this->db->query($sqlGetMainCategory);
+            $mainCategories = $queryMainCategory->result_array();
+            if (count($mainCategories)>0) {
+                foreach ($mainCategories as $key => $mainCategory) {
+                    $newCategories[$mainCategory['name']] = $mainCategory;
+                    $newCategories[$mainCategory['name']]['subCategories'] = [];
+                    $querySubCategory = $this->db->query($sqlGetSubCategory, [$mainCategory['id']]);
+                    $subCategories = $querySubCategory->result_array();
+                    if (count($subCategories)>0) {
+                        foreach ($subCategories as $subCategory) {
+                            $newCategories[$mainCategory['name']]['subCategories'][$subCategory['name']] = $subCategory;
+                        }
+                    }
+                }
+            }
+            $categories = $newCategories;
+            
+            $arrInsertProducts = [];
             foreach ($sheetData as $key => $col) {
-                if ($key > 0 && $this->security->xss_clean($col[0]) != "") {
-                    // get data
-                    $mainCategory = $this->security->xss_clean($col[1]);
-                    $subCategory = $this->security->xss_clean($col[2]);
-                    $codeProduct = strtoupper($this->security->xss_clean($col[3]));
-                    $nameProduct = $this->security->xss_clean($col[4]);
-                    $imgProduct = $this->security->xss_clean($col[5]);
-                    $priceProduct = $this->security->xss_clean($col[6]);
-                    $unitProduct = $this->security->xss_clean($col[7]);
+                if ($key>0 && $this->security->xss_clean($col[0]) != "") {
 
-                    // get member
-                    $authMember = $this->session->userdata('authMember');
-                    $created_by = $authMember['username'];
-
-                    // main category
-                    /*
-                    $parentId = 1;
-                    $urlMainCategory = url_str($mainCategory);
-                    $mainCategoryId = $this->isExistedCategory($urlMainCategory, $parentId);
-                    if ($categoryId !== FALSE) {
-                        $mainCategoryId = $categoryId;
+                    // get manufacturer
+                    $currentManufacturer = [];
+                    $manufacturerName = $this->security->xss_clean($col[0]);
+                    if (!array_key_exists($manufacturerName, $manufacturers)) {
+                        $manufacturerUrl = str_replace('-', '', url_str($manufacturerName)); // remove all dash
+                        // insert manufacturer
+                        $insertManufacturer = [
+                            'name' => $manufacturerName,
+                            'url' => $manufacturerUrl,
+                        ];
+                        $this->db->insert('manufacturer', $insertManufacturer);
+                        $manufacturerId = $this->db->insert_id();
+                        $manufacturers[$manufacturerName] = ['id' => $manufacturerId, 'name' => $manufacturerName, 'url' => $manufacturerUrl];
                     }
-                    else {
-                        $pathMainCategory = $this->makePath($parentId);
-                        $categoryAdd = array(
-                            'name' => $mainCategory,
-                            'url' => $urlMainCategory,
-                            'desc' => '',
-                            'thumbnail' => '',
-                            'order' => 0,
-                            'status' => 'active',
-                            'parent_id' => $parentId,
-                            'path' => $pathMainCategory,
-                            'created_datetime' => date('Y-m-d H:i:s'),
+                    $currentManufacturer = $manufacturers[$manufacturerName];
+
+                    // get Category
+                    $mainCategoryName = $this->security->xss_clean($col[1]);
+                    $currentMainCategory = [];
+                    // check in category
+                    if (!array_key_exists($mainCategoryName, $categories)) {
+                        // insert main category
+                        $mainCategoryUrl = url_str($mainCategoryName); // remove all dash
+                        $tempPath = '0-1-';
+                        $insertMainCategory = [
+                            'name' => $mainCategoryName,
+                            'url' => $mainCategoryUrl,
+                            'parent_id' => 1,
+                            'path' => $tempPath,
+                            'created_datetime' => $created_at,
                             'created_by' => $created_by
-                        );
-                        $mainCategoryId = $this->Category_model->insert_category($categoryAdd, $pathMainCategory);
+                        ];
+                        // insert new category
+                        $this->db->insert('category', $insertMainCategory);
+                        $mainCategoryId = $this->db->insert_id();
+                        // update category path
+                        $mainPath = $tempPath.$mainCategoryId.'-';
+                        $this->db->where('id', $mainCategoryId);
+                        $this->db->update('category', ['path' => $mainPath]);
+                        // update category array
+                        $categories[$mainCategoryName] = ['id' => $mainCategoryId, 
+                                                        'name' => $mainCategoryName, 
+                                                        'url' => $mainCategoryUrl, 
+                                                        'parent_id' => 1, 
+                                                        'path' => $mainPath];
                     }
-                    */
+                    $currentMainCategory = $categories[$mainCategoryName];
 
-                    // add sub category
-                    /*
-                    $urlSubCategory = url_str($subCategory);
-                    $categoryId = $this->isExistedCategory($urlSubCategory, $mainCategoryId);
-                    if ($categoryId != FALSE) {
-                        $subCategoryId = $categoryId;
+                    // sub category
+                    $subCategoryName = $this->security->xss_clean($col[2]);
+                    $currentSubCategory = [];
+                    if (!isset($categories[$mainCategoryName]['subCategories'])) {
+                        $categories[$mainCategoryName]['subCategories'] = [];
                     }
-                    else {
-                        $pathSubCategory = $this->makePath($mainCategoryId);
-                        $subCategoryAdd = array(
-                            'name' => $subCategory,
-                            'url' => $urlSubCategory,
-                            'desc' => '',
-                            'thumbnail' => '',
-                            'order' => 0,
-                            'status' => 'active',
-                            'parent_id' => $mainCategoryId,
-                            'path' => $pathSubCategory,
-                            'created_datetime' => date('Y-m-d H:i:s'),
+                    if (!array_key_exists($subCategoryName, $categories[$mainCategoryName]['subCategories'])) {
+                        // insert main category
+                        $subCategoryUrl = url_str($subCategoryName); // remove all dash
+                        $tempPath = $currentMainCategory['path'];
+                        $insertSubCategory = [
+                            'name' => $subCategoryName,
+                            'url' => $subCategoryUrl,
+                            'parent_id' => $currentMainCategory['id'],
+                            'path' => $tempPath,
+                            'created_datetime' => $created_at,
                             'created_by' => $created_by
-                        );
-                        $subCategoryId = $this->Category_model->insert_category($subCategoryAdd, $pathSubCategory);
+                        ];
+                        // insert new category
+                        $this->db->insert('category', $insertSubCategory);
+                        $subCategoryId = $this->db->insert_id();
+                        // update category path
+                        $subPath = $tempPath.$subCategoryId.'-';
+                        $this->db->where('id', $subCategoryId);
+                        $this->db->update('category', ['path' => $subPath]);
+                        // update category array
+                        $categories[$mainCategoryName]['subCategories'][$subCategoryName] = [
+                            'id' => $subCategoryId, 
+                            'name' => $subCategoryName, 
+                            'url' => $subCategoryUrl, 
+                            'parent_id' => $currentMainCategory['id'],
+                            'path' => $subPath];
                     }
-                    */
+                    $currentSubCategory = $categories[$mainCategoryName]['subCategories'][$subCategoryName];
 
-                    // add product
-                    $urlSubCategory = url_str($subCategory);
-                    $categoryId = $this->getCategoryId($urlSubCategory);
-                    $urlProduct = url_str($nameProduct);
-                    if (!$this->is_existed_code($codeProduct)) {
+                    // orthers
+                    $productCode = strtoupper($this->security->xss_clean($col[3]));
+                    $productName = $this->security->xss_clean($col[4]);
+                    $productUrl = url_str($productName);
+                    $productImg = $this->security->xss_clean($col[5]);
+                    $productPrice = $this->security->xss_clean($col[6]);
+                    $productUnit = $this->security->xss_clean($col[7]);
+
+                    if (!$this->isExistedProduct($productCode, $currentSubCategory['id'])) {
                         $productData = array(
-                            'code' => $codeProduct
-                            ,'category_id' => $categoryId
-                            ,'category_name' => $subCategory
-                            ,'name' => $nameProduct
-                            ,'url' => $urlProduct
+                            'code' => $productCode
+                            ,'category_id' => $currentSubCategory['id']
+                            ,'category_name' => $currentSubCategory['name']
+                            ,'name' => $productName
+                            ,'url' => $productUrl
                             ,'description' => ''
-                            ,'manufacturer' => 'Philip'
-                            ,'unit' => $unitProduct
-                            ,'price' => $priceProduct
+                            ,'manufacturer_id' => $currentManufacturer['id']
+                            ,'manufacturer_url' => $currentManufacturer['url']
+                            ,'unit' => $productUnit
+                            ,'price' => $productPrice
                             ,'price_sale' => 0
                             ,'price_sale_percent' => 0
                             ,'quantity' => 0
-                            ,'arrPicture' => ['upload/images/sanpham/philip/'.$imgProduct]
+                            ,'arrPicture' => ['upload/images/sanpham/'.str_replace('-', '', $currentManufacturer['url']).'/'.$productImg]
                             ,'order' => 0
                             ,'status' => 'active'
                             ,'detail' => ''
-                            ,'by' => $this->data['authMember']['username']
+                            ,'by' => $created_by
                         );
                         $this->model->insert_product($productData);
                     }
                 }
             }
-
+            //pr($categories);
             $this->session->set_userdata('valid', "Import data successful.");
 
         }
@@ -511,7 +612,20 @@ class Product extends Root {
         }
         return FALSE;
     }
-
+    private function isExistedProduct($url, $categoryId)
+    {
+        $sql = "SELECT post.id FROM post
+                INNER JOIN product ON product.post_id = post.id
+                ";
+        $where = " WHERE product.url = '".$url."' AND post.category_id = '".$categoryId."'";
+        $sql .= $where;
+        $query = $this->db->query($sql);
+        $result = $query->result_array();
+        if ($result == FALSE || count($result) == 0) {
+            return FALSE; // not existed
+        }
+        return TRUE;
+    }
     /* make path */
     //return path or FALSE
     private function makePath($parent_id)
